@@ -15,6 +15,7 @@ If you want to collect the data manually, then run below:
 ```
 python collect-data.py
 ```
+Otherwise, just use `./data/data.json`
 
 ## Evaluation
 

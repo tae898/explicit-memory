@@ -1,0 +1,38 @@
+# See https://github.com/commonsense/conceptnet5/wiki/Relations for all relations
+relation: /r/AtLocation
+
+# Where to save raw queried conceptnet data path
+raw_data_path: ./data/conceptnet-data.json
+
+# Where to save the stats of the raw data
+raw_data_stats_path: ./data/conceptnet-data-stats.json
+
+# Where to save pre-trained semantic (factual) knowledge
+semantic_knowledge_path: ./data/semantic-knowledge.json
+
+# Where to save semantic observations
+semantic_obs_path: ./data/observations-semantic.csv
+
+# Whether to use weighting of semantic observations
+weighting: true
+
+# Number of repeats for semantic observations to increase data size
+num_repeat: 2
+
+# factor for episodic observations. 2 means it will generate twice as much
+episodic_factor: 2
+
+# Where to save episodic observations
+episodic_obs_path: ./data/observations-episodic.csv
+
+# Where to save all observations
+all_obs_path: ./data/observations-all.csv
+
+# Where to save train, val, test splits
+final_data_path: ./data/data.json
+
+# validation split ratio
+val_ratio: 0.1
+
+# test split ratio
+test_ratio: 0.1
