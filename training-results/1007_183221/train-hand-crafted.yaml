@@ -1,0 +1,9 @@
+memory_type: both
+policy:
+    forget: FIFO
+    duplicate_heads: false
+save_at: training-results/1007_183221
+data_path: ./data/data.json
+capacity:
+    episodic: 64
+    semantic: 64

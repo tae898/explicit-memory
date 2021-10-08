@@ -1,70 +1,17 @@
 {
     "person": {
         "AtLocation": [
-            "bus_stop",
-            "building",
-            "garage",
-            "hospital",
-            "quandry",
-            "demonstration",
-            "fairy_tale",
-            "desk",
-            "water_cooler",
-            "universe",
-            "theater",
-            "synagogue",
-            "family",
-            "street_corner",
-            "opera",
-            "show",
-            "phine_directory",
-            "corner_of_two_streets",
-            "space_shuttle",
-            "zoo",
-            "conference"
+            "building"
         ]
     },
     "bicycle": {
         "AtLocation": [
-            "garage",
-            "street",
-            "toy_store",
-            "lab",
-            "bicycle_shop",
-            "schoolyard",
-            "shed",
-            "university",
-            "park",
-            "triatholon",
-            "netherlands",
-            "store"
+            "garage"
         ]
     },
     "car": {
         "AtLocation": [
-            "city",
-            "parking_lot",
-            "repair_shop",
-            "road",
-            "freeway",
-            "car_show",
-            "race_track",
-            "car_dealership",
-            "neighbor's_house",
-            "in_phoenix",
-            "scrapyard",
-            "parking_garage",
-            "motel",
-            "parade",
-            "scrap_heap",
-            "highway",
-            "corner_of_two_streets",
-            "land",
-            "driveway",
-            "car_park",
-            "street_corner",
-            "show",
-            "packinglot"
+            "city"
         ]
     },
     "motorcycle": {
@@ -74,975 +21,212 @@
     },
     "airplane": {
         "AtLocation": [
-            "sky",
-            "air",
-            "hanger",
-            "military_base",
-            "hangar",
-            "airplane_hangar"
+            "sky"
         ]
     },
     "bus": {
         "AtLocation": [
-            "bus_stop",
-            "bus_station",
-            "city",
-            "artifact",
-            "new_york",
-            "street",
-            "school",
-            "garage",
-            "michigan",
-            "big_cities",
-            "use",
-            "computer",
-            "seats"
-        ]
-    },
-    "train": {
-        "AtLocation": [
-            "zoo"
+            "city"
         ]
     },
     "truck": {
         "AtLocation": [
-            "garage",
-            "road",
-            "freeway"
+            "garage"
         ]
     },
     "boat": {
         "AtLocation": [
-            "water",
-            "lake",
-            "harbor",
-            "ocean",
-            "river",
-            "river",
-            "bay",
-            "garage"
+            "water"
         ]
-    },
-    "traffic_light": {
-        "AtLocation": [
-            "corner_of_two_streets",
-            "street"
-        ]
-    },
-    "fire_hydrant": {
-        "AtLocation": [
-            "corner_of_two_streets",
-            "street_corner"
-        ]
-    },
-    "stop_sign": {
-        "AtLocation": [
-            "corner_of_two_streets",
-            "street_corner",
-            "fork_in_road",
-            "bus_stop"
-        ]
-    },
-    "parking_meter": {
-        "AtLocation": []
     },
     "bench": {
         "AtLocation": [
-            "bus_stop",
-            "bus_depot",
-            "train_station",
-            "state_park",
-            "dugout",
-            "rest_area",
-            "garden",
-            "lawn"
+            "garden"
         ]
     },
     "bird": {
         "AtLocation": [
-            "tree",
-            "nest",
-            "sky",
-            "forest",
-            "roof",
-            "cage",
-            "air",
-            "birdbath",
-            "sea",
-            "wild",
-            "countryside",
-            "branch_of_tree",
-            "windowsill",
-            "bush",
-            "garden",
-            "lawn"
+            "tree"
         ]
     },
     "cat": {
         "AtLocation": [
-            "lap",
-            "bed",
-            "windowsill",
-            "vet",
-            "chair",
-            "table",
-            "floor",
-            "way",
-            "barn",
-            "rug",
-            "backyard",
-            "bag",
-            "home",
-            "roof",
-            "zoo",
-            "back_yard",
-            "cat_box",
-            "closet",
-            "alley",
-            "house",
-            "apartment",
-            "warm_place",
-            "appartments",
-            "heat",
-            "beam_of_sunlight",
-            "outside",
-            "it's_basket",
-            "sofa",
-            "nature",
-            "alleyway",
-            "cat_litter_tray",
-            "cat_lover's_lap",
-            "dogs_mouth",
-            "residence",
-            "animal_shops",
-            "petshop",
-            "cream",
-            "attic",
-            "dmoz",
-            "bedroom",
-            "town",
-            "lower_brances_of_tree",
-            "hiding",
-            "chinese_resturant",
-            "arms",
-            "houseplant",
-            "sunbeam",
-            "laundry_basket",
-            "ground",
-            "comfortable_chair"
+            "lap"
         ]
     },
     "dog": {
         "AtLocation": [
-            "kennel",
-            "table",
-            "park",
-            "doghouse",
-            "dog_house",
-            "porch",
-            "backyard",
-            "house",
-            "rug",
-            "leash",
-            "bed",
-            "dogpound",
-            "couch",
-            "outside",
-            "neighbor's_house",
-            "desk",
-            "pet_shop",
-            "petshop",
-            "front_door",
-            "dog_owner's_home",
-            "pound",
-            "ground",
-            "farmyard",
-            "pet_store",
-            "relatives_house",
-            "back_yard",
-            "it's_kennel"
+            "table"
         ]
     },
     "horse": {
         "AtLocation": [
-            "race_track",
-            "cavalry",
-            "stall",
-            "circus",
-            "equestrian_competition",
-            "canada",
-            "country",
-            "farmyard",
-            "a",
-            "parade",
-            "kentucky",
-            "western_movie",
-            "movies",
-            "trailer",
-            "horse_box",
-            "persons_heart",
-            "stable_or_pasture",
-            "ocala_florida",
-            "cartoon",
-            "stabile",
-            "grazing_field",
-            "engraving",
-            "historical_photographs",
-            "john_wayne_movie",
-            "state_fair",
-            "racetrack",
-            "show",
-            "horse_racetrack",
-            "field_or_stable_or_mcdonalds",
-            "detroit",
-            "history",
-            "spain",
-            "field_romping",
-            "outside",
-            "central_park",
-            "throat",
-            "koppel",
-            "barn_or_racing_track",
-            "gate",
-            "kentucky_derby",
-            "new_hampshire",
-            "fielf",
-            "esquestrian_event",
-            "stall_in_barn",
-            "movie",
-            "picture_book_of_horses",
-            "horsebox",
-            "riding_stable",
-            "loosebox",
-            "american_southwest"
+            "circus"
         ]
     },
     "sheep": {
         "AtLocation": [
-            "farm",
-            "meadow",
-            "fairgrounds",
-            "fair"
+            "farm"
         ]
     },
     "cow": {
         "AtLocation": [
-            "countryside",
-            "stable",
-            "hamburger",
-            "slaughter_house",
-            "farmyard",
-            "butcher_shop",
-            "county_fair",
-            "barnyard",
-            "milking_stall",
-            "canada",
-            "ranch",
-            "paddock",
-            "milking_barn",
-            "dairy_farm",
-            "great_outdoors",
-            "outside_in_pasture",
-            "red_barn",
-            "corral",
-            "computer_commercial",
-            "herd",
-            "middle_of_eating_grass",
-            "pasture_grazing",
-            "bart_simpson's_lines",
-            "gateway_country",
-            "feed_lot",
-            "movie",
-            "livestock_market",
-            "fenced_in_area",
-            "cow_pasture",
-            "indiana",
-            "grass",
-            "iowa",
-            "swamp",
-            "fiueld",
-            "borden_commercial",
-            "field_on_farm",
-            "green_field",
-            "butcher's_when_dead",
-            "outdoors",
-            "idaho",
-            "farmer's_pasture",
-            "cowbarn",
-            "streets_of_india",
-            "meat_grinder",
-            "belly",
-            "cow_barn",
-            "hamburger_meat",
-            "fence",
-            "barn_field",
-            "country_field"
+            "countryside"
         ]
     },
     "elephant": {
         "AtLocation": [
-            "circus",
-            "africa",
-            "zoo",
-            "india"
+            "circus"
         ]
     },
     "bear": {
         "AtLocation": [
-            "park",
-            "drawer",
-            "countryside",
-            "meadow"
+            "park"
         ]
-    },
-    "zebra": {
-        "AtLocation": [
-            "zoo"
-        ]
-    },
-    "giraffe": {
-        "AtLocation": [
-            "zoo",
-            "drawer"
-        ]
-    },
-    "backpack": {
-        "AtLocation": []
     },
     "umbrella": {
         "AtLocation": [
-            "closet",
-            "car",
-            "beach",
-            "umbrella_stand",
-            "rainy_place",
-            "wet_city",
-            "backseat_of_car",
-            "store",
-            "charlie_chaplin_film",
-            "suitcase",
-            "jacket_closet",
-            "seattle"
+            "closet"
         ]
-    },
-    "handbag": {
-        "AtLocation": [
-            "store",
-            "shop",
-            "womens_department",
-            "wal_mart",
-            "woman's_closet",
-            "woman's_hand",
-            "wardrobe",
-            "department_store"
-        ]
-    },
-    "tie": {
-        "AtLocation": []
     },
     "suitcase": {
         "AtLocation": [
-            "movie",
-            "cargo_hold",
-            "airplane",
-            "baggage_compartment",
-            "luggage_store",
-            "taxi"
+            "airplane"
         ]
-    },
-    "frisbee": {
-        "AtLocation": [
-            "park",
-            "roof",
-            "air",
-            "toy_chest",
-            "tree",
-            "frisbee_golf_course",
-            "deadhead's_van"
-        ]
-    },
-    "skis": {
-        "AtLocation": [
-            "garage"
-        ]
-    },
-    "snowboard": {
-        "AtLocation": []
-    },
-    "sports_ball": {
-        "AtLocation": [
-            "school",
-            "sport",
-            "gymnasium",
-            "sports_arena",
-            "sports_shop",
-            "baseball_game",
-            "sports_store",
-            "sporting_event",
-            "department_store",
-            "sporting_good_store",
-            "gym",
-            "gym_locker",
-            "michaels_hand"
-        ]
-    },
-    "kite": {
-        "AtLocation": [
-            "air",
-            "toy_store",
-            "sky",
-            "park",
-            "store_at_beach",
-            "child's_hand",
-            "hobby_shop",
-            "downstairs_closet",
-            "end_of_line"
-        ]
-    },
-    "baseball_bat": {
-        "AtLocation": []
-    },
-    "baseball_glove": {
-        "AtLocation": []
-    },
-    "skateboard": {
-        "AtLocation": []
-    },
-    "surfboard": {
-        "AtLocation": []
-    },
-    "tennis_racket": {
-        "AtLocation": []
     },
     "bottle": {
         "AtLocation": [
-            "nursery",
-            "grocery_store",
-            "drink",
-            "refigerator",
-            "medicine_cabinet",
-            "liquor_store",
-            "diaper_bag",
-            "store",
-            "fridge",
-            "supermarket"
-        ]
-    },
-    "wine_glass": {
-        "AtLocation": [
-            "cupboard"
+            "store"
         ]
     },
     "cup": {
         "AtLocation": [
-            "table",
-            "dishwasher",
-            "shelf",
-            "kitchen",
-            "closet",
-            "sand_box",
-            "apartment",
-            "drink",
-            "kitchen_cabinet",
-            "cafe",
-            "counter",
-            "restaurant",
-            "water_fountain",
-            "sink",
-            "washing_up_bowl"
-        ]
-    },
-    "fork": {
-        "AtLocation": [
-            "kitchen",
-            "table",
-            "drawer",
-            "plate",
-            "road",
-            "kitchen_drawer",
-            "plane",
-            "housewares_store",
-            "napkin",
-            "untensil_drawer",
-            "silverware_drawer",
-            "resturant",
-            "cutlery_drawer",
-            "a",
-            "back"
+            "table"
         ]
     },
     "knife": {
         "AtLocation": [
-            "kitchen",
-            "drawer",
-            "pocket",
-            "kitchen_drawer",
-            "backpack",
-            "back",
-            "stabbing_victim",
-            "silverware_drawer",
-            "ex_husbands_back",
-            "fishing_boat",
-            "sheath",
-            "plate",
-            "war",
-            "table",
-            "knife_holder",
-            "drawer_in_kitchen",
-            "knife_store",
-            "knife_block"
+            "kitchen"
         ]
     },
     "spoon": {
         "AtLocation": [
-            "bowl",
-            "dinner",
-            "table",
-            "table_setting",
-            "bowl_of_soup",
-            "childs_sand_box",
-            "soup",
-            "fork_in_road",
-            "serving_dish",
-            "glass_of_iced_tea",
-            "resturant",
-            "kitchen_drawer",
-            "silverware_drawer",
-            "hand",
-            "cutlery_draw",
-            "bed",
-            "dishwasher",
-            "cutlery_drawer"
+            "bowl"
         ]
     },
     "bowl": {
         "AtLocation": [
-            "cupboard",
-            "cabinet",
-            "apartment",
-            "table",
-            "restaurant",
-            "sink",
-            "refrigerator",
-            "cubboard",
-            "dishwasher"
+            "cupboard"
         ]
     },
     "banana": {
         "AtLocation": [
-            "monkey's_hand",
-            "pantry",
-            "stomach"
+            "pantry"
         ]
     },
     "apple": {
         "AtLocation": [
-            "apple_tree",
-            "grocery_store",
-            "refrigerator",
-            "produce_section_of_supermarket",
-            "house",
-            "apple_orchard",
-            "horses_mouth",
-            "toffee_apple",
-            "greengrocer",
-            "orchard",
-            "fridge",
-            "apple_pie"
+            "refrigerator"
         ]
     },
     "sandwich": {
         "AtLocation": [
-            "lunchbox",
-            "plate",
-            "fridge"
+            "plate"
         ]
-    },
-    "orange": {
-        "AtLocation": []
     },
     "broccoli": {
         "AtLocation": [
-            "farmer's_market",
-            "plate",
-            "tokyo"
-        ]
-    },
-    "carrot": {
-        "AtLocation": []
-    },
-    "hot_dog": {
-        "AtLocation": [
-            "soccer_game",
-            "fast_food_restaurant",
-            "fair"
+            "plate"
         ]
     },
     "pizza": {
         "AtLocation": [
-            "oven",
-            "plate",
-            "restaurant"
-        ]
-    },
-    "donut": {
-        "AtLocation": [
-            "bakery"
+            "oven"
         ]
     },
     "cake": {
         "AtLocation": [
-            "bakery",
-            "party",
-            "oven",
-            "quandry",
-            "refrigerator",
-            "grocery_store",
-            "plate",
-            "birthday_party",
-            "cake_tin"
+            "bakery"
         ]
     },
     "chair": {
         "AtLocation": [
-            "office",
-            "desk",
-            "cubicle",
-            "porch",
-            "living_room",
-            "room",
-            "church",
-            "kitchen",
-            "floor",
-            "furniture_store",
-            "lobby",
-            "confession",
-            "auditorium",
-            "theatre",
-            "dentist",
-            "corner",
-            "neighbor's_house",
-            "motel",
-            "airport",
-            "show",
-            "university",
-            "rest_area",
-            "building",
-            "synagogue",
-            "friend's_house",
-            "bedroom",
-            "school_room"
+            "office"
         ]
     },
     "couch": {
         "AtLocation": [
-            "house",
-            "den",
-            "neighbor's_house",
-            "livingroom",
-            "apartment",
-            "loft",
-            "party",
-            "canada",
-            "room",
-            "rest_area",
-            "waiting_room",
-            "doctor",
-            "cash's_room"
-        ]
-    },
-    "potted_plant": {
-        "AtLocation": [
-            "windowsill",
-            "table",
-            "shelf"
+            "house"
         ]
     },
     "bed": {
         "AtLocation": [
-            "house",
-            "room",
-            "hospital",
-            "neighbor's_house",
-            "rest_area",
-            "apartment",
-            "loft",
-            "relatives_house",
-            "basement",
-            "homewares_department",
-            "hotel_room"
-        ]
-    },
-    "dining_table": {
-        "AtLocation": [
-            "house",
-            "formal_dining_room",
-            "cafeteria"
+            "house"
         ]
     },
     "toilet": {
         "AtLocation": [
-            "bathroom",
-            "house",
-            "motel_room",
-            "rest_area",
-            "apartment",
-            "stadium",
-            "hospital",
-            "hotel",
-            "space_shuttle",
-            "cubicle",
-            "trash",
-            "service_station",
-            "plumbing_shop",
-            "restaurant"
-        ]
-    },
-    "tv": {
-        "AtLocation": [
-            "house",
-            "family_room",
-            "livingroom",
-            "appliance_store",
-            "apartment",
-            "bedroom",
-            "neighbor's_house",
-            "arizona",
-            "sports_bar",
-            "most_rooms"
+            "bathroom"
         ]
     },
     "laptop": {
         "AtLocation": [
-            "internet_cafe",
             "desk"
         ]
     },
     "mouse": {
         "AtLocation": [
-            "hole_in_wall",
-            "garage",
-            "laboratory",
-            "kitchen",
-            "cupboard",
-            "attic",
-            "trap",
-            "cellar",
-            "desk",
-            "hole",
-            "sewer",
-            "disneyland",
-            "grainery",
-            "abandoned_houses",
-            "desktop",
-            "corn_field",
-            "computer_lab",
-            "dirty_house",
-            "grain_bin",
-            "new_york",
-            "own_home",
-            "pantry",
-            "old_barn",
-            "research_laboratory",
-            "garden",
-            "computer_store",
-            "lab_maze",
-            "small_hole",
-            "computer",
-            "department_store",
-            "grain",
-            "tom_and_jerry_cartoon",
-            "grain_silo",
-            "cat's_mouth",
-            "office",
-            "grain_field",
-            "cornfield",
-            "cat",
-            "mousehouse",
-            "box",
-            "internet_cafe",
-            "field",
-            "petshop",
-            "america",
-            "terrarium",
-            "grass",
-            "shelf",
-            "barn_full_of_grain",
-            "country_side",
-            "farm"
+            "garage"
         ]
-    },
-    "remote": {
-        "AtLocation": []
     },
     "keyboard": {
         "AtLocation": [
-            "desk",
-            "office",
-            "onstage_at_concert",
-            "piano",
-            "desktop",
-            "school",
-            "finger",
-            "area_of_computer",
-            "landfill",
-            "music_store"
-        ]
-    },
-    "cell_phone": {
-        "AtLocation": [
-            "backpack",
-            "shelf"
+            "desk"
         ]
     },
     "microwave": {
         "AtLocation": [
-            "apartment",
-            "kitchen"
+            "apartment"
         ]
     },
     "oven": {
         "AtLocation": [
-            "home",
-            "pizza_store",
-            "pizza_place",
-            "own_home",
-            "prison",
-            "restaurant",
-            "stove"
+            "home"
         ]
-    },
-    "toaster": {
-        "AtLocation": []
     },
     "sink": {
         "AtLocation": [
-            "kitchen",
-            "house",
-            "chemistry_lab",
-            "apartment",
-            "neighbor's_house",
-            "kitchen_or_bathroom",
-            "laundry_room",
-            "bathroom_and_kitchen",
-            "home",
-            "laboratory"
+            "kitchen"
         ]
     },
     "refrigerator": {
         "AtLocation": [
-            "garage",
-            "home",
-            "apartment",
-            "house",
-            "hospital_drug_storeroom",
-            "food"
+            "garage"
         ]
     },
     "book": {
         "AtLocation": [
-            "classroom",
-            "shelf",
-            "bookshelf",
-            "university",
-            "desk",
-            "store",
-            "backpack",
-            "bedroom",
-            "closet",
-            "table",
-            "house",
-            "library",
-            "drawer",
-            "bookcase",
-            "stack",
-            "college_store",
-            "coffee_table",
-            "antique_store",
-            "library_of_congress",
-            "book_store",
-            "briefcase",
-            "satchel",
-            "discount_store",
-            "synagogue",
-            "catalog",
-            "hands_of_teacher",
-            "museum_store",
-            "school_room",
-            "room_of_educated_person",
-            "book_bag",
-            "pile_of_books",
-            "book_club",
-            "bookshop",
-            "bookshelves",
-            "bed",
-            "tourist_store",
-            "bibliography_of_another_book",
-            "row",
-            "floor",
-            "bedside_table",
-            "suitcase",
-            "hands_of_student"
+            "classroom"
         ]
     },
     "clock": {
         "AtLocation": [
-            "desk",
-            "house",
-            "shelf",
-            "wall",
-            "office",
-            "office_building",
-            "own_bedroom",
-            "department_store",
-            "car",
-            "school_room",
-            "store",
-            "train_station",
-            "table",
-            "airport"
+            "desk"
         ]
     },
     "vase": {
         "AtLocation": [
-            "table",
-            "shelf",
-            "cabinet",
-            "windowsill"
+            "table"
         ]
     },
     "scissors": {
         "AtLocation": [
-            "desk",
-            "cabinet",
-            "house",
-            "drawer",
-            "backpack"
+            "desk"
         ]
-    },
-    "teddy_bear": {
-        "AtLocation": [
-            "toy_store",
-            "shelf",
-            "bed",
-            "home"
-        ]
-    },
-    "hair_drier": {
-        "AtLocation": []
     },
     "toothbrush": {
         "AtLocation": [
-            "suitcase",
-            "dentist",
-            "mouth",
-            "store",
-            "grocery_store",
-            "drug_store",
-            "dentist_office",
-            "bedroom",
-            "bathroom_cabinet",
-            "cabinet"
+            "suitcase"
         ]
     }
 }

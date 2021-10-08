@@ -21,7 +21,7 @@ class DataCollector():
     """Data (conceptnet) collector class."""
 
     def __init__(self, relation: str, raw_data_path: str, raw_data_stats_path: str,
-                 semantic_knowledge_path: str, semantic_obs_path: str, weighting: bool,
+                 semantic_knowledge_path: str, semantic_obs_path: str, weighting_mode: bool,
                  num_repeat: int, episodic_factor: int, episodic_obs_path: str,
                  val_ratio: float, test_ratio: float, all_obs_path: str, final_data_path: str):
         """Data (conceptnet) collector class."""
@@ -32,7 +32,7 @@ class DataCollector():
         self.raw_data_stats_path = raw_data_stats_path
         self.semantic_knowledge_path = semantic_knowledge_path
         self.semantic_obs_path = semantic_obs_path
-        self.weighting = weighting
+        self.weighting_mode = weighting_mode
         self.num_repeat = num_repeat
         self.episodic_factor = episodic_factor
         self.episodic_obs_path = episodic_obs_path
@@ -41,9 +41,13 @@ class DataCollector():
         self.test_ratio = test_ratio
         self.final_data_path = final_data_path
 
+        self.read_mscoco()
+        self.read_names()
+        self.read_dirty_tails()
+
         logging.info(f"DataCollector object successfully instantiated!")
 
-    def read_mscoco(self, path: str = './data/ms-coco-80-categories') -> list:
+    def read_mscoco(self, path: str = './data/ms-coco-80-categories') -> None:
         """Return ms coco 80 object categories."""
         logging.debug(f"Reading {path} ...")
         with open(path, 'r') as stream:
@@ -53,7 +57,7 @@ class DataCollector():
         logging.info(
             f"Reading {path} complete! There are {len(self.mscoco)} object categories")
 
-    def read_names(self, path: str = './data/top-human-names') -> list:
+    def read_names(self, path: str = './data/top-human-names') -> None:
         """Read 20 names."""
         logging.debug(f"Reading {path} ...")
         with open(path, 'r') as stream:
@@ -62,28 +66,56 @@ class DataCollector():
         logging.info(
             f"Reading {path} complete! There are {len(self.names)} object categories")
 
+    def read_dirty_tails(self, path: str = './data/dirty_tails') -> None:
+        """Read dirty tails."""
+        logging.debug(f"Reading {path} ...")
+        with open(path, 'r') as stream:
+            self.dirty_tails = stream.readlines()
+        self.dirty_tails = [line.strip() for line in self.dirty_tails]
+        logging.info(
+            f"Reading {path} complete! There are {len(self.dirty_tails)} dirty tails!")
+
     def get_from_conceptnet(self) -> None:
+        """Get data from ConceptNet API by HTTP get querying."""
         logging.debug(f"retrieving data from conceptnet ...")
 
         self.raw_data = {}
 
         for object_category in tqdm(self.mscoco):
-            self.raw_data[object_category] = []
             query = f'http://api.conceptnet.io/query?start=/c/en/{object_category}&rel={self.relation}'
             logging.debug(f"making an HTTP get request with query {query}")
             response = requests.get(query).json()
 
             logging.info(f"{len(response['edges'])} tails (entities) found!")
+            if len(response['edges']) == 0:
+                continue
+
+            self.raw_data[object_category] = []
+
             for edge in tqdm(response['edges']):
-                self.raw_data[object_category].append(
-                    {'start': edge['start'],
-                     'end': edge['end'],
-                     'weight': edge['weight'],
-                     'surfaceText': edge['surfaceText']})
+
+                if self.is_clean(edge):
+                    self.raw_data[object_category].append(
+                        {'start': edge['start'],
+                         'end': edge['end'],
+                         'weight': edge['weight'],
+                         'surfaceText': edge['surfaceText']})
 
         write_json(self.raw_data, self.raw_data_path)
         logging.info(
             f"conceptraw_data_path data retrieval done and saved at {self.raw_data_path}")
+
+    def is_clean(self, edge: dict) -> None:
+        """See if conceptnet query is clean or not.
+
+        I really tried to accept as much noise as possible, since I didn't want
+        to manually clean the data, but some are really dirty. I gotta clean them.
+        """
+        logging.debug(f"Checking if {edge} is clean or not ...")
+        if edge['end']['@id'].split('/')[-1] in self.dirty_tails:
+            return False
+        else:
+            return True
 
     def get_conceptnet_data_stats(self) -> None:
         """Get basic data statistics."""
@@ -108,23 +140,6 @@ class DataCollector():
         logging.info(
             f"conceptnet data stats saved at {self.raw_data_stats_path}")
 
-    def create_semantic_knowledge(self) -> None:
-        """Create semantic (factual) knowledge from the conceptnet data."""
-        logging.info(f"creating semantic knowledge ...")
-        self.semantic_knowledge = {}
-        for key, val in self.raw_data.items():
-            head = key
-            self.semantic_knowledge[head] = {self.relation_simple: []}
-
-            for val_ in val:
-                tail = val_['end']['@id'].split('/')[-1]
-                self.semantic_knowledge[head][self.relation_simple].append(
-                    tail)
-
-        write_json(self.semantic_knowledge, self.semantic_knowledge_path)
-        logging.info(
-            f"semantic knowledge saved at {self.semantic_knowledge_path} ...")
-
     def create_semantic_observations(self) -> None:
         """Create dummy semantic observations using 20 human names.
 
@@ -133,19 +148,33 @@ class DataCollector():
         """
         logging.debug(f"Creating dummy semantic observations ...")
         self.data_weighted = []
+        self.semantic_knowledge = {}
 
         for key, val in self.raw_data.items():
             head = key
 
-            for val_ in val:
-                tail = val_['end']['@id'].split('/')[-1]
-                weight = round(val_['weight'])
+            self.semantic_knowledge[head] = {self.relation_simple: []}
 
-                if not self.weighting:
-                    weight = 1
-                for _ in range(weight):
-                    self.data_weighted.append(
-                        (head, self.relation_simple, tail))
+            if self.weighting_mode == 'highest' and len(val) > 0:
+                tail = sorted(val, key=lambda x: x['weight'], reverse=True)[0]
+                tail = tail['end']['@id'].split('/')[-1]
+                self.data_weighted.append((head, self.relation_simple, tail))
+                self.semantic_knowledge[head][self.relation_simple].append(
+                    tail)
+
+            else:
+                for val_ in val:
+                    tail = val_['end']['@id'].split('/')[-1]
+                    weight = round(val_['weight'])
+
+                    if self.weighting_mode is None:
+                        weight = 1
+                    for _ in range(weight):
+                        self.data_weighted.append(
+                            (head, self.relation_simple, tail))
+
+                    self.semantic_knowledge[head][self.relation_simple].append(
+                        tail)
 
         self.data_weighted = sorted(self.data_weighted)
         self.data_weighted = self.data_weighted * self.num_repeat
@@ -153,13 +182,21 @@ class DataCollector():
         random.shuffle(self.data_weighted)
 
         # Note that the observations are all semantic.
-        self.obs_semantic = [(random.choice(self.names) + "'s " + head, edge, tail)
-                             for head, edge, tail in self.data_weighted]
+        self.obs_semantic = []
+        for head, edge, tail in self.data_weighted:
+            rand_name = random.choice(self.names)
+            head = rand_name + "'s " + head
+            tail = rand_name + "'s " + tail
+            self.obs_semantic.append((head, edge, tail))
 
         write_csv(self.obs_semantic, self.semantic_obs_path)
 
         logging.info(
             f"dummy semantic observations saved at {self.semantic_obs_path}")
+
+        write_json(self.semantic_knowledge, self.semantic_knowledge_path)
+        logging.info(
+            f"semantic knowledge saved at {self.semantic_knowledge_path} ...")
 
     def create_episodic_observations(self) -> None:
         """Create episodic observations based on semantic observations."""
@@ -175,13 +212,18 @@ class DataCollector():
             assert obs_s[1] == self.relation_simple
             tail_s = obs_s[2]
 
+            name_head = obs_s[0].split("'")[0]
+            name_tail = obs_s[2].split("'")[0]
+
+            assert name_head == name_tail
+
             for _ in range(self.episodic_factor):
                 while True:
                     location_random = random.choice(possible_locations)
                     if location_random not in self.semantic_knowledge[head_s][self.relation_simple]:
                         break
                 self.obs_episodic.append(
-                    (obs_s[0], self.relation_simple, location_random))
+                    (obs_s[0], self.relation_simple, name_tail + "'s " + location_random))
 
         write_csv(self.obs_episodic, self.episodic_obs_path)
 
@@ -214,11 +256,8 @@ def main(**kwargs) -> None:
     """Collect data. See ./collect-data.yaml for the config."""
     dc = DataCollector(**kwargs)
 
-    dc.read_mscoco()
-    dc.read_names()
     dc.get_from_conceptnet()
     dc.get_conceptnet_data_stats()
-    dc.create_semantic_knowledge()
     dc.create_semantic_observations()
     dc.create_episodic_observations()
     dc.create_splits()

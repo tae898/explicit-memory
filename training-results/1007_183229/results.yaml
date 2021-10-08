@@ -1,0 +1,16 @@
+train:
+    rewards: 5072
+    num_samples: 7360
+val:
+    rewards: 806
+    num_samples: 920
+test:
+    rewards: 822
+    num_samples: 920
+policy:
+    forget: FIFO
+    duplicate_heads: false
+capacity:
+    episodic: 256
+    semantic: 256
+memory_type: both

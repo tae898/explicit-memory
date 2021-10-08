@@ -13,14 +13,15 @@ semantic_knowledge_path: ./data/semantic-knowledge.json
 # Where to save semantic observations
 semantic_obs_path: ./data/observations-semantic.csv
 
-# Whether to use weighting of semantic observations
-weighting: true
+# "highest" chooses the one with the highest weight, "weighted" chooses all of them by weight,
+# and null chooses every single one of them without weighting.
+weighting_mode: highest
 
 # Number of repeats for semantic observations to increase data size
-num_repeat: 2
+num_repeat: 100
 
 # factor for episodic observations. 2 means it will generate twice as much
-episodic_factor: 2
+episodic_factor: 1
 
 # Where to save episodic observations
 episodic_obs_path: ./data/observations-episodic.csv

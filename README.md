@@ -19,27 +19,29 @@ Otherwise, just use `./data/data.json`
 
 ## Evaluation
 
-To be fair, all of the below models should have the same amount of memory capacity.
+We made the following five models (policies).
 
-### Hand-crafted 1: Only episodic, FIFO
+### (i) Hand-crafted 1: Only episodic, FIFO and NRO. 
 
-This agent only has an episodic memory system. Memory is maintained as FIFO (first in first out).
+This agent only has an episodic memory system. Memory is maintained as FIFO (first in, first out) and NRO (new replaces old). FIFO is basically a way to forget old memories so that there is room to store new memories. NRO works in a way that if, for example, an old observation `<Karen's laptop,AtLocation,Karen's desk>}` is already in $\bm{M}_{E}$ and there is a new incoming observation `<Karen's laptop,AtLocation,Karen's house>}`, then the new one replaces the old one. $\bm{M}_{E}$ is empty in the beginning of an episode.
 
-### Hand-crafted 2: Only semantic, FIFO
+### (ii) Hand-crafted 2: Only semantic, FIFO and NRO. 
 
-This agent only has an semantic memory system. Memory is maintained as FIFO (first in first out).
+This agent only has a semantic memory system. $\bm{M}_{S}$ is empty in the beginning of an episode.
 
-### Hand-crafted 3: Both episodic and semantic, generalization + FIFO
+### (iii) Hand-crafted 3: Both episodic and semantic, generalization, FIFO and NRO. 
 
-This agent has both episodic and semantic memory systems. Memory is maintained as generalization and FIFO (first in first out).
+This agent has both episodic and semantic memory systems. The generalization is achieved by finding episodic memories that can be compressed into one semantic memory. Both $\bm{M}_{E}$ and $\bm{M}_{S}$ is empty in the beginning of an episode.
 
-### RL: Both episodic and semantic, where semantic is scratch
+### (iv) RL 1: Both episodic and semantic, where semantic is scratch. 
 
-An reinforcement learning agent in an MDP environment. The semantic memory system is learned from scratch.
+A reinforcement learning agent in an MDP environment learns how to generalize episodic memories into a semantic memory, and at the same time it learns how to forget redundant episodic and semantic memories. Both $\bm{M}_{E}$ and $\bm{M}_{S}$ is empty in the beginning of an episode.
 
-### RL: Both episodic and semantic, where semantic is pretrained
+### (v) RL 2: Both episodic and semantic, where semantic is pretrained. 
 
-An reinforcement learning agent in an MDP environment. The semantic memory system is pretrained from ConceptNet.
+A reinforcement learning agent in an MDP environment. The semantic memory system is pretrained from ConceptNet. $\bm{M}_{E}$ is empty in the beginning and $\bm{M}_{S}$ is populated with the commonsense knowledge. $\bm{M}_{S}$ does not change throughout training.
+
+To be fair, the total memory capacities are the same for each model. Since our experiment is about learning how to organize memories, we abstract away the question answering part. This means that as long as the relevant memory is in the memory systems, then we assume that the agent answers the question correctly and that it gets a reward of $+1$. If it can't be found in them, then the reward is $0$.
 
 ## Contributing
 
