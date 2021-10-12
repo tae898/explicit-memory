@@ -2,9 +2,9 @@ memory_type: both
 policy:
     forget: FIFO
     duplicate_heads: false
-save_at: training-results
+save_at: training-results/1012_180544
 data_path: ./data/data.json
 capacity:
-    episodic: 512
-    semantic: 512
+    episodic: 64
+    semantic: 64
 pretrained_semantic: ./data/semantic-knowledge.json

@@ -1,0 +1,10 @@
+memory_type: episodic
+policy:
+    forget: FIFO
+    duplicate_heads: false
+save_at: training-results/1012_180406
+data_path: ./data/data.json
+capacity:
+    episodic: 128
+    semantic: 0
+pretrained_semantic: null

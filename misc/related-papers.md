@@ -10,6 +10,8 @@ The related papers are mostly about continual learning and reinforcement learnin
 2. Most of the existing works save observations in memory in a tabular format, without altering them. 
    * This approach doesn't scale, especially when the observations are big (e.g., image)
    * Therefore in our work, we "encode" them, just like humans do. When the observations are encoded into memories, they are saved as symbolic knowledge graphs, which saves both space and encourages XAI. At the moment our memory storage is also just a tabular format. Converting this into a symbolic knowledge graph is a TODO.
+3. Some existing works have their memory as just numeric hidden representations (e.g., an RNN hidden state).
+   *  I don't like this approach at all. It's not interpretable. I want more symbolic.
 
 ## List of papers
 
@@ -35,8 +37,11 @@ Knowledge Base Embeddings](https://aclanthology.org/2020.acl-main.412/)
 11. [iCaRL: Incremental Classifier and Representation Learning](https://arxiv.org/abs/1611.07725)
 12. [Facts as Experts: Adaptable and Interpretable Neural Memory over Symbolic Knowledge](https://arxiv.org/abs/2007.00849)
 13. [Working Memory Networks: Augmenting Memory Networks with a Relational Reasoning Module](https://aclanthology.org/P18-1092/)
-14.  [Dynamic Memory Networks for Visual and Textual Question Answering](https://arxiv.org/abs/1603.01417)
-15.  [Ask Me Anything: Dynamic Memory Networks for Natural Language Processing](https://arxiv.org/abs/1506.07285)
+14. [Dynamic Memory Networks for Visual and Textual Question Answering](https://arxiv.org/abs/1603.01417)
+       * This is an old paper (2016). 
+       * The memory is not a storage here, but just a vector.
+       * This memory vector is computed using the question itself. This means that you store something in your brain because you already know what will be asked.
+15. [Ask Me Anything: Dynamic Memory Networks for Natural Language Processing](https://arxiv.org/abs/1506.07285)
 16. [Reinforcement learning and episodic memory in humans and animals: an integrative framework](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5953519/)
 17. [The Missing Link Between Memory and Reinforcement Learning](https://www.frontiersin.org/articles/10.3389/fpsyg.2020.560080/full)
 18. [Superposed Episodic and Semantic Memory via Sparse Distributed Representation](https://arxiv.org/abs/1710.07829)
