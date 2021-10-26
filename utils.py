@@ -1,10 +1,11 @@
 """utility functions"""
+import csv
 import json
-import pickle
-import yaml
 import logging
 import os
-import csv
+import pickle
+
+import yaml
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

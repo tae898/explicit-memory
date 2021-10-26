@@ -1,10 +1,12 @@
 """Hand crafted training"""
-from utils import read_yaml, write_yaml, read_json
-from datetime import datetime
+import logging
 import os
 import random
+from datetime import datetime
+
 import numpy as np
-import logging
+
+from utils import read_json, read_yaml, write_yaml
 
 # for reproducibility
 random.seed(42)

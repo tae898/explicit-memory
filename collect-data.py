@@ -1,12 +1,14 @@
 """Collect data from ConceptNet."""
+import csv
+import logging
+import os
+import random
+from collections import Counter
+
 import requests
 from tqdm import tqdm
-import logging
-from utils import write_json, read_json, read_yaml, write_csv
-from collections import Counter
-import random
-import csv
-import os
+
+from utils import read_json, read_yaml, write_csv, write_json
 
 # for reproducibility
 random.seed(42)
