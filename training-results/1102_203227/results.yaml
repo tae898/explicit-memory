@@ -1,0 +1,22 @@
+train:
+    rewards: 108
+    num_samples: 7360
+val:
+    rewards: 19
+    num_samples: 920
+test:
+    rewards: 10
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both_presem
+episodic_memories: []
+semantic_memories:
+-   - person
+    - AtLocation
+    - building
+    - 1556382939

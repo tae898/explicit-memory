@@ -1,0 +1,12 @@
+memory_type: both
+policy:
+    FIFO: true
+    NRO: true
+save_at: training-results/1102_203302
+data_path: ./data/data.json
+capacity:
+    episodic: 16
+    semantic: 16
+pretrained_semantic: ./data/semantic-knowledge.json
+question_path: ./data/questions.json
+creation_time: 1556382939

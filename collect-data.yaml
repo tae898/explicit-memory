@@ -37,3 +37,6 @@ val_ratio: 0.1
 
 # test split ratio
 test_ratio: 0.1
+
+# where to save questions
+question_path: ./data/questions.json

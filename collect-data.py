@@ -1,14 +1,14 @@
 """Collect data from ConceptNet."""
-import csv
 import logging
 import os
 import random
 from collections import Counter
+import time
 
 import requests
 from tqdm import tqdm
 
-from utils import read_json, read_yaml, write_csv, write_json
+from utils import read_yaml, write_csv, write_json
 
 # for reproducibility
 random.seed(42)
@@ -38,6 +38,7 @@ class DataCollector:
         test_ratio: float,
         all_obs_path: str,
         final_data_path: str,
+        question_path: str,
     ):
         """Data (conceptnet) collector class."""
         self.relation = relation
@@ -55,12 +56,14 @@ class DataCollector:
         self.val_ratio = val_ratio
         self.test_ratio = test_ratio
         self.final_data_path = final_data_path
+        self.question_path = question_path
 
         self.read_mscoco()
         self.read_names()
         self.read_dirty_tails()
+        os.makedirs("./data", exist_ok=True)
 
-        logging.info(f"DataCollector object successfully instantiated!")
+        logging.info("DataCollector object successfully instantiated!")
 
     def read_mscoco(self, path: str = "./data/ms-coco-80-categories") -> None:
         """Return ms coco 80 object categories."""
@@ -95,7 +98,7 @@ class DataCollector:
 
     def get_from_conceptnet(self) -> None:
         """Get data from ConceptNet API by HTTP get querying."""
-        logging.debug(f"retrieving data from conceptnet ...")
+        logging.debug("retrieving data from conceptnet ...")
 
         self.raw_data = {}
 
@@ -104,7 +107,9 @@ class DataCollector:
             logging.debug(f"making an HTTP get request with query {query}")
             response = requests.get(query).json()
 
-            logging.info(f"{len(response['edges'])} tails (entities) found!")
+            logging.info(
+                f"{len(response['edges'])} tails (entities) found for {object_category}!"
+            )
             if len(response["edges"]) == 0:
                 continue
 
@@ -141,7 +146,7 @@ class DataCollector:
 
     def get_conceptnet_data_stats(self) -> None:
         """Get basic data statistics."""
-        logging.info(f"getting conceptnet data stats ...")
+        logging.info("getting conceptnet data stats ...")
         self.raw_data_stats = {"num_examples": {}}
         for key, val in self.raw_data.items():
             num_examples = len(val)
@@ -172,7 +177,7 @@ class DataCollector:
         10 male and 10 female names were used from here
         https://www.ssa.gov/oact/babynames/decades/century.html
         """
-        logging.debug(f"Creating dummy semantic observations ...")
+        logging.debug("Creating dummy semantic observations ...")
         self.data_weighted = []
         self.semantic_knowledge = {}
 
@@ -212,16 +217,12 @@ class DataCollector:
             tail = rand_name + "'s " + tail
             self.obs_semantic.append((head, edge, tail))
 
-        write_csv(self.obs_semantic, self.semantic_obs_path)
-
-        logging.info(f"dummy semantic observations saved at {self.semantic_obs_path}")
-
         write_json(self.semantic_knowledge, self.semantic_knowledge_path)
         logging.info(f"semantic knowledge saved at {self.semantic_knowledge_path} ...")
 
     def create_episodic_observations(self) -> None:
         """Create episodic observations based on semantic observations."""
-        logging.debug(f"Creating dummy episodic observations ...")
+        logging.debug("Creating dummy episodic observations ...")
 
         possible_locations = list(
             set(
@@ -238,7 +239,6 @@ class DataCollector:
         for obs_s in self.obs_semantic:
             head_s = obs_s[0].split()[-1]
             assert obs_s[1] == self.relation_simple
-            tail_s = obs_s[2]
 
             name_head = obs_s[0].split("'")[0]
             name_tail = obs_s[2].split("'")[0]
@@ -261,29 +261,34 @@ class DataCollector:
                     )
                 )
 
-        write_csv(self.obs_episodic, self.episodic_obs_path)
-
-        logging.info(f"dummy episodic observations saved at {self.semantic_obs_path}")
-
     def create_splits(self) -> None:
         """Create train, val, and test splits"""
-        logging.debug(f"Creating train, val, and test splits ...")
+        logging.debug("Creating train, val, and test splits ...")
         self.obs_all = self.obs_episodic + self.obs_semantic
         random.shuffle(self.obs_all)
 
+        logging.debug("adding timestamps to the observations ...")
+        current_time = int(time.time())
+        for idx in range(len(self.obs_all)):
+            current_time -= 8640  # 86400 seconds is a day.
+            self.obs_all[idx] += (current_time,)
+        self.obs_all = self.obs_all[::-1]
+        logging.info("timestamps added to the observations!")
+
+        write_csv(self.obs_semantic, self.semantic_obs_path)
+        logging.info(f"dummy semantic observations saved at {self.semantic_obs_path}")
+
+        write_csv(self.obs_episodic, self.episodic_obs_path)
+        logging.info(f"dummy episodic observations saved at {self.semantic_obs_path}")
+
         write_csv(self.obs_all, self.all_obs_path)
         self.data_final = {}
-        self.data_final["test"] = self.obs_all[
-            : int(len(self.obs_all) * self.test_ratio)
-        ]
-        self.data_final["val"] = self.obs_all[
-            int(len(self.obs_all) * self.test_ratio) : int(
-                len(self.obs_all) * (self.test_ratio + self.val_ratio)
-            )
-        ]
-        self.data_final["train"] = self.obs_all[
-            int(len(self.obs_all) * (self.test_ratio + self.val_ratio)) :
-        ]
+        train_until = int(len(self.obs_all) * (1 - (self.val_ratio + self.test_ratio)))
+        val_until = int(len(self.obs_all) * (1 - self.test_ratio))
+
+        self.data_final["train"] = self.obs_all[:train_until]
+        self.data_final["val"] = self.obs_all[train_until:val_until]
+        self.data_final["test"] = self.obs_all[val_until:]
 
         assert (
             len(self.data_final["train"])
@@ -293,6 +298,39 @@ class DataCollector:
 
         write_json(self.data_final, self.final_data_path)
         logging.info("Splitting train, val, and test splits is done!")
+
+    def make_questions(self) -> None:
+        """Create questions.
+
+        The questions are designed that it only asks the latest location of an object.
+        For example, let's say X was found at Y yesterday, and X was found at Z today.
+        Then tomorrow when the question "Where is X?" is asked tomorrow, the agent
+        has to say Z to get a reward.
+
+        """
+        self.questions_all = {"train": [], "val": [], "test": []}
+        for SPLIT in tqdm(["train", "val", "test"]):
+            logging.debug(f"creating questions for the {SPLIT} split ...")
+            data = self.data_final[SPLIT]
+
+            for idx in tqdm(range(len(data))):
+                obs = data[:idx]
+                obs = obs[::-1]
+
+                questions = []
+                heads_covered = []
+                for ob in obs:
+                    head = ob[0]
+                    if head not in heads_covered:
+                        questions.append(ob[:-1])
+                        heads_covered.append(head)
+                questions = questions[::-1]
+                self.questions_all[SPLIT].append(questions)
+
+            logging.info(f"questions for the {SPLIT} split are created!")
+
+        write_json(self.questions_all, self.question_path)
+        logging.info(f"questions saved at {self.question_path}")
 
 
 def main(**kwargs) -> None:
@@ -304,6 +342,7 @@ def main(**kwargs) -> None:
     dc.create_semantic_observations()
     dc.create_episodic_observations()
     dc.create_splits()
+    dc.make_questions()
 
 
 if __name__ == "__main__":

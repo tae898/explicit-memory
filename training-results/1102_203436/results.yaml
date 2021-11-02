@@ -1,0 +1,141 @@
+train:
+    rewards: 394
+    num_samples: 7360
+val:
+    rewards: 146
+    num_samples: 920
+test:
+    rewards: 165
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 32
+    semantic: 0
+memory_type: episodic
+episodic_memories:
+-   - Linda's elephant
+    - AtLocation
+    - Linda's farm
+    - 1635317979
+-   - Barbara's bench
+    - AtLocation
+    - Barbara's garden
+    - 1635335259
+-   - David's bench
+    - AtLocation
+    - David's office
+    - 1635361179
+-   - Linda's bench
+    - AtLocation
+    - Linda's garden
+    - 1635378459
+-   - Sarah's bottle
+    - AtLocation
+    - Sarah's store
+    - 1635395739
+-   - William's airplane
+    - AtLocation
+    - William's home
+    - 1635430299
+-   - Michael's apple
+    - AtLocation
+    - Michael's refrigerator
+    - 1635438939
+-   - William's person
+    - AtLocation
+    - William's building
+    - 1635473499
+-   - Jennifer's motorcycle
+    - AtLocation
+    - Jennifer's classroom
+    - 1635490779
+-   - Patricia's boat
+    - AtLocation
+    - Patricia's airplane
+    - 1635508059
+-   - Patricia's sink
+    - AtLocation
+    - Patricia's kitchen
+    - 1635525339
+-   - Patricia's clock
+    - AtLocation
+    - Patricia's office
+    - 1635542619
+-   - William's couch
+    - AtLocation
+    - William's house
+    - 1635559899
+-   - Robert's laptop
+    - AtLocation
+    - Robert's desk
+    - 1635577179
+-   - David's scissors
+    - AtLocation
+    - David's building
+    - 1635594459
+-   - Sarah's bicycle
+    - AtLocation
+    - Sarah's garage
+    - 1635611739
+-   - Mary's sheep
+    - AtLocation
+    - Mary's suitcase
+    - 1635629019
+-   - Michael's sink
+    - AtLocation
+    - Michael's kitchen
+    - 1635646299
+-   - James's cup
+    - AtLocation
+    - James's table
+    - 1635663579
+-   - John's book
+    - AtLocation
+    - John's classroom
+    - 1635680859
+-   - Joseph's spoon
+    - AtLocation
+    - Joseph's oven
+    - 1635698139
+-   - Sarah's mouse
+    - AtLocation
+    - Sarah's bowl
+    - 1635715419
+-   - Robert's boat
+    - AtLocation
+    - Robert's water
+    - 1635732699
+-   - Susan's scissors
+    - AtLocation
+    - Susan's building
+    - 1635749979
+-   - Joseph's broccoli
+    - AtLocation
+    - Joseph's plate
+    - 1635767259
+-   - James's bottle
+    - AtLocation
+    - James's store
+    - 1635784539
+-   - William's toilet
+    - AtLocation
+    - William's desk
+    - 1635793179
+-   - Barbara's car
+    - AtLocation
+    - Barbara's plate
+    - 1635810459
+-   - Patricia's bicycle
+    - AtLocation
+    - Patricia's bathroom
+    - 1635827739
+-   - John's banana
+    - AtLocation
+    - John's refrigerator
+    - 1635845019
+-   - Patricia's bus
+    - AtLocation
+    - Patricia's city
+    - 1635853659

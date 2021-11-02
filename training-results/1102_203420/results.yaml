@@ -1,0 +1,45 @@
+train:
+    rewards: 84
+    num_samples: 7360
+val:
+    rewards: 45
+    num_samples: 920
+test:
+    rewards: 60
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 8
+    semantic: 0
+memory_type: episodic
+episodic_memories:
+-   - Susan's scissors
+    - AtLocation
+    - Susan's building
+    - 1635749979
+-   - Joseph's broccoli
+    - AtLocation
+    - Joseph's plate
+    - 1635767259
+-   - James's bottle
+    - AtLocation
+    - James's store
+    - 1635784539
+-   - Michael's bus
+    - AtLocation
+    - Michael's bowl
+    - 1635801819
+-   - William's oven
+    - AtLocation
+    - William's home
+    - 1635819099
+-   - Richard's sheep
+    - AtLocation
+    - Richard's bathroom
+    - 1635836379
+-   - Patricia's bus
+    - AtLocation
+    - Patricia's city
+    - 1635853659

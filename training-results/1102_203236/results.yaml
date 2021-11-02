@@ -1,0 +1,30 @@
+train:
+    rewards: 188
+    num_samples: 7360
+val:
+    rewards: 41
+    num_samples: 920
+test:
+    rewards: 34
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both_presem
+episodic_memories:
+-   - Patricia's bus
+    - AtLocation
+    - Patricia's city
+    - 1635853659
+semantic_memories:
+-   - person
+    - AtLocation
+    - building
+    - 1556382939
+-   - bicycle
+    - AtLocation
+    - garage
+    - 1556382939

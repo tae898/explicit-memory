@@ -1,0 +1,77 @@
+train:
+    rewards: 755
+    num_samples: 7360
+val:
+    rewards: 173
+    num_samples: 920
+test:
+    rewards: 136
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 0
+    semantic: 16
+memory_type: semantic
+semantic_memories:
+-   - bird
+    - AtLocation
+    - tree
+    - 1635585819
+-   - cup
+    - AtLocation
+    - table
+    - 1635663579
+-   - book
+    - AtLocation
+    - classroom
+    - 1635680859
+-   - spoon
+    - AtLocation
+    - oven
+    - 1635698139
+-   - airplane
+    - AtLocation
+    - suitcase
+    - 1635706779
+-   - pizza
+    - AtLocation
+    - oven
+    - 1635724059
+-   - boat
+    - AtLocation
+    - water
+    - 1635732699
+-   - clock
+    - AtLocation
+    - desk
+    - 1635741339
+-   - scissors
+    - AtLocation
+    - building
+    - 1635749979
+-   - broccoli
+    - AtLocation
+    - plate
+    - 1635767259
+-   - bottle
+    - AtLocation
+    - store
+    - 1635784539
+-   - oven
+    - AtLocation
+    - home
+    - 1635819099
+-   - sheep
+    - AtLocation
+    - bathroom
+    - 1635836379
+-   - bus
+    - AtLocation
+    - city
+    - 1635853659
+-   - bicycle
+    - AtLocation
+    - suitcase
+    - 1635862299

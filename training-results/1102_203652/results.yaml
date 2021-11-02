@@ -1,0 +1,18 @@
+train:
+    rewards: 10
+    num_samples: 7360
+val:
+    rewards: 6
+    num_samples: 920
+test:
+    rewards: 2
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+episodic_memories: []
+semantic_memories: []

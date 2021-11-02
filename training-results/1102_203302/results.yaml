@@ -1,0 +1,146 @@
+train:
+    rewards: 1500
+    num_samples: 7360
+val:
+    rewards: 258
+    num_samples: 920
+test:
+    rewards: 225
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 16
+    semantic: 16
+memory_type: both_presem
+episodic_memories:
+-   - Robert's laptop
+    - AtLocation
+    - Robert's desk
+    - 1635577179
+-   - Robert's bird
+    - AtLocation
+    - Robert's tree
+    - 1635585819
+-   - Susan's banana
+    - AtLocation
+    - Susan's table
+    - 1635603099
+-   - Jennifer's airplane
+    - AtLocation
+    - Jennifer's countryside
+    - 1635620379
+-   - James's cup
+    - AtLocation
+    - James's table
+    - 1635663579
+-   - John's book
+    - AtLocation
+    - John's classroom
+    - 1635680859
+-   - Joseph's spoon
+    - AtLocation
+    - Joseph's oven
+    - 1635698139
+-   - Sarah's mouse
+    - AtLocation
+    - Sarah's bowl
+    - 1635715419
+-   - Susan's scissors
+    - AtLocation
+    - Susan's building
+    - 1635749979
+-   - Linda's microwave
+    - AtLocation
+    - Linda's tree
+    - 1635758619
+-   - John's car
+    - AtLocation
+    - John's desk
+    - 1635775899
+-   - William's toilet
+    - AtLocation
+    - William's desk
+    - 1635793179
+-   - Barbara's car
+    - AtLocation
+    - Barbara's plate
+    - 1635810459
+-   - Patricia's bicycle
+    - AtLocation
+    - Patricia's bathroom
+    - 1635827739
+-   - John's banana
+    - AtLocation
+    - John's refrigerator
+    - 1635845019
+-   - John's bicycle
+    - AtLocation
+    - John's suitcase
+    - 1635862299
+semantic_memories:
+-   - person
+    - AtLocation
+    - building
+    - 1556382939
+-   - bicycle
+    - AtLocation
+    - garage
+    - 1556382939
+-   - car
+    - AtLocation
+    - city
+    - 1556382939
+-   - motorcycle
+    - AtLocation
+    - garage
+    - 1556382939
+-   - airplane
+    - AtLocation
+    - sky
+    - 1556382939
+-   - bus
+    - AtLocation
+    - city
+    - 1556382939
+-   - truck
+    - AtLocation
+    - garage
+    - 1556382939
+-   - boat
+    - AtLocation
+    - water
+    - 1556382939
+-   - bench
+    - AtLocation
+    - garden
+    - 1556382939
+-   - bird
+    - AtLocation
+    - tree
+    - 1556382939
+-   - cat
+    - AtLocation
+    - lap
+    - 1556382939
+-   - dog
+    - AtLocation
+    - table
+    - 1556382939
+-   - horse
+    - AtLocation
+    - circus
+    - 1556382939
+-   - sheep
+    - AtLocation
+    - farm
+    - 1556382939
+-   - cow
+    - AtLocation
+    - countryside
+    - 1556382939
+-   - elephant
+    - AtLocation
+    - circus
+    - 1556382939

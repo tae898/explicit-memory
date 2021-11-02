@@ -1,0 +1,45 @@
+train:
+    rewards: 403
+    num_samples: 7360
+val:
+    rewards: 84
+    num_samples: 920
+test:
+    rewards: 85
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 0
+    semantic: 8
+memory_type: semantic
+semantic_memories:
+-   - scissors
+    - AtLocation
+    - building
+    - 1635749979
+-   - microwave
+    - AtLocation
+    - tree
+    - 1635758619
+-   - toilet
+    - AtLocation
+    - desk
+    - 1635793179
+-   - car
+    - AtLocation
+    - plate
+    - 1635810459
+-   - oven
+    - AtLocation
+    - home
+    - 1635819099
+-   - sheep
+    - AtLocation
+    - bathroom
+    - 1635836379
+-   - bus
+    - AtLocation
+    - city
+    - 1635853659

@@ -1,0 +1,269 @@
+train:
+    rewards: 775
+    num_samples: 7360
+val:
+    rewards: 267
+    num_samples: 920
+test:
+    rewards: 268
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 64
+    semantic: 0
+memory_type: episodic
+episodic_memories:
+-   - Charles's airplane
+    - AtLocation
+    - Charles's sky
+    - 1634747739
+-   - Richard's apple
+    - AtLocation
+    - Richard's refrigerator
+    - 1634765019
+-   - William's sandwich
+    - AtLocation
+    - William's pantry
+    - 1634782299
+-   - Robert's person
+    - AtLocation
+    - Robert's building
+    - 1634816859
+-   - Thomas's cup
+    - AtLocation
+    - Thomas's city
+    - 1634868699
+-   - Robert's bottle
+    - AtLocation
+    - Robert's tree
+    - 1634885979
+-   - Robert's couch
+    - AtLocation
+    - Robert's house
+    - 1634894619
+-   - Michael's person
+    - AtLocation
+    - Michael's building
+    - 1634911899
+-   - Jessica's couch
+    - AtLocation
+    - Jessica's farm
+    - 1634920539
+-   - Richard's scissors
+    - AtLocation
+    - Richard's desk
+    - 1634937819
+-   - William's scissors
+    - AtLocation
+    - William's desk
+    - 1634955099
+-   - William's mouse
+    - AtLocation
+    - William's lap
+    - 1634972379
+-   - Robert's banana
+    - AtLocation
+    - Robert's circus
+    - 1634989659
+-   - James's umbrella
+    - AtLocation
+    - James's plate
+    - 1635006939
+-   - James's bird
+    - AtLocation
+    - James's classroom
+    - 1635024219
+-   - William's bench
+    - AtLocation
+    - William's garden
+    - 1635041499
+-   - David's sheep
+    - AtLocation
+    - David's building
+    - 1635058779
+-   - Karen's broccoli
+    - AtLocation
+    - Karen's closet
+    - 1635076059
+-   - David's knife
+    - AtLocation
+    - David's kitchen
+    - 1635093339
+-   - Karen's dog
+    - AtLocation
+    - Karen's lap
+    - 1635110619
+-   - David's bowl
+    - AtLocation
+    - David's store
+    - 1635127899
+-   - Barbara's couch
+    - AtLocation
+    - Barbara's pantry
+    - 1635179739
+-   - David's chair
+    - AtLocation
+    - David's office
+    - 1635197019
+-   - Barbara's bear
+    - AtLocation
+    - Barbara's park
+    - 1635214299
+-   - Sarah's dog
+    - AtLocation
+    - Sarah's table
+    - 1635231579
+-   - Sarah's toilet
+    - AtLocation
+    - Sarah's refrigerator
+    - 1635248859
+-   - Susan's knife
+    - AtLocation
+    - Susan's kitchen
+    - 1635266139
+-   - Michael's bowl
+    - AtLocation
+    - Michael's cupboard
+    - 1635283419
+-   - Jennifer's laptop
+    - AtLocation
+    - Jennifer's suitcase
+    - 1635300699
+-   - Linda's elephant
+    - AtLocation
+    - Linda's farm
+    - 1635317979
+-   - Barbara's bench
+    - AtLocation
+    - Barbara's garden
+    - 1635335259
+-   - David's bench
+    - AtLocation
+    - David's office
+    - 1635361179
+-   - Patricia's oven
+    - AtLocation
+    - Patricia's plate
+    - 1635369819
+-   - Charles's couch
+    - AtLocation
+    - Charles's house
+    - 1635387099
+-   - James's scissors
+    - AtLocation
+    - James's desk
+    - 1635404379
+-   - Sarah's refrigerator
+    - AtLocation
+    - Sarah's garage
+    - 1635421659
+-   - Michael's apple
+    - AtLocation
+    - Michael's refrigerator
+    - 1635438939
+-   - William's person
+    - AtLocation
+    - William's building
+    - 1635473499
+-   - Jennifer's motorcycle
+    - AtLocation
+    - Jennifer's classroom
+    - 1635490779
+-   - Patricia's boat
+    - AtLocation
+    - Patricia's airplane
+    - 1635508059
+-   - Patricia's sink
+    - AtLocation
+    - Patricia's kitchen
+    - 1635525339
+-   - Patricia's clock
+    - AtLocation
+    - Patricia's office
+    - 1635542619
+-   - William's couch
+    - AtLocation
+    - William's house
+    - 1635559899
+-   - Robert's laptop
+    - AtLocation
+    - Robert's desk
+    - 1635577179
+-   - David's scissors
+    - AtLocation
+    - David's building
+    - 1635594459
+-   - Sarah's bicycle
+    - AtLocation
+    - Sarah's garage
+    - 1635611739
+-   - Mary's sheep
+    - AtLocation
+    - Mary's suitcase
+    - 1635629019
+-   - Michael's sink
+    - AtLocation
+    - Michael's kitchen
+    - 1635646299
+-   - James's cup
+    - AtLocation
+    - James's table
+    - 1635663579
+-   - John's book
+    - AtLocation
+    - John's classroom
+    - 1635680859
+-   - Joseph's spoon
+    - AtLocation
+    - Joseph's oven
+    - 1635698139
+-   - Sarah's mouse
+    - AtLocation
+    - Sarah's bowl
+    - 1635715419
+-   - Richard's pizza
+    - AtLocation
+    - Richard's oven
+    - 1635724059
+-   - Robert's boat
+    - AtLocation
+    - Robert's water
+    - 1635732699
+-   - Susan's scissors
+    - AtLocation
+    - Susan's building
+    - 1635749979
+-   - Joseph's broccoli
+    - AtLocation
+    - Joseph's plate
+    - 1635767259
+-   - John's car
+    - AtLocation
+    - John's desk
+    - 1635775899
+-   - William's toilet
+    - AtLocation
+    - William's desk
+    - 1635793179
+-   - Michael's bus
+    - AtLocation
+    - Michael's bowl
+    - 1635801819
+-   - William's oven
+    - AtLocation
+    - William's home
+    - 1635819099
+-   - Patricia's bicycle
+    - AtLocation
+    - Patricia's bathroom
+    - 1635827739
+-   - John's banana
+    - AtLocation
+    - John's refrigerator
+    - 1635845019
+-   - Patricia's bus
+    - AtLocation
+    - Patricia's city
+    - 1635853659
