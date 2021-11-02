@@ -1,0 +1,526 @@
+train:
+    rewards: 3495
+    num_samples: 7360
+val:
+    rewards: 603
+    num_samples: 920
+test:
+    rewards: 573
+    num_samples: 920
+policy:
+    FIFO: true
+    NRO: true
+capacity:
+    episodic: 64
+    semantic: 64
+memory_type: both
+episodic_memories:
+-   - Susan's bowl
+    - AtLocation
+    - Susan's lap
+    - 1634523099
+-   - Robert's knife
+    - AtLocation
+    - Robert's cupboard
+    - 1634566299
+-   - Karen's cat
+    - AtLocation
+    - Karen's garden
+    - 1634583579
+-   - Sarah's banana
+    - AtLocation
+    - Sarah's pantry
+    - 1634600859
+-   - Michael's cup
+    - AtLocation
+    - Michael's apartment
+    - 1634618139
+-   - Mary's scissors
+    - AtLocation
+    - Mary's plate
+    - 1634635419
+-   - Robert's cake
+    - AtLocation
+    - Robert's oven
+    - 1634669979
+-   - David's umbrella
+    - AtLocation
+    - David's plate
+    - 1634695899
+-   - James's couch
+    - AtLocation
+    - James's apartment
+    - 1634713179
+-   - Elizabeth's refrigerator
+    - AtLocation
+    - Elizabeth's garage
+    - 1634730459
+-   - Charles's airplane
+    - AtLocation
+    - Charles's sky
+    - 1634747739
+-   - William's sandwich
+    - AtLocation
+    - William's pantry
+    - 1634782299
+-   - Thomas's cup
+    - AtLocation
+    - Thomas's city
+    - 1634868699
+-   - Sarah's bird
+    - AtLocation
+    - Sarah's office
+    - 1634877339
+-   - Robert's bottle
+    - AtLocation
+    - Robert's tree
+    - 1634885979
+-   - Jessica's couch
+    - AtLocation
+    - Jessica's farm
+    - 1634920539
+-   - Robert's banana
+    - AtLocation
+    - Robert's circus
+    - 1634989659
+-   - Jennifer's refrigerator
+    - AtLocation
+    - Jennifer's pantry
+    - 1634998299
+-   - David's apple
+    - AtLocation
+    - David's cupboard
+    - 1635015579
+-   - Linda's apple
+    - AtLocation
+    - Linda's garden
+    - 1635032859
+-   - Thomas's microwave
+    - AtLocation
+    - Thomas's apartment
+    - 1635050139
+-   - Barbara's mouse
+    - AtLocation
+    - Barbara's desk
+    - 1635084699
+-   - Karen's dog
+    - AtLocation
+    - Karen's lap
+    - 1635110619
+-   - Joseph's horse
+    - AtLocation
+    - Joseph's cupboard
+    - 1635119259
+-   - David's bowl
+    - AtLocation
+    - David's store
+    - 1635127899
+-   - Barbara's couch
+    - AtLocation
+    - Barbara's pantry
+    - 1635179739
+-   - Mary's cake
+    - AtLocation
+    - Mary's bakery
+    - 1635205659
+-   - Barbara's bear
+    - AtLocation
+    - Barbara's park
+    - 1635214299
+-   - Sarah's dog
+    - AtLocation
+    - Sarah's table
+    - 1635231579
+-   - Sarah's toilet
+    - AtLocation
+    - Sarah's refrigerator
+    - 1635248859
+-   - Susan's knife
+    - AtLocation
+    - Susan's kitchen
+    - 1635266139
+-   - Jennifer's elephant
+    - AtLocation
+    - Jennifer's cupboard
+    - 1635274779
+-   - Linda's motorcycle
+    - AtLocation
+    - Linda's bakery
+    - 1635292059
+-   - Thomas's couch
+    - AtLocation
+    - Thomas's store
+    - 1635326619
+-   - Barbara's bench
+    - AtLocation
+    - Barbara's garden
+    - 1635335259
+-   - David's bench
+    - AtLocation
+    - David's office
+    - 1635361179
+-   - Patricia's oven
+    - AtLocation
+    - Patricia's plate
+    - 1635369819
+-   - William's airplane
+    - AtLocation
+    - William's home
+    - 1635430299
+-   - Michael's apple
+    - AtLocation
+    - Michael's refrigerator
+    - 1635438939
+-   - Thomas's airplane
+    - AtLocation
+    - Thomas's circus
+    - 1635482139
+-   - Jennifer's bear
+    - AtLocation
+    - Jennifer's circus
+    - 1635499419
+-   - Patricia's boat
+    - AtLocation
+    - Patricia's airplane
+    - 1635508059
+-   - Patricia's sink
+    - AtLocation
+    - Patricia's kitchen
+    - 1635525339
+-   - Patricia's clock
+    - AtLocation
+    - Patricia's office
+    - 1635542619
+-   - Robert's laptop
+    - AtLocation
+    - Robert's desk
+    - 1635577179
+-   - Robert's bird
+    - AtLocation
+    - Robert's tree
+    - 1635585819
+-   - Susan's banana
+    - AtLocation
+    - Susan's table
+    - 1635603099
+-   - Jennifer's airplane
+    - AtLocation
+    - Jennifer's countryside
+    - 1635620379
+-   - Jessica's scissors
+    - AtLocation
+    - Jessica's desk
+    - 1635637659
+-   - James's boat
+    - AtLocation
+    - James's water
+    - 1635654939
+-   - John's microwave
+    - AtLocation
+    - John's house
+    - 1635672219
+-   - Susan's car
+    - AtLocation
+    - Susan's water
+    - 1635689499
+-   - Mary's airplane
+    - AtLocation
+    - Mary's suitcase
+    - 1635706779
+-   - Richard's pizza
+    - AtLocation
+    - Richard's oven
+    - 1635724059
+-   - Thomas's clock
+    - AtLocation
+    - Thomas's desk
+    - 1635741339
+-   - Linda's microwave
+    - AtLocation
+    - Linda's tree
+    - 1635758619
+-   - Joseph's broccoli
+    - AtLocation
+    - Joseph's plate
+    - 1635767259
+-   - William's toilet
+    - AtLocation
+    - William's desk
+    - 1635793179
+-   - Barbara's car
+    - AtLocation
+    - Barbara's plate
+    - 1635810459
+-   - William's oven
+    - AtLocation
+    - William's home
+    - 1635819099
+-   - Patricia's bicycle
+    - AtLocation
+    - Patricia's bathroom
+    - 1635827739
+-   - John's banana
+    - AtLocation
+    - John's refrigerator
+    - 1635845019
+-   - Patricia's bus
+    - AtLocation
+    - Patricia's city
+    - 1635853659
+semantic_memories:
+-   - pizza
+    - AtLocation
+    - oven
+    - 1629710619
+-   - bottle
+    - AtLocation
+    - store
+    - 1629779739
+-   - broccoli
+    - AtLocation
+    - plate
+    - 1629822939
+-   - car
+    - AtLocation
+    - city
+    - 1630038939
+-   - book
+    - AtLocation
+    - classroom
+    - 1630056219
+-   - motorcycle
+    - AtLocation
+    - garage
+    - 1630151259
+-   - bench
+    - AtLocation
+    - garden
+    - 1630280859
+-   - bed
+    - AtLocation
+    - house
+    - 1630298139
+-   - horse
+    - AtLocation
+    - circus
+    - 1630349979
+-   - spoon
+    - AtLocation
+    - bowl
+    - 1630488219
+-   - cup
+    - AtLocation
+    - table
+    - 1630557339
+-   - keyboard
+    - AtLocation
+    - desk
+    - 1630626459
+-   - airplane
+    - AtLocation
+    - sky
+    - 1630747419
+-   - bed
+    - AtLocation
+    - house
+    - 1630920219
+-   - car
+    - AtLocation
+    - city
+    - 1630946139
+-   - mouse
+    - AtLocation
+    - garage
+    - 1631023899
+-   - sheep
+    - AtLocation
+    - kitchen
+    - 1631041179
+-   - cow
+    - AtLocation
+    - countryside
+    - 1631067099
+-   - couch
+    - AtLocation
+    - house
+    - 1631213979
+-   - umbrella
+    - AtLocation
+    - closet
+    - 1631352219
+-   - toothbrush
+    - AtLocation
+    - pantry
+    - 1631369499
+-   - sandwich
+    - AtLocation
+    - plate
+    - 1631404059
+-   - suitcase
+    - AtLocation
+    - airplane
+    - 1631533659
+-   - apple
+    - AtLocation
+    - refrigerator
+    - 1631758299
+-   - bowl
+    - AtLocation
+    - cupboard
+    - 1631801499
+-   - sink
+    - AtLocation
+    - kitchen
+    - 1631844699
+-   - keyboard
+    - AtLocation
+    - desk
+    - 1631861979
+-   - dog
+    - AtLocation
+    - table
+    - 1631870619
+-   - boat
+    - AtLocation
+    - water
+    - 1631957019
+-   - book
+    - AtLocation
+    - classroom
+    - 1632095259
+-   - horse
+    - AtLocation
+    - circus
+    - 1632173019
+-   - bottle
+    - AtLocation
+    - store
+    - 1632198939
+-   - elephant
+    - AtLocation
+    - circus
+    - 1632363099
+-   - sink
+    - AtLocation
+    - kitchen
+    - 1632466779
+-   - dog
+    - AtLocation
+    - table
+    - 1632501339
+-   - bicycle
+    - AtLocation
+    - garage
+    - 1632527259
+-   - bus
+    - AtLocation
+    - city
+    - 1632579099
+-   - spoon
+    - AtLocation
+    - farm
+    - 1632596379
+-   - scissors
+    - AtLocation
+    - desk
+    - 1632622299
+-   - knife
+    - AtLocation
+    - kitchen
+    - 1632648219
+-   - sandwich
+    - AtLocation
+    - plate
+    - 1632717339
+-   - bowl
+    - AtLocation
+    - cupboard
+    - 1632734619
+-   - sheep
+    - AtLocation
+    - farm
+    - 1632760539
+-   - broccoli
+    - AtLocation
+    - plate
+    - 1632786459
+-   - apple
+    - AtLocation
+    - water
+    - 1632890139
+-   - refrigerator
+    - AtLocation
+    - garage
+    - 1632959259
+-   - book
+    - AtLocation
+    - classroom
+    - 1633149339
+-   - bus
+    - AtLocation
+    - city
+    - 1633209819
+-   - cat
+    - AtLocation
+    - lap
+    - 1633339419
+-   - bottle
+    - AtLocation
+    - store
+    - 1633408539
+-   - scissors
+    - AtLocation
+    - desk
+    - 1633460379
+-   - cake
+    - AtLocation
+    - garage
+    - 1633373979
+-   - dog
+    - AtLocation
+    - table
+    - 1633676379
+-   - airplane
+    - AtLocation
+    - sky
+    - 1633918299
+-   - bear
+    - AtLocation
+    - park
+    - 1634004699
+-   - cat
+    - AtLocation
+    - home
+    - 1634168859
+-   - umbrella
+    - AtLocation
+    - closet
+    - 1634281179
+-   - chair
+    - AtLocation
+    - office
+    - 1634505819
+-   - boat
+    - AtLocation
+    - plate
+    - 1634851419
+-   - apple
+    - AtLocation
+    - refrigerator
+    - 1634929179
+-   - cake
+    - AtLocation
+    - bakery
+    - 1635067419
+-   - spoon
+    - AtLocation
+    - bowl
+    - 1635188379
+-   - person
+    - AtLocation
+    - building
+    - 1635473499
+-   - bottle
+    - AtLocation
+    - store
+    - 1635784539

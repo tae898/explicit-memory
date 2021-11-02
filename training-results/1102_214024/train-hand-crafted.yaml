@@ -2,7 +2,7 @@ memory_type: both
 policy:
     FIFO: true
     NRO: true
-save_at: training-results
+save_at: training-results/1102_214024
 data_path: ./data/data.json
 capacity:
     episodic: 512

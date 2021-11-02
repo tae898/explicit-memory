@@ -35,14 +35,19 @@ def find_duplicate_head(memory: Memory, observation: list) -> list:
 
     """
     logging.debug("finding if duplicate heads exist ...")
+    duplicates = []
     for mem in memory.entries:
         if mem[0] == observation[0]:
             logging.info(
                 f"{mem} has the same head as the observation {observation} !!!"
             )
-            return mem
+            duplicates.append(mem)
 
-    return None
+    if len(duplicates) == 0:
+        return None
+    else:
+        mem = sorted(duplicates, key=lambda x: x[-1])[0]
+        return mem
 
 
 def find_similar(memory: Memory):
