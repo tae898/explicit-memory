@@ -6,107 +6,21 @@ from datetime import datetime
 
 import numpy as np
 
-from utils import read_json, read_yaml, write_yaml, read_data, load_questions
-from memory import Memory
-
-# for reproducibility
-random.seed(42)
-np.random.seed(42)
+from utils import read_json, read_yaml, write_yaml, read_data
+from memory import (
+    Memory,
+    load_questions,
+    select_a_question,
+    answer_NRO,
+    answer_random,
+    ob2sem,
+)
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
     format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S",
 )
-
-
-def find_duplicate_head(memory: Memory, observation: list) -> list:
-    """Find if there are duplicate heads and return its index.
-
-    Args
-    ----
-    memory: Memory object
-    observation: An observation as a quadruple (i.e., (head, relation, tail, timestamp))
-
-    Returns
-    -------
-    mem: the memory whose head is the same as that of the observation
-        (i.e., (head, relation, tail, timestamp))
-
-    """
-    logging.debug("finding if duplicate heads exist ...")
-    duplicates = []
-    for mem in memory.entries:
-        if mem[0] == observation[0]:
-            logging.info(
-                f"{mem} has the same head as the observation {observation} !!!"
-            )
-            duplicates.append(mem)
-
-    if len(duplicates) == 0:
-        return None
-    else:
-        mem = sorted(duplicates, key=lambda x: x[-1])[0]
-        return mem
-
-
-def find_similar(memory: Memory):
-    """Find N episodic memories that can be compressed into one semantic.
-
-    Args
-    ----
-    memory: Memory object
-
-    Returns
-    -------
-    episodic_memories: similar episodic memories
-    semantic_memory: encoded (compressed) semantic memory.
-
-    """
-    logging.debug("looking for episodic entries that can be compressed ...")
-    assert memory.type == "episodic"
-    # -1 removes the timestamps from the quadruples
-    semantic_possibles = [
-        [e.split()[-1] for e in entry[:-1]] for entry in memory.entries
-    ]
-    semantic_possibles = ["_".join(elem) for elem in semantic_possibles]
-
-    def duplicates(mylist, item):
-        return [i for i, x in enumerate(mylist) if x == item]
-
-    semantic_possibles = dict(
-        (x, duplicates(semantic_possibles, x)) for x in set(semantic_possibles)
-    )
-
-    if len(semantic_possibles) == len(memory.entries):
-        logging.info("no episodic memories found to be compressible.")
-        return None, None
-    elif len(semantic_possibles) < len(memory.entries):
-        logging.debug("some episodic memories found to be compressible.")
-
-        max_key = max(semantic_possibles, key=lambda k: len(semantic_possibles[k]))
-        indexes = semantic_possibles[max_key]
-
-        episodic_memories = map(memory.entries.__getitem__, indexes)
-        episodic_memories = list(episodic_memories)
-        # sort from the oldest to the latest
-        episodic_memories = sorted(episodic_memories, key=lambda x: x[-1])
-        semantic_memory = max_key.split("_")
-        # The timestamp of this semantic memory is the last observation time of the
-        # latest episodic memory.
-        semantic_memory.append(episodic_memories[-1][-1])
-        assert (len(semantic_memory)) == 4
-        for mem in episodic_memories:
-            assert len(mem) == 4
-
-        logging.info(
-            f"{len(indexes)} episodic memories can be compressed "
-            f"into one semantic memory: {semantic_memory}."
-        )
-
-        return episodic_memories, semantic_memory
-    else:
-        raise ValueError
 
 
 def train_only_episodic(
@@ -133,42 +47,41 @@ def train_only_episodic(
     logging.info(f"episodic only training has started with policy {policy}")
 
     results = {"train": {}, "val": {}, "test": {}}
-    if policy["FIFO"]:
 
-        for split in ["train", "val", "test"]:
-            logging.info(f"Running on {split} split ...")
+    for split in ["train", "val", "test"]:
+        logging.info(f"Running on {split} split ...")
 
-            M_e = Memory("episodic", capacity["episodic"])
-            rewards = 0
+        M_e = Memory("episodic", capacity["episodic"])
+        rewards = 0
 
-            for idx, ob in enumerate(data[split]):
-                if policy["NRO"]:
-                    mem = find_duplicate_head(M_e, ob)
-                    if mem is not None:
-                        M_e.forget(mem)
-                if M_e.is_full:
-                    M_e.forget(None)  # FIFO
+        for step, ob in enumerate(data[split]):
+            if M_e.is_full:
+                if policy["FIFO"]:
+                    M_e.forget_FIFO()
                 else:
-                    M_e.add(ob)
+                    M_e.forget_random()
 
-                if idx < len(data[split]) - 1:
-                    idx_q = idx + 1
+            M_e.add(ob)
+
+            question = select_a_question(step, data, questions, split)
+
+            if policy["NRO"]:
+                if not M_e.is_empty:
+                    reward = answer_NRO(question, M_e)
                 else:
-                    idx_q = idx
+                    reward = -1
+            else:
+                if not M_e.is_empty:
+                    reward = answer_random(question, M_e)
+                else:
+                    reward = -1
 
-                question = random.sample(questions[split][idx_q], 1)[0]
-                logging.info(f"question: {question}")
-                if question in [entry[:-1] for entry in M_e.entries]:
-                    rewards += 1
-                    logging.debug(f"{question} was in the memory!")
+            rewards += reward
 
-            results[split]["rewards"] = rewards
-            results[split]["num_samples"] = len(data[split])
+        results[split]["rewards"] = rewards
+        results[split]["num_samples"] = len(data[split])
 
-            logging.info(f"results so far: {results}")
-
-    else:
-        raise NotImplementedError
+        logging.info(f"results so far: {results}")
 
     logging.info("episodic only training done!")
 
@@ -209,63 +122,47 @@ def train_only_semantic(
     logging.info(f"semantic only training has started with policy {policy}")
 
     results = {"train": {}, "val": {}, "test": {}}
-    if policy["FIFO"]:
 
-        for split in ["train", "val", "test"]:
-            logging.info(f"Running on {split} split ...")
+    for split in ["train", "val", "test"]:
+        logging.info(f"Running on {split} split ...")
 
-            M_s = Memory("semantic", capacity["semantic"])
-            if pretrained_semantic is not None:
-                semantics = read_json(pretrained_semantic)
-                for head, relation_head in semantics.items():
+        M_s = Memory("semantic", capacity["semantic"])
+        if pretrained_semantic is not None:
+            free_space = M_s.pretrain_semantic(pretrained_semantic, creation_time)
 
-                    if M_s.is_full:
-                        break
-
-                    relation = list(relation_head.keys())[0]
-                    tail = relation_head[relation][0]
-                    # timestamp is the time when the semantic memory was first stored
-                    mem = [head, relation, tail, creation_time]
-                    M_s.add(mem)
-
-                M_s.freeze()
-
-            rewards = 0
-
-            for idx, ob in enumerate(data[split]):
-                if not M_s.is_frozen:
-                    # timestamp is the time when the semantic memory was first stored
-                    ob = [
-                        ob_.split()[-1] if isinstance(ob_, str) else ob_ for ob_ in ob
-                    ]  # split to remove the name
-
-                    if policy["NRO"]:
-                        mem = find_duplicate_head(M_s, ob)
-                        if mem is not None:
-                            M_s.forget(mem)
-                    if M_s.is_full:
-                        M_s.forget(None)  # FIFO
-                    else:
-                        M_s.add(ob)
-
-                if idx < len(data[split]) - 1:
-                    idx_q = idx + 1
+        rewards = 0
+        for step, ob in enumerate(data[split]):
+            mem = ob2sem(ob)
+            if M_s.is_full and (not M_s.is_frozen):
+                if policy["FIFO"]:
+                    M_s.forget_FIFO()
                 else:
-                    idx_q = idx
-                question = random.sample(questions[split][idx_q], 1)[0]
-                question = [q.split()[-1] for q in question]
-                logging.info(f"question: {question}")
-                if question in [entry[:-1] for entry in M_s.entries]:
-                    rewards += 1
-                    logging.debug(f"{question} was semantic in the memory!")
+                    M_s.forget_random()
 
-            results[split]["rewards"] = rewards
-            results[split]["num_samples"] = len(data[split])
+            M_s.add(mem)
 
-            logging.info(f"results so far: {results}")
+            question = select_a_question(step, data, questions, split)
+            # this is a hack since in our simpliest world, observations, memories,
+            # and even questions have almost the same format.
+            question = ob2sem(question)
 
-    else:
-        raise NotImplementedError
+            if policy["NRO"]:
+                if not M_s.is_empty:
+                    reward = answer_NRO(question, M_s)
+                else:
+                    reward = -1
+            else:
+                if not M_s.is_empty:
+                    reward = answer_random(question, M_s)
+                else:
+                    reward = -1
+
+            rewards += reward
+
+        results[split]["rewards"] = rewards
+        results[split]["num_samples"] = len(data[split])
+
+        logging.info(f"results so far: {results}")
 
     logging.info("semantic only training done!")
 
@@ -308,92 +205,74 @@ def train_both_episodic_and_semantic(
     )
 
     results = {"train": {}, "val": {}, "test": {}}
-    if policy["FIFO"]:
 
-        for split in ["train", "val", "test"]:
-            logging.info(f"Running on {split} split ...")
-            M_e = Memory("episodic", capacity["episodic"])
-            M_s = Memory("semantic", capacity["semantic"])
+    for split in ["train", "val", "test"]:
+        logging.info(f"Running on {split} split ...")
+        M_e = Memory("episodic", capacity["episodic"])
+        M_s = Memory("semantic", capacity["semantic"])
 
-            if pretrained_semantic is not None:
-                semantics = read_json(pretrained_semantic)
-                for head, relation_head in semantics.items():
+        if pretrained_semantic is not None:
+            free_space = M_s.pretrain_semantic(pretrained_semantic, creation_time)
+            M_e.capacity += free_space
 
-                    if M_s.is_full:
-                        break
-
-                    relation = list(relation_head.keys())[0]
-                    tail = relation_head[relation][0]
-                    # timestamp is the time when the semantic memory was first stored
-                    mem = [head, relation, tail, creation_time]
-                    M_s.add(mem)
-
-                M_s.freeze()
-                logging.info(
-                    f"The semantic memory is pretrained and frozen. The remaining space "
-                    f"{capacity['episodic'] + capacity['semantic'] - M_s.capacity} "
-                    f"will be used for episodic memory!"
-                )
-                M_s.capacity = len(M_s.entries)
-                M_e.capacity = len(M_e.entries) + (
-                    capacity["episodic"] + capacity["semantic"] - M_s.capacity
-                )
-
-            rewards = 0
-
-            for idx, ob in enumerate(data[split]):
-
-                if policy["NRO"]:
-                    mem = find_duplicate_head(M_e, ob)
-                    if mem is not None:
-                        M_e.forget(mem)
-
+        rewards = 0
+        for step, ob in enumerate(data[split]):
+            if M_s.is_frozen:
                 if M_e.is_full:
-                    episodic_memories, semantic_memory = find_similar(M_e)
-                    if episodic_memories is None:
-                        logging.info("nothing to be compressed!")
-                        M_e.forget(None)  # FIFO
+                    if policy["FIFO"]:
+                        M_e.forget_FIFO()
                     else:
-                        logging.info(
-                            f"{len(episodic_memories)} can be compressed into "
-                            f"{semantic_memory}!"
-                        )
-                        for mem in episodic_memories:
-                            M_e.forget(mem)
+                        M_e.forget_random()
+                M_e.add(ob)
+            else:
+                if M_e.is_full:
+                    episodic_memories, semantic_memory = M_e.get_similar()
+                    if episodic_memories is not None:
                         if M_s.is_full:
-                            if not M_s.is_frozen:
-                                M_s.forget(None)  # FIFO
+                            if policy["FIFO"]:
+                                M_s.forget_FIFO()
+                            else:
+                                M_s.forget_random()
+                        M_s.add(semantic_memory)
+                        for epi_mem in episodic_memories:
+                            M_e.forget(epi_mem)
+                    else:
+                        if policy["FIFO"]:
+                            M_e.forget_FIFO()
                         else:
-                            if not M_s.is_frozen:
-                                M_s.add(semantic_memory)
+                            M_e.forget_random()
+                M_e.add(ob)
+
+            question_epi = select_a_question(step, data, questions, split)
+            question_sem = ob2sem(question_epi)
+
+            if policy["NRO"]:
+                if not M_e.is_empty:
+                    reward_epi = answer_NRO(question_epi, M_e)
                 else:
-                    M_e.add(ob)
-
-                if idx < len(data[split]) - 1:
-                    idx_q = idx + 1
+                    reward_epi = -1
+                if not M_s.is_empty:
+                    reward_sem = answer_NRO(question_sem, M_s)
                 else:
-                    idx_q = idx
-
-                question = random.sample(questions[split][idx_q], 1)[0]
-                logging.info(f"question: {question}")
-
-                if question in [entry[:-1] for entry in M_e.entries]:
-                    rewards += 1
-                    logging.debug(f"{question} was in the episodic memory!")
+                    reward_sem = -1
+                reward = max(reward_epi, reward_sem)
+            else:
+                if not M_e.is_empty:
+                    reward_epi = answer_random(question_epi, M_e)
                 else:
-                    question = [q.split()[-1] for q in question]
-                    logging.info(f"question: {question}")
+                    reward_epi = -1
+                if not M_s.is_empty:
+                    reward_sem = answer_random(question_sem, M_s)
+                else:
+                    reward_sem = -1
+                reward = max(reward_epi, reward_sem)
 
-                    if question in [entry[:-1] for entry in M_s.entries]:
-                        rewards += 1
-                        logging.debug(f"{question} was in the semantic memory!")
+            rewards += reward
 
-            results[split]["rewards"] = rewards
-            results[split]["num_samples"] = len(data[split])
+        results[split]["rewards"] = rewards
+        results[split]["num_samples"] = len(data[split])
 
-            logging.info(f"results so far: {results}")
-    else:
-        raise NotImplementedError
+        logging.info(f"results so far: {results}")
 
     logging.info("both episodic and semantic training done!")
 
@@ -420,6 +299,7 @@ def main(
     pretrained_semantic: str,
     question_path: str,
     creation_time: int,
+    seed: int,
 ) -> None:
     """Run training with the given arguments.
 
@@ -434,8 +314,13 @@ def main(
     pretrained_semantic: either the path or None.
     question_path: path to the questions file.
     creation_time: the unix time, in seconds, where the agent is first created.
+    seed: random seed.
 
     """
+    # for reproducibility
+    random.seed(seed)
+    np.random.seed(seed)
+
     data = read_data(data_path)
     questions = load_questions(question_path)
     if memory_type == "episodic":

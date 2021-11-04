@@ -9,4 +9,5 @@ capacity:
     semantic: 512
 pretrained_semantic: ./data/semantic-knowledge.json
 question_path: ./data/questions.json
-creation_time: 1556382939
+creation_time: 1602929100
+seed: 42

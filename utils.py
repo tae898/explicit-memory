@@ -74,18 +74,3 @@ def read_data(data_path: str) -> dict:
     logging.info(f"Succesfully read data {data_path}")
 
     return data
-
-
-def load_questions(path: str) -> dict:
-    """Load premade questions.
-
-    Args
-    ----
-    path: path to the question json file.
-
-    """
-    logging.debug(f"loading questions from {path}...")
-    questions = read_json(path)
-    logging.info(f"questions loaded from {path}!")
-
-    return questions

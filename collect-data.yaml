@@ -40,3 +40,6 @@ test_ratio: 0.1
 
 # where to save questions
 question_path: ./data/questions.json
+
+# mock time delay between observations. 3600 seconds is one hour
+delay_seconds: 3600

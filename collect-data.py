@@ -39,6 +39,7 @@ class DataCollector:
         all_obs_path: str,
         final_data_path: str,
         question_path: str,
+        delay_seconds: int
     ):
         """Data (conceptnet) collector class."""
         self.relation = relation
@@ -57,6 +58,7 @@ class DataCollector:
         self.test_ratio = test_ratio
         self.final_data_path = final_data_path
         self.question_path = question_path
+        self.delay_seconds = delay_seconds
 
         self.read_mscoco()
         self.read_names()
@@ -270,7 +272,7 @@ class DataCollector:
         logging.debug("adding timestamps to the observations ...")
         current_time = int(time.time())
         for idx in range(len(self.obs_all)):
-            current_time -= 8640  # 86400 seconds is a day.
+            current_time -= self.delay_seconds
             self.obs_all[idx] += (current_time,)
         self.obs_all = self.obs_all[::-1]
         logging.info("timestamps added to the observations!")
