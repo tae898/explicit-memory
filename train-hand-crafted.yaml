@@ -1,7 +1,11 @@
 memory_type: both
 policy:
-    FIFO: true
-    NRO: true
+    episodic:
+        forget: random
+        answer: random
+    semantic:
+        forget: random
+        answer: random
 save_at: training-results
 data_path: ./data/data.json
 capacity:

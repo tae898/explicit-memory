@@ -2,19 +2,18 @@
 import logging
 import os
 import random
-from datetime import datetime
-
+import argparse
 import numpy as np
+from pprint import pformat
 
-from utils import read_json, read_yaml, write_yaml, read_data
-from memory import (
-    Memory,
+from utils import (
+    read_yaml,
+    write_yaml,
+    read_data,
     load_questions,
     select_a_question,
-    answer_NRO,
-    answer_random,
-    ob2sem,
 )
+from memory import EpisodicMemory, SemanticMemory
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -29,19 +28,17 @@ def train_only_episodic(
     capacity: dict,
     save_at: str,
     questions: dict,
-    creation_time: int,
 ) -> None:
     """Train only with a episodic memory system.
 
     Args
     ----
-    policy: e.g., {'FIFO': True, 'NRO': True}
+    policy: e.g., {'forget': 'oldest', 'answer': newest}
     data: train, val, test data splits in dict
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
     save_at: where to save training results.
     questions: questions in train, val, and test splits
-    creation_time: the unix time, in seconds, where the agent is first created.
 
     """
     logging.info(f"episodic only training has started with policy {policy}")
@@ -51,35 +48,34 @@ def train_only_episodic(
     for split in ["train", "val", "test"]:
         logging.info(f"Running on {split} split ...")
 
-        M_e = Memory("episodic", capacity["episodic"])
+        M_e = EpisodicMemory(capacity["episodic"])
         rewards = 0
 
         for step, ob in enumerate(data[split]):
+            mem_epi = M_e.ob2epi(ob)
+            M_e.add(mem_epi)
             if M_e.is_full:
-                if policy["FIFO"]:
-                    M_e.forget_FIFO()
-                else:
+                if policy["forget"].lower() == "oldest":
+                    M_e.forget_oldest()
+                elif policy["forget"].lower() == "random":
                     M_e.forget_random()
-
-            M_e.add(ob)
+                else:
+                    raise NotImplementedError
 
             question = select_a_question(step, data, questions, split)
 
-            if policy["NRO"]:
-                if not M_e.is_empty:
-                    reward = answer_NRO(question, M_e)
-                else:
-                    reward = -1
+            if policy["answer"].lower() == "newest":
+                reward = M_e.answer_newest(question)
+            elif policy["answer"].lower() == "random":
+                reward = M_e.answer_random(question)
             else:
-                if not M_e.is_empty:
-                    reward = answer_random(question, M_e)
-                else:
-                    reward = -1
+                raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
         results[split]["num_samples"] = len(data[split])
+        results[split]["episodic_memories"] = M_e.entries
 
         logging.info(f"results so far: {results}")
 
@@ -89,7 +85,6 @@ def train_only_episodic(
     results["policy"] = policy
     results["capacity"] = capacity
     results["memory_type"] = "episodic"
-    results["episodic_memories"] = M_e.entries
     write_yaml(results, os.path.join(save_at, "results.yaml"))
     logging.info(
         f"training results written at {os.path.join(save_at, 'results.yaml')}!"
@@ -103,20 +98,18 @@ def train_only_semantic(
     pretrained_semantic: str,
     save_at: str,
     questions: dict,
-    creation_time: int,
 ) -> None:
     """Train with only semantic memory.
 
     Args
     ----
-    policy: e.g., {'FIFO': True, 'NRO': True}
+    policy: e.g., {'forget': 'weakest', 'answer': strongest}
     data: train, val, test data splits in dict
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
     pretrained_semantic: either the path or None.
     save_at: where to save training results.
     questions: questions in train, val, and test splits
-    creation_time: the unix time, in seconds, where the agent is first created.
 
     """
     logging.info(f"semantic only training has started with policy {policy}")
@@ -126,41 +119,38 @@ def train_only_semantic(
     for split in ["train", "val", "test"]:
         logging.info(f"Running on {split} split ...")
 
-        M_s = Memory("semantic", capacity["semantic"])
+        M_s = SemanticMemory(capacity["semantic"])
         if pretrained_semantic is not None:
-            free_space = M_s.pretrain_semantic(pretrained_semantic, creation_time)
+            free_space = M_s.pretrain_semantic(pretrained_semantic)
 
         rewards = 0
         for step, ob in enumerate(data[split]):
-            mem = ob2sem(ob)
-            if M_s.is_full and (not M_s.is_frozen):
-                if policy["FIFO"]:
-                    M_s.forget_FIFO()
-                else:
-                    M_s.forget_random()
-
-            M_s.add(mem)
+            mem_sem = M_s.ob2sem(ob)
+            if not M_s.is_frozen:
+                M_s.add(mem_sem)
+                if M_s.is_full and (not M_s.is_frozen):
+                    if policy["forget"].lower() == "weakest":
+                        M_s.forget_weakest()
+                    elif policy["forget"].lower() == "random":
+                        M_s.forget_random()
+                    else:
+                        raise NotImplementedError
 
             question = select_a_question(step, data, questions, split)
-            # this is a hack since in our simpliest world, observations, memories,
-            # and even questions have almost the same format.
-            question = ob2sem(question)
+            question = M_s.eq2sq(question)
 
-            if policy["NRO"]:
-                if not M_s.is_empty:
-                    reward = answer_NRO(question, M_s)
-                else:
-                    reward = -1
+            if policy["answer"].lower() == "strongest":
+                reward = M_s.answer_strongest(question)
+            elif policy["answer"].lower() == "random":
+                reward = M_s.answer_random(question)
             else:
-                if not M_s.is_empty:
-                    reward = answer_random(question, M_s)
-                else:
-                    reward = -1
+                raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
         results[split]["num_samples"] = len(data[split])
+        results[split]["semantic_memories"] = M_s.entries
 
         logging.info(f"results so far: {results}")
 
@@ -170,7 +160,10 @@ def train_only_semantic(
     results["policy"] = policy
     results["capacity"] = capacity
     results["memory_type"] = "semantic"
-    results["semantic_memories"] = M_s.entries
+    if pretrained_semantic is not None:
+        results["pretrained_semantic"] = True
+    else:
+        results["pretrained_semantic"] = False
     write_yaml(results, os.path.join(save_at, "results.yaml"))
     logging.info(
         f"training results written at {os.path.join(save_at, 'results.yaml')}!"
@@ -184,20 +177,19 @@ def train_both_episodic_and_semantic(
     pretrained_semantic: str,
     save_at: str,
     questions: dict,
-    creation_time: int,
 ) -> None:
     """Train with both episodic and semantic memory.
 
     Args
     ----
-    policy: e.g., FIFO
+    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': newest},
+        'semantic': {'forget': 'weakest', 'answer': strongest}}
     data: train, val, test data splits in dict.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
     pretrained_semantic: either the path or None.
     save_at: where to save training results.
     questions: questions in train, val, and test splits
-    creation_time: the unix time, in seconds, where the agent is first created.
 
     """
     logging.info(
@@ -208,69 +200,76 @@ def train_both_episodic_and_semantic(
 
     for split in ["train", "val", "test"]:
         logging.info(f"Running on {split} split ...")
-        M_e = Memory("episodic", capacity["episodic"])
-        M_s = Memory("semantic", capacity["semantic"])
+        M_e = EpisodicMemory(capacity["episodic"])
+        M_s = SemanticMemory(capacity["semantic"])
 
         if pretrained_semantic is not None:
-            free_space = M_s.pretrain_semantic(pretrained_semantic, creation_time)
-            M_e.capacity += free_space
+            free_space = M_s.pretrain_semantic(pretrained_semantic)
+            M_e.increase_capacity(free_space)
+            assert (M_e.capacity + M_s.capacity) == (
+                capacity["episodic"] + capacity["semantic"]
+            )
 
         rewards = 0
         for step, ob in enumerate(data[split]):
+            mem_epi = M_e.ob2epi(ob)
+            M_e.add(mem_epi)
             if M_s.is_frozen:
                 if M_e.is_full:
-                    if policy["FIFO"]:
-                        M_e.forget_FIFO()
-                    else:
+                    if policy["episodic"]["forget"].lower() == "oldest":
+                        M_e.forget_oldest()
+                    elif policy["episodic"]["forget"].lower() == "random":
                         M_e.forget_random()
-                M_e.add(ob)
+                    else:
+                        raise NotImplementedError
             else:
                 if M_e.is_full:
                     episodic_memories, semantic_memory = M_e.get_similar()
                     if episodic_memories is not None:
-                        if M_s.is_full:
-                            if policy["FIFO"]:
-                                M_s.forget_FIFO()
-                            else:
-                                M_s.forget_random()
                         M_s.add(semantic_memory)
-                        for epi_mem in episodic_memories:
-                            M_e.forget(epi_mem)
+                        if M_s.is_full:
+                            if policy["semantic"]["forget"].lower() == "weakest":
+                                M_s.forget_weakest()
+                            elif policy["semantic"]["forget"].lower() == "random":
+                                M_s.forget_random()
+                            else:
+                                raise NotImplementedError
+
+                        for episodic_memory in episodic_memories:
+                            M_e.forget(episodic_memory)
                     else:
-                        if policy["FIFO"]:
-                            M_e.forget_FIFO()
-                        else:
+                        if policy["episodic"]["forget"].lower() == "oldest":
+                            M_e.forget_oldest()
+                        elif policy["episodic"]["forget"].lower() == "random":
                             M_e.forget_random()
-                M_e.add(ob)
+                        else:
+                            raise NotImplementedError
 
             question_epi = select_a_question(step, data, questions, split)
-            question_sem = ob2sem(question_epi)
+            question_sem = M_s.eq2sq(question_epi)
 
-            if policy["NRO"]:
-                if not M_e.is_empty:
-                    reward_epi = answer_NRO(question_epi, M_e)
-                else:
-                    reward_epi = -1
-                if not M_s.is_empty:
-                    reward_sem = answer_NRO(question_sem, M_s)
-                else:
-                    reward_sem = -1
-                reward = max(reward_epi, reward_sem)
+            if policy["episodic"]["answer"].lower() == "newest":
+                reward_epi = M_e.answer_newest(question_epi)
+            elif policy["episodic"]["answer"].lower() == "random":
+                reward_epi = M_e.answer_random(question_epi)
             else:
-                if not M_e.is_empty:
-                    reward_epi = answer_random(question_epi, M_e)
-                else:
-                    reward_epi = -1
-                if not M_s.is_empty:
-                    reward_sem = answer_random(question_sem, M_s)
-                else:
-                    reward_sem = -1
-                reward = max(reward_epi, reward_sem)
+                raise NotImplementedError
+
+            if policy["semantic"]["answer"].lower() == "strongest":
+                reward_sem = M_s.answer_strongest(question_sem)
+            elif policy["semantic"]["answer"].lower() == "random":
+                reward_sem = M_s.answer_random(question_sem)
+            else:
+                raise NotImplementedError
+
+            reward = max(reward_epi, reward_sem)
 
             rewards += reward
 
         results[split]["rewards"] = rewards
         results[split]["num_samples"] = len(data[split])
+        results[split]["episodic_memories"] = M_e.entries
+        results[split]["semantic_memories"] = M_s.entries
 
         logging.info(f"results so far: {results}")
 
@@ -281,9 +280,9 @@ def train_both_episodic_and_semantic(
     results["capacity"] = capacity
     results["memory_type"] = "both"
     if pretrained_semantic is not None:
-        results["memory_type"] += "_presem"
-    results["episodic_memories"] = M_e.entries
-    results["semantic_memories"] = M_s.entries
+        results["pretrained_semantic"] = True
+    else:
+        results["pretrained_semantic"] = False
     write_yaml(results, os.path.join(save_at, "results.yaml"))
     logging.info(
         f"training results written at {os.path.join(save_at, 'results.yaml')}!"
@@ -298,7 +297,6 @@ def main(
     capacity: dict,
     pretrained_semantic: str,
     question_path: str,
-    creation_time: int,
     seed: int,
 ) -> None:
     """Run training with the given arguments.
@@ -306,14 +304,14 @@ def main(
     Args
     ----
     memory_type: 'episodic', 'semantic', or 'both'
-    policy: e.g., {'FIFO': True, 'NRO': True}
+    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': newest},
+        'semantic': {'forget': 'weakest', 'answer': strongest}}
     save_at: where to save training results.
     data_path: path to data.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
     pretrained_semantic: either the path or None.
     question_path: path to the questions file.
-    creation_time: the unix time, in seconds, where the agent is first created.
     seed: random seed.
 
     """
@@ -324,42 +322,26 @@ def main(
     data = read_data(data_path)
     questions = load_questions(question_path)
     if memory_type == "episodic":
-        train_only_episodic(policy, data, capacity, save_at, questions, creation_time)
+        train_only_episodic(policy["episodic"], data, capacity, save_at, questions)
     elif memory_type == "semantic":
         train_only_semantic(
-            policy,
-            data,
-            capacity,
-            pretrained_semantic,
-            save_at,
-            questions,
-            creation_time,
+            policy["semantic"], data, capacity, pretrained_semantic, save_at, questions
         )
     elif memory_type == "both":
         train_both_episodic_and_semantic(
-            policy,
-            data,
-            capacity,
-            pretrained_semantic,
-            save_at,
-            questions,
-            creation_time,
+            policy, data, capacity, pretrained_semantic, save_at, questions
         )
     else:
         raise ValueError
 
 
 if __name__ == "__main__":
-    config = read_yaml("./train-hand-crafted.yaml")
-    print("Arguments:")
-    for k, v in config.items():
-        print(f"  {k:>21} : {v}")
+    parser = argparse.ArgumentParser(description="train handcrafted policies")
+    parser.add_argument("--config", type=str, default="train-hand-crafted.yaml")
+    args = parser.parse_args()
 
-    config["save_at"] = os.path.join(
-        config["save_at"], datetime.now().strftime(r"%m%d_%H%M%S")
-    )
-    os.makedirs(config["save_at"], exist_ok=True)
+    config = read_yaml(args.config)
+    logging.info(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
 
     logging.debug(f"Training results will be saved at {config['save_at']}")
-    write_yaml(config, os.path.join(config["save_at"], "train-hand-crafted.yaml"))
     main(**config)

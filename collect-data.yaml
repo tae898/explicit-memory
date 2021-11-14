@@ -18,7 +18,7 @@ semantic_obs_path: ./data/observations-semantic.csv
 weighting_mode: highest
 
 # Number of repeats for semantic observations to increase data size
-num_repeat: 100
+num_repeat: 128
 
 # factor for episodic observations. 2 means it will generate twice as much
 episodic_factor: 1
@@ -42,4 +42,7 @@ test_ratio: 0.1
 question_path: ./data/questions.json
 
 # mock time delay between observations. 3600 seconds is one hour
-delay_seconds: 3600
+delay_seconds: 1
+
+# set the earliest time to zero for convenience
+time_zero: true 

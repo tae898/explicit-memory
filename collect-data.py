@@ -34,14 +34,40 @@ class DataCollector:
         num_repeat: int,
         episodic_factor: int,
         episodic_obs_path: str,
-        val_ratio: float,
-        test_ratio: float,
         all_obs_path: str,
         final_data_path: str,
+        val_ratio: float,
+        test_ratio: float,
         question_path: str,
-        delay_seconds: int
+        delay_seconds: int,
+        time_zero: bool,
     ):
-        """Data (conceptnet) collector class."""
+        """Data (conceptnet) collector class.
+
+        Args
+        ----
+        relation: See https://github.com/commonsense/conceptnet5/wiki/Relations for
+            all relations.
+        raw_data_path: Where to save raw queried conceptnet data path
+        raw_data_stats_path: Where to save the stats of the raw data
+        semantic_knowledge_path: Where to save pre-trained semantic (factual) knowledge
+        semantic_obs_path: Where to save semantic observations
+        weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+            chooses all of them by weight, and null chooses every single one of them
+            without weighting.
+        num_repeat: Number of repeats for semantic observations to increase data size
+        episodic_factor: factor for episodic observations. 2 means it will generate
+            twice as much
+        episodic_obs_path: Where to save episodic observations
+        all_obs_path: Where to save all observations
+        final_data_path: Where to save train, val, test splits
+        val_ratio: validation split ratio
+        test_ratio: test split ratio
+        question_path: where to save questions
+        delay_seconds: mock time delay between observations. 3600 seconds is one hour
+        time_zero: set the earliest time to zero for convenience
+
+        """
         self.relation = relation
         self.relation_simple = self.relation.split("/")[-1]
 
@@ -59,6 +85,7 @@ class DataCollector:
         self.final_data_path = final_data_path
         self.question_path = question_path
         self.delay_seconds = delay_seconds
+        self.time_zero = time_zero
 
         self.read_mscoco()
         self.read_names()
@@ -68,28 +95,46 @@ class DataCollector:
         logging.info("DataCollector object successfully instantiated!")
 
     def read_mscoco(self, path: str = "./data/ms-coco-80-categories") -> None:
-        """Return ms coco 80 object categories."""
+        """Return ms coco 80 object categories.
+
+        Args
+        ----
+        path: The path to the mscoco object category list.
+
+        """
         logging.debug(f"Reading {path} ...")
         with open(path, "r") as stream:
             self.mscoco = stream.readlines()
         self.mscoco = [line.strip() for line in self.mscoco]
         self.mscoco = ["_".join(foo.split()) for foo in self.mscoco]
         logging.info(
-            f"Reading {path} complete! There are {len(self.mscoco)} object categories"
+            f"Reading {path} complete! There are {len(self.mscoco)} object categories in total."
         )
 
     def read_names(self, path: str = "./data/top-human-names") -> None:
-        """Read 20 names."""
+        """Read 20 most common names.
+
+        Args
+        ----
+        path: The path to the top 20 human name list.
+
+        """
         logging.debug(f"Reading {path} ...")
         with open(path, "r") as stream:
             self.names = stream.readlines()
         self.names = [line.strip() for line in self.names]
         logging.info(
-            f"Reading {path} complete! There are {len(self.names)} object categories"
+            f"Reading {path} complete! There are {len(self.names)} names in total"
         )
 
     def read_dirty_tails(self, path: str = "./data/dirty_tails") -> None:
-        """Read dirty tails."""
+        """Read dirty tails.
+
+        Args
+        ----
+        path: The path to the dirty tail list.
+
+        """
         logging.debug(f"Reading {path} ...")
         with open(path, "r") as stream:
             self.dirty_tails = stream.readlines()
@@ -139,6 +184,11 @@ class DataCollector:
 
         I really tried to accept as much noise as possible, since I didn't want
         to manually clean the data, but some are really dirty. I gotta clean them.
+
+        Args
+        ----
+        edge: edge from the ConceptNet query output.
+
         """
         logging.debug(f"Checking if {edge} is clean or not ...")
         if edge["end"]["@id"].split("/")[-1] in self.dirty_tails:
@@ -274,6 +324,18 @@ class DataCollector:
         for idx in range(len(self.obs_all)):
             current_time -= self.delay_seconds
             self.obs_all[idx] += (current_time,)
+
+        if self.time_zero:
+            logging.debug("zeroing the time ...")
+            min_time = min([ob[-1] for ob in self.obs_all])
+
+            for i in range(len(self.obs_all)):
+                ob = list(self.obs_all[i])
+                ob[-1] -= min_time
+                ob = tuple(ob)
+                self.obs_all[i] = ob
+            logging.info("zeroing the time is complete!")
+
         self.obs_all = self.obs_all[::-1]
         logging.info("timestamps added to the observations!")
 

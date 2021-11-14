@@ -4,7 +4,7 @@ import json
 import logging
 import os
 import pickle
-
+import random
 import yaml
 
 logging.basicConfig(
@@ -74,3 +74,47 @@ def read_data(data_path: str) -> dict:
     logging.info(f"Succesfully read data {data_path}")
 
     return data
+
+
+def load_questions(path: str) -> dict:
+    """Load premade questions.
+
+    Args
+    ----
+    path: path to the question json file.
+
+    """
+    logging.debug(f"loading questions from {path}...")
+    questions = read_json(path)
+    logging.info(f"questions loaded from {path}!")
+
+    return questions
+
+
+def select_a_question(step: int, data: dict, questions: dict, split: str) -> list:
+    """Select a question uniform-randomly.
+
+    Args
+    ----
+    step: the step of the RL agent.
+    data: train, val, test data splits in dict.
+    questions: questions in train, val, and test splits
+    split: one of train, val, or test.
+
+    Returns
+    -------
+    question: a triple (i.e., (head, relation, tail))
+
+    """
+    logging.debug("selecting a question ...")
+    assert split in ["train", "val", "test"]
+
+    if step < len(data[split]) - 1:
+        idx_q = step + 1
+    else:
+        idx_q = step
+
+    question = random.sample(questions[split][idx_q], 1)[0]
+    logging.info(f"question {question} was chosen!")
+
+    return question
