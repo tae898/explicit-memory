@@ -10,9 +10,8 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
-NO_HEADS_FOUND = 0
-BOTH_HEAD_AND_TAIL = 2
-ONLY_HEAD_NOT_TAIL = 1
+CORRECT = 1
+WRONG = 0
 
 
 class Memory:
@@ -33,11 +32,39 @@ class Memory:
 
         assert memory_type in ["episodic", "semantic"]
         self.type = memory_type
+        self.read_objects_locations()
         self.entries = []
         self.capacity = capacity
         self._frozen = False
 
         logging.debug(f"{memory_type} memory object with size {capacity} instantiated!")
+
+    def read_objects_locations(
+        self,
+        dataset_stats_path: str = "./data/dataset-stats.json",
+        add_dunno: bool = True,
+    ):
+        """Read possible objects and locations in the toy world."""
+        DATASET_STATS = read_json("./data/dataset-stats.json")
+        self.num_unique_objects = DATASET_STATS["num_unique_semantic_objects"]
+        self.num_unique_locations = DATASET_STATS["num_unique_semantic_locations"]
+
+        self.unique_objects = list(DATASET_STATS["semantic_object_counts"].keys())
+        self.unique_locations = list(DATASET_STATS["semantic_location_counts"].keys())
+
+        if add_dunno:
+            logging.debug("adding DUNNO in locations ...")
+            self.num_unique_locations += 1
+            self.unique_locations.append("DUNNO")
+
+            logging.info("DUNNO added to the location list.")
+
+        assert self.num_unique_locations == len(self.unique_locations)
+
+        logging.info(
+            f"There are in total of {self.num_unique_objects} unique objects "
+            f"and {self.num_unique_locations} unique locations!"
+        )
 
     def __repr__(self):
 
@@ -75,9 +102,15 @@ class Memory:
     def is_full(self) -> bool:
         """Return true if full."""
         assert len(self.entries) <= self.capacity + 1
-        return len(self.entries) == self.capacity or (
-            len(self.entries) == self.capacity + 1
-        )
+
+        return len(self.entries) == self.capacity
+
+    @property
+    def is_kinda_full(self) -> bool:
+        """Return if one is dangling."""
+        assert len(self.entries) <= self.capacity + 1
+
+        return len(self.entries) == self.capacity + 1
 
     @property
     def is_frozen(self):
@@ -126,18 +159,84 @@ class Memory:
                 logging.info(f"{mem} has the same head {head} !!!")
                 duplicates.append(mem)
 
-        logging.info(f"{len(duplicates)} duplicates were found!")
         if len(duplicates) == 0:
             logging.debug("no duplicates were found!")
             return None
-        else:
-            return duplicates
+
+        logging.info(f"{len(duplicates)} duplicates were found!")
+
+        return duplicates
 
     def forget_random(self) -> None:
         """Forget a memory in the memory system in a uniform distribution manner."""
         logging.warning("forgetting a random memory using a uniform distribution ...")
         mem = random.choice(self.entries)
         self.forget(mem)
+
+    def is_answerable(self, question) -> bool:
+        """Check whether the question is answerable by the memory system.
+
+        Args
+        ----
+        question: a triple (i.e., (head, relation, tail))
+
+        Returns
+        -------
+        answerable: True if answerable, False if not.
+
+        """
+        logging.debug(f"checking if the question: {question} is answerable ...")
+
+        if self.is_empty:
+            logging.info("The memory system is empty. The question is not answerable.")
+            return False
+
+        query_head = question[0]
+        query_relation = question[1]
+        query_tail = question[2]
+
+        for mem in self.entries:
+            head = mem[0]
+            relation = mem[1]
+            tail = mem[2]
+
+            if head == query_head and relation == query_relation:
+                logging.info(f"The question: {question} is answerable!")
+                return True
+
+        logging.info(f"The question: {question} is NOT answerable!")
+
+        return False
+
+    def remove_name(self, entity: str) -> str:
+        """Remove name from the entity.
+
+        Args
+        ----
+        entity: e.g., Tae's laptop
+
+        """
+        return entity.split()[-1]
+
+    def is_question_valid(self, question) -> bool:
+        """Check if the given question is valid.
+
+        Args
+        ----
+        question: a triple (i.e., (head, relation, tail))
+
+        Returns
+        -------
+        valid: True or not.
+
+        """
+        logging.debug(f"Checking if the question {question} is valid ..")
+        if len(question) == 3:
+            logging.info(f"{question} is a valid question.")
+            return True
+        else:
+            logging.info(f"{question} is NOT a valid question.")
+            return False
 
     def answer_random(self, question: list) -> int:
         """Answer the question with a uniform-randomly chosen memory.
@@ -148,32 +247,31 @@ class Memory:
 
         Returns
         -------
-        reward: -1 if no heads were found, +1 if the retrieved memory matches both head
-            and tail, and 0 if the retrieved memory only matches the head, not the tail.
+        reward: CORRECT or WRONG
 
         """
-        logging.debug("answering a question with a uniform-random memory ...")
-        assert len(question) == 3
-        if self.is_empty:
-            return NO_HEADS_FOUND
+        if not self.is_question_valid(question):
+            raise ValueError
+        logging.debug(
+            "answering the question with a uniform-randomly retrieved memory ..."
+        )
+        pred = random.choice(self.unique_locations)
 
-        query_head = question[0]
-        query_tail = question[2]
-
-        mem = random.choice(self.entries)
-        head = mem[0]
-        tail = mem[2]
-
-        if head != query_head:
-            logging.info("The retrieved memory is not correct for the question!")
-            return NO_HEADS_FOUND
+        if self.is_answerable(question):
+            correct_answer = self.remove_name(question[2])
         else:
-            if tail == query_tail:
-                logging.info(f"retrieved the relevant memory {mem}!")
-                return BOTH_HEAD_AND_TAIL
-            else:
-                logging.info("The object was there in the past, not now!")
-                return ONLY_HEAD_NOT_TAIL
+            correct_answer = "DUNNO"
+
+        if pred == correct_answer:
+            reward = CORRECT
+        else:
+            reward = WRONG
+
+        logging.info(
+            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
+        )
+
+        return reward
 
     def add(self, mem: list):
         """Append a memory to the memory system.
@@ -304,7 +402,7 @@ class EpisodicMemory(Memory):
         mem = self.get_oldest_memory()
         self.forget(mem)
 
-    def answer_newest(self, question: list) -> int:
+    def answer_latest(self, question: list) -> int:
         """Answer the question with the latest relevant memory.
 
         If object X was found at Y and then later on found Z, then this strategy answers
@@ -316,35 +414,54 @@ class EpisodicMemory(Memory):
 
         Returns
         -------
-        reward: -1 if no heads were found, +1 if the retrieved memory matches both head and
-            tail, and 0 if the retrieved memory only matches the head, not the tail.
+        reward: CORRECT if right, WRONG if wrong.
 
         """
-        assert len(question) == 3
-        logging.debug("answering a question with a random memory ...")
-        if self.is_empty:
-            return NO_HEADS_FOUND
+        if not self.is_question_valid(question):
+            raise ValueError
+        logging.debug("answering a question with the answer_latest policy ...")
+
+        if not self.is_answerable(question):
+            pred = "DUNNO"
+            correct_answer = "DUNNO"
+            logging.info(f"This can't be answered. Therefore my prediction is {pred}")
+
+            if pred == correct_answer:
+                return CORRECT
 
         query_head = question[0]
-        query_tail = question[2]
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
-            logging.info("no relevant memories were found in the entries.")
-            return NO_HEADS_FOUND
+
+            pred = "DUNNO"  # this should be later done by a policy function!
+            correct_answer = "DUNNO"
+
+            logging.info(
+                f"no relevant memories were found in the entries. "
+                f"Therefore my prediction is {pred}"
+            )
+
+            if pred == correct_answer:
+                return CORRECT
+            else:
+                return WRONG
         else:
             logging.info(
                 f"{len(duplicates)} relevant memories were found in the entries!"
             )
             mem = self.get_latest_memory(duplicates)
-            tail = mem[2]
-            if tail == query_tail:
-                logging.info(
-                    f"The latest strategy retrieved the relevant memory {mem}!"
-                )
-                return BOTH_HEAD_AND_TAIL
+            pred = self.remove_name(mem[2])
+            correct_answer = self.remove_name(question[2])
+
+            if pred == correct_answer:
+                reward = CORRECT
             else:
-                logging.info("The object was there in the past, not now!")
-                return ONLY_HEAD_NOT_TAIL
+                reward = WRONG
+            logging.info(
+                f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
+            )
+
+            return reward
 
     def ob2epi(self, ob: list):
         """Turn an observation into an episodic memory.
@@ -359,17 +476,38 @@ class EpisodicMemory(Memory):
 
         """
         assert len(ob) == 4
-        logging.debug(f"Turning an observation {ob} into a semantic memory ...")
+        logging.debug(f"Turning an observation {ob} into a episodic memory ...")
         mem_epi = ob
         logging.info(f"Observation {ob} is now a episodic memory {mem_epi}")
 
         return mem_epi
 
+    def remove_timestamp(self, entry: list) -> list:
+        """Remove the timestamp from a given observation/episodic memory.
+
+        Args
+        ----
+        entry: An observation / episodic memory in a quadruple format
+            (i.e., (head, relation, tail, timestamp))
+
+        Returns
+        -------
+        entry_without_timestamp: i.e., (head, relation, tail)
+
+        """
+        assert len(entry) == 4
+        logging.debug(f"Removing timestamp from {entry} ...")
+        entry_without_timestamp = entry[:-1]
+        logging.info(f"Timestamp is removed from {entry}: {entry_without_timestamp}")
+
+        return entry_without_timestamp
+
     def get_similar(self, entries: list = None):
         """Find N episodic memories that can be compressed into one semantic.
 
-        At the moment, this is simply done by matching string values. In the end, an
-        RL agent has to learn this by itself.
+        At the moment, this is simply done by matching string values. In the end, a
+        neural network has to learn this by itself (e.g., symbolic knowledge graph
+        compression).
 
         Returns
         -------
@@ -384,7 +522,10 @@ class EpisodicMemory(Memory):
             entries = self.entries
 
         # -1 removes the timestamps from the quadruples
-        semantic_possibles = [[e.split()[-1] for e in entry[:-1]] for entry in entries]
+        semantic_possibles = [
+            [self.remove_name(e) for e in self.remove_timestamp(entry)]
+            for entry in entries
+        ]
         # "_" is to allow hashing.
         semantic_possibles = ["_".join(elem) for elem in semantic_possibles]
 
@@ -510,7 +651,7 @@ class SemanticMemory(Memory):
 
         # The last element [-1] of memory is num_generalized_memories.
         mem = sorted(entries, key=lambda x: x[-1])[-1]
-        logging.info(f"{mem} is the oldest memory in the entries.")
+        logging.info(f"{mem} is the strongest memory in the entries.")
 
         return mem
 
@@ -541,31 +682,51 @@ class SemanticMemory(Memory):
             tail, and 0 if the retrieved memory only matches the head, not the tail.
 
         """
-        assert len(question) == 3
-        logging.debug("answering a question with a uniform-randomly chosen memory ...")
-        if self.is_empty:
-            return NO_HEADS_FOUND
+        if not self.is_question_valid(question):
+            raise ValueError
+        logging.debug("answering a question with the answer_strongest policy ...")
 
-        query_head = question[0]
-        query_tail = question[2]
+        if not self.is_answerable(question):
+            pred = "DUNNO"
+            correct_answer = "DUNNO"
+            logging.info(f"This can't be answered. Therefore my prediction is {pred}")
+            if pred == correct_answer:
+                return CORRECT
+
+        query_head = self.remove_name(question[0])
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
-            logging.info("no relevant memories were found in the entries.")
-            return NO_HEADS_FOUND
+
+            # this should be later done by a policy function!
+            pred = "DUNNO"
+            correct_answer = "DUNNO"
+
+            logging.info(
+                f"no relevant memories were found in the entries. "
+                f"Therefore my prediction is {pred}"
+            )
+
+            if pred == correct_answer:
+                return CORRECT
+            else:
+                return WRONG
         else:
             logging.info(
                 f"{len(duplicates)} relevant memories were found in the entries!"
             )
             mem = self.get_strongest_memory(duplicates)
-            tail = mem[2]
-            if tail == query_tail:
-                logging.info(
-                    f"STRONGEST strategy succesfully retrieved the relevant memory {mem}!"
-                )
-                return BOTH_HEAD_AND_TAIL
+            pred = self.remove_name(mem[2])
+            correct_answer = self.remove_name(question[2])
+
+            if pred == correct_answer:
+                reward = CORRECT
             else:
-                logging.info("The object was there in the past, not now!")
-                return ONLY_HEAD_NOT_TAIL
+                reward = WRONG
+            logging.info(
+                f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
+            )
+
+            return reward
 
     def ob2sem(self, ob: list) -> list:
         """Turn an observation into a semantic memory.
@@ -582,9 +743,9 @@ class SemanticMemory(Memory):
         assert len(ob) == 4
         logging.debug(f"Turning an observation {ob} into a semantic memory ...")
         # split to remove the name
-        head = ob[0].split()[-1]
+        head = self.remove_name(ob[0])
         relation = ob[1]
-        tail = ob[2].split()[-1]
+        tail = self.remove_name(ob[2])
 
         # 1 stands for the 1 generalized.
         mem_sem = [head, relation, tail, 1]
@@ -604,15 +765,17 @@ class SemanticMemory(Memory):
             (i.e., (head, relation, tail))
 
         """
-        assert len(episodic_question) == 3
+        if not self.is_question_valid(episodic_question):
+            raise ValueError
+
         logging.debug(
             f"Turning an episodic question {episodic_question} into a semantic "
             f"question ..."
         )
         # split to remove the name
-        head = episodic_question[0].split()[-1]
+        head = self.remove_name(episodic_question[0])
         relation = episodic_question[1]
-        tail = episodic_question[2].split()[-1]
+        tail = self.remove_name(episodic_question[2])
 
         semantic_question = [head, relation, tail]
         logging.info(
@@ -671,7 +834,7 @@ class SemanticMemory(Memory):
         )
 
     def add(self, mem: list):
-        """Append a memory to the episodic memory system.
+        """Append a memory to the semantic memory system.
 
         Args
         ----
