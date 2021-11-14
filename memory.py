@@ -32,39 +32,11 @@ class Memory:
 
         assert memory_type in ["episodic", "semantic"]
         self.type = memory_type
-        self.read_objects_locations()
         self.entries = []
         self.capacity = capacity
         self._frozen = False
 
         logging.debug(f"{memory_type} memory object with size {capacity} instantiated!")
-
-    def read_objects_locations(
-        self,
-        dataset_stats_path: str = "./data/dataset-stats.json",
-        add_dunno: bool = True,
-    ):
-        """Read possible objects and locations in the toy world."""
-        DATASET_STATS = read_json("./data/dataset-stats.json")
-        self.num_unique_objects = DATASET_STATS["num_unique_semantic_objects"]
-        self.num_unique_locations = DATASET_STATS["num_unique_semantic_locations"]
-
-        self.unique_objects = list(DATASET_STATS["semantic_object_counts"].keys())
-        self.unique_locations = list(DATASET_STATS["semantic_location_counts"].keys())
-
-        if add_dunno:
-            logging.debug("adding DUNNO in locations ...")
-            self.num_unique_locations += 1
-            self.unique_locations.append("DUNNO")
-
-            logging.info("DUNNO added to the location list.")
-
-        assert self.num_unique_locations == len(self.unique_locations)
-
-        logging.info(
-            f"There are in total of {self.num_unique_objects} unique objects "
-            f"and {self.num_unique_locations} unique locations!"
-        )
 
     def __repr__(self):
 
@@ -173,41 +145,6 @@ class Memory:
         mem = random.choice(self.entries)
         self.forget(mem)
 
-    def is_answerable(self, question) -> bool:
-        """Check whether the question is answerable by the memory system.
-
-        Args
-        ----
-        question: a triple (i.e., (head, relation, tail))
-
-        Returns
-        -------
-        answerable: True if answerable, False if not.
-
-        """
-        logging.debug(f"checking if the question: {question} is answerable ...")
-
-        if self.is_empty:
-            logging.info("The memory system is empty. The question is not answerable.")
-            return False
-
-        query_head = question[0]
-        query_relation = question[1]
-        query_tail = question[2]
-
-        for mem in self.entries:
-            head = mem[0]
-            relation = mem[1]
-            tail = mem[2]
-
-            if head == query_head and relation == query_relation:
-                logging.info(f"The question: {question} is answerable!")
-                return True
-
-        logging.info(f"The question: {question} is NOT answerable!")
-
-        return False
-
     def remove_name(self, entity: str) -> str:
         """Remove name from the entity.
 
@@ -255,12 +192,11 @@ class Memory:
         logging.debug(
             "answering the question with a uniform-randomly retrieved memory ..."
         )
-        pred = random.choice(self.unique_locations)
+        if self.is_empty:
+            return WRONG
 
-        if self.is_answerable(question):
-            correct_answer = self.remove_name(question[2])
-        else:
-            correct_answer = "DUNNO"
+        pred = self.remove_name(random.choice(self.entries)[2])
+        correct_answer = self.remove_name(question[2])
 
         if pred == correct_answer:
             reward = CORRECT
@@ -421,47 +357,35 @@ class EpisodicMemory(Memory):
             raise ValueError
         logging.debug("answering a question with the answer_latest policy ...")
 
-        if not self.is_answerable(question):
-            pred = "DUNNO"
-            correct_answer = "DUNNO"
-            logging.info(f"This can't be answered. Therefore my prediction is {pred}")
-
-            if pred == correct_answer:
-                return CORRECT
+        if self.is_empty:
+            return WRONG
 
         query_head = question[0]
+        correct_answer = self.remove_name(question[2])
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
+            logging.info("no relevant memories found.")
+            pred = None
 
-            pred = "DUNNO"  # this should be later done by a policy function!
-            correct_answer = "DUNNO"
+            reward = WRONG
 
-            logging.info(
-                f"no relevant memories were found in the entries. "
-                f"Therefore my prediction is {pred}"
-            )
-
-            if pred == correct_answer:
-                return CORRECT
-            else:
-                return WRONG
         else:
             logging.info(
                 f"{len(duplicates)} relevant memories were found in the entries!"
             )
             mem = self.get_latest_memory(duplicates)
             pred = self.remove_name(mem[2])
-            correct_answer = self.remove_name(question[2])
 
             if pred == correct_answer:
                 reward = CORRECT
             else:
                 reward = WRONG
-            logging.info(
-                f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
-            )
 
-            return reward
+        logging.info(
+            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
+        )
+
+        return reward
 
     def ob2epi(self, ob: list):
         """Turn an observation into an episodic memory.
@@ -686,47 +610,35 @@ class SemanticMemory(Memory):
             raise ValueError
         logging.debug("answering a question with the answer_strongest policy ...")
 
-        if not self.is_answerable(question):
-            pred = "DUNNO"
-            correct_answer = "DUNNO"
-            logging.info(f"This can't be answered. Therefore my prediction is {pred}")
-            if pred == correct_answer:
-                return CORRECT
+        if self.is_empty:
+            return WRONG
 
         query_head = self.remove_name(question[0])
+        correct_answer = self.remove_name(question[2])
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
+            logging.info("no relevant memories found.")
+            pred = None
 
-            # this should be later done by a policy function!
-            pred = "DUNNO"
-            correct_answer = "DUNNO"
+            reward = WRONG
 
-            logging.info(
-                f"no relevant memories were found in the entries. "
-                f"Therefore my prediction is {pred}"
-            )
-
-            if pred == correct_answer:
-                return CORRECT
-            else:
-                return WRONG
         else:
             logging.info(
                 f"{len(duplicates)} relevant memories were found in the entries!"
             )
             mem = self.get_strongest_memory(duplicates)
             pred = self.remove_name(mem[2])
-            correct_answer = self.remove_name(question[2])
 
             if pred == correct_answer:
                 reward = CORRECT
             else:
                 reward = WRONG
-            logging.info(
-                f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
-            )
 
-            return reward
+        logging.info(
+            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
+        )
+
+        return reward
 
     def ob2sem(self, ob: list) -> list:
         """Turn an observation into a semantic memory.
