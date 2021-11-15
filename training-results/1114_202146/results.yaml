@@ -1,0 +1,403 @@
+train:
+    rewards: 343
+    num_samples: 9420
+    episodic_memories:
+    -   - Charles's bench
+        - AtLocation
+        - Charles's garage
+        - 9388
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's plate
+        - 9389
+    -   - Patricia's suitcase
+        - AtLocation
+        - Patricia's garden
+        - 9390
+    -   - Susan's toothbrush
+        - AtLocation
+        - Susan's suitcase
+        - 9391
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's suitcase
+        - 9392
+    -   - Sarah's car
+        - AtLocation
+        - Sarah's garden
+        - 9393
+    -   - Thomas's cow
+        - AtLocation
+        - Thomas's countryside
+        - 9394
+    -   - Jessica's sheep
+        - AtLocation
+        - Jessica's farm
+        - 9395
+    -   - Sarah's chair
+        - AtLocation
+        - Sarah's office
+        - 9396
+    -   - John's cow
+        - AtLocation
+        - John's plate
+        - 9397
+    -   - Linda's person
+        - AtLocation
+        - Linda's closet
+        - 9398
+    -   - Barbara's horse
+        - AtLocation
+        - Barbara's city
+        - 9399
+    -   - Susan's boat
+        - AtLocation
+        - Susan's water
+        - 9400
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 9401
+    -   - James's motorcycle
+        - AtLocation
+        - James's home
+        - 9402
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's plate
+        - 9403
+    -   - John's spoon
+        - AtLocation
+        - John's bowl
+        - 9404
+    -   - Jessica's elephant
+        - AtLocation
+        - Jessica's circus
+        - 9405
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's garden
+        - 9406
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's home
+        - 9407
+    -   - Susan's microwave
+        - AtLocation
+        - Susan's sky
+        - 9408
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's oven
+        - 9409
+    -   - Elizabeth's elephant
+        - AtLocation
+        - Elizabeth's circus
+        - 9410
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's bathroom
+        - 9412
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Mary's refrigerator
+        - AtLocation
+        - Mary's suitcase
+        - 9414
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's refrigerator
+        - AtLocation
+        - Karen's suitcase
+        - 9416
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+val:
+    rewards: 47
+    num_samples: 1178
+    episodic_memories:
+    -   - Barbara's elephant
+        - AtLocation
+        - Barbara's circus
+        - 10566
+    -   - Mary's umbrella
+        - AtLocation
+        - Mary's closet
+        - 10567
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's cupboard
+        - 10568
+    -   - Susan's truck
+        - AtLocation
+        - Susan's garage
+        - 10569
+    -   - David's sink
+        - AtLocation
+        - David's kitchen
+        - 10570
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's pantry
+        - 10571
+    -   - Karen's dog
+        - AtLocation
+        - Karen's countryside
+        - 10572
+    -   - Michael's bowl
+        - AtLocation
+        - Michael's cupboard
+        - 10573
+    -   - Karen's bed
+        - AtLocation
+        - Karen's house
+        - 10574
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's desk
+        - 10575
+    -   - Richard's toothbrush
+        - AtLocation
+        - Richard's suitcase
+        - 10576
+    -   - Michael's couch
+        - AtLocation
+        - Michael's house
+        - 10577
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 10578
+    -   - Jessica's apple
+        - AtLocation
+        - Jessica's refrigerator
+        - 10579
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's desk
+        - 10580
+    -   - Elizabeth's cow
+        - AtLocation
+        - Elizabeth's countryside
+        - 10581
+    -   - Jennifer's chair
+        - AtLocation
+        - Jennifer's office
+        - 10582
+    -   - Charles's apple
+        - AtLocation
+        - Charles's refrigerator
+        - 10583
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's table
+        - 10584
+    -   - Mary's cake
+        - AtLocation
+        - Mary's plate
+        - 10585
+    -   - Karen's bed
+        - AtLocation
+        - Karen's house
+        - 10586
+    -   - Karen's umbrella
+        - AtLocation
+        - Karen's closet
+        - 10587
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's desk
+        - 10588
+    -   - Barbara's banana
+        - AtLocation
+        - Barbara's countryside
+        - 10589
+    -   - Susan's truck
+        - AtLocation
+        - Susan's garage
+        - 10590
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's circus
+        - 10591
+    -   - Jessica's microwave
+        - AtLocation
+        - Jessica's apartment
+        - 10592
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+test:
+    rewards: 40
+    num_samples: 1178
+    episodic_memories:
+    -   - Jennifer's apple
+        - AtLocation
+        - Jennifer's refrigerator
+        - 11744
+    -   - Linda's chair
+        - AtLocation
+        - Linda's office
+        - 11745
+    -   - Jennifer's bed
+        - AtLocation
+        - Jennifer's cupboard
+        - 11746
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's house
+        - 11747
+    -   - Joseph's spoon
+        - AtLocation
+        - Joseph's refrigerator
+        - 11748
+    -   - Elizabeth's bench
+        - AtLocation
+        - Elizabeth's garden
+        - 11749
+    -   - Elizabeth's horse
+        - AtLocation
+        - Elizabeth's office
+        - 11750
+    -   - Linda's person
+        - AtLocation
+        - Linda's farm
+        - 11751
+    -   - Barbara's cake
+        - AtLocation
+        - Barbara's bakery
+        - 11752
+    -   - Joseph's sheep
+        - AtLocation
+        - Joseph's farm
+        - 11753
+    -   - Jessica's mouse
+        - AtLocation
+        - Jessica's garage
+        - 11754
+    -   - Michael's truck
+        - AtLocation
+        - Michael's apartment
+        - 11755
+    -   - Karen's airplane
+        - AtLocation
+        - Karen's sky
+        - 11756
+    -   - Richard's pizza
+        - AtLocation
+        - Richard's oven
+        - 11757
+    -   - Mary's boat
+        - AtLocation
+        - Mary's water
+        - 11758
+    -   - Thomas's person
+        - AtLocation
+        - Thomas's building
+        - 11759
+    -   - Elizabeth's couch
+        - AtLocation
+        - Elizabeth's building
+        - 11760
+    -   - William's keyboard
+        - AtLocation
+        - William's desk
+        - 11761
+    -   - Linda's banana
+        - AtLocation
+        - Linda's pantry
+        - 11762
+    -   - William's cat
+        - AtLocation
+        - William's lap
+        - 11763
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's table
+        - 11764
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's classroom
+        - 11765
+    -   - Michael's mouse
+        - AtLocation
+        - Michael's city
+        - 11766
+    -   - Karen's cat
+        - AtLocation
+        - Karen's house
+        - 11767
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's bowl
+        - 11768
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bakery
+        - 11769
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's farm
+        - 11770
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+policy:
+    forget: oldest
+    answer: random
+capacity:
+    episodic: 32
+    semantic: 0
+memory_type: episodic

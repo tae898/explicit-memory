@@ -1,0 +1,68 @@
+train:
+    rewards: 305
+    num_samples: 9420
+    semantic_memories:
+    -   - bear
+        - AtLocation
+        - park
+        - 93
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 105
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 110
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 100
+val:
+    rewards: 52
+    num_samples: 1178
+    semantic_memories:
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 11
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 15
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 17
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 19
+test:
+    rewards: 34
+    num_samples: 1178
+    semantic_memories:
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 3
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 10
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 15
+policy:
+    forget: weakest
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 4
+memory_type: semantic
+pretrained_semantic: false

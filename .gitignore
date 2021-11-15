@@ -128,4 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-configs/
+lightning_logs/
+
+data/questions.zip
+data/questions.json

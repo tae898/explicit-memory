@@ -1,0 +1,123 @@
+train:
+    rewards: 431
+    num_samples: 9420
+    episodic_memories:
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+val:
+    rewards: 66
+    num_samples: 1178
+    episodic_memories:
+    -   - Jessica's apple
+        - AtLocation
+        - Jessica's refrigerator
+        - 10579
+    -   - Karen's umbrella
+        - AtLocation
+        - Karen's closet
+        - 10587
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    semantic_memories:
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+test:
+    rewards: 61
+    num_samples: 1178
+    episodic_memories:
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's bowl
+        - 11768
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's farm
+        - 11770
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: random
+        answer: strongest
+capacity:
+    episodic: 4
+    semantic: 4
+memory_type: both
+pretrained_semantic: true

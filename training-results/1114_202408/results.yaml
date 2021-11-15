@@ -1,0 +1,44 @@
+train:
+    rewards: 155
+    num_samples: 9420
+    semantic_memories:
+    -   - sink
+        - AtLocation
+        - bowl
+        - 1
+    -   - sandwich
+        - AtLocation
+        - bowl
+        - 1
+val:
+    rewards: 22
+    num_samples: 1178
+    semantic_memories:
+    -   - bear
+        - AtLocation
+        - farm
+        - 1
+    -   - car
+        - AtLocation
+        - city
+        - 1
+test:
+    rewards: 20
+    num_samples: 1178
+    semantic_memories:
+    -   - airplane
+        - AtLocation
+        - sky
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 1
+policy:
+    forget: random
+    answer: strongest
+capacity:
+    episodic: 0
+    semantic: 2
+memory_type: semantic
+pretrained_semantic: false

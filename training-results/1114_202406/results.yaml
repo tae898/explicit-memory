@@ -1,0 +1,44 @@
+train:
+    rewards: 131
+    num_samples: 9420
+    semantic_memories:
+    -   - chair
+        - AtLocation
+        - apartment
+        - 5
+    -   - elephant
+        - AtLocation
+        - circus
+        - 98
+val:
+    rewards: 19
+    num_samples: 1178
+    semantic_memories:
+    -   - broccoli
+        - AtLocation
+        - countryside
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 12
+test:
+    rewards: 21
+    num_samples: 1178
+    semantic_memories:
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - spoon
+        - AtLocation
+        - plate
+        - 1
+policy:
+    forget: weakest
+    answer: strongest
+capacity:
+    episodic: 0
+    semantic: 2
+memory_type: semantic
+pretrained_semantic: false

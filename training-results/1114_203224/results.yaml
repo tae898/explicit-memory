@@ -1,0 +1,123 @@
+train:
+    rewards: 399
+    num_samples: 9420
+    episodic_memories:
+    -   - Elizabeth's elephant
+        - AtLocation
+        - Elizabeth's circus
+        - 9410
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    semantic_memories:
+    -   - sheep
+        - AtLocation
+        - farm
+        - 12
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 14
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 10
+    -   - bottle
+        - AtLocation
+        - store
+        - 14
+val:
+    rewards: 72
+    num_samples: 1178
+    episodic_memories:
+    -   - Susan's truck
+        - AtLocation
+        - Susan's garage
+        - 10590
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    semantic_memories:
+    -   - horse
+        - AtLocation
+        - circus
+        - 6
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 2
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 4
+test:
+    rewards: 72
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's boat
+        - AtLocation
+        - Mary's water
+        - 11758
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bakery
+        - 11769
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - mouse
+        - AtLocation
+        - garage
+        - 4
+    -   - laptop
+        - AtLocation
+        - desk
+        - 4
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 4
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: random
+capacity:
+    episodic: 4
+    semantic: 4
+memory_type: both
+pretrained_semantic: false

@@ -5,7 +5,7 @@ relation: /r/AtLocation
 raw_data_path: ./data/conceptnet-data.json
 
 # Where to save the stats of the raw data
-raw_data_stats_path: ./data/conceptnet-data-stats.json
+dataset_stats_path: ./data/dataset-stats.json
 
 # Where to save pre-trained semantic (factual) knowledge
 semantic_knowledge_path: ./data/semantic-knowledge.json

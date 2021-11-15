@@ -1,0 +1,43 @@
+train:
+    rewards: 26
+    num_samples: 9420
+    episodic_memories:
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+val:
+    rewards: 13
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+test:
+    rewards: 17
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+policy:
+    forget: random
+    answer: latest
+capacity:
+    episodic: 2
+    semantic: 0
+memory_type: episodic

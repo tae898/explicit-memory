@@ -1,0 +1,6164 @@
+train:
+    rewards: 303
+    num_samples: 9420
+    semantic_memories:
+    -   - elephant
+        - AtLocation
+        - table
+        - 1
+    -   - spoon
+        - AtLocation
+        - bakery
+        - 3
+    -   - dog
+        - AtLocation
+        - oven
+        - 1
+    -   - umbrella
+        - AtLocation
+        - home
+        - 1
+    -   - cup
+        - AtLocation
+        - sky
+        - 1
+    -   - bicycle
+        - AtLocation
+        - bowl
+        - 1
+    -   - oven
+        - AtLocation
+        - sky
+        - 2
+    -   - chair
+        - AtLocation
+        - cupboard
+        - 2
+    -   - cow
+        - AtLocation
+        - cupboard
+        - 2
+    -   - bird
+        - AtLocation
+        - garage
+        - 2
+    -   - knife
+        - AtLocation
+        - store
+        - 2
+    -   - boat
+        - AtLocation
+        - bowl
+        - 2
+    -   - truck
+        - AtLocation
+        - tree
+        - 1
+    -   - dog
+        - AtLocation
+        - airplane
+        - 1
+    -   - cup
+        - AtLocation
+        - garden
+        - 1
+    -   - vase
+        - AtLocation
+        - table
+        - 68
+    -   - book
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - knife
+        - AtLocation
+        - airplane
+        - 1
+    -   - suitcase
+        - AtLocation
+        - cupboard
+        - 1
+    -   - mouse
+        - AtLocation
+        - airplane
+        - 1
+    -   - toilet
+        - AtLocation
+        - suitcase
+        - 2
+    -   - bicycle
+        - AtLocation
+        - home
+        - 1
+    -   - toilet
+        - AtLocation
+        - city
+        - 1
+    -   - bird
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bench
+        - AtLocation
+        - oven
+        - 2
+    -   - vase
+        - AtLocation
+        - sky
+        - 2
+    -   - bear
+        - AtLocation
+        - suitcase
+        - 2
+    -   - book
+        - AtLocation
+        - home
+        - 1
+    -   - bench
+        - AtLocation
+        - suitcase
+        - 1
+    -   - umbrella
+        - AtLocation
+        - office
+        - 1
+    -   - oven
+        - AtLocation
+        - tree
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 7
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 9
+    -   - dog
+        - AtLocation
+        - circus
+        - 1
+    -   - suitcase
+        - AtLocation
+        - kitchen
+        - 3
+    -   - apple
+        - AtLocation
+        - store
+        - 1
+    -   - bus
+        - AtLocation
+        - countryside
+        - 2
+    -   - bottle
+        - AtLocation
+        - sky
+        - 4
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 11
+    -   - chair
+        - AtLocation
+        - sky
+        - 1
+    -   - banana
+        - AtLocation
+        - circus
+        - 1
+    -   - airplane
+        - AtLocation
+        - sky
+        - 5
+    -   - person
+        - AtLocation
+        - water
+        - 1
+    -   - keyboard
+        - AtLocation
+        - plate
+        - 2
+    -   - bear
+        - AtLocation
+        - circus
+        - 1
+    -   - horse
+        - AtLocation
+        - city
+        - 1
+    -   - cow
+        - AtLocation
+        - apartment
+        - 1
+    -   - person
+        - AtLocation
+        - plate
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 76
+    -   - toothbrush
+        - AtLocation
+        - oven
+        - 1
+    -   - cat
+        - AtLocation
+        - garage
+        - 2
+    -   - microwave
+        - AtLocation
+        - kitchen
+        - 1
+    -   - sandwich
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - boat
+        - AtLocation
+        - city
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - circus
+        - 1
+    -   - dog
+        - AtLocation
+        - tree
+        - 3
+    -   - oven
+        - AtLocation
+        - house
+        - 1
+    -   - sandwich
+        - AtLocation
+        - sky
+        - 1
+    -   - microwave
+        - AtLocation
+        - bathroom
+        - 2
+    -   - bus
+        - AtLocation
+        - office
+        - 1
+    -   - book
+        - AtLocation
+        - classroom
+        - 5
+    -   - suitcase
+        - AtLocation
+        - home
+        - 2
+    -   - spoon
+        - AtLocation
+        - table
+        - 3
+    -   - bed
+        - AtLocation
+        - office
+        - 1
+    -   - umbrella
+        - AtLocation
+        - classroom
+        - 1
+    -   - vase
+        - AtLocation
+        - garden
+        - 1
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 93
+    -   - pizza
+        - AtLocation
+        - airplane
+        - 1
+    -   - mouse
+        - AtLocation
+        - home
+        - 3
+    -   - book
+        - AtLocation
+        - park
+        - 1
+    -   - airplane
+        - AtLocation
+        - circus
+        - 1
+    -   - cup
+        - AtLocation
+        - house
+        - 1
+    -   - chair
+        - AtLocation
+        - store
+        - 1
+    -   - cake
+        - AtLocation
+        - bowl
+        - 1
+    -   - truck
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bed
+        - AtLocation
+        - sky
+        - 1
+    -   - toilet
+        - AtLocation
+        - closet
+        - 1
+    -   - keyboard
+        - AtLocation
+        - table
+        - 1
+    -   - mouse
+        - AtLocation
+        - desk
+        - 1
+    -   - broccoli
+        - AtLocation
+        - table
+        - 2
+    -   - elephant
+        - AtLocation
+        - sky
+        - 1
+    -   - suitcase
+        - AtLocation
+        - building
+        - 2
+    -   - airplane
+        - AtLocation
+        - table
+        - 2
+    -   - couch
+        - AtLocation
+        - bowl
+        - 1
+    -   - bicycle
+        - AtLocation
+        - farm
+        - 1
+    -   - vase
+        - AtLocation
+        - cupboard
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - water
+        - 3
+    -   - mouse
+        - AtLocation
+        - city
+        - 1
+    -   - scissors
+        - AtLocation
+        - bathroom
+        - 1
+    -   - cup
+        - AtLocation
+        - tree
+        - 2
+    -   - chair
+        - AtLocation
+        - bowl
+        - 1
+    -   - airplane
+        - AtLocation
+        - tree
+        - 6
+    -   - car
+        - AtLocation
+        - farm
+        - 1
+    -   - cow
+        - AtLocation
+        - airplane
+        - 1
+    -   - toilet
+        - AtLocation
+        - farm
+        - 4
+    -   - keyboard
+        - AtLocation
+        - bakery
+        - 1
+    -   - dog
+        - AtLocation
+        - farm
+        - 1
+    -   - clock
+        - AtLocation
+        - desk
+        - 3
+    -   - bowl
+        - AtLocation
+        - store
+        - 1
+    -   - sink
+        - AtLocation
+        - bowl
+        - 2
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 46
+    -   - sink
+        - AtLocation
+        - desk
+        - 1
+    -   - bench
+        - AtLocation
+        - desk
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - house
+        - 1
+    -   - apple
+        - AtLocation
+        - pantry
+        - 1
+    -   - pizza
+        - AtLocation
+        - desk
+        - 1
+    -   - chair
+        - AtLocation
+        - park
+        - 1
+    -   - sink
+        - AtLocation
+        - garage
+        - 1
+    -   - bottle
+        - AtLocation
+        - building
+        - 2
+    -   - couch
+        - AtLocation
+        - airplane
+        - 3
+    -   - cake
+        - AtLocation
+        - sky
+        - 1
+    -   - bicycle
+        - AtLocation
+        - table
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - bakery
+        - 3
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 7
+    -   - microwave
+        - AtLocation
+        - park
+        - 1
+    -   - horse
+        - AtLocation
+        - bowl
+        - 1
+    -   - boat
+        - AtLocation
+        - suitcase
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - lap
+        - 2
+    -   - chair
+        - AtLocation
+        - pantry
+        - 1
+    -   - microwave
+        - AtLocation
+        - sky
+        - 1
+    -   - cake
+        - AtLocation
+        - oven
+        - 1
+    -   - vase
+        - AtLocation
+        - city
+        - 1
+    -   - chair
+        - AtLocation
+        - desk
+        - 1
+    -   - cake
+        - AtLocation
+        - airplane
+        - 1
+    -   - horse
+        - AtLocation
+        - desk
+        - 1
+    -   - bus
+        - AtLocation
+        - garage
+        - 1
+    -   - cup
+        - AtLocation
+        - store
+        - 1
+    -   - boat
+        - AtLocation
+        - office
+        - 2
+    -   - dog
+        - AtLocation
+        - suitcase
+        - 3
+    -   - laptop
+        - AtLocation
+        - bathroom
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - sky
+        - 2
+    -   - horse
+        - AtLocation
+        - home
+        - 2
+    -   - book
+        - AtLocation
+        - suitcase
+        - 2
+    -   - laptop
+        - AtLocation
+        - desk
+        - 45
+    -   - bowl
+        - AtLocation
+        - garden
+        - 3
+    -   - motorcycle
+        - AtLocation
+        - bathroom
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - tree
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - suitcase
+        - 2
+    -   - keyboard
+        - AtLocation
+        - cupboard
+        - 1
+    -   - truck
+        - AtLocation
+        - lap
+        - 3
+    -   - broccoli
+        - AtLocation
+        - bathroom
+        - 1
+    -   - apple
+        - AtLocation
+        - closet
+        - 1
+    -   - bottle
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - scissors
+        - AtLocation
+        - apartment
+        - 9
+    -   - boat
+        - AtLocation
+        - closet
+        - 1
+    -   - toilet
+        - AtLocation
+        - oven
+        - 1
+    -   - scissors
+        - AtLocation
+        - bakery
+        - 2
+    -   - horse
+        - AtLocation
+        - oven
+        - 2
+    -   - oven
+        - AtLocation
+        - home
+        - 11
+    -   - clock
+        - AtLocation
+        - apartment
+        - 3
+    -   - car
+        - AtLocation
+        - bakery
+        - 1
+    -   - airplane
+        - AtLocation
+        - desk
+        - 2
+    -   - bench
+        - AtLocation
+        - city
+        - 2
+    -   - umbrella
+        - AtLocation
+        - apartment
+        - 1
+    -   - elephant
+        - AtLocation
+        - garage
+        - 1
+    -   - microwave
+        - AtLocation
+        - garden
+        - 2
+    -   - suitcase
+        - AtLocation
+        - bowl
+        - 1
+    -   - truck
+        - AtLocation
+        - desk
+        - 2
+    -   - bear
+        - AtLocation
+        - apartment
+        - 1
+    -   - knife
+        - AtLocation
+        - office
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - plate
+        - 1
+    -   - spoon
+        - AtLocation
+        - sky
+        - 1
+    -   - bird
+        - AtLocation
+        - desk
+        - 5
+    -   - umbrella
+        - AtLocation
+        - garden
+        - 1
+    -   - cow
+        - AtLocation
+        - store
+        - 2
+    -   - truck
+        - AtLocation
+        - farm
+        - 1
+    -   - dog
+        - AtLocation
+        - apartment
+        - 1
+    -   - chair
+        - AtLocation
+        - tree
+        - 1
+    -   - cup
+        - AtLocation
+        - bathroom
+        - 1
+    -   - bus
+        - AtLocation
+        - water
+        - 1
+    -   - broccoli
+        - AtLocation
+        - bakery
+        - 1
+    -   - umbrella
+        - AtLocation
+        - city
+        - 1
+    -   - suitcase
+        - AtLocation
+        - farm
+        - 1
+    -   - spoon
+        - AtLocation
+        - desk
+        - 1
+    -   - truck
+        - AtLocation
+        - countryside
+        - 1
+    -   - vase
+        - AtLocation
+        - countryside
+        - 1
+    -   - bench
+        - AtLocation
+        - pantry
+        - 2
+    -   - microwave
+        - AtLocation
+        - house
+        - 1
+    -   - car
+        - AtLocation
+        - home
+        - 1
+    -   - bird
+        - AtLocation
+        - plate
+        - 1
+    -   - cake
+        - AtLocation
+        - circus
+        - 4
+    -   - chair
+        - AtLocation
+        - kitchen
+        - 1
+    -   - book
+        - AtLocation
+        - countryside
+        - 1
+    -   - elephant
+        - AtLocation
+        - desk
+        - 1
+    -   - horse
+        - AtLocation
+        - table
+        - 1
+    -   - banana
+        - AtLocation
+        - store
+        - 1
+    -   - airplane
+        - AtLocation
+        - office
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - bowl
+        - 2
+    -   - bicycle
+        - AtLocation
+        - suitcase
+        - 1
+    -   - bear
+        - AtLocation
+        - bowl
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - car
+        - AtLocation
+        - garden
+        - 1
+    -   - person
+        - AtLocation
+        - circus
+        - 2
+    -   - bottle
+        - AtLocation
+        - closet
+        - 6
+    -   - dog
+        - AtLocation
+        - sky
+        - 1
+    -   - clock
+        - AtLocation
+        - office
+        - 2
+    -   - broccoli
+        - AtLocation
+        - kitchen
+        - 1
+    -   - umbrella
+        - AtLocation
+        - oven
+        - 1
+    -   - cow
+        - AtLocation
+        - classroom
+        - 1
+    -   - cow
+        - AtLocation
+        - plate
+        - 2
+    -   - scissors
+        - AtLocation
+        - bowl
+        - 1
+    -   - laptop
+        - AtLocation
+        - cupboard
+        - 1
+    -   - sheep
+        - AtLocation
+        - tree
+        - 2
+    -   - banana
+        - AtLocation
+        - garden
+        - 2
+    -   - person
+        - AtLocation
+        - classroom
+        - 1
+    -   - cup
+        - AtLocation
+        - lap
+        - 1
+    -   - chair
+        - AtLocation
+        - office
+        - 2
+    -   - broccoli
+        - AtLocation
+        - airplane
+        - 4
+    -   - cup
+        - AtLocation
+        - garage
+        - 1
+    -   - airplane
+        - AtLocation
+        - airplane
+        - 1
+    -   - laptop
+        - AtLocation
+        - home
+        - 2
+    -   - bowl
+        - AtLocation
+        - lap
+        - 2
+    -   - bicycle
+        - AtLocation
+        - airplane
+        - 2
+    -   - banana
+        - AtLocation
+        - suitcase
+        - 1
+    -   - dog
+        - AtLocation
+        - lap
+        - 2
+    -   - bowl
+        - AtLocation
+        - city
+        - 1
+    -   - book
+        - AtLocation
+        - city
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 39
+    -   - bench
+        - AtLocation
+        - water
+        - 1
+    -   - bicycle
+        - AtLocation
+        - lap
+        - 2
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 2
+    -   - bird
+        - AtLocation
+        - countryside
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - cupboard
+        - 1
+    -   - airplane
+        - AtLocation
+        - garage
+        - 1
+    -   - pizza
+        - AtLocation
+        - office
+        - 2
+    -   - chair
+        - AtLocation
+        - circus
+        - 1
+    -   - sheep
+        - AtLocation
+        - circus
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 5
+    -   - pizza
+        - AtLocation
+        - oven
+        - 5
+    -   - car
+        - AtLocation
+        - sky
+        - 3
+    -   - boat
+        - AtLocation
+        - home
+        - 1
+    -   - knife
+        - AtLocation
+        - apartment
+        - 1
+    -   - laptop
+        - AtLocation
+        - sky
+        - 1
+    -   - sink
+        - AtLocation
+        - store
+        - 1
+    -   - sheep
+        - AtLocation
+        - city
+        - 1
+    -   - bird
+        - AtLocation
+        - tree
+        - 6
+    -   - laptop
+        - AtLocation
+        - closet
+        - 1
+    -   - oven
+        - AtLocation
+        - bathroom
+        - 3
+    -   - clock
+        - AtLocation
+        - garden
+        - 2
+    -   - sink
+        - AtLocation
+        - pantry
+        - 1
+    -   - bench
+        - AtLocation
+        - plate
+        - 1
+    -   - pizza
+        - AtLocation
+        - house
+        - 3
+    -   - dog
+        - AtLocation
+        - bakery
+        - 1
+    -   - elephant
+        - AtLocation
+        - store
+        - 3
+    -   - broccoli
+        - AtLocation
+        - bowl
+        - 1
+    -   - elephant
+        - AtLocation
+        - countryside
+        - 1
+    -   - bird
+        - AtLocation
+        - building
+        - 2
+    -   - bench
+        - AtLocation
+        - garden
+        - 18
+    -   - banana
+        - AtLocation
+        - lap
+        - 1
+    -   - bicycle
+        - AtLocation
+        - house
+        - 1
+    -   - couch
+        - AtLocation
+        - plate
+        - 1
+    -   - sheep
+        - AtLocation
+        - home
+        - 1
+    -   - oven
+        - AtLocation
+        - circus
+        - 1
+    -   - bottle
+        - AtLocation
+        - desk
+        - 1
+    -   - suitcase
+        - AtLocation
+        - park
+        - 1
+    -   - sink
+        - AtLocation
+        - lap
+        - 1
+    -   - bus
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - bird
+        - AtLocation
+        - sky
+        - 1
+    -   - cup
+        - AtLocation
+        - park
+        - 1
+    -   - sandwich
+        - AtLocation
+        - lap
+        - 1
+    -   - vase
+        - AtLocation
+        - desk
+        - 2
+    -   - book
+        - AtLocation
+        - water
+        - 1
+    -   - horse
+        - AtLocation
+        - garage
+        - 1
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 30
+    -   - bus
+        - AtLocation
+        - garden
+        - 3
+    -   - elephant
+        - AtLocation
+        - tree
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - house
+        - 2
+    -   - spoon
+        - AtLocation
+        - park
+        - 2
+    -   - keyboard
+        - AtLocation
+        - airplane
+        - 1
+    -   - vase
+        - AtLocation
+        - circus
+        - 2
+    -   - vase
+        - AtLocation
+        - park
+        - 8
+    -   - broccoli
+        - AtLocation
+        - cupboard
+        - 3
+    -   - dog
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - sandwich
+        - AtLocation
+        - table
+        - 1
+    -   - spoon
+        - AtLocation
+        - oven
+        - 1
+    -   - scissors
+        - AtLocation
+        - sky
+        - 2
+    -   - laptop
+        - AtLocation
+        - countryside
+        - 1
+    -   - vase
+        - AtLocation
+        - bathroom
+        - 1
+    -   - umbrella
+        - AtLocation
+        - store
+        - 4
+    -   - toilet
+        - AtLocation
+        - bowl
+        - 1
+    -   - keyboard
+        - AtLocation
+        - park
+        - 1
+    -   - dog
+        - AtLocation
+        - house
+        - 3
+    -   - car
+        - AtLocation
+        - city
+        - 40
+    -   - mouse
+        - AtLocation
+        - park
+        - 2
+    -   - chair
+        - AtLocation
+        - farm
+        - 1
+    -   - cat
+        - AtLocation
+        - tree
+        - 1
+    -   - sheep
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bear
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - horse
+        - AtLocation
+        - farm
+        - 2
+    -   - pizza
+        - AtLocation
+        - lap
+        - 1
+    -   - bicycle
+        - AtLocation
+        - plate
+        - 2
+    -   - couch
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bed
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - keyboard
+        - AtLocation
+        - building
+        - 4
+    -   - dog
+        - AtLocation
+        - office
+        - 1
+    -   - keyboard
+        - AtLocation
+        - home
+        - 1
+    -   - umbrella
+        - AtLocation
+        - suitcase
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 17
+    -   - spoon
+        - AtLocation
+        - farm
+        - 1
+    -   - book
+        - AtLocation
+        - desk
+        - 1
+    -   - chair
+        - AtLocation
+        - water
+        - 2
+    -   - bench
+        - AtLocation
+        - garage
+        - 4
+    -   - spoon
+        - AtLocation
+        - tree
+        - 1
+    -   - bicycle
+        - AtLocation
+        - sky
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 77
+    -   - person
+        - AtLocation
+        - bowl
+        - 1
+    -   - suitcase
+        - AtLocation
+        - circus
+        - 1
+    -   - knife
+        - AtLocation
+        - circus
+        - 3
+    -   - toilet
+        - AtLocation
+        - house
+        - 1
+    -   - dog
+        - AtLocation
+        - kitchen
+        - 1
+    -   - elephant
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bench
+        - AtLocation
+        - sky
+        - 1
+    -   - apple
+        - AtLocation
+        - bathroom
+        - 1
+    -   - car
+        - AtLocation
+        - bowl
+        - 1
+    -   - microwave
+        - AtLocation
+        - bakery
+        - 2
+    -   - vase
+        - AtLocation
+        - suitcase
+        - 1
+    -   - oven
+        - AtLocation
+        - lap
+        - 1
+    -   - mouse
+        - AtLocation
+        - garage
+        - 12
+    -   - bird
+        - AtLocation
+        - kitchen
+        - 5
+    -   - dog
+        - AtLocation
+        - bathroom
+        - 1
+    -   - boat
+        - AtLocation
+        - plate
+        - 1
+    -   - oven
+        - AtLocation
+        - park
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - home
+        - 1
+    -   - horse
+        - AtLocation
+        - bakery
+        - 1
+    -   - bed
+        - AtLocation
+        - apartment
+        - 4
+    -   - pizza
+        - AtLocation
+        - sky
+        - 1
+    -   - person
+        - AtLocation
+        - building
+        - 6
+    -   - sandwich
+        - AtLocation
+        - office
+        - 1
+    -   - bed
+        - AtLocation
+        - house
+        - 17
+    -   - vase
+        - AtLocation
+        - closet
+        - 1
+    -   - boat
+        - AtLocation
+        - house
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 6
+    -   - mouse
+        - AtLocation
+        - countryside
+        - 2
+    -   - bench
+        - AtLocation
+        - park
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - sky
+        - 1
+    -   - boat
+        - AtLocation
+        - countryside
+        - 1
+    -   - banana
+        - AtLocation
+        - classroom
+        - 1
+    -   - bear
+        - AtLocation
+        - building
+        - 1
+    -   - knife
+        - AtLocation
+        - water
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - airplane
+        - 1
+    -   - clock
+        - AtLocation
+        - countryside
+        - 1
+    -   - sink
+        - AtLocation
+        - classroom
+        - 1
+    -   - toilet
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bottle
+        - AtLocation
+        - cupboard
+        - 2
+    -   - banana
+        - AtLocation
+        - office
+        - 1
+    -   - cow
+        - AtLocation
+        - circus
+        - 1
+    -   - clock
+        - AtLocation
+        - building
+        - 1
+    -   - boat
+        - AtLocation
+        - pantry
+        - 1
+    -   - bus
+        - AtLocation
+        - airplane
+        - 1
+    -   - spoon
+        - AtLocation
+        - city
+        - 2
+    -   - scissors
+        - AtLocation
+        - desk
+        - 17
+    -   - motorcycle
+        - AtLocation
+        - water
+        - 1
+    -   - couch
+        - AtLocation
+        - suitcase
+        - 1
+    -   - cup
+        - AtLocation
+        - classroom
+        - 1
+    -   - umbrella
+        - AtLocation
+        - desk
+        - 1
+    -   - sink
+        - AtLocation
+        - closet
+        - 1
+    -   - cake
+        - AtLocation
+        - suitcase
+        - 1
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 28
+    -   - truck
+        - AtLocation
+        - garden
+        - 2
+    -   - bicycle
+        - AtLocation
+        - classroom
+        - 1
+    -   - couch
+        - AtLocation
+        - classroom
+        - 1
+    -   - boat
+        - AtLocation
+        - cupboard
+        - 1
+    -   - vase
+        - AtLocation
+        - farm
+        - 4
+    -   - bus
+        - AtLocation
+        - city
+        - 3
+    -   - pizza
+        - AtLocation
+        - garden
+        - 1
+    -   - bed
+        - AtLocation
+        - store
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - park
+        - 2
+    -   - sink
+        - AtLocation
+        - suitcase
+        - 2
+    -   - cow
+        - AtLocation
+        - sky
+        - 2
+    -   - chair
+        - AtLocation
+        - city
+        - 2
+    -   - apple
+        - AtLocation
+        - lap
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 10
+    -   - bowl
+        - AtLocation
+        - farm
+        - 4
+    -   - apple
+        - AtLocation
+        - countryside
+        - 5
+    -   - bus
+        - AtLocation
+        - lap
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - apartment
+        - 1
+    -   - cat
+        - AtLocation
+        - building
+        - 1
+    -   - cake
+        - AtLocation
+        - bakery
+        - 8
+    -   - knife
+        - AtLocation
+        - farm
+        - 1
+    -   - mouse
+        - AtLocation
+        - closet
+        - 1
+    -   - oven
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - laptop
+        - AtLocation
+        - circus
+        - 3
+    -   - bicycle
+        - AtLocation
+        - office
+        - 2
+    -   - sink
+        - AtLocation
+        - oven
+        - 1
+    -   - bed
+        - AtLocation
+        - tree
+        - 1
+    -   - truck
+        - AtLocation
+        - plate
+        - 1
+    -   - bear
+        - AtLocation
+        - sky
+        - 2
+    -   - cow
+        - AtLocation
+        - oven
+        - 1
+    -   - horse
+        - AtLocation
+        - garden
+        - 1
+    -   - sink
+        - AtLocation
+        - table
+        - 1
+    -   - bench
+        - AtLocation
+        - lap
+        - 1
+    -   - bus
+        - AtLocation
+        - bathroom
+        - 1
+    -   - cow
+        - AtLocation
+        - park
+        - 3
+    -   - broccoli
+        - AtLocation
+        - home
+        - 3
+    -   - elephant
+        - AtLocation
+        - apartment
+        - 1
+    -   - couch
+        - AtLocation
+        - city
+        - 1
+    -   - apple
+        - AtLocation
+        - plate
+        - 1
+    -   - banana
+        - AtLocation
+        - building
+        - 1
+    -   - boat
+        - AtLocation
+        - building
+        - 1
+    -   - banana
+        - AtLocation
+        - bowl
+        - 1
+    -   - truck
+        - AtLocation
+        - store
+        - 2
+    -   - broccoli
+        - AtLocation
+        - classroom
+        - 2
+    -   - bear
+        - AtLocation
+        - park
+        - 2
+    -   - sandwich
+        - AtLocation
+        - house
+        - 1
+    -   - book
+        - AtLocation
+        - store
+        - 1
+    -   - chair
+        - AtLocation
+        - house
+        - 1
+    -   - oven
+        - AtLocation
+        - countryside
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - desk
+        - 1
+    -   - knife
+        - AtLocation
+        - home
+        - 1
+    -   - knife
+        - AtLocation
+        - plate
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - countryside
+        - 1
+    -   - horse
+        - AtLocation
+        - building
+        - 1
+    -   - bear
+        - AtLocation
+        - house
+        - 1
+    -   - cat
+        - AtLocation
+        - classroom
+        - 2
+    -   - horse
+        - AtLocation
+        - tree
+        - 2
+    -   - sheep
+        - AtLocation
+        - office
+        - 1
+    -   - cup
+        - AtLocation
+        - table
+        - 9
+    -   - sheep
+        - AtLocation
+        - suitcase
+        - 2
+    -   - banana
+        - AtLocation
+        - water
+        - 1
+    -   - microwave
+        - AtLocation
+        - airplane
+        - 1
+    -   - cup
+        - AtLocation
+        - oven
+        - 1
+    -   - cow
+        - AtLocation
+        - kitchen
+        - 3
+    -   - microwave
+        - AtLocation
+        - farm
+        - 1
+    -   - mouse
+        - AtLocation
+        - store
+        - 1
+    -   - person
+        - AtLocation
+        - table
+        - 1
+    -   - sandwich
+        - AtLocation
+        - suitcase
+        - 1
+    -   - apple
+        - AtLocation
+        - suitcase
+        - 3
+    -   - laptop
+        - AtLocation
+        - garden
+        - 3
+    -   - cup
+        - AtLocation
+        - desk
+        - 3
+    -   - bird
+        - AtLocation
+        - airplane
+        - 1
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 36
+    -   - bottle
+        - AtLocation
+        - tree
+        - 1
+    -   - broccoli
+        - AtLocation
+        - apartment
+        - 1
+    -   - car
+        - AtLocation
+        - store
+        - 1
+    -   - bus
+        - AtLocation
+        - table
+        - 1
+    -   - person
+        - AtLocation
+        - closet
+        - 1
+    -   - laptop
+        - AtLocation
+        - building
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 28
+    -   - banana
+        - AtLocation
+        - farm
+        - 1
+    -   - spoon
+        - AtLocation
+        - water
+        - 1
+    -   - apple
+        - AtLocation
+        - kitchen
+        - 2
+    -   - elephant
+        - AtLocation
+        - classroom
+        - 1
+    -   - knife
+        - AtLocation
+        - house
+        - 1
+    -   - boat
+        - AtLocation
+        - desk
+        - 1
+    -   - suitcase
+        - AtLocation
+        - table
+        - 2
+    -   - sandwich
+        - AtLocation
+        - farm
+        - 1
+    -   - elephant
+        - AtLocation
+        - plate
+        - 1
+    -   - truck
+        - AtLocation
+        - garage
+        - 12
+    -   - laptop
+        - AtLocation
+        - apartment
+        - 1
+    -   - couch
+        - AtLocation
+        - countryside
+        - 2
+    -   - scissors
+        - AtLocation
+        - park
+        - 3
+    -   - cake
+        - AtLocation
+        - building
+        - 2
+    -   - bottle
+        - AtLocation
+        - plate
+        - 1
+    -   - sheep
+        - AtLocation
+        - store
+        - 1
+    -   - pizza
+        - AtLocation
+        - water
+        - 1
+    -   - book
+        - AtLocation
+        - table
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - cupboard
+        - 2
+    -   - bear
+        - AtLocation
+        - pantry
+        - 1
+    -   - car
+        - AtLocation
+        - tree
+        - 1
+    -   - keyboard
+        - AtLocation
+        - water
+        - 1
+    -   - microwave
+        - AtLocation
+        - home
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - city
+        - 1
+    -   - elephant
+        - AtLocation
+        - bowl
+        - 2
+    -   - sandwich
+        - AtLocation
+        - bakery
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - garden
+        - 1
+    -   - cake
+        - AtLocation
+        - store
+        - 1
+    -   - truck
+        - AtLocation
+        - table
+        - 1
+    -   - car
+        - AtLocation
+        - classroom
+        - 3
+    -   - couch
+        - AtLocation
+        - apartment
+        - 2
+    -   - cow
+        - AtLocation
+        - countryside
+        - 5
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 2
+    -   - keyboard
+        - AtLocation
+        - farm
+        - 1
+    -   - sandwich
+        - AtLocation
+        - city
+        - 1
+    -   - cat
+        - AtLocation
+        - circus
+        - 2
+    -   - boat
+        - AtLocation
+        - garden
+        - 1
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 1
+    -   - sheep
+        - AtLocation
+        - farm
+        - 55
+    -   - sandwich
+        - AtLocation
+        - bowl
+        - 2
+    -   - bird
+        - AtLocation
+        - city
+        - 1
+    -   - clock
+        - AtLocation
+        - bakery
+        - 1
+    -   - scissors
+        - AtLocation
+        - plate
+        - 1
+    -   - suitcase
+        - AtLocation
+        - garden
+        - 3
+    -   - bird
+        - AtLocation
+        - circus
+        - 1
+    -   - cup
+        - AtLocation
+        - building
+        - 1
+    -   - laptop
+        - AtLocation
+        - park
+        - 2
+    -   - keyboard
+        - AtLocation
+        - lap
+        - 1
+    -   - book
+        - AtLocation
+        - building
+        - 1
+    -   - clock
+        - AtLocation
+        - closet
+        - 1
+    -   - person
+        - AtLocation
+        - home
+        - 3
+    -   - oven
+        - AtLocation
+        - table
+        - 1
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 11
+    -   - couch
+        - AtLocation
+        - house
+        - 30
+    -   - apple
+        - AtLocation
+        - garage
+        - 1
+    -   - oven
+        - AtLocation
+        - classroom
+        - 1
+    -   - sink
+        - AtLocation
+        - apartment
+        - 1
+    -   - bottle
+        - AtLocation
+        - kitchen
+        - 2
+    -   - car
+        - AtLocation
+        - garage
+        - 1
+    -   - microwave
+        - AtLocation
+        - water
+        - 2
+    -   - elephant
+        - AtLocation
+        - house
+        - 1
+    -   - apple
+        - AtLocation
+        - airplane
+        - 2
+    -   - vase
+        - AtLocation
+        - tree
+        - 4
+    -   - oven
+        - AtLocation
+        - kitchen
+        - 1
+    -   - car
+        - AtLocation
+        - pantry
+        - 1
+    -   - couch
+        - AtLocation
+        - bakery
+        - 1
+    -   - suitcase
+        - AtLocation
+        - closet
+        - 1
+    -   - bear
+        - AtLocation
+        - lap
+        - 1
+    -   - microwave
+        - AtLocation
+        - table
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - home
+        - 1
+    -   - cake
+        - AtLocation
+        - kitchen
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - home
+        - 1
+    -   - sheep
+        - AtLocation
+        - closet
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - bowl
+        - 2
+val:
+    rewards: 39
+    num_samples: 1178
+    semantic_memories:
+    -   - knife
+        - AtLocation
+        - city
+        - 1
+    -   - spoon
+        - AtLocation
+        - bakery
+        - 1
+    -   - umbrella
+        - AtLocation
+        - home
+        - 1
+    -   - broccoli
+        - AtLocation
+        - countryside
+        - 1
+    -   - cup
+        - AtLocation
+        - sky
+        - 1
+    -   - microwave
+        - AtLocation
+        - desk
+        - 1
+    -   - knife
+        - AtLocation
+        - store
+        - 1
+    -   - bed
+        - AtLocation
+        - classroom
+        - 1
+    -   - truck
+        - AtLocation
+        - tree
+        - 1
+    -   - person
+        - AtLocation
+        - kitchen
+        - 1
+    -   - dog
+        - AtLocation
+        - airplane
+        - 1
+    -   - bench
+        - AtLocation
+        - farm
+        - 1
+    -   - bench
+        - AtLocation
+        - kitchen
+        - 1
+    -   - book
+        - AtLocation
+        - circus
+        - 1
+    -   - vase
+        - AtLocation
+        - table
+        - 15
+    -   - book
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - spoon
+        - AtLocation
+        - apartment
+        - 1
+    -   - suitcase
+        - AtLocation
+        - cupboard
+        - 3
+    -   - sink
+        - AtLocation
+        - countryside
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - circus
+        - 1
+    -   - bench
+        - AtLocation
+        - oven
+        - 2
+    -   - keyboard
+        - AtLocation
+        - sky
+        - 1
+    -   - cake
+        - AtLocation
+        - water
+        - 1
+    -   - oven
+        - AtLocation
+        - closet
+        - 2
+    -   - book
+        - AtLocation
+        - home
+        - 1
+    -   - bear
+        - AtLocation
+        - airplane
+        - 1
+    -   - oven
+        - AtLocation
+        - tree
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 11
+    -   - refrigerator
+        - AtLocation
+        - countryside
+        - 2
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 16
+    -   - dog
+        - AtLocation
+        - circus
+        - 1
+    -   - bed
+        - AtLocation
+        - suitcase
+        - 1
+    -   - truck
+        - AtLocation
+        - suitcase
+        - 2
+    -   - bus
+        - AtLocation
+        - countryside
+        - 2
+    -   - apple
+        - AtLocation
+        - store
+        - 1
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 13
+    -   - cat
+        - AtLocation
+        - sky
+        - 1
+    -   - chair
+        - AtLocation
+        - sky
+        - 1
+    -   - airplane
+        - AtLocation
+        - sky
+        - 7
+    -   - keyboard
+        - AtLocation
+        - plate
+        - 1
+    -   - person
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - horse
+        - AtLocation
+        - city
+        - 1
+    -   - clock
+        - AtLocation
+        - garage
+        - 2
+    -   - bottle
+        - AtLocation
+        - garage
+        - 1
+    -   - bus
+        - AtLocation
+        - bakery
+        - 1
+    -   - cow
+        - AtLocation
+        - apartment
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 14
+    -   - sink
+        - AtLocation
+        - house
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 16
+    -   - mouse
+        - AtLocation
+        - tree
+        - 1
+    -   - laptop
+        - AtLocation
+        - garage
+        - 1
+    -   - sheep
+        - AtLocation
+        - house
+        - 2
+    -   - sandwich
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - vase
+        - AtLocation
+        - kitchen
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - apartment
+        - 1
+    -   - cow
+        - AtLocation
+        - building
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - circus
+        - 1
+    -   - cow
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - broccoli
+        - AtLocation
+        - tree
+        - 1
+    -   - oven
+        - AtLocation
+        - house
+        - 1
+    -   - bench
+        - AtLocation
+        - bathroom
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - bowl
+        - 1
+    -   - book
+        - AtLocation
+        - classroom
+        - 11
+    -   - suitcase
+        - AtLocation
+        - home
+        - 2
+    -   - spoon
+        - AtLocation
+        - table
+        - 2
+    -   - sheep
+        - AtLocation
+        - oven
+        - 1
+    -   - airplane
+        - AtLocation
+        - pantry
+        - 1
+    -   - bed
+        - AtLocation
+        - office
+        - 2
+    -   - vase
+        - AtLocation
+        - garden
+        - 1
+    -   - cup
+        - AtLocation
+        - countryside
+        - 1
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 20
+    -   - apple
+        - AtLocation
+        - office
+        - 1
+    -   - bear
+        - AtLocation
+        - kitchen
+        - 1
+    -   - airplane
+        - AtLocation
+        - closet
+        - 1
+    -   - car
+        - AtLocation
+        - lap
+        - 1
+    -   - car
+        - AtLocation
+        - water
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - airplane
+        - 1
+    -   - cup
+        - AtLocation
+        - house
+        - 1
+    -   - bed
+        - AtLocation
+        - sky
+        - 1
+    -   - toilet
+        - AtLocation
+        - closet
+        - 1
+    -   - keyboard
+        - AtLocation
+        - table
+        - 1
+    -   - mouse
+        - AtLocation
+        - desk
+        - 3
+    -   - toilet
+        - AtLocation
+        - office
+        - 2
+    -   - person
+        - AtLocation
+        - airplane
+        - 1
+    -   - toilet
+        - AtLocation
+        - park
+        - 2
+    -   - bowl
+        - AtLocation
+        - water
+        - 2
+    -   - mouse
+        - AtLocation
+        - plate
+        - 1
+    -   - cat
+        - AtLocation
+        - park
+        - 3
+    -   - scissors
+        - AtLocation
+        - bathroom
+        - 1
+    -   - car
+        - AtLocation
+        - farm
+        - 1
+    -   - cow
+        - AtLocation
+        - airplane
+        - 1
+    -   - bird
+        - AtLocation
+        - bakery
+        - 3
+    -   - clock
+        - AtLocation
+        - desk
+        - 18
+    -   - sink
+        - AtLocation
+        - bowl
+        - 2
+    -   - cup
+        - AtLocation
+        - farm
+        - 1
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 15
+    -   - bear
+        - AtLocation
+        - closet
+        - 1
+    -   - spoon
+        - AtLocation
+        - garage
+        - 1
+    -   - cow
+        - AtLocation
+        - farm
+        - 1
+    -   - book
+        - AtLocation
+        - pantry
+        - 1
+    -   - cake
+        - AtLocation
+        - countryside
+        - 1
+    -   - oven
+        - AtLocation
+        - store
+        - 2
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 5
+    -   - microwave
+        - AtLocation
+        - park
+        - 2
+    -   - vase
+        - AtLocation
+        - bowl
+        - 1
+    -   - bus
+        - AtLocation
+        - plate
+        - 1
+    -   - mouse
+        - AtLocation
+        - bakery
+        - 2
+    -   - cake
+        - AtLocation
+        - oven
+        - 1
+    -   - umbrella
+        - AtLocation
+        - airplane
+        - 1
+    -   - cake
+        - AtLocation
+        - airplane
+        - 1
+    -   - elephant
+        - AtLocation
+        - oven
+        - 1
+    -   - dog
+        - AtLocation
+        - closet
+        - 1
+    -   - umbrella
+        - AtLocation
+        - tree
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - sky
+        - 1
+    -   - laptop
+        - AtLocation
+        - desk
+        - 10
+    -   - spoon
+        - AtLocation
+        - building
+        - 1
+    -   - scissors
+        - AtLocation
+        - city
+        - 1
+    -   - pizza
+        - AtLocation
+        - bathroom
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - tree
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - pantry
+        - 1
+    -   - car
+        - AtLocation
+        - cupboard
+        - 1
+    -   - knife
+        - AtLocation
+        - building
+        - 1
+    -   - cake
+        - AtLocation
+        - apartment
+        - 1
+    -   - bicycle
+        - AtLocation
+        - pantry
+        - 1
+    -   - elephant
+        - AtLocation
+        - park
+        - 1
+    -   - banana
+        - AtLocation
+        - sky
+        - 1
+    -   - knife
+        - AtLocation
+        - oven
+        - 2
+    -   - oven
+        - AtLocation
+        - home
+        - 10
+    -   - motorcycle
+        - AtLocation
+        - sky
+        - 1
+    -   - car
+        - AtLocation
+        - bakery
+        - 1
+    -   - airplane
+        - AtLocation
+        - desk
+        - 1
+    -   - elephant
+        - AtLocation
+        - office
+        - 1
+    -   - bench
+        - AtLocation
+        - city
+        - 1
+    -   - bench
+        - AtLocation
+        - house
+        - 1
+    -   - bottle
+        - AtLocation
+        - circus
+        - 2
+    -   - microwave
+        - AtLocation
+        - garden
+        - 1
+    -   - apple
+        - AtLocation
+        - building
+        - 1
+    -   - banana
+        - AtLocation
+        - apartment
+        - 1
+    -   - knife
+        - AtLocation
+        - office
+        - 1
+    -   - umbrella
+        - AtLocation
+        - garden
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - table
+        - 1
+    -   - truck
+        - AtLocation
+        - farm
+        - 1
+    -   - vase
+        - AtLocation
+        - water
+        - 1
+    -   - car
+        - AtLocation
+        - office
+        - 1
+    -   - knife
+        - AtLocation
+        - countryside
+        - 1
+    -   - sandwich
+        - AtLocation
+        - building
+        - 1
+    -   - bear
+        - AtLocation
+        - desk
+        - 1
+    -   - chair
+        - AtLocation
+        - tree
+        - 1
+    -   - clock
+        - AtLocation
+        - park
+        - 1
+    -   - microwave
+        - AtLocation
+        - city
+        - 1
+    -   - dog
+        - AtLocation
+        - plate
+        - 1
+    -   - suitcase
+        - AtLocation
+        - house
+        - 1
+    -   - microwave
+        - AtLocation
+        - house
+        - 1
+    -   - bird
+        - AtLocation
+        - pantry
+        - 1
+    -   - airplane
+        - AtLocation
+        - store
+        - 1
+    -   - chair
+        - AtLocation
+        - kitchen
+        - 1
+    -   - book
+        - AtLocation
+        - countryside
+        - 1
+    -   - elephant
+        - AtLocation
+        - desk
+        - 1
+    -   - spoon
+        - AtLocation
+        - garden
+        - 1
+    -   - horse
+        - AtLocation
+        - table
+        - 1
+    -   - clock
+        - AtLocation
+        - tree
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - bowl
+        - 1
+    -   - airplane
+        - AtLocation
+        - office
+        - 1
+    -   - bicycle
+        - AtLocation
+        - suitcase
+        - 1
+    -   - bowl
+        - AtLocation
+        - closet
+        - 1
+    -   - broccoli
+        - AtLocation
+        - house
+        - 1
+    -   - suitcase
+        - AtLocation
+        - classroom
+        - 1
+    -   - banana
+        - AtLocation
+        - house
+        - 1
+    -   - person
+        - AtLocation
+        - circus
+        - 1
+    -   - clock
+        - AtLocation
+        - office
+        - 1
+    -   - microwave
+        - AtLocation
+        - tree
+        - 3
+    -   - sheep
+        - AtLocation
+        - lap
+        - 1
+    -   - microwave
+        - AtLocation
+        - oven
+        - 2
+    -   - bicycle
+        - AtLocation
+        - park
+        - 1
+    -   - oven
+        - AtLocation
+        - office
+        - 1
+    -   - scissors
+        - AtLocation
+        - bowl
+        - 1
+    -   - cow
+        - AtLocation
+        - plate
+        - 3
+    -   - horse
+        - AtLocation
+        - airplane
+        - 2
+    -   - clock
+        - AtLocation
+        - pantry
+        - 1
+    -   - bear
+        - AtLocation
+        - tree
+        - 2
+    -   - airplane
+        - AtLocation
+        - water
+        - 1
+    -   - chair
+        - AtLocation
+        - office
+        - 12
+    -   - broccoli
+        - AtLocation
+        - airplane
+        - 1
+    -   - bird
+        - AtLocation
+        - lap
+        - 1
+    -   - cup
+        - AtLocation
+        - garage
+        - 2
+    -   - bottle
+        - AtLocation
+        - apartment
+        - 1
+    -   - bed
+        - AtLocation
+        - cupboard
+        - 1
+    -   - person
+        - AtLocation
+        - sky
+        - 2
+    -   - cake
+        - AtLocation
+        - closet
+        - 1
+    -   - truck
+        - AtLocation
+        - house
+        - 2
+    -   - suitcase
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - bench
+        - AtLocation
+        - bowl
+        - 1
+    -   - laptop
+        - AtLocation
+        - house
+        - 1
+    -   - truck
+        - AtLocation
+        - water
+        - 1
+    -   - bicycle
+        - AtLocation
+        - airplane
+        - 1
+    -   - banana
+        - AtLocation
+        - suitcase
+        - 3
+    -   - book
+        - AtLocation
+        - city
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 11
+    -   - bench
+        - AtLocation
+        - water
+        - 1
+    -   - laptop
+        - AtLocation
+        - kitchen
+        - 1
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 8
+    -   - bird
+        - AtLocation
+        - countryside
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - cupboard
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - cat
+        - AtLocation
+        - oven
+        - 3
+    -   - chair
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - umbrella
+        - AtLocation
+        - pantry
+        - 1
+    -   - toilet
+        - AtLocation
+        - desk
+        - 1
+    -   - bowl
+        - AtLocation
+        - house
+        - 1
+    -   - sheep
+        - AtLocation
+        - circus
+        - 1
+    -   - broccoli
+        - AtLocation
+        - desk
+        - 1
+    -   - laptop
+        - AtLocation
+        - store
+        - 2
+    -   - couch
+        - AtLocation
+        - farm
+        - 1
+    -   - bed
+        - AtLocation
+        - closet
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 12
+    -   - cat
+        - AtLocation
+        - city
+        - 1
+    -   - pizza
+        - AtLocation
+        - oven
+        - 8
+    -   - oven
+        - AtLocation
+        - water
+        - 1
+    -   - bus
+        - AtLocation
+        - pantry
+        - 1
+    -   - cat
+        - AtLocation
+        - store
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - store
+        - 1
+    -   - laptop
+        - AtLocation
+        - table
+        - 1
+    -   - scissors
+        - AtLocation
+        - pantry
+        - 1
+    -   - vase
+        - AtLocation
+        - lap
+        - 1
+    -   - couch
+        - AtLocation
+        - closet
+        - 1
+    -   - knife
+        - AtLocation
+        - apartment
+        - 1
+    -   - sheep
+        - AtLocation
+        - city
+        - 1
+    -   - bird
+        - AtLocation
+        - tree
+        - 9
+    -   - laptop
+        - AtLocation
+        - closet
+        - 1
+    -   - pizza
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bench
+        - AtLocation
+        - plate
+        - 1
+    -   - laptop
+        - AtLocation
+        - bowl
+        - 1
+    -   - dog
+        - AtLocation
+        - garden
+        - 1
+    -   - scissors
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - sandwich
+        - AtLocation
+        - home
+        - 2
+    -   - chair
+        - AtLocation
+        - classroom
+        - 1
+    -   - bird
+        - AtLocation
+        - building
+        - 1
+    -   - elephant
+        - AtLocation
+        - countryside
+        - 1
+    -   - oven
+        - AtLocation
+        - apartment
+        - 1
+    -   - bench
+        - AtLocation
+        - garden
+        - 18
+    -   - banana
+        - AtLocation
+        - lap
+        - 1
+    -   - cup
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - cat
+        - AtLocation
+        - apartment
+        - 1
+    -   - sheep
+        - AtLocation
+        - home
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - garden
+        - 1
+    -   - keyboard
+        - AtLocation
+        - office
+        - 2
+    -   - elephant
+        - AtLocation
+        - building
+        - 1
+    -   - bottle
+        - AtLocation
+        - desk
+        - 1
+    -   - suitcase
+        - AtLocation
+        - park
+        - 1
+    -   - bus
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - banana
+        - AtLocation
+        - countryside
+        - 2
+    -   - umbrella
+        - AtLocation
+        - bowl
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - bakery
+        - 2
+    -   - sandwich
+        - AtLocation
+        - lap
+        - 1
+    -   - banana
+        - AtLocation
+        - kitchen
+        - 1
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 13
+    -   - clock
+        - AtLocation
+        - airplane
+        - 1
+    -   - pizza
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - laptop
+        - AtLocation
+        - lap
+        - 1
+    -   - cat
+        - AtLocation
+        - table
+        - 1
+    -   - suitcase
+        - AtLocation
+        - plate
+        - 1
+    -   - horse
+        - AtLocation
+        - classroom
+        - 2
+    -   - cake
+        - AtLocation
+        - desk
+        - 1
+    -   - book
+        - AtLocation
+        - bakery
+        - 1
+    -   - cake
+        - AtLocation
+        - bathroom
+        - 1
+    -   - dog
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - toilet
+        - AtLocation
+        - tree
+        - 2
+    -   - spoon
+        - AtLocation
+        - suitcase
+        - 1
+    -   - cow
+        - AtLocation
+        - lap
+        - 1
+    -   - vase
+        - AtLocation
+        - bathroom
+        - 1
+    -   - keyboard
+        - AtLocation
+        - park
+        - 1
+    -   - airplane
+        - AtLocation
+        - suitcase
+        - 1
+    -   - banana
+        - AtLocation
+        - garage
+        - 1
+    -   - broccoli
+        - AtLocation
+        - water
+        - 1
+    -   - dog
+        - AtLocation
+        - countryside
+        - 2
+    -   - pizza
+        - AtLocation
+        - garage
+        - 1
+    -   - suitcase
+        - AtLocation
+        - bakery
+        - 1
+    -   - sheep
+        - AtLocation
+        - cupboard
+        - 1
+    -   - airplane
+        - AtLocation
+        - garden
+        - 1
+    -   - bowl
+        - AtLocation
+        - table
+        - 1
+    -   - banana
+        - AtLocation
+        - desk
+        - 1
+    -   - car
+        - AtLocation
+        - kitchen
+        - 1
+    -   - cake
+        - AtLocation
+        - garage
+        - 2
+    -   - knife
+        - AtLocation
+        - garden
+        - 1
+    -   - person
+        - AtLocation
+        - garden
+        - 1
+    -   - bed
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - keyboard
+        - AtLocation
+        - building
+        - 1
+    -   - horse
+        - AtLocation
+        - circus
+        - 18
+    -   - banana
+        - AtLocation
+        - plate
+        - 1
+    -   - book
+        - AtLocation
+        - desk
+        - 1
+    -   - bicycle
+        - AtLocation
+        - sky
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 7
+    -   - knife
+        - AtLocation
+        - circus
+        - 1
+    -   - umbrella
+        - AtLocation
+        - lap
+        - 1
+    -   - umbrella
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bottle
+        - AtLocation
+        - house
+        - 2
+    -   - toilet
+        - AtLocation
+        - lap
+        - 1
+    -   - cup
+        - AtLocation
+        - cupboard
+        - 1
+    -   - elephant
+        - AtLocation
+        - cupboard
+        - 2
+    -   - microwave
+        - AtLocation
+        - bakery
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 16
+    -   - car
+        - AtLocation
+        - airplane
+        - 1
+    -   - sink
+        - AtLocation
+        - building
+        - 1
+    -   - umbrella
+        - AtLocation
+        - water
+        - 1
+    -   - mouse
+        - AtLocation
+        - garage
+        - 7
+    -   - bird
+        - AtLocation
+        - kitchen
+        - 1
+    -   - elephant
+        - AtLocation
+        - city
+        - 2
+    -   - cake
+        - AtLocation
+        - garden
+        - 2
+    -   - boat
+        - AtLocation
+        - plate
+        - 1
+    -   - scissors
+        - AtLocation
+        - oven
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - home
+        - 1
+    -   - horse
+        - AtLocation
+        - bakery
+        - 1
+    -   - bed
+        - AtLocation
+        - apartment
+        - 2
+    -   - pizza
+        - AtLocation
+        - sky
+        - 2
+    -   - book
+        - AtLocation
+        - tree
+        - 1
+    -   - person
+        - AtLocation
+        - building
+        - 10
+    -   - scissors
+        - AtLocation
+        - suitcase
+        - 1
+    -   - bed
+        - AtLocation
+        - house
+        - 12
+    -   - vase
+        - AtLocation
+        - closet
+        - 2
+    -   - pizza
+        - AtLocation
+        - circus
+        - 1
+    -   - sandwich
+        - AtLocation
+        - oven
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 6
+    -   - sheep
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - sky
+        - 1
+    -   - spoon
+        - AtLocation
+        - lap
+        - 1
+    -   - car
+        - AtLocation
+        - house
+        - 2
+    -   - person
+        - AtLocation
+        - apartment
+        - 2
+    -   - cat
+        - AtLocation
+        - farm
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - airplane
+        - 1
+    -   - sink
+        - AtLocation
+        - classroom
+        - 1
+    -   - broccoli
+        - AtLocation
+        - lap
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - table
+        - 2
+    -   - bottle
+        - AtLocation
+        - countryside
+        - 1
+    -   - banana
+        - AtLocation
+        - office
+        - 1
+    -   - clock
+        - AtLocation
+        - building
+        - 1
+    -   - car
+        - AtLocation
+        - building
+        - 1
+    -   - bus
+        - AtLocation
+        - airplane
+        - 2
+    -   - spoon
+        - AtLocation
+        - city
+        - 1
+    -   - scissors
+        - AtLocation
+        - desk
+        - 13
+    -   - motorcycle
+        - AtLocation
+        - water
+        - 1
+    -   - horse
+        - AtLocation
+        - pantry
+        - 1
+    -   - umbrella
+        - AtLocation
+        - desk
+        - 1
+    -   - bench
+        - AtLocation
+        - tree
+        - 1
+    -   - sink
+        - AtLocation
+        - closet
+        - 1
+    -   - cake
+        - AtLocation
+        - suitcase
+        - 1
+    -   - cup
+        - AtLocation
+        - classroom
+        - 2
+    -   - truck
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - cake
+        - AtLocation
+        - plate
+        - 1
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 17
+    -   - book
+        - AtLocation
+        - garage
+        - 1
+    -   - couch
+        - AtLocation
+        - classroom
+        - 1
+    -   - boat
+        - AtLocation
+        - cupboard
+        - 1
+    -   - person
+        - AtLocation
+        - pantry
+        - 1
+    -   - vase
+        - AtLocation
+        - farm
+        - 1
+    -   - bench
+        - AtLocation
+        - building
+        - 1
+    -   - bus
+        - AtLocation
+        - city
+        - 11
+    -   - bed
+        - AtLocation
+        - lap
+        - 1
+    -   - bed
+        - AtLocation
+        - store
+        - 2
+    -   - dog
+        - AtLocation
+        - table
+        - 8
+    -   - pizza
+        - AtLocation
+        - park
+        - 1
+    -   - sheep
+        - AtLocation
+        - park
+        - 3
+    -   - bird
+        - AtLocation
+        - bathroom
+        - 1
+    -   - bowl
+        - AtLocation
+        - farm
+        - 1
+    -   - apple
+        - AtLocation
+        - countryside
+        - 1
+    -   - person
+        - AtLocation
+        - park
+        - 1
+    -   - bicycle
+        - AtLocation
+        - countryside
+        - 1
+    -   - bird
+        - AtLocation
+        - water
+        - 2
+    -   - couch
+        - AtLocation
+        - desk
+        - 1
+    -   - cup
+        - AtLocation
+        - bakery
+        - 1
+    -   - mouse
+        - AtLocation
+        - garden
+        - 1
+    -   - cake
+        - AtLocation
+        - farm
+        - 1
+    -   - airplane
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bed
+        - AtLocation
+        - bakery
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - bakery
+        - 1
+    -   - cake
+        - AtLocation
+        - bakery
+        - 11
+    -   - sink
+        - AtLocation
+        - plate
+        - 1
+    -   - bear
+        - AtLocation
+        - garage
+        - 1
+    -   - vase
+        - AtLocation
+        - building
+        - 1
+    -   - toilet
+        - AtLocation
+        - water
+        - 1
+    -   - dog
+        - AtLocation
+        - home
+        - 1
+    -   - sheep
+        - AtLocation
+        - pantry
+        - 1
+    -   - mouse
+        - AtLocation
+        - water
+        - 1
+    -   - sink
+        - AtLocation
+        - oven
+        - 1
+    -   - cow
+        - AtLocation
+        - bowl
+        - 2
+    -   - bear
+        - AtLocation
+        - sky
+        - 1
+    -   - cow
+        - AtLocation
+        - oven
+        - 2
+    -   - horse
+        - AtLocation
+        - garden
+        - 1
+    -   - sink
+        - AtLocation
+        - table
+        - 1
+    -   - pizza
+        - AtLocation
+        - farm
+        - 2
+    -   - truck
+        - AtLocation
+        - classroom
+        - 1
+    -   - bus
+        - AtLocation
+        - store
+        - 1
+    -   - bus
+        - AtLocation
+        - bathroom
+        - 1
+    -   - airplane
+        - AtLocation
+        - farm
+        - 1
+    -   - book
+        - AtLocation
+        - closet
+        - 1
+    -   - broccoli
+        - AtLocation
+        - home
+        - 1
+    -   - couch
+        - AtLocation
+        - city
+        - 1
+    -   - elephant
+        - AtLocation
+        - home
+        - 1
+    -   - bowl
+        - AtLocation
+        - sky
+        - 2
+    -   - broccoli
+        - AtLocation
+        - city
+        - 1
+    -   - knife
+        - AtLocation
+        - pantry
+        - 1
+    -   - book
+        - AtLocation
+        - office
+        - 2
+    -   - couch
+        - AtLocation
+        - garden
+        - 1
+    -   - sheep
+        - AtLocation
+        - garage
+        - 1
+    -   - boat
+        - AtLocation
+        - building
+        - 2
+    -   - sandwich
+        - AtLocation
+        - garden
+        - 2
+    -   - scissors
+        - AtLocation
+        - classroom
+        - 1
+    -   - bear
+        - AtLocation
+        - park
+        - 13
+    -   - couch
+        - AtLocation
+        - circus
+        - 2
+    -   - book
+        - AtLocation
+        - store
+        - 1
+    -   - bottle
+        - AtLocation
+        - bathroom
+        - 1
+    -   - apple
+        - AtLocation
+        - cupboard
+        - 1
+    -   - banana
+        - AtLocation
+        - table
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - classroom
+        - 1
+    -   - horse
+        - AtLocation
+        - water
+        - 1
+    -   - cup
+        - AtLocation
+        - table
+        - 10
+    -   - car
+        - AtLocation
+        - oven
+        - 1
+    -   - apple
+        - AtLocation
+        - home
+        - 2
+    -   - clock
+        - AtLocation
+        - water
+        - 1
+    -   - laptop
+        - AtLocation
+        - garden
+        - 2
+    -   - bus
+        - AtLocation
+        - bowl
+        - 1
+    -   - cup
+        - AtLocation
+        - desk
+        - 1
+    -   - bus
+        - AtLocation
+        - closet
+        - 1
+    -   - bird
+        - AtLocation
+        - airplane
+        - 1
+    -   - laptop
+        - AtLocation
+        - pantry
+        - 1
+    -   - bowl
+        - AtLocation
+        - bowl
+        - 1
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 13
+    -   - sink
+        - AtLocation
+        - airplane
+        - 3
+    -   - laptop
+        - AtLocation
+        - farm
+        - 1
+    -   - toilet
+        - AtLocation
+        - plate
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - plate
+        - 1
+    -   - broccoli
+        - AtLocation
+        - apartment
+        - 1
+    -   - keyboard
+        - AtLocation
+        - circus
+        - 1
+    -   - bus
+        - AtLocation
+        - table
+        - 1
+    -   - oven
+        - AtLocation
+        - garage
+        - 1
+    -   - laptop
+        - AtLocation
+        - building
+        - 1
+    -   - bed
+        - AtLocation
+        - circus
+        - 2
+    -   - elephant
+        - AtLocation
+        - circus
+        - 1
+    -   - banana
+        - AtLocation
+        - farm
+        - 1
+    -   - bird
+        - AtLocation
+        - farm
+        - 1
+    -   - elephant
+        - AtLocation
+        - classroom
+        - 1
+    -   - knife
+        - AtLocation
+        - house
+        - 1
+    -   - clock
+        - AtLocation
+        - bowl
+        - 1
+    -   - sandwich
+        - AtLocation
+        - farm
+        - 1
+    -   - truck
+        - AtLocation
+        - garage
+        - 11
+    -   - scissors
+        - AtLocation
+        - park
+        - 2
+    -   - couch
+        - AtLocation
+        - countryside
+        - 1
+    -   - car
+        - AtLocation
+        - bathroom
+        - 1
+    -   - microwave
+        - AtLocation
+        - suitcase
+        - 2
+    -   - sheep
+        - AtLocation
+        - store
+        - 2
+    -   - apple
+        - AtLocation
+        - park
+        - 1
+    -   - cow
+        - AtLocation
+        - bakery
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - cupboard
+        - 1
+    -   - sink
+        - AtLocation
+        - water
+        - 1
+    -   - knife
+        - AtLocation
+        - table
+        - 2
+    -   - airplane
+        - AtLocation
+        - building
+        - 1
+    -   - spoon
+        - AtLocation
+        - home
+        - 1
+    -   - keyboard
+        - AtLocation
+        - water
+        - 2
+    -   - laptop
+        - AtLocation
+        - tree
+        - 1
+    -   - book
+        - AtLocation
+        - apartment
+        - 1
+    -   - toilet
+        - AtLocation
+        - countryside
+        - 1
+    -   - umbrella
+        - AtLocation
+        - kitchen
+        - 1
+    -   - elephant
+        - AtLocation
+        - farm
+        - 1
+    -   - bowl
+        - AtLocation
+        - circus
+        - 1
+    -   - apple
+        - AtLocation
+        - table
+        - 1
+    -   - truck
+        - AtLocation
+        - table
+        - 1
+    -   - oven
+        - AtLocation
+        - bakery
+        - 3
+    -   - sink
+        - AtLocation
+        - park
+        - 1
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 15
+    -   - cow
+        - AtLocation
+        - countryside
+        - 11
+    -   - dog
+        - AtLocation
+        - desk
+        - 1
+    -   - boat
+        - AtLocation
+        - garden
+        - 1
+    -   - bird
+        - AtLocation
+        - house
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 16
+    -   - sandwich
+        - AtLocation
+        - bowl
+        - 1
+    -   - sheep
+        - AtLocation
+        - farm
+        - 15
+    -   - motorcycle
+        - AtLocation
+        - closet
+        - 1
+    -   - truck
+        - AtLocation
+        - cupboard
+        - 2
+    -   - bird
+        - AtLocation
+        - city
+        - 1
+    -   - clock
+        - AtLocation
+        - bakery
+        - 2
+    -   - elephant
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - lap
+        - 1
+    -   - spoon
+        - AtLocation
+        - pantry
+        - 5
+    -   - laptop
+        - AtLocation
+        - park
+        - 1
+    -   - book
+        - AtLocation
+        - airplane
+        - 1
+    -   - boat
+        - AtLocation
+        - park
+        - 1
+    -   - bowl
+        - AtLocation
+        - countryside
+        - 1
+    -   - clock
+        - AtLocation
+        - closet
+        - 1
+    -   - couch
+        - AtLocation
+        - house
+        - 21
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 13
+    -   - bottle
+        - AtLocation
+        - lap
+        - 1
+    -   - sink
+        - AtLocation
+        - apartment
+        - 1
+    -   - clock
+        - AtLocation
+        - table
+        - 1
+    -   - bottle
+        - AtLocation
+        - kitchen
+        - 1
+    -   - car
+        - AtLocation
+        - garage
+        - 1
+    -   - bowl
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - apple
+        - AtLocation
+        - airplane
+        - 1
+    -   - bench
+        - AtLocation
+        - bakery
+        - 1
+    -   - cat
+        - AtLocation
+        - pantry
+        - 1
+    -   - bear
+        - AtLocation
+        - farm
+        - 1
+    -   - bear
+        - AtLocation
+        - oven
+        - 2
+    -   - cake
+        - AtLocation
+        - house
+        - 1
+    -   - couch
+        - AtLocation
+        - bakery
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - city
+        - 1
+    -   - suitcase
+        - AtLocation
+        - closet
+        - 1
+    -   - bus
+        - AtLocation
+        - desk
+        - 4
+    -   - knife
+        - AtLocation
+        - bakery
+        - 1
+    -   - cake
+        - AtLocation
+        - kitchen
+        - 2
+    -   - cow
+        - AtLocation
+        - office
+        - 1
+    -   - boat
+        - AtLocation
+        - bathroom
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - home
+        - 1
+    -   - sheep
+        - AtLocation
+        - closet
+        - 1
+    -   - car
+        - AtLocation
+        - city
+        - 11
+test:
+    rewards: 48
+    num_samples: 1178
+    semantic_memories:
+    -   - scissors
+        - AtLocation
+        - home
+        - 1
+    -   - spoon
+        - AtLocation
+        - bakery
+        - 2
+    -   - cup
+        - AtLocation
+        - sky
+        - 1
+    -   - bicycle
+        - AtLocation
+        - bowl
+        - 1
+    -   - knife
+        - AtLocation
+        - store
+        - 1
+    -   - cup
+        - AtLocation
+        - closet
+        - 1
+    -   - cat
+        - AtLocation
+        - garden
+        - 2
+    -   - bed
+        - AtLocation
+        - classroom
+        - 1
+    -   - bus
+        - AtLocation
+        - oven
+        - 1
+    -   - truck
+        - AtLocation
+        - tree
+        - 3
+    -   - bench
+        - AtLocation
+        - cupboard
+        - 1
+    -   - cup
+        - AtLocation
+        - garden
+        - 1
+    -   - book
+        - AtLocation
+        - circus
+        - 1
+    -   - vase
+        - AtLocation
+        - table
+        - 14
+    -   - book
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - bear
+        - AtLocation
+        - home
+        - 1
+    -   - knife
+        - AtLocation
+        - airplane
+        - 1
+    -   - suitcase
+        - AtLocation
+        - cupboard
+        - 1
+    -   - toilet
+        - AtLocation
+        - suitcase
+        - 1
+    -   - bicycle
+        - AtLocation
+        - home
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - circus
+        - 1
+    -   - bear
+        - AtLocation
+        - city
+        - 1
+    -   - keyboard
+        - AtLocation
+        - sky
+        - 1
+    -   - oven
+        - AtLocation
+        - closet
+        - 1
+    -   - bowl
+        - AtLocation
+        - kitchen
+        - 1
+    -   - book
+        - AtLocation
+        - home
+        - 1
+    -   - bear
+        - AtLocation
+        - airplane
+        - 1
+    -   - umbrella
+        - AtLocation
+        - office
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 12
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 14
+    -   - dog
+        - AtLocation
+        - building
+        - 1
+    -   - boat
+        - AtLocation
+        - table
+        - 1
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 12
+    -   - airplane
+        - AtLocation
+        - sky
+        - 14
+    -   - horse
+        - AtLocation
+        - cupboard
+        - 1
+    -   - chair
+        - AtLocation
+        - plate
+        - 1
+    -   - bottle
+        - AtLocation
+        - park
+        - 1
+    -   - broccoli
+        - AtLocation
+        - circus
+        - 3
+    -   - person
+        - AtLocation
+        - plate
+        - 3
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 11
+    -   - car
+        - AtLocation
+        - park
+        - 1
+    -   - spoon
+        - AtLocation
+        - circus
+        - 1
+    -   - boat
+        - AtLocation
+        - water
+        - 18
+    -   - banana
+        - AtLocation
+        - city
+        - 1
+    -   - sandwich
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - bicycle
+        - AtLocation
+        - closet
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - apartment
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - circus
+        - 1
+    -   - cow
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - chair
+        - AtLocation
+        - bakery
+        - 2
+    -   - dog
+        - AtLocation
+        - tree
+        - 1
+    -   - pizza
+        - AtLocation
+        - apartment
+        - 2
+    -   - bench
+        - AtLocation
+        - bathroom
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - bowl
+        - 1
+    -   - broccoli
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - pizza
+        - AtLocation
+        - pantry
+        - 1
+    -   - boat
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - bus
+        - AtLocation
+        - office
+        - 2
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - spoon
+        - AtLocation
+        - table
+        - 1
+    -   - boat
+        - AtLocation
+        - classroom
+        - 1
+    -   - chair
+        - AtLocation
+        - garden
+        - 1
+    -   - bicycle
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - garage
+        - 2
+    -   - umbrella
+        - AtLocation
+        - classroom
+        - 1
+    -   - dog
+        - AtLocation
+        - water
+        - 1
+    -   - sheep
+        - AtLocation
+        - oven
+        - 1
+    -   - book
+        - AtLocation
+        - kitchen
+        - 1
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 15
+    -   - bird
+        - AtLocation
+        - table
+        - 1
+    -   - bowl
+        - AtLocation
+        - plate
+        - 1
+    -   - bear
+        - AtLocation
+        - kitchen
+        - 1
+    -   - airplane
+        - AtLocation
+        - closet
+        - 1
+    -   - mouse
+        - AtLocation
+        - home
+        - 1
+    -   - truck
+        - AtLocation
+        - sky
+        - 2
+    -   - spoon
+        - AtLocation
+        - closet
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - desk
+        - 1
+    -   - airplane
+        - AtLocation
+        - circus
+        - 1
+    -   - truck
+        - AtLocation
+        - kitchen
+        - 2
+    -   - couch
+        - AtLocation
+        - oven
+        - 1
+    -   - boat
+        - AtLocation
+        - store
+        - 1
+    -   - toilet
+        - AtLocation
+        - closet
+        - 1
+    -   - mouse
+        - AtLocation
+        - desk
+        - 1
+    -   - broccoli
+        - AtLocation
+        - table
+        - 1
+    -   - chair
+        - AtLocation
+        - suitcase
+        - 1
+    -   - airplane
+        - AtLocation
+        - table
+        - 2
+    -   - microwave
+        - AtLocation
+        - store
+        - 1
+    -   - elephant
+        - AtLocation
+        - bathroom
+        - 1
+    -   - mouse
+        - AtLocation
+        - city
+        - 1
+    -   - book
+        - AtLocation
+        - sky
+        - 1
+    -   - toilet
+        - AtLocation
+        - farm
+        - 3
+    -   - bear
+        - AtLocation
+        - office
+        - 1
+    -   - couch
+        - AtLocation
+        - building
+        - 1
+    -   - bird
+        - AtLocation
+        - bakery
+        - 1
+    -   - clock
+        - AtLocation
+        - desk
+        - 9
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 8
+    -   - mouse
+        - AtLocation
+        - cupboard
+        - 1
+    -   - cup
+        - AtLocation
+        - plate
+        - 1
+    -   - clock
+        - AtLocation
+        - circus
+        - 1
+    -   - spoon
+        - AtLocation
+        - garage
+        - 1
+    -   - bus
+        - AtLocation
+        - circus
+        - 1
+    -   - chair
+        - AtLocation
+        - park
+        - 1
+    -   - knife
+        - AtLocation
+        - tree
+        - 1
+    -   - bottle
+        - AtLocation
+        - building
+        - 1
+    -   - vase
+        - AtLocation
+        - apartment
+        - 1
+    -   - sheep
+        - AtLocation
+        - building
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - bakery
+        - 1
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 17
+    -   - vase
+        - AtLocation
+        - bowl
+        - 1
+    -   - bear
+        - AtLocation
+        - countryside
+        - 1
+    -   - microwave
+        - AtLocation
+        - sky
+        - 1
+    -   - microwave
+        - AtLocation
+        - countryside
+        - 1
+    -   - oven
+        - AtLocation
+        - suitcase
+        - 1
+    -   - scissors
+        - AtLocation
+        - closet
+        - 1
+    -   - oven
+        - AtLocation
+        - pantry
+        - 1
+    -   - car
+        - AtLocation
+        - plate
+        - 1
+    -   - boat
+        - AtLocation
+        - airplane
+        - 2
+    -   - dog
+        - AtLocation
+        - closet
+        - 2
+    -   - dog
+        - AtLocation
+        - suitcase
+        - 1
+    -   - clock
+        - AtLocation
+        - kitchen
+        - 2
+    -   - cup
+        - AtLocation
+        - store
+        - 1
+    -   - vase
+        - AtLocation
+        - office
+        - 1
+    -   - book
+        - AtLocation
+        - suitcase
+        - 1
+    -   - airplane
+        - AtLocation
+        - park
+        - 1
+    -   - sheep
+        - AtLocation
+        - bathroom
+        - 1
+    -   - mouse
+        - AtLocation
+        - building
+        - 1
+    -   - umbrella
+        - AtLocation
+        - farm
+        - 1
+    -   - knife
+        - AtLocation
+        - classroom
+        - 1
+    -   - broccoli
+        - AtLocation
+        - bathroom
+        - 1
+    -   - couch
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bottle
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - elephant
+        - AtLocation
+        - park
+        - 1
+    -   - scissors
+        - AtLocation
+        - apartment
+        - 1
+    -   - spoon
+        - AtLocation
+        - office
+        - 1
+    -   - microwave
+        - AtLocation
+        - bowl
+        - 1
+    -   - horse
+        - AtLocation
+        - oven
+        - 1
+    -   - oven
+        - AtLocation
+        - home
+        - 10
+    -   - clock
+        - AtLocation
+        - apartment
+        - 1
+    -   - elephant
+        - AtLocation
+        - office
+        - 4
+    -   - umbrella
+        - AtLocation
+        - apartment
+        - 1
+    -   - oven
+        - AtLocation
+        - garden
+        - 1
+    -   - suitcase
+        - AtLocation
+        - bowl
+        - 1
+    -   - microwave
+        - AtLocation
+        - garden
+        - 1
+    -   - airplane
+        - AtLocation
+        - countryside
+        - 1
+    -   - toilet
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - apple
+        - AtLocation
+        - building
+        - 1
+    -   - truck
+        - AtLocation
+        - desk
+        - 2
+    -   - suitcase
+        - AtLocation
+        - water
+        - 1
+    -   - knife
+        - AtLocation
+        - office
+        - 1
+    -   - bowl
+        - AtLocation
+        - building
+        - 1
+    -   - bird
+        - AtLocation
+        - desk
+        - 1
+    -   - bowl
+        - AtLocation
+        - garage
+        - 1
+    -   - vase
+        - AtLocation
+        - water
+        - 1
+    -   - car
+        - AtLocation
+        - office
+        - 1
+    -   - chair
+        - AtLocation
+        - tree
+        - 1
+    -   - bus
+        - AtLocation
+        - water
+        - 1
+    -   - airplane
+        - AtLocation
+        - home
+        - 2
+    -   - clock
+        - AtLocation
+        - cupboard
+        - 1
+    -   - dog
+        - AtLocation
+        - plate
+        - 1
+    -   - suitcase
+        - AtLocation
+        - countryside
+        - 3
+    -   - suitcase
+        - AtLocation
+        - house
+        - 2
+    -   - microwave
+        - AtLocation
+        - house
+        - 1
+    -   - horse
+        - AtLocation
+        - house
+        - 1
+    -   - car
+        - AtLocation
+        - home
+        - 2
+    -   - spoon
+        - AtLocation
+        - garden
+        - 1
+    -   - sheep
+        - AtLocation
+        - apartment
+        - 1
+    -   - bowl
+        - AtLocation
+        - tree
+        - 1
+    -   - truck
+        - AtLocation
+        - airplane
+        - 2
+    -   - toilet
+        - AtLocation
+        - garage
+        - 1
+    -   - cake
+        - AtLocation
+        - tree
+        - 2
+    -   - couch
+        - AtLocation
+        - bathroom
+        - 1
+    -   - person
+        - AtLocation
+        - oven
+        - 1
+    -   - bear
+        - AtLocation
+        - bowl
+        - 1
+    -   - banana
+        - AtLocation
+        - house
+        - 2
+    -   - scissors
+        - AtLocation
+        - cupboard
+        - 2
+    -   - book
+        - AtLocation
+        - bathroom
+        - 2
+    -   - umbrella
+        - AtLocation
+        - oven
+        - 1
+    -   - cow
+        - AtLocation
+        - classroom
+        - 2
+    -   - sheep
+        - AtLocation
+        - lap
+        - 1
+    -   - cow
+        - AtLocation
+        - plate
+        - 2
+    -   - knife
+        - AtLocation
+        - closet
+        - 1
+    -   - horse
+        - AtLocation
+        - office
+        - 1
+    -   - pizza
+        - AtLocation
+        - suitcase
+        - 1
+    -   - umbrella
+        - AtLocation
+        - garage
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - office
+        - 1
+    -   - clock
+        - AtLocation
+        - pantry
+        - 1
+    -   - bear
+        - AtLocation
+        - tree
+        - 1
+    -   - airplane
+        - AtLocation
+        - water
+        - 1
+    -   - suitcase
+        - AtLocation
+        - garage
+        - 1
+    -   - chair
+        - AtLocation
+        - office
+        - 12
+    -   - bird
+        - AtLocation
+        - lap
+        - 1
+    -   - bench
+        - AtLocation
+        - circus
+        - 1
+    -   - airplane
+        - AtLocation
+        - airplane
+        - 1
+    -   - bed
+        - AtLocation
+        - cupboard
+        - 1
+    -   - pizza
+        - AtLocation
+        - tree
+        - 1
+    -   - apple
+        - AtLocation
+        - bowl
+        - 1
+    -   - cup
+        - AtLocation
+        - airplane
+        - 2
+    -   - bench
+        - AtLocation
+        - bowl
+        - 1
+    -   - laptop
+        - AtLocation
+        - house
+        - 1
+    -   - chair
+        - AtLocation
+        - countryside
+        - 1
+    -   - person
+        - AtLocation
+        - house
+        - 1
+    -   - sheep
+        - AtLocation
+        - sky
+        - 1
+    -   - bottle
+        - AtLocation
+        - store
+        - 11
+    -   - pizza
+        - AtLocation
+        - bakery
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - desk
+        - 3
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 1
+    -   - bird
+        - AtLocation
+        - countryside
+        - 1
+    -   - banana
+        - AtLocation
+        - cupboard
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - truck
+        - AtLocation
+        - bathroom
+        - 1
+    -   - person
+        - AtLocation
+        - bakery
+        - 1
+    -   - sandwich
+        - AtLocation
+        - cupboard
+        - 2
+    -   - bus
+        - AtLocation
+        - classroom
+        - 1
+    -   - toilet
+        - AtLocation
+        - desk
+        - 2
+    -   - broccoli
+        - AtLocation
+        - desk
+        - 1
+    -   - spoon
+        - AtLocation
+        - store
+        - 2
+    -   - couch
+        - AtLocation
+        - farm
+        - 1
+    -   - bed
+        - AtLocation
+        - park
+        - 3
+    -   - refrigerator
+        - AtLocation
+        - tree
+        - 2
+    -   - pizza
+        - AtLocation
+        - bowl
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 14
+    -   - cat
+        - AtLocation
+        - city
+        - 1
+    -   - pizza
+        - AtLocation
+        - oven
+        - 16
+    -   - oven
+        - AtLocation
+        - desk
+        - 1
+    -   - bus
+        - AtLocation
+        - pantry
+        - 1
+    -   - cat
+        - AtLocation
+        - store
+        - 1
+    -   - car
+        - AtLocation
+        - sky
+        - 1
+    -   - vase
+        - AtLocation
+        - garage
+        - 1
+    -   - airplane
+        - AtLocation
+        - house
+        - 1
+    -   - vase
+        - AtLocation
+        - lap
+        - 2
+    -   - knife
+        - AtLocation
+        - apartment
+        - 1
+    -   - laptop
+        - AtLocation
+        - sky
+        - 1
+    -   - laptop
+        - AtLocation
+        - closet
+        - 1
+    -   - clock
+        - AtLocation
+        - garden
+        - 1
+    -   - laptop
+        - AtLocation
+        - bowl
+        - 1
+    -   - bed
+        - AtLocation
+        - table
+        - 2
+    -   - elephant
+        - AtLocation
+        - countryside
+        - 1
+    -   - vase
+        - AtLocation
+        - home
+        - 1
+    -   - bench
+        - AtLocation
+        - garden
+        - 16
+    -   - banana
+        - AtLocation
+        - lap
+        - 1
+    -   - bicycle
+        - AtLocation
+        - house
+        - 1
+    -   - cup
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - bench
+        - AtLocation
+        - closet
+        - 1
+    -   - scissors
+        - AtLocation
+        - circus
+        - 1
+    -   - sheep
+        - AtLocation
+        - home
+        - 1
+    -   - couch
+        - AtLocation
+        - pantry
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - garden
+        - 1
+    -   - oven
+        - AtLocation
+        - circus
+        - 1
+    -   - elephant
+        - AtLocation
+        - pantry
+        - 1
+    -   - apple
+        - AtLocation
+        - bakery
+        - 1
+    -   - microwave
+        - AtLocation
+        - plate
+        - 1
+    -   - boat
+        - AtLocation
+        - oven
+        - 1
+    -   - couch
+        - AtLocation
+        - water
+        - 1
+    -   - person
+        - AtLocation
+        - tree
+        - 1
+    -   - suitcase
+        - AtLocation
+        - park
+        - 1
+    -   - sink
+        - AtLocation
+        - lap
+        - 2
+    -   - cat
+        - AtLocation
+        - closet
+        - 1
+    -   - spoon
+        - AtLocation
+        - airplane
+        - 1
+    -   - cup
+        - AtLocation
+        - park
+        - 1
+    -   - pizza
+        - AtLocation
+        - store
+        - 1
+    -   - book
+        - AtLocation
+        - water
+        - 1
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 14
+    -   - broccoli
+        - AtLocation
+        - office
+        - 1
+    -   - cat
+        - AtLocation
+        - kitchen
+        - 2
+    -   - laptop
+        - AtLocation
+        - lap
+        - 2
+    -   - suitcase
+        - AtLocation
+        - sky
+        - 1
+    -   - dog
+        - AtLocation
+        - classroom
+        - 1
+    -   - horse
+        - AtLocation
+        - classroom
+        - 2
+    -   - cake
+        - AtLocation
+        - desk
+        - 1
+    -   - vase
+        - AtLocation
+        - circus
+        - 1
+    -   - vase
+        - AtLocation
+        - park
+        - 1
+    -   - broccoli
+        - AtLocation
+        - cupboard
+        - 2
+    -   - spoon
+        - AtLocation
+        - oven
+        - 1
+    -   - sandwich
+        - AtLocation
+        - table
+        - 1
+    -   - toilet
+        - AtLocation
+        - tree
+        - 1
+    -   - cat
+        - AtLocation
+        - house
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - pantry
+        - 1
+    -   - vase
+        - AtLocation
+        - store
+        - 2
+    -   - scissors
+        - AtLocation
+        - sky
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - farm
+        - 1
+    -   - spoon
+        - AtLocation
+        - suitcase
+        - 1
+    -   - bottle
+        - AtLocation
+        - city
+        - 1
+    -   - umbrella
+        - AtLocation
+        - store
+        - 1
+    -   - toilet
+        - AtLocation
+        - bowl
+        - 1
+    -   - airplane
+        - AtLocation
+        - suitcase
+        - 1
+    -   - mouse
+        - AtLocation
+        - park
+        - 1
+    -   - pizza
+        - AtLocation
+        - classroom
+        - 1
+    -   - mouse
+        - AtLocation
+        - oven
+        - 1
+    -   - oven
+        - AtLocation
+        - cupboard
+        - 1
+    -   - spoon
+        - AtLocation
+        - kitchen
+        - 1
+    -   - person
+        - AtLocation
+        - garage
+        - 1
+    -   - person
+        - AtLocation
+        - garden
+        - 1
+    -   - bed
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - keyboard
+        - AtLocation
+        - building
+        - 2
+    -   - dog
+        - AtLocation
+        - office
+        - 1
+    -   - umbrella
+        - AtLocation
+        - suitcase
+        - 1
+    -   - scissors
+        - AtLocation
+        - garage
+        - 1
+    -   - horse
+        - AtLocation
+        - circus
+        - 11
+    -   - spoon
+        - AtLocation
+        - farm
+        - 1
+    -   - banana
+        - AtLocation
+        - plate
+        - 2
+    -   - chair
+        - AtLocation
+        - water
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 10
+    -   - umbrella
+        - AtLocation
+        - lap
+        - 2
+    -   - umbrella
+        - AtLocation
+        - cupboard
+        - 1
+    -   - toilet
+        - AtLocation
+        - airplane
+        - 2
+    -   - cup
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bicycle
+        - AtLocation
+        - desk
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - oven
+        - 1
+    -   - vase
+        - AtLocation
+        - suitcase
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 10
+    -   - horse
+        - AtLocation
+        - park
+        - 1
+    -   - umbrella
+        - AtLocation
+        - building
+        - 1
+    -   - mouse
+        - AtLocation
+        - garage
+        - 10
+    -   - elephant
+        - AtLocation
+        - city
+        - 1
+    -   - cake
+        - AtLocation
+        - garden
+        - 1
+    -   - dog
+        - AtLocation
+        - bathroom
+        - 1
+    -   - boat
+        - AtLocation
+        - plate
+        - 1
+    -   - oven
+        - AtLocation
+        - park
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - home
+        - 1
+    -   - oven
+        - AtLocation
+        - city
+        - 2
+    -   - pizza
+        - AtLocation
+        - sky
+        - 1
+    -   - bed
+        - AtLocation
+        - apartment
+        - 1
+    -   - book
+        - AtLocation
+        - bowl
+        - 1
+    -   - person
+        - AtLocation
+        - building
+        - 9
+    -   - sandwich
+        - AtLocation
+        - office
+        - 1
+    -   - pizza
+        - AtLocation
+        - circus
+        - 1
+    -   - sandwich
+        - AtLocation
+        - classroom
+        - 1
+    -   - bed
+        - AtLocation
+        - farm
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 13
+    -   - toilet
+        - AtLocation
+        - garden
+        - 1
+    -   - banana
+        - AtLocation
+        - classroom
+        - 1
+    -   - knife
+        - AtLocation
+        - water
+        - 2
+    -   - bus
+        - AtLocation
+        - apartment
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - airplane
+        - 1
+    -   - sink
+        - AtLocation
+        - classroom
+        - 1
+    -   - toilet
+        - AtLocation
+        - kitchen
+        - 1
+    -   - bottle
+        - AtLocation
+        - cupboard
+        - 1
+    -   - person
+        - AtLocation
+        - farm
+        - 1
+    -   - bottle
+        - AtLocation
+        - countryside
+        - 1
+    -   - couch
+        - AtLocation
+        - home
+        - 1
+    -   - bottle
+        - AtLocation
+        - oven
+        - 2
+    -   - boat
+        - AtLocation
+        - pantry
+        - 1
+    -   - cup
+        - AtLocation
+        - city
+        - 1
+    -   - car
+        - AtLocation
+        - circus
+        - 1
+    -   - sandwich
+        - AtLocation
+        - park
+        - 1
+    -   - bicycle
+        - AtLocation
+        - store
+        - 3
+    -   - scissors
+        - AtLocation
+        - desk
+        - 11
+    -   - motorcycle
+        - AtLocation
+        - classroom
+        - 1
+    -   - umbrella
+        - AtLocation
+        - desk
+        - 1
+    -   - oven
+        - AtLocation
+        - plate
+        - 1
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 9
+    -   - sandwich
+        - AtLocation
+        - countryside
+        - 1
+    -   - cake
+        - AtLocation
+        - suitcase
+        - 1
+    -   - book
+        - AtLocation
+        - garage
+        - 1
+    -   - bicycle
+        - AtLocation
+        - classroom
+        - 1
+    -   - bench
+        - AtLocation
+        - building
+        - 1
+    -   - pizza
+        - AtLocation
+        - garden
+        - 1
+    -   - bus
+        - AtLocation
+        - city
+        - 18
+    -   - oven
+        - AtLocation
+        - farm
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - plate
+        - 2
+    -   - cow
+        - AtLocation
+        - sky
+        - 1
+    -   - pizza
+        - AtLocation
+        - park
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - garden
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 14
+    -   - bird
+        - AtLocation
+        - bathroom
+        - 1
+    -   - spoon
+        - AtLocation
+        - plate
+        - 1
+    -   - boat
+        - AtLocation
+        - garage
+        - 1
+    -   - bus
+        - AtLocation
+        - tree
+        - 1
+    -   - person
+        - AtLocation
+        - city
+        - 1
+    -   - keyboard
+        - AtLocation
+        - oven
+        - 1
+    -   - cat
+        - AtLocation
+        - building
+        - 1
+    -   - airplane
+        - AtLocation
+        - lap
+        - 1
+    -   - cake
+        - AtLocation
+        - bakery
+        - 14
+    -   - cup
+        - AtLocation
+        - circus
+        - 2
+    -   - sink
+        - AtLocation
+        - plate
+        - 1
+    -   - bear
+        - AtLocation
+        - garage
+        - 2
+    -   - oven
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - vase
+        - AtLocation
+        - building
+        - 1
+    -   - laptop
+        - AtLocation
+        - circus
+        - 2
+    -   - chair
+        - AtLocation
+        - apartment
+        - 3
+    -   - bear
+        - AtLocation
+        - sky
+        - 1
+    -   - sink
+        - AtLocation
+        - office
+        - 1
+    -   - cup
+        - AtLocation
+        - water
+        - 1
+    -   - book
+        - AtLocation
+        - closet
+        - 1
+    -   - cow
+        - AtLocation
+        - park
+        - 1
+    -   - airplane
+        - AtLocation
+        - farm
+        - 1
+    -   - elephant
+        - AtLocation
+        - bakery
+        - 1
+    -   - bear
+        - AtLocation
+        - plate
+        - 1
+    -   - airplane
+        - AtLocation
+        - bakery
+        - 1
+    -   - apple
+        - AtLocation
+        - plate
+        - 3
+    -   - bowl
+        - AtLocation
+        - sky
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - house
+        - 1
+    -   - bicycle
+        - AtLocation
+        - city
+        - 1
+    -   - bowl
+        - AtLocation
+        - office
+        - 2
+    -   - knife
+        - AtLocation
+        - pantry
+        - 1
+    -   - bench
+        - AtLocation
+        - apartment
+        - 1
+    -   - truck
+        - AtLocation
+        - store
+        - 2
+    -   - sandwich
+        - AtLocation
+        - garden
+        - 1
+    -   - bear
+        - AtLocation
+        - park
+        - 14
+    -   - couch
+        - AtLocation
+        - circus
+        - 1
+    -   - book
+        - AtLocation
+        - store
+        - 1
+    -   - truck
+        - AtLocation
+        - apartment
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - classroom
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - desk
+        - 2
+    -   - knife
+        - AtLocation
+        - plate
+        - 2
+    -   - horse
+        - AtLocation
+        - water
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - countryside
+        - 1
+    -   - horse
+        - AtLocation
+        - building
+        - 1
+    -   - cup
+        - AtLocation
+        - table
+        - 10
+    -   - sheep
+        - AtLocation
+        - office
+        - 1
+    -   - sheep
+        - AtLocation
+        - suitcase
+        - 1
+    -   - car
+        - AtLocation
+        - oven
+        - 1
+    -   - cup
+        - AtLocation
+        - oven
+        - 1
+    -   - truck
+        - AtLocation
+        - closet
+        - 1
+    -   - scissors
+        - AtLocation
+        - countryside
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - classroom
+        - 1
+    -   - bench
+        - AtLocation
+        - store
+        - 1
+    -   - oven
+        - AtLocation
+        - bowl
+        - 1
+    -   - bed
+        - AtLocation
+        - home
+        - 1
+    -   - chair
+        - AtLocation
+        - garage
+        - 1
+    -   - microwave
+        - AtLocation
+        - farm
+        - 1
+    -   - truck
+        - AtLocation
+        - building
+        - 2
+    -   - apple
+        - AtLocation
+        - suitcase
+        - 1
+    -   - laptop
+        - AtLocation
+        - garden
+        - 1
+    -   - sink
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - cat
+        - AtLocation
+        - countryside
+        - 1
+    -   - cake
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - pizza
+        - AtLocation
+        - table
+        - 1
+    -   - bird
+        - AtLocation
+        - airplane
+        - 1
+    -   - bowl
+        - AtLocation
+        - bowl
+        - 1
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 9
+    -   - bear
+        - AtLocation
+        - table
+        - 1
+    -   - toilet
+        - AtLocation
+        - plate
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - plate
+        - 1
+    -   - broccoli
+        - AtLocation
+        - apartment
+        - 1
+    -   - elephant
+        - AtLocation
+        - airplane
+        - 1
+    -   - person
+        - AtLocation
+        - closet
+        - 1
+    -   - bicycle
+        - AtLocation
+        - building
+        - 2
+    -   - clock
+        - AtLocation
+        - classroom
+        - 1
+    -   - spoon
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 18
+    -   - banana
+        - AtLocation
+        - farm
+        - 1
+    -   - horse
+        - AtLocation
+        - sky
+        - 1
+    -   - keyboard
+        - AtLocation
+        - classroom
+        - 1
+    -   - suitcase
+        - AtLocation
+        - apartment
+        - 1
+    -   - boat
+        - AtLocation
+        - desk
+        - 1
+    -   - suitcase
+        - AtLocation
+        - table
+        - 1
+    -   - boat
+        - AtLocation
+        - farm
+        - 2
+    -   - elephant
+        - AtLocation
+        - plate
+        - 1
+    -   - truck
+        - AtLocation
+        - garage
+        - 11
+    -   - car
+        - AtLocation
+        - bathroom
+        - 1
+    -   - cake
+        - AtLocation
+        - building
+        - 2
+    -   - sheep
+        - AtLocation
+        - store
+        - 2
+    -   - apple
+        - AtLocation
+        - park
+        - 1
+    -   - bed
+        - AtLocation
+        - city
+        - 1
+    -   - cow
+        - AtLocation
+        - bakery
+        - 1
+    -   - airplane
+        - AtLocation
+        - apartment
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - cupboard
+        - 1
+    -   - bed
+        - AtLocation
+        - oven
+        - 1
+    -   - car
+        - AtLocation
+        - tree
+        - 1
+    -   - airplane
+        - AtLocation
+        - building
+        - 1
+    -   - knife
+        - AtLocation
+        - suitcase
+        - 1
+    -   - cow
+        - AtLocation
+        - garden
+        - 1
+    -   - cat
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - boat
+        - AtLocation
+        - lap
+        - 1
+    -   - sandwich
+        - AtLocation
+        - bakery
+        - 1
+    -   - elephant
+        - AtLocation
+        - farm
+        - 1
+    -   - bottle
+        - AtLocation
+        - garden
+        - 1
+    -   - bowl
+        - AtLocation
+        - circus
+        - 1
+    -   - bicycle
+        - AtLocation
+        - bathroom
+        - 1
+    -   - oven
+        - AtLocation
+        - bakery
+        - 1
+    -   - cow
+        - AtLocation
+        - countryside
+        - 14
+    -   - keyboard
+        - AtLocation
+        - suitcase
+        - 1
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 10
+    -   - dog
+        - AtLocation
+        - desk
+        - 1
+    -   - boat
+        - AtLocation
+        - garden
+        - 1
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 9
+    -   - sandwich
+        - AtLocation
+        - bowl
+        - 1
+    -   - sheep
+        - AtLocation
+        - farm
+        - 20
+    -   - bird
+        - AtLocation
+        - city
+        - 2
+    -   - clock
+        - AtLocation
+        - bakery
+        - 1
+    -   - elephant
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - suitcase
+        - AtLocation
+        - garden
+        - 1
+    -   - knife
+        - AtLocation
+        - lap
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - lap
+        - 3
+    -   - bird
+        - AtLocation
+        - circus
+        - 1
+    -   - cup
+        - AtLocation
+        - building
+        - 1
+    -   - couch
+        - AtLocation
+        - house
+        - 11
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9
+    -   - knife
+        - AtLocation
+        - park
+        - 1
+    -   - clock
+        - AtLocation
+        - table
+        - 1
+    -   - suitcase
+        - AtLocation
+        - pantry
+        - 1
+    -   - bottle
+        - AtLocation
+        - kitchen
+        - 1
+    -   - chair
+        - AtLocation
+        - home
+        - 1
+    -   - elephant
+        - AtLocation
+        - house
+        - 1
+    -   - bench
+        - AtLocation
+        - bakery
+        - 1
+    -   - cake
+        - AtLocation
+        - home
+        - 1
+    -   - dog
+        - AtLocation
+        - garage
+        - 2
+    -   - bear
+        - AtLocation
+        - cupboard
+        - 1
+    -   - suitcase
+        - AtLocation
+        - closet
+        - 1
+    -   - dog
+        - AtLocation
+        - bowl
+        - 1
+    -   - bird
+        - AtLocation
+        - bowl
+        - 3
+    -   - horse
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - sheep
+        - AtLocation
+        - garden
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - home
+        - 1
+    -   - bowl
+        - AtLocation
+        - bakery
+        - 1
+    -   - scissors
+        - AtLocation
+        - house
+        - 3
+    -   - bear
+        - AtLocation
+        - classroom
+        - 1
+    -   - umbrella
+        - AtLocation
+        - countryside
+        - 1
+    -   - person
+        - AtLocation
+        - store
+        - 1
+    -   - scissors
+        - AtLocation
+        - tree
+        - 1
+    -   - bird
+        - AtLocation
+        - tree
+        - 14
+policy:
+    forget: random
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 512
+memory_type: semantic
+pretrained_semantic: false

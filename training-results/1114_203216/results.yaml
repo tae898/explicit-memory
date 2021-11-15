@@ -1,0 +1,75 @@
+train:
+    rewards: 455
+    num_samples: 9420
+    episodic_memories:
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - vase
+        - AtLocation
+        - tree
+        - 2
+    -   - cow
+        - AtLocation
+        - countryside
+        - 2
+val:
+    rewards: 42
+    num_samples: 1178
+    episodic_memories:
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's circus
+        - 10591
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    semantic_memories:
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - elephant
+        - AtLocation
+        - circus
+        - 2
+test:
+    rewards: 59
+    num_samples: 1178
+    episodic_memories:
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - banana
+        - AtLocation
+        - pantry
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: random
+        answer: random
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both
+pretrained_semantic: false

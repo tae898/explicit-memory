@@ -33,7 +33,7 @@ def generate_all_configs():
 
     for capacity in capacities:
         for forget in ["oldest", "random"]:
-            for answer in ["newest", "random"]:
+            for answer in ["latest", "random"]:
 
                 config = {
                     "memory_type": None,
@@ -111,7 +111,7 @@ def generate_all_configs():
         for forget_semantic in ["weakest", "random"]:
             for answer_semantic in ["strongest", "random"]:
                 for forget_episodic in ["oldest", "random"]:
-                    for answer_episodic in ["newest", "random"]:
+                    for answer_episodic in ["latest", "random"]:
 
                         config = {
                             "memory_type": None,
@@ -154,7 +154,7 @@ def generate_all_configs():
         for forget_semantic in ["weakest", "random"]:
             for answer_semantic in ["strongest", "random"]:
                 for forget_episodic in ["oldest", "random"]:
-                    for answer_episodic in ["newest", "random"]:
+                    for answer_episodic in ["latest", "random"]:
 
                         config = {
                             "memory_type": None,

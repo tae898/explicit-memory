@@ -1,0 +1,75 @@
+train:
+    rewards: 359
+    num_samples: 9420
+    episodic_memories:
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's bathroom
+        - 9412
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - truck
+        - AtLocation
+        - garage
+        - 6
+    -   - bed
+        - AtLocation
+        - house
+        - 8
+val:
+    rewards: 45
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's cake
+        - AtLocation
+        - Mary's plate
+        - 10585
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 6
+    -   - horse
+        - AtLocation
+        - circus
+        - 2
+test:
+    rewards: 60
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - sheep
+        - AtLocation
+        - farm
+        - 4
+    -   - chair
+        - AtLocation
+        - office
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: random
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both
+pretrained_semantic: false

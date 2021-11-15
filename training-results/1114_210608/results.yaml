@@ -1,0 +1,75 @@
+train:
+    rewards: 245
+    num_samples: 9420
+    episodic_memories:
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+val:
+    rewards: 40
+    num_samples: 1178
+    episodic_memories:
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+test:
+    rewards: 32
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+policy:
+    episodic:
+        forget: oldest
+        answer: latest
+    semantic:
+        forget: random
+        answer: strongest
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both
+pretrained_semantic: true

@@ -1,0 +1,123 @@
+train:
+    rewards: 478
+    num_samples: 9420
+    episodic_memories:
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - vase
+        - AtLocation
+        - tree
+        - 2
+    -   - cow
+        - AtLocation
+        - countryside
+        - 2
+    -   - pizza
+        - AtLocation
+        - oven
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 2
+val:
+    rewards: 94
+    num_samples: 1178
+    episodic_memories:
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - scissors
+        - AtLocation
+        - desk
+        - 2
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 4
+test:
+    rewards: 85
+    num_samples: 1178
+    episodic_memories:
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - bus
+        - AtLocation
+        - city
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 2
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - chair
+        - AtLocation
+        - office
+        - 2
+policy:
+    episodic:
+        forget: oldest
+        answer: latest
+    semantic:
+        forget: random
+        answer: strongest
+capacity:
+    episodic: 4
+    semantic: 4
+memory_type: both
+pretrained_semantic: false

@@ -1,0 +1,51 @@
+train:
+    rewards: 428
+    num_samples: 9420
+    episodic_memories:
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    semantic_memories:
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 2
+val:
+    rewards: 32
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 2
+test:
+    rewards: 44
+    num_samples: 1178
+    episodic_memories:
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    semantic_memories:
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: random
+        answer: random
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+pretrained_semantic: false

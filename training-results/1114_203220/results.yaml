@@ -1,0 +1,123 @@
+train:
+    rewards: 379
+    num_samples: 9420
+    episodic_memories:
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's bathroom
+        - 9412
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - truck
+        - AtLocation
+        - garage
+        - 14
+    -   - person
+        - AtLocation
+        - building
+        - 6
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 18
+    -   - banana
+        - AtLocation
+        - lap
+        - 2
+val:
+    rewards: 99
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's desk
+        - 10588
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - horse
+        - AtLocation
+        - circus
+        - 4
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 2
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 2
+    -   - pizza
+        - AtLocation
+        - oven
+        - 2
+test:
+    rewards: 92
+    num_samples: 1178
+    episodic_memories:
+    -   - Karen's cat
+        - AtLocation
+        - Karen's house
+        - 11767
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - mouse
+        - AtLocation
+        - garage
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 2
+    -   - scissors
+        - AtLocation
+        - desk
+        - 2
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 4
+    semantic: 4
+memory_type: both
+pretrained_semantic: false

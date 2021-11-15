@@ -1,0 +1,116 @@
+train:
+    rewards: 335
+    num_samples: 9420
+    semantic_memories:
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 1
+    -   - bench
+        - AtLocation
+        - garden
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 2
+    -   - broccoli
+        - AtLocation
+        - cupboard
+        - 1
+    -   - oven
+        - AtLocation
+        - kitchen
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 1
+    -   - oven
+        - AtLocation
+        - home
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - suitcase
+        - 2
+val:
+    rewards: 59
+    num_samples: 1178
+    semantic_memories:
+    -   - couch
+        - AtLocation
+        - circus
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 1
+    -   - banana
+        - AtLocation
+        - countryside
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 1
+    -   - bear
+        - AtLocation
+        - farm
+        - 1
+    -   - car
+        - AtLocation
+        - city
+        - 1
+    -   - pizza
+        - AtLocation
+        - park
+        - 1
+test:
+    rewards: 48
+    num_samples: 1178
+    semantic_memories:
+    -   - dog
+        - AtLocation
+        - table
+        - 1
+    -   - bed
+        - AtLocation
+        - cupboard
+        - 1
+    -   - cat
+        - AtLocation
+        - house
+        - 1
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - cake
+        - AtLocation
+        - bakery
+        - 1
+    -   - airplane
+        - AtLocation
+        - sky
+        - 1
+    -   - bird
+        - AtLocation
+        - tree
+        - 1
+policy:
+    forget: random
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 8
+memory_type: semantic
+pretrained_semantic: false

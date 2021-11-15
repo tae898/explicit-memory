@@ -33,7 +33,7 @@ def train_only_episodic(
 
     Args
     ----
-    policy: e.g., {'forget': 'oldest', 'answer': newest}
+    policy: e.g., {'forget': 'oldest', 'answer': latest}
     data: train, val, test data splits in dict
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
@@ -54,7 +54,7 @@ def train_only_episodic(
         for step, ob in enumerate(data[split]):
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
-            if M_e.is_full:
+            if M_e.is_kinda_full:
                 if policy["forget"].lower() == "oldest":
                     M_e.forget_oldest()
                 elif policy["forget"].lower() == "random":
@@ -64,8 +64,8 @@ def train_only_episodic(
 
             question = select_a_question(step, data, questions, split)
 
-            if policy["answer"].lower() == "newest":
-                reward = M_e.answer_newest(question)
+            if policy["answer"].lower() == "latest":
+                reward = M_e.answer_latest(question)
             elif policy["answer"].lower() == "random":
                 reward = M_e.answer_random(question)
             else:
@@ -128,7 +128,7 @@ def train_only_semantic(
             mem_sem = M_s.ob2sem(ob)
             if not M_s.is_frozen:
                 M_s.add(mem_sem)
-                if M_s.is_full and (not M_s.is_frozen):
+                if M_s.is_kinda_full and (not M_s.is_frozen):
                     if policy["forget"].lower() == "weakest":
                         M_s.forget_weakest()
                     elif policy["forget"].lower() == "random":
@@ -182,7 +182,7 @@ def train_both_episodic_and_semantic(
 
     Args
     ----
-    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': newest},
+    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': latest},
         'semantic': {'forget': 'weakest', 'answer': strongest}}
     data: train, val, test data splits in dict.
     capacity: memory capacity for episodic and semantic
@@ -215,7 +215,7 @@ def train_both_episodic_and_semantic(
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
             if M_s.is_frozen:
-                if M_e.is_full:
+                if M_e.is_kinda_full:
                     if policy["episodic"]["forget"].lower() == "oldest":
                         M_e.forget_oldest()
                     elif policy["episodic"]["forget"].lower() == "random":
@@ -223,11 +223,11 @@ def train_both_episodic_and_semantic(
                     else:
                         raise NotImplementedError
             else:
-                if M_e.is_full:
+                if M_e.is_kinda_full:
                     episodic_memories, semantic_memory = M_e.get_similar()
                     if episodic_memories is not None:
                         M_s.add(semantic_memory)
-                        if M_s.is_full:
+                        if M_s.is_kinda_full:
                             if policy["semantic"]["forget"].lower() == "weakest":
                                 M_s.forget_weakest()
                             elif policy["semantic"]["forget"].lower() == "random":
@@ -248,21 +248,20 @@ def train_both_episodic_and_semantic(
             question_epi = select_a_question(step, data, questions, split)
             question_sem = M_s.eq2sq(question_epi)
 
-            if policy["episodic"]["answer"].lower() == "newest":
-                reward_epi = M_e.answer_newest(question_epi)
+            if policy["episodic"]["answer"].lower() == "latest":
+                if M_e.is_answerable(question_epi):
+                    reward = M_e.answer_latest(question_epi)
+                else:
+                    if policy["semantic"]["answer"].lower() == "strongest":
+                        reward = M_s.answer_strongest(question_sem)
+                    elif policy["semantic"]["answer"].lower() == "random":
+                        reward = M_s.answer_random(question_sem)
+                    else:
+                        raise NotImplementedError
             elif policy["episodic"]["answer"].lower() == "random":
-                reward_epi = M_e.answer_random(question_epi)
+                reward = M_e.answer_random(question_epi)
             else:
                 raise NotImplementedError
-
-            if policy["semantic"]["answer"].lower() == "strongest":
-                reward_sem = M_s.answer_strongest(question_sem)
-            elif policy["semantic"]["answer"].lower() == "random":
-                reward_sem = M_s.answer_random(question_sem)
-            else:
-                raise NotImplementedError
-
-            reward = max(reward_epi, reward_sem)
 
             rewards += reward
 
@@ -304,7 +303,7 @@ def main(
     Args
     ----
     memory_type: 'episodic', 'semantic', or 'both'
-    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': newest},
+    policy: e.g., {'episodic': {'forget': 'oldest', 'answer': latest},
         'semantic': {'forget': 'weakest', 'answer': strongest}}
     save_at: where to save training results.
     data_path: path to data.

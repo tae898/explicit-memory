@@ -1,0 +1,51 @@
+train:
+    rewards: 134
+    num_samples: 9420
+    episodic_memories:
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 2
+val:
+    rewards: 35
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - horse
+        - AtLocation
+        - circus
+        - 2
+test:
+    rewards: 19
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    semantic_memories:
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+pretrained_semantic: false

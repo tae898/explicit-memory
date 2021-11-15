@@ -1,0 +1,16 @@
+memory_type: both
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: strongest
+save_at: training-results/1114_211101
+data_path: ./data/data.json
+capacity:
+    episodic: 32
+    semantic: 32
+pretrained_semantic: ./data/semantic-knowledge.json
+question_path: ./data/questions.json
+seed: 42

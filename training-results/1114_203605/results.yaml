@@ -1,0 +1,411 @@
+train:
+    rewards: 583
+    num_samples: 9420
+    episodic_memories:
+    -   - Linda's chair
+        - AtLocation
+        - Linda's desk
+        - 9379
+    -   - Jennifer's umbrella
+        - AtLocation
+        - Jennifer's store
+        - 9384
+    -   - Charles's bench
+        - AtLocation
+        - Charles's garage
+        - 9388
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's plate
+        - 9389
+    -   - John's cow
+        - AtLocation
+        - John's plate
+        - 9397
+    -   - James's motorcycle
+        - AtLocation
+        - James's home
+        - 9402
+    -   - John's spoon
+        - AtLocation
+        - John's bowl
+        - 9404
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's home
+        - 9407
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's oven
+        - 9409
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's bathroom
+        - 9412
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 24
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 34
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 32
+    -   - pizza
+        - AtLocation
+        - oven
+        - 34
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 30
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 36
+    -   - bed
+        - AtLocation
+        - house
+        - 30
+    -   - cow
+        - AtLocation
+        - countryside
+        - 34
+    -   - bench
+        - AtLocation
+        - garden
+        - 24
+    -   - person
+        - AtLocation
+        - building
+        - 28
+    -   - dog
+        - AtLocation
+        - table
+        - 36
+    -   - mouse
+        - AtLocation
+        - garage
+        - 36
+    -   - airplane
+        - AtLocation
+        - sky
+        - 40
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 28
+    -   - book
+        - AtLocation
+        - classroom
+        - 30
+    -   - truck
+        - AtLocation
+        - garage
+        - 38
+val:
+    rewards: 145
+    num_samples: 1178
+    episodic_memories:
+    -   - Sarah's scissors
+        - AtLocation
+        - Sarah's refrigerator
+        - 10543
+    -   - William's elephant
+        - AtLocation
+        - William's park
+        - 10551
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's cupboard
+        - 10568
+    -   - David's sink
+        - AtLocation
+        - David's kitchen
+        - 10570
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's desk
+        - 10575
+    -   - Michael's couch
+        - AtLocation
+        - Michael's house
+        - 10577
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 10578
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's desk
+        - 10580
+    -   - Elizabeth's cow
+        - AtLocation
+        - Elizabeth's countryside
+        - 10581
+    -   - Jennifer's chair
+        - AtLocation
+        - Jennifer's office
+        - 10582
+    -   - Mary's cake
+        - AtLocation
+        - Mary's plate
+        - 10585
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - vase
+        - AtLocation
+        - table
+        - 6
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 6
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 12
+    -   - couch
+        - AtLocation
+        - house
+        - 6
+    -   - sheep
+        - AtLocation
+        - farm
+        - 2
+    -   - bed
+        - AtLocation
+        - house
+        - 2
+    -   - bench
+        - AtLocation
+        - garden
+        - 6
+    -   - cow
+        - AtLocation
+        - countryside
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 10
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 8
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 4
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 10
+    -   - book
+        - AtLocation
+        - classroom
+        - 2
+    -   - truck
+        - AtLocation
+        - garage
+        - 4
+    -   - cat
+        - AtLocation
+        - lap
+        - 6
+    -   - elephant
+        - AtLocation
+        - circus
+        - 4
+test:
+    rewards: 151
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's suitcase
+        - AtLocation
+        - Mary's garden
+        - 11702
+    -   - James's umbrella
+        - AtLocation
+        - James's lap
+        - 11717
+    -   - Thomas's banana
+        - AtLocation
+        - Thomas's lap
+        - 11742
+    -   - Linda's person
+        - AtLocation
+        - Linda's farm
+        - 11751
+    -   - Jessica's mouse
+        - AtLocation
+        - Jessica's garage
+        - 11754
+    -   - Linda's banana
+        - AtLocation
+        - Linda's pantry
+        - 11762
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's table
+        - 11764
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's classroom
+        - 11765
+    -   - Karen's cat
+        - AtLocation
+        - Karen's house
+        - 11767
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's bowl
+        - 11768
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's farm
+        - 11770
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - bus
+        - AtLocation
+        - city
+        - 10
+    -   - laptop
+        - AtLocation
+        - desk
+        - 6
+    -   - pizza
+        - AtLocation
+        - oven
+        - 8
+    -   - sheep
+        - AtLocation
+        - farm
+        - 7
+    -   - couch
+        - AtLocation
+        - house
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 6
+    -   - dog
+        - AtLocation
+        - table
+        - 2
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 6
+    -   - elephant
+        - AtLocation
+        - circus
+        - 4
+    -   - cake
+        - AtLocation
+        - building
+        - 2
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - mouse
+        - AtLocation
+        - garage
+        - 4
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 4
+    -   - clock
+        - AtLocation
+        - desk
+        - 2
+    -   - truck
+        - AtLocation
+        - garage
+        - 2
+    -   - chair
+        - AtLocation
+        - office
+        - 4
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: random
+capacity:
+    episodic: 16
+    semantic: 16
+memory_type: both
+pretrained_semantic: false

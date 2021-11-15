@@ -1,0 +1,51 @@
+train:
+    rewards: 208
+    num_samples: 9420
+    episodic_memories:
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+val:
+    rewards: 37
+    num_samples: 1178
+    episodic_memories:
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+test:
+    rewards: 31
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    semantic_memories:
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: random
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+pretrained_semantic: true

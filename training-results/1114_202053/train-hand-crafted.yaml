@@ -1,0 +1,16 @@
+memory_type: episodic
+policy:
+    episodic:
+        forget: oldest
+        answer: latest
+    semantic:
+        forget: null
+        answer: null
+save_at: training-results/1114_202053
+data_path: ./data/data.json
+capacity:
+    episodic: 2
+    semantic: 0
+pretrained_semantic: null
+question_path: ./data/questions.json
+seed: 42

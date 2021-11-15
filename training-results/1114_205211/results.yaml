@@ -1,0 +1,9035 @@
+train:
+    rewards: 326
+    num_samples: 9420
+    episodic_memories:
+    -   - Sarah's apple
+        - AtLocation
+        - Sarah's garden
+        - 543
+    -   - Elizabeth's scissors
+        - AtLocation
+        - Elizabeth's pantry
+        - 834
+    -   - Jennifer's mouse
+        - AtLocation
+        - Jennifer's pantry
+        - 2143
+    -   - Richard's bird
+        - AtLocation
+        - Richard's park
+        - 2201
+    -   - Sarah's sink
+        - AtLocation
+        - Sarah's airplane
+        - 2573
+    -   - Sarah's oven
+        - AtLocation
+        - Sarah's apartment
+        - 2777
+    -   - Elizabeth's bus
+        - AtLocation
+        - Elizabeth's home
+        - 3335
+    -   - John's toothbrush
+        - AtLocation
+        - John's garage
+        - 3419
+    -   - Thomas's cow
+        - AtLocation
+        - Thomas's water
+        - 3567
+    -   - Charles's bed
+        - AtLocation
+        - Charles's garden
+        - 3616
+    -   - Richard's bed
+        - AtLocation
+        - Richard's bowl
+        - 3688
+    -   - Linda's cup
+        - AtLocation
+        - Linda's kitchen
+        - 3712
+    -   - William's bicycle
+        - AtLocation
+        - William's water
+        - 3929
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's pantry
+        - 4034
+    -   - Richard's elephant
+        - AtLocation
+        - Richard's lap
+        - 4296
+    -   - James's sink
+        - AtLocation
+        - James's city
+        - 4454
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's bowl
+        - 4482
+    -   - Mary's cup
+        - AtLocation
+        - Mary's refrigerator
+        - 4645
+    -   - Karen's bus
+        - AtLocation
+        - Karen's cupboard
+        - 4815
+    -   - Linda's bear
+        - AtLocation
+        - Linda's tree
+        - 4816
+    -   - Susan's spoon
+        - AtLocation
+        - Susan's store
+        - 4943
+    -   - John's umbrella
+        - AtLocation
+        - John's tree
+        - 4991
+    -   - James's toilet
+        - AtLocation
+        - James's garage
+        - 5001
+    -   - Barbara's mouse
+        - AtLocation
+        - Barbara's refrigerator
+        - 5003
+    -   - Patricia's sheep
+        - AtLocation
+        - Patricia's plate
+        - 5022
+    -   - Jennifer's airplane
+        - AtLocation
+        - Jennifer's city
+        - 5080
+    -   - James's oven
+        - AtLocation
+        - James's store
+        - 5088
+    -   - Susan's laptop
+        - AtLocation
+        - Susan's lap
+        - 5092
+    -   - William's scissors
+        - AtLocation
+        - William's lap
+        - 5216
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's bowl
+        - 5227
+    -   - William's knife
+        - AtLocation
+        - William's farm
+        - 5248
+    -   - Charles's airplane
+        - AtLocation
+        - Charles's refrigerator
+        - 5285
+    -   - William's sheep
+        - AtLocation
+        - William's sky
+        - 5384
+    -   - Robert's keyboard
+        - AtLocation
+        - Robert's kitchen
+        - 5398
+    -   - William's sink
+        - AtLocation
+        - William's countryside
+        - 5420
+    -   - John's elephant
+        - AtLocation
+        - John's office
+        - 5480
+    -   - James's cake
+        - AtLocation
+        - James's office
+        - 5519
+    -   - James's cake
+        - AtLocation
+        - James's refrigerator
+        - 5623
+    -   - Barbara's cat
+        - AtLocation
+        - Barbara's apartment
+        - 5627
+    -   - James's bed
+        - AtLocation
+        - James's bakery
+        - 5629
+    -   - James's oven
+        - AtLocation
+        - James's garden
+        - 5647
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's lap
+        - 5652
+    -   - Barbara's chair
+        - AtLocation
+        - Barbara's classroom
+        - 5713
+    -   - Sarah's bottle
+        - AtLocation
+        - Sarah's water
+        - 5716
+    -   - Jessica's dog
+        - AtLocation
+        - Jessica's circus
+        - 5790
+    -   - Jessica's toothbrush
+        - AtLocation
+        - Jessica's table
+        - 5903
+    -   - Elizabeth's clock
+        - AtLocation
+        - Elizabeth's home
+        - 5909
+    -   - Michael's cup
+        - AtLocation
+        - Michael's farm
+        - 5925
+    -   - Charles's clock
+        - AtLocation
+        - Charles's suitcase
+        - 5926
+    -   - William's toothbrush
+        - AtLocation
+        - William's refrigerator
+        - 5968
+    -   - David's bear
+        - AtLocation
+        - David's farm
+        - 5976
+    -   - Barbara's sandwich
+        - AtLocation
+        - Barbara's countryside
+        - 6104
+    -   - Sarah's clock
+        - AtLocation
+        - Sarah's kitchen
+        - 6124
+    -   - John's cow
+        - AtLocation
+        - John's pantry
+        - 6128
+    -   - Joseph's bottle
+        - AtLocation
+        - Joseph's house
+        - 6138
+    -   - Jennifer's toilet
+        - AtLocation
+        - Jennifer's pantry
+        - 6145
+    -   - Mary's laptop
+        - AtLocation
+        - Mary's airplane
+        - 6170
+    -   - Jessica's knife
+        - AtLocation
+        - Jessica's refrigerator
+        - 6186
+    -   - Elizabeth's cow
+        - AtLocation
+        - Elizabeth's store
+        - 6196
+    -   - Richard's spoon
+        - AtLocation
+        - Richard's classroom
+        - 6223
+    -   - John's cake
+        - AtLocation
+        - John's city
+        - 6253
+    -   - Susan's scissors
+        - AtLocation
+        - Susan's table
+        - 6267
+    -   - Elizabeth's book
+        - AtLocation
+        - Elizabeth's garage
+        - 6272
+    -   - Mary's spoon
+        - AtLocation
+        - Mary's city
+        - 6294
+    -   - Sarah's oven
+        - AtLocation
+        - Sarah's desk
+        - 6323
+    -   - Charles's clock
+        - AtLocation
+        - Charles's bakery
+        - 6340
+    -   - Robert's cup
+        - AtLocation
+        - Robert's office
+        - 6349
+    -   - Charles's airplane
+        - AtLocation
+        - Charles's plate
+        - 6371
+    -   - David's spoon
+        - AtLocation
+        - David's cupboard
+        - 6409
+    -   - John's refrigerator
+        - AtLocation
+        - John's oven
+        - 6429
+    -   - Michael's book
+        - AtLocation
+        - Michael's bowl
+        - 6430
+    -   - Jennifer's pizza
+        - AtLocation
+        - Jennifer's home
+        - 6467
+    -   - Michael's bench
+        - AtLocation
+        - Michael's office
+        - 6508
+    -   - Patricia's sheep
+        - AtLocation
+        - Patricia's pantry
+        - 6519
+    -   - Michael's sink
+        - AtLocation
+        - Michael's park
+        - 6558
+    -   - Barbara's bear
+        - AtLocation
+        - Barbara's oven
+        - 6598
+    -   - Robert's oven
+        - AtLocation
+        - Robert's garage
+        - 6616
+    -   - Michael's apple
+        - AtLocation
+        - Michael's table
+        - 6688
+    -   - Patricia's apple
+        - AtLocation
+        - Patricia's store
+        - 6701
+    -   - Jennifer's cake
+        - AtLocation
+        - Jennifer's countryside
+        - 6769
+    -   - Robert's scissors
+        - AtLocation
+        - Robert's garage
+        - 6778
+    -   - Jennifer's bed
+        - AtLocation
+        - Jennifer's desk
+        - 6794
+    -   - Mary's clock
+        - AtLocation
+        - Mary's bathroom
+        - 6801
+    -   - Jessica's pizza
+        - AtLocation
+        - Jessica's closet
+        - 6810
+    -   - Charles's refrigerator
+        - AtLocation
+        - Charles's cupboard
+        - 6819
+    -   - Joseph's book
+        - AtLocation
+        - Joseph's pantry
+        - 6838
+    -   - Karen's broccoli
+        - AtLocation
+        - Karen's sky
+        - 6847
+    -   - Joseph's banana
+        - AtLocation
+        - Joseph's tree
+        - 6907
+    -   - James's clock
+        - AtLocation
+        - James's cupboard
+        - 6910
+    -   - Joseph's apple
+        - AtLocation
+        - Joseph's bowl
+        - 6913
+    -   - Karen's bed
+        - AtLocation
+        - Karen's kitchen
+        - 6940
+    -   - Barbara's toothbrush
+        - AtLocation
+        - Barbara's closet
+        - 6972
+    -   - John's sink
+        - AtLocation
+        - John's home
+        - 6978
+    -   - Linda's cake
+        - AtLocation
+        - Linda's pantry
+        - 6985
+    -   - David's car
+        - AtLocation
+        - David's garage
+        - 6988
+    -   - Robert's car
+        - AtLocation
+        - Robert's pantry
+        - 7013
+    -   - David's umbrella
+        - AtLocation
+        - David's farm
+        - 7015
+    -   - Barbara's bear
+        - AtLocation
+        - Barbara's garden
+        - 7023
+    -   - Susan's boat
+        - AtLocation
+        - Susan's sky
+        - 7055
+    -   - Barbara's person
+        - AtLocation
+        - Barbara's garage
+        - 7057
+    -   - Joseph's vase
+        - AtLocation
+        - Joseph's building
+        - 7068
+    -   - Jennifer's boat
+        - AtLocation
+        - Jennifer's apartment
+        - 7071
+    -   - Elizabeth's bench
+        - AtLocation
+        - Elizabeth's table
+        - 7090
+    -   - Jessica's horse
+        - AtLocation
+        - Jessica's sky
+        - 7097
+    -   - Jennifer's laptop
+        - AtLocation
+        - Jennifer's garden
+        - 7100
+    -   - Joseph's clock
+        - AtLocation
+        - Joseph's circus
+        - 7106
+    -   - Joseph's bottle
+        - AtLocation
+        - Joseph's garage
+        - 7125
+    -   - William's refrigerator
+        - AtLocation
+        - William's airplane
+        - 7131
+    -   - Jennifer's truck
+        - AtLocation
+        - Jennifer's closet
+        - 7134
+    -   - David's suitcase
+        - AtLocation
+        - David's oven
+        - 7149
+    -   - Robert's oven
+        - AtLocation
+        - Robert's bowl
+        - 7178
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's plate
+        - 7196
+    -   - William's car
+        - AtLocation
+        - William's bowl
+        - 7205
+    -   - Barbara's cup
+        - AtLocation
+        - Barbara's garden
+        - 7206
+    -   - Jessica's banana
+        - AtLocation
+        - Jessica's classroom
+        - 7238
+    -   - James's toilet
+        - AtLocation
+        - James's cupboard
+        - 7246
+    -   - David's cat
+        - AtLocation
+        - David's farm
+        - 7256
+    -   - Elizabeth's horse
+        - AtLocation
+        - Elizabeth's classroom
+        - 7269
+    -   - Karen's oven
+        - AtLocation
+        - Karen's water
+        - 7273
+    -   - David's couch
+        - AtLocation
+        - David's table
+        - 7275
+    -   - David's toothbrush
+        - AtLocation
+        - David's store
+        - 7280
+    -   - Richard's elephant
+        - AtLocation
+        - Richard's oven
+        - 7284
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's garden
+        - 7287
+    -   - James's mouse
+        - AtLocation
+        - James's building
+        - 7322
+    -   - John's motorcycle
+        - AtLocation
+        - John's desk
+        - 7327
+    -   - William's cake
+        - AtLocation
+        - William's bathroom
+        - 7343
+    -   - Patricia's sandwich
+        - AtLocation
+        - Patricia's garage
+        - 7349
+    -   - William's bird
+        - AtLocation
+        - William's garden
+        - 7367
+    -   - William's apple
+        - AtLocation
+        - William's countryside
+        - 7377
+    -   - Jennifer's bowl
+        - AtLocation
+        - Jennifer's bakery
+        - 7392
+    -   - Jennifer's banana
+        - AtLocation
+        - Jennifer's store
+        - 7394
+    -   - Mary's sink
+        - AtLocation
+        - Mary's plate
+        - 7406
+    -   - William's refrigerator
+        - AtLocation
+        - William's sky
+        - 7441
+    -   - Elizabeth's banana
+        - AtLocation
+        - Elizabeth's bakery
+        - 7446
+    -   - Robert's toilet
+        - AtLocation
+        - Robert's house
+        - 7458
+    -   - Joseph's motorcycle
+        - AtLocation
+        - Joseph's oven
+        - 7467
+    -   - Sarah's clock
+        - AtLocation
+        - Sarah's oven
+        - 7538
+    -   - Barbara's pizza
+        - AtLocation
+        - Barbara's table
+        - 7553
+    -   - Robert's bench
+        - AtLocation
+        - Robert's plate
+        - 7557
+    -   - Patricia's motorcycle
+        - AtLocation
+        - Patricia's office
+        - 7561
+    -   - Sarah's chair
+        - AtLocation
+        - Sarah's sky
+        - 7564
+    -   - Barbara's broccoli
+        - AtLocation
+        - Barbara's tree
+        - 7571
+    -   - Karen's chair
+        - AtLocation
+        - Karen's park
+        - 7583
+    -   - John's sandwich
+        - AtLocation
+        - John's bathroom
+        - 7587
+    -   - Robert's cow
+        - AtLocation
+        - Robert's bowl
+        - 7588
+    -   - Charles's motorcycle
+        - AtLocation
+        - Charles's garden
+        - 7598
+    -   - Charles's vase
+        - AtLocation
+        - Charles's lap
+        - 7602
+    -   - Susan's mouse
+        - AtLocation
+        - Susan's park
+        - 7603
+    -   - David's refrigerator
+        - AtLocation
+        - David's water
+        - 7626
+    -   - James's apple
+        - AtLocation
+        - James's circus
+        - 7629
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's bowl
+        - 7641
+    -   - Michael's bear
+        - AtLocation
+        - Michael's house
+        - 7654
+    -   - John's cat
+        - AtLocation
+        - John's tree
+        - 7671
+    -   - James's pizza
+        - AtLocation
+        - James's cupboard
+        - 7682
+    -   - William's bus
+        - AtLocation
+        - William's sky
+        - 7685
+    -   - Charles's clock
+        - AtLocation
+        - Charles's apartment
+        - 7688
+    -   - Jennifer's oven
+        - AtLocation
+        - Jennifer's office
+        - 7712
+    -   - David's broccoli
+        - AtLocation
+        - David's refrigerator
+        - 7715
+    -   - Elizabeth's elephant
+        - AtLocation
+        - Elizabeth's sky
+        - 7738
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's closet
+        - 7745
+    -   - James's vase
+        - AtLocation
+        - James's water
+        - 7749
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's building
+        - 7751
+    -   - Patricia's clock
+        - AtLocation
+        - Patricia's city
+        - 7770
+    -   - Jennifer's sandwich
+        - AtLocation
+        - Jennifer's suitcase
+        - 7779
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bakery
+        - 7780
+    -   - Thomas's sheep
+        - AtLocation
+        - Thomas's bakery
+        - 7789
+    -   - David's person
+        - AtLocation
+        - David's countryside
+        - 7797
+    -   - Jessica's toilet
+        - AtLocation
+        - Jessica's city
+        - 7808
+    -   - Charles's apple
+        - AtLocation
+        - Charles's park
+        - 7812
+    -   - Robert's microwave
+        - AtLocation
+        - Robert's kitchen
+        - 7816
+    -   - Karen's cat
+        - AtLocation
+        - Karen's house
+        - 7818
+    -   - Patricia's chair
+        - AtLocation
+        - Patricia's circus
+        - 7826
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's garage
+        - 7827
+    -   - Jessica's broccoli
+        - AtLocation
+        - Jessica's city
+        - 7832
+    -   - Robert's laptop
+        - AtLocation
+        - Robert's suitcase
+        - 7833
+    -   - Mary's bicycle
+        - AtLocation
+        - Mary's oven
+        - 7851
+    -   - Elizabeth's car
+        - AtLocation
+        - Elizabeth's classroom
+        - 7864
+    -   - James's airplane
+        - AtLocation
+        - James's park
+        - 7867
+    -   - Thomas's bus
+        - AtLocation
+        - Thomas's bowl
+        - 7873
+    -   - Joseph's cup
+        - AtLocation
+        - Joseph's cupboard
+        - 7890
+    -   - Michael's bottle
+        - AtLocation
+        - Michael's refrigerator
+        - 7894
+    -   - Thomas's cow
+        - AtLocation
+        - Thomas's city
+        - 7898
+    -   - David's umbrella
+        - AtLocation
+        - David's water
+        - 7901
+    -   - Robert's sheep
+        - AtLocation
+        - Robert's closet
+        - 7914
+    -   - James's bicycle
+        - AtLocation
+        - James's home
+        - 7918
+    -   - John's microwave
+        - AtLocation
+        - John's store
+        - 7921
+    -   - Jessica's scissors
+        - AtLocation
+        - Jessica's city
+        - 7932
+    -   - Elizabeth's keyboard
+        - AtLocation
+        - Elizabeth's garage
+        - 7936
+    -   - William's oven
+        - AtLocation
+        - William's classroom
+        - 7944
+    -   - Jessica's bus
+        - AtLocation
+        - Jessica's garden
+        - 7946
+    -   - Joseph's scissors
+        - AtLocation
+        - Joseph's water
+        - 7949
+    -   - Patricia's suitcase
+        - AtLocation
+        - Patricia's bakery
+        - 7973
+    -   - David's keyboard
+        - AtLocation
+        - David's tree
+        - 7981
+    -   - Sarah's refrigerator
+        - AtLocation
+        - Sarah's refrigerator
+        - 8001
+    -   - Susan's sheep
+        - AtLocation
+        - Susan's oven
+        - 8009
+    -   - Sarah's microwave
+        - AtLocation
+        - Sarah's bakery
+        - 8019
+    -   - Joseph's bed
+        - AtLocation
+        - Joseph's sky
+        - 8022
+    -   - Sarah's broccoli
+        - AtLocation
+        - Sarah's lap
+        - 8065
+    -   - Thomas's bear
+        - AtLocation
+        - Thomas's lap
+        - 8066
+    -   - Jessica's sheep
+        - AtLocation
+        - Jessica's home
+        - 8089
+    -   - David's couch
+        - AtLocation
+        - David's bowl
+        - 8093
+    -   - Patricia's cup
+        - AtLocation
+        - Patricia's lap
+        - 8094
+    -   - Patricia's cake
+        - AtLocation
+        - Patricia's home
+        - 8102
+    -   - Charles's scissors
+        - AtLocation
+        - Charles's kitchen
+        - 8113
+    -   - Thomas's sandwich
+        - AtLocation
+        - Thomas's kitchen
+        - 8115
+    -   - Sarah's refrigerator
+        - AtLocation
+        - Sarah's apartment
+        - 8129
+    -   - Barbara's book
+        - AtLocation
+        - Barbara's building
+        - 8136
+    -   - James's truck
+        - AtLocation
+        - James's tree
+        - 8140
+    -   - Charles's car
+        - AtLocation
+        - Charles's store
+        - 8148
+    -   - John's airplane
+        - AtLocation
+        - John's bathroom
+        - 8151
+    -   - Elizabeth's bowl
+        - AtLocation
+        - Elizabeth's circus
+        - 8160
+    -   - Linda's book
+        - AtLocation
+        - Linda's home
+        - 8161
+    -   - Barbara's bottle
+        - AtLocation
+        - Barbara's apartment
+        - 8166
+    -   - Linda's bus
+        - AtLocation
+        - Linda's bakery
+        - 8168
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's water
+        - 8172
+    -   - Sarah's book
+        - AtLocation
+        - Sarah's park
+        - 8180
+    -   - Susan's suitcase
+        - AtLocation
+        - Susan's closet
+        - 8183
+    -   - Joseph's bottle
+        - AtLocation
+        - Joseph's suitcase
+        - 8185
+    -   - Elizabeth's chair
+        - AtLocation
+        - Elizabeth's kitchen
+        - 8205
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's city
+        - 8220
+    -   - Joseph's scissors
+        - AtLocation
+        - Joseph's circus
+        - 8237
+    -   - Elizabeth's vase
+        - AtLocation
+        - Elizabeth's closet
+        - 8239
+    -   - Thomas's elephant
+        - AtLocation
+        - Thomas's desk
+        - 8254
+    -   - David's clock
+        - AtLocation
+        - David's house
+        - 8255
+    -   - David's clock
+        - AtLocation
+        - David's garden
+        - 8267
+    -   - Charles's keyboard
+        - AtLocation
+        - Charles's bakery
+        - 8272
+    -   - Richard's bicycle
+        - AtLocation
+        - Richard's desk
+        - 8275
+    -   - Susan's suitcase
+        - AtLocation
+        - Susan's suitcase
+        - 8281
+    -   - John's cake
+        - AtLocation
+        - John's desk
+        - 8282
+    -   - Linda's person
+        - AtLocation
+        - Linda's bathroom
+        - 8285
+    -   - Susan's person
+        - AtLocation
+        - Susan's classroom
+        - 8302
+    -   - Linda's sandwich
+        - AtLocation
+        - Linda's store
+        - 8332
+    -   - Elizabeth's keyboard
+        - AtLocation
+        - Elizabeth's home
+        - 8337
+    -   - James's cow
+        - AtLocation
+        - James's table
+        - 8341
+    -   - James's laptop
+        - AtLocation
+        - James's farm
+        - 8346
+    -   - Karen's banana
+        - AtLocation
+        - Karen's house
+        - 8362
+    -   - Mary's sheep
+        - AtLocation
+        - Mary's apartment
+        - 8390
+    -   - Jessica's cake
+        - AtLocation
+        - Jessica's oven
+        - 8400
+    -   - Richard's suitcase
+        - AtLocation
+        - Richard's home
+        - 8410
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's closet
+        - 8412
+    -   - James's umbrella
+        - AtLocation
+        - James's desk
+        - 8417
+    -   - Elizabeth's toothbrush
+        - AtLocation
+        - Elizabeth's tree
+        - 8419
+    -   - Karen's knife
+        - AtLocation
+        - Karen's cupboard
+        - 8426
+    -   - Mary's scissors
+        - AtLocation
+        - Mary's classroom
+        - 8444
+    -   - David's boat
+        - AtLocation
+        - David's store
+        - 8445
+    -   - Elizabeth's bus
+        - AtLocation
+        - Elizabeth's oven
+        - 8452
+    -   - Mary's horse
+        - AtLocation
+        - Mary's oven
+        - 8456
+    -   - John's elephant
+        - AtLocation
+        - John's city
+        - 8457
+    -   - Barbara's cat
+        - AtLocation
+        - Barbara's garage
+        - 8458
+    -   - Michael's laptop
+        - AtLocation
+        - Michael's house
+        - 8460
+    -   - Patricia's bicycle
+        - AtLocation
+        - Patricia's office
+        - 8464
+    -   - Charles's boat
+        - AtLocation
+        - Charles's building
+        - 8469
+    -   - Michael's pizza
+        - AtLocation
+        - Michael's bowl
+        - 8476
+    -   - Richard's keyboard
+        - AtLocation
+        - Richard's refrigerator
+        - 8477
+    -   - James's microwave
+        - AtLocation
+        - James's suitcase
+        - 8483
+    -   - Michael's bed
+        - AtLocation
+        - Michael's tree
+        - 8486
+    -   - Sarah's microwave
+        - AtLocation
+        - Sarah's building
+        - 8487
+    -   - Patricia's banana
+        - AtLocation
+        - Patricia's kitchen
+        - 8490
+    -   - Linda's boat
+        - AtLocation
+        - Linda's home
+        - 8493
+    -   - Elizabeth's toothbrush
+        - AtLocation
+        - Elizabeth's countryside
+        - 8494
+    -   - William's bed
+        - AtLocation
+        - William's oven
+        - 8502
+    -   - Elizabeth's spoon
+        - AtLocation
+        - Elizabeth's park
+        - 8510
+    -   - Mary's couch
+        - AtLocation
+        - Mary's apartment
+        - 8518
+    -   - Jessica's elephant
+        - AtLocation
+        - Jessica's countryside
+        - 8522
+    -   - Jennifer's boat
+        - AtLocation
+        - Jennifer's garage
+        - 8524
+    -   - Patricia's toilet
+        - AtLocation
+        - Patricia's bowl
+        - 8540
+    -   - Sarah's chair
+        - AtLocation
+        - Sarah's water
+        - 8544
+    -   - Mary's broccoli
+        - AtLocation
+        - Mary's pantry
+        - 8546
+    -   - Susan's umbrella
+        - AtLocation
+        - Susan's garage
+        - 8549
+    -   - Charles's sheep
+        - AtLocation
+        - Charles's city
+        - 8551
+    -   - David's keyboard
+        - AtLocation
+        - David's bathroom
+        - 8557
+    -   - Karen's couch
+        - AtLocation
+        - Karen's countryside
+        - 8559
+    -   - Robert's horse
+        - AtLocation
+        - Robert's building
+        - 8563
+    -   - David's microwave
+        - AtLocation
+        - David's pantry
+        - 8570
+    -   - Linda's sandwich
+        - AtLocation
+        - Linda's table
+        - 8571
+    -   - Michael's toothbrush
+        - AtLocation
+        - Michael's bakery
+        - 8575
+    -   - Susan's bench
+        - AtLocation
+        - Susan's bakery
+        - 8576
+    -   - Barbara's book
+        - AtLocation
+        - Barbara's table
+        - 8583
+    -   - Linda's toilet
+        - AtLocation
+        - Linda's closet
+        - 8585
+    -   - Richard's bicycle
+        - AtLocation
+        - Richard's building
+        - 8594
+    -   - John's spoon
+        - AtLocation
+        - John's pantry
+        - 8597
+    -   - James's bird
+        - AtLocation
+        - James's circus
+        - 8605
+    -   - Charles's bus
+        - AtLocation
+        - Charles's suitcase
+        - 8606
+    -   - Charles's bench
+        - AtLocation
+        - Charles's farm
+        - 8608
+    -   - Charles's motorcycle
+        - AtLocation
+        - Charles's pantry
+        - 8621
+    -   - John's dog
+        - AtLocation
+        - John's park
+        - 8628
+    -   - Jessica's horse
+        - AtLocation
+        - Jessica's garden
+        - 8634
+    -   - Richard's bear
+        - AtLocation
+        - Richard's kitchen
+        - 8637
+    -   - Mary's bus
+        - AtLocation
+        - Mary's table
+        - 8640
+    -   - Mary's vase
+        - AtLocation
+        - Mary's garden
+        - 8645
+    -   - James's oven
+        - AtLocation
+        - James's tree
+        - 8653
+    -   - Susan's knife
+        - AtLocation
+        - Susan's sky
+        - 8657
+    -   - Michael's bus
+        - AtLocation
+        - Michael's pantry
+        - 8659
+    -   - Charles's car
+        - AtLocation
+        - Charles's plate
+        - 8670
+    -   - Susan's horse
+        - AtLocation
+        - Susan's bakery
+        - 8671
+    -   - Elizabeth's bicycle
+        - AtLocation
+        - Elizabeth's lap
+        - 8676
+    -   - Joseph's bus
+        - AtLocation
+        - Joseph's airplane
+        - 8682
+    -   - Richard's microwave
+        - AtLocation
+        - Richard's table
+        - 8685
+    -   - Charles's person
+        - AtLocation
+        - Charles's bowl
+        - 8687
+    -   - Mary's suitcase
+        - AtLocation
+        - Mary's bathroom
+        - 8688
+    -   - Elizabeth's umbrella
+        - AtLocation
+        - Elizabeth's pantry
+        - 8689
+    -   - Patricia's bench
+        - AtLocation
+        - Patricia's lap
+        - 8692
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's garden
+        - 8699
+    -   - Richard's refrigerator
+        - AtLocation
+        - Richard's park
+        - 8707
+    -   - Charles's couch
+        - AtLocation
+        - Charles's desk
+        - 8715
+    -   - Karen's cake
+        - AtLocation
+        - Karen's airplane
+        - 8718
+    -   - David's bicycle
+        - AtLocation
+        - David's city
+        - 8725
+    -   - Jessica's banana
+        - AtLocation
+        - Jessica's office
+        - 8740
+    -   - Linda's cat
+        - AtLocation
+        - Linda's office
+        - 8753
+    -   - Michael's horse
+        - AtLocation
+        - Michael's office
+        - 8755
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's cupboard
+        - 8758
+    -   - Barbara's scissors
+        - AtLocation
+        - Barbara's park
+        - 8759
+    -   - Karen's cup
+        - AtLocation
+        - Karen's store
+        - 8771
+    -   - Linda's cup
+        - AtLocation
+        - Linda's water
+        - 8785
+    -   - David's cow
+        - AtLocation
+        - David's suitcase
+        - 8789
+    -   - Michael's cow
+        - AtLocation
+        - Michael's park
+        - 8802
+    -   - Richard's spoon
+        - AtLocation
+        - Richard's bathroom
+        - 8806
+    -   - Robert's microwave
+        - AtLocation
+        - Robert's airplane
+        - 8809
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's bathroom
+        - 8815
+    -   - James's cow
+        - AtLocation
+        - James's airplane
+        - 8820
+    -   - Charles's knife
+        - AtLocation
+        - Charles's bathroom
+        - 8823
+    -   - David's keyboard
+        - AtLocation
+        - David's building
+        - 8830
+    -   - Jessica's car
+        - AtLocation
+        - Jessica's lap
+        - 8839
+    -   - Robert's keyboard
+        - AtLocation
+        - Robert's cupboard
+        - 8841
+    -   - Patricia's mouse
+        - AtLocation
+        - Patricia's airplane
+        - 8843
+    -   - Jennifer's couch
+        - AtLocation
+        - Jennifer's park
+        - 8844
+    -   - Robert's banana
+        - AtLocation
+        - Robert's bathroom
+        - 8847
+    -   - Elizabeth's toothbrush
+        - AtLocation
+        - Elizabeth's apartment
+        - 8863
+    -   - Patricia's bicycle
+        - AtLocation
+        - Patricia's house
+        - 8864
+    -   - Jessica's knife
+        - AtLocation
+        - Jessica's home
+        - 8869
+    -   - David's cake
+        - AtLocation
+        - David's building
+        - 8875
+    -   - Robert's book
+        - AtLocation
+        - Robert's countryside
+        - 8880
+    -   - Richard's scissors
+        - AtLocation
+        - Richard's closet
+        - 8882
+    -   - Thomas's vase
+        - AtLocation
+        - Thomas's classroom
+        - 8889
+    -   - Patricia's person
+        - AtLocation
+        - Patricia's home
+        - 8890
+    -   - John's truck
+        - AtLocation
+        - John's home
+        - 8891
+    -   - Susan's dog
+        - AtLocation
+        - Susan's sky
+        - 8895
+    -   - Robert's motorcycle
+        - AtLocation
+        - Robert's bathroom
+        - 8897
+    -   - Karen's bird
+        - AtLocation
+        - Karen's garage
+        - 8904
+    -   - Linda's mouse
+        - AtLocation
+        - Linda's suitcase
+        - 8908
+    -   - Barbara's boat
+        - AtLocation
+        - Barbara's table
+        - 8919
+    -   - Elizabeth's cup
+        - AtLocation
+        - Elizabeth's park
+        - 8925
+    -   - David's elephant
+        - AtLocation
+        - David's plate
+        - 8928
+    -   - Sarah's car
+        - AtLocation
+        - Sarah's apartment
+        - 8933
+    -   - Jennifer's book
+        - AtLocation
+        - Jennifer's office
+        - 8940
+    -   - Patricia's laptop
+        - AtLocation
+        - Patricia's bowl
+        - 8946
+    -   - Elizabeth's bicycle
+        - AtLocation
+        - Elizabeth's sky
+        - 8951
+    -   - John's couch
+        - AtLocation
+        - John's airplane
+        - 8952
+    -   - Jessica's microwave
+        - AtLocation
+        - Jessica's garden
+        - 8960
+    -   - Jessica's umbrella
+        - AtLocation
+        - Jessica's home
+        - 8962
+    -   - Barbara's boat
+        - AtLocation
+        - Barbara's bakery
+        - 8967
+    -   - Jessica's laptop
+        - AtLocation
+        - Jessica's closet
+        - 8971
+    -   - Susan's boat
+        - AtLocation
+        - Susan's suitcase
+        - 8973
+    -   - James's cup
+        - AtLocation
+        - James's airplane
+        - 8979
+    -   - Elizabeth's book
+        - AtLocation
+        - Elizabeth's airplane
+        - 8982
+    -   - William's bed
+        - AtLocation
+        - William's circus
+        - 8986
+    -   - William's suitcase
+        - AtLocation
+        - William's building
+        - 8989
+    -   - Karen's laptop
+        - AtLocation
+        - Karen's building
+        - 8992
+    -   - Linda's couch
+        - AtLocation
+        - Linda's bathroom
+        - 8994
+    -   - Susan's sheep
+        - AtLocation
+        - Susan's office
+        - 8997
+    -   - James's keyboard
+        - AtLocation
+        - James's park
+        - 8999
+    -   - Joseph's pizza
+        - AtLocation
+        - Joseph's house
+        - 9003
+    -   - Michael's boat
+        - AtLocation
+        - Michael's closet
+        - 9009
+    -   - Charles's bed
+        - AtLocation
+        - Charles's store
+        - 9011
+    -   - Barbara's chair
+        - AtLocation
+        - Barbara's garage
+        - 9018
+    -   - James's scissors
+        - AtLocation
+        - James's tree
+        - 9021
+    -   - Charles's book
+        - AtLocation
+        - Charles's store
+        - 9027
+    -   - John's keyboard
+        - AtLocation
+        - John's table
+        - 9032
+    -   - Joseph's person
+        - AtLocation
+        - Joseph's refrigerator
+        - 9038
+    -   - Susan's mouse
+        - AtLocation
+        - Susan's closet
+        - 9039
+    -   - Jessica's banana
+        - AtLocation
+        - Jessica's circus
+        - 9042
+    -   - Karen's chair
+        - AtLocation
+        - Karen's house
+        - 9045
+    -   - Patricia's sink
+        - AtLocation
+        - Patricia's lap
+        - 9051
+    -   - Mary's boat
+        - AtLocation
+        - Mary's garden
+        - 9053
+    -   - Patricia's bowl
+        - AtLocation
+        - Patricia's plate
+        - 9055
+    -   - Elizabeth's bicycle
+        - AtLocation
+        - Elizabeth's plate
+        - 9060
+    -   - Robert's bird
+        - AtLocation
+        - Robert's plate
+        - 9061
+    -   - Robert's scissors
+        - AtLocation
+        - Robert's desk
+        - 9063
+    -   - William's banana
+        - AtLocation
+        - William's building
+        - 9064
+    -   - Michael's suitcase
+        - AtLocation
+        - Michael's bowl
+        - 9071
+    -   - John's bowl
+        - AtLocation
+        - John's lap
+        - 9072
+    -   - Michael's umbrella
+        - AtLocation
+        - Michael's city
+        - 9075
+    -   - Michael's cow
+        - AtLocation
+        - Michael's sky
+        - 9083
+    -   - Barbara's oven
+        - AtLocation
+        - Barbara's countryside
+        - 9084
+    -   - Linda's scissors
+        - AtLocation
+        - Linda's plate
+        - 9086
+    -   - Mary's knife
+        - AtLocation
+        - Mary's house
+        - 9096
+    -   - William's apple
+        - AtLocation
+        - William's bathroom
+        - 9102
+    -   - Jennifer's keyboard
+        - AtLocation
+        - Jennifer's farm
+        - 9106
+    -   - Mary's broccoli
+        - AtLocation
+        - Mary's desk
+        - 9109
+    -   - Mary's sink
+        - AtLocation
+        - Mary's pantry
+        - 9114
+    -   - Mary's bottle
+        - AtLocation
+        - Mary's city
+        - 9121
+    -   - John's mouse
+        - AtLocation
+        - John's home
+        - 9124
+    -   - Jennifer's airplane
+        - AtLocation
+        - Jennifer's garage
+        - 9125
+    -   - Michael's apple
+        - AtLocation
+        - Michael's garage
+        - 9128
+    -   - Patricia's cow
+        - AtLocation
+        - Patricia's apartment
+        - 9132
+    -   - Mary's microwave
+        - AtLocation
+        - Mary's bathroom
+        - 9136
+    -   - David's chair
+        - AtLocation
+        - David's pantry
+        - 9139
+    -   - Karen's boat
+        - AtLocation
+        - Karen's house
+        - 9140
+    -   - Susan's suitcase
+        - AtLocation
+        - Susan's circus
+        - 9143
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's bathroom
+        - 9145
+    -   - James's broccoli
+        - AtLocation
+        - James's bakery
+        - 9149
+    -   - Charles's cup
+        - AtLocation
+        - Charles's city
+        - 9150
+    -   - Mary's car
+        - AtLocation
+        - Mary's tree
+        - 9152
+    -   - Barbara's vase
+        - AtLocation
+        - Barbara's desk
+        - 9156
+    -   - Linda's microwave
+        - AtLocation
+        - Linda's farm
+        - 9165
+    -   - Michael's bed
+        - AtLocation
+        - Michael's apartment
+        - 9171
+    -   - William's truck
+        - AtLocation
+        - William's plate
+        - 9173
+    -   - Thomas's broccoli
+        - AtLocation
+        - Thomas's kitchen
+        - 9174
+    -   - Charles's cup
+        - AtLocation
+        - Charles's sky
+        - 9181
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's farm
+        - 9183
+    -   - Jessica's boat
+        - AtLocation
+        - Jessica's cupboard
+        - 9186
+    -   - James's couch
+        - AtLocation
+        - James's city
+        - 9187
+    -   - Karen's scissors
+        - AtLocation
+        - Karen's garden
+        - 9189
+    -   - Barbara's laptop
+        - AtLocation
+        - Barbara's home
+        - 9195
+    -   - Thomas's mouse
+        - AtLocation
+        - Thomas's store
+        - 9200
+    -   - Linda's mouse
+        - AtLocation
+        - Linda's city
+        - 9202
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bakery
+        - 9207
+    -   - Patricia's bench
+        - AtLocation
+        - Patricia's park
+        - 9212
+    -   - Barbara's suitcase
+        - AtLocation
+        - Barbara's cupboard
+        - 9215
+    -   - William's apple
+        - AtLocation
+        - William's refrigerator
+        - 9217
+    -   - Patricia's knife
+        - AtLocation
+        - Patricia's apartment
+        - 9219
+    -   - Linda's sink
+        - AtLocation
+        - Linda's classroom
+        - 9221
+    -   - David's sink
+        - AtLocation
+        - David's desk
+        - 9223
+    -   - Charles's cake
+        - AtLocation
+        - Charles's store
+        - 9224
+    -   - Barbara's elephant
+        - AtLocation
+        - Barbara's garage
+        - 9226
+    -   - Jennifer's bicycle
+        - AtLocation
+        - Jennifer's bowl
+        - 9230
+    -   - David's refrigerator
+        - AtLocation
+        - David's bowl
+        - 9239
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's refrigerator
+        - 9241
+    -   - William's sink
+        - AtLocation
+        - William's garage
+        - 9243
+    -   - Michael's suitcase
+        - AtLocation
+        - Michael's airplane
+        - 9253
+    -   - Richard's vase
+        - AtLocation
+        - Richard's tree
+        - 9257
+    -   - Michael's cake
+        - AtLocation
+        - Michael's bowl
+        - 9262
+    -   - Thomas's cup
+        - AtLocation
+        - Thomas's bathroom
+        - 9264
+    -   - James's toothbrush
+        - AtLocation
+        - James's circus
+        - 9265
+    -   - Elizabeth's oven
+        - AtLocation
+        - Elizabeth's table
+        - 9267
+    -   - Thomas's bus
+        - AtLocation
+        - Thomas's park
+        - 9269
+    -   - Michael's banana
+        - AtLocation
+        - Michael's water
+        - 9271
+    -   - Joseph's knife
+        - AtLocation
+        - Joseph's circus
+        - 9280
+    -   - James's dog
+        - AtLocation
+        - James's house
+        - 9283
+    -   - Susan's boat
+        - AtLocation
+        - Susan's pantry
+        - 9284
+    -   - David's microwave
+        - AtLocation
+        - David's house
+        - 9285
+    -   - James's person
+        - AtLocation
+        - James's plate
+        - 9287
+    -   - Charles's airplane
+        - AtLocation
+        - Charles's oven
+        - 9290
+    -   - Barbara's broccoli
+        - AtLocation
+        - Barbara's water
+        - 9292
+    -   - Richard's spoon
+        - AtLocation
+        - Richard's desk
+        - 9293
+    -   - William's scissors
+        - AtLocation
+        - William's bowl
+        - 9295
+    -   - Jennifer's chair
+        - AtLocation
+        - Jennifer's bowl
+        - 9297
+    -   - Elizabeth's bicycle
+        - AtLocation
+        - Elizabeth's garage
+        - 9303
+    -   - Jessica's clock
+        - AtLocation
+        - Jessica's office
+        - 9304
+    -   - Joseph's motorcycle
+        - AtLocation
+        - Joseph's city
+        - 9305
+    -   - David's bird
+        - AtLocation
+        - David's cupboard
+        - 9307
+    -   - Michael's bottle
+        - AtLocation
+        - Michael's desk
+        - 9308
+    -   - Richard's motorcycle
+        - AtLocation
+        - Richard's garage
+        - 9311
+    -   - Susan's elephant
+        - AtLocation
+        - Susan's apartment
+        - 9313
+    -   - Jessica's oven
+        - AtLocation
+        - Jessica's refrigerator
+        - 9314
+    -   - Patricia's horse
+        - AtLocation
+        - Patricia's garage
+        - 9316
+    -   - William's airplane
+        - AtLocation
+        - William's airplane
+        - 9319
+    -   - Barbara's oven
+        - AtLocation
+        - Barbara's bakery
+        - 9321
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's table
+        - 9323
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's oven
+        - 9327
+    -   - David's horse
+        - AtLocation
+        - David's circus
+        - 9329
+    -   - Linda's person
+        - AtLocation
+        - Linda's building
+        - 9333
+    -   - Elizabeth's microwave
+        - AtLocation
+        - Elizabeth's home
+        - 9334
+    -   - Robert's mouse
+        - AtLocation
+        - Robert's garage
+        - 9335
+    -   - Linda's bear
+        - AtLocation
+        - Linda's building
+        - 9338
+    -   - Susan's truck
+        - AtLocation
+        - Susan's kitchen
+        - 9339
+    -   - Elizabeth's banana
+        - AtLocation
+        - Elizabeth's farm
+        - 9341
+    -   - Jessica's laptop
+        - AtLocation
+        - Jessica's cupboard
+        - 9344
+    -   - James's oven
+        - AtLocation
+        - James's bathroom
+        - 9345
+    -   - Charles's couch
+        - AtLocation
+        - Charles's plate
+        - 9346
+    -   - Patricia's car
+        - AtLocation
+        - Patricia's sky
+        - 9347
+    -   - Joseph's bus
+        - AtLocation
+        - Joseph's city
+        - 9348
+    -   - Karen's motorcycle
+        - AtLocation
+        - Karen's refrigerator
+        - 9350
+    -   - Elizabeth's scissors
+        - AtLocation
+        - Elizabeth's bathroom
+        - 9352
+    -   - Richard's sink
+        - AtLocation
+        - Richard's kitchen
+        - 9354
+    -   - James's banana
+        - AtLocation
+        - James's pantry
+        - 9355
+    -   - Karen's cake
+        - AtLocation
+        - Karen's sky
+        - 9356
+    -   - Mary's truck
+        - AtLocation
+        - Mary's garage
+        - 9359
+    -   - David's broccoli
+        - AtLocation
+        - David's classroom
+        - 9360
+    -   - Thomas's umbrella
+        - AtLocation
+        - Thomas's classroom
+        - 9361
+    -   - Michael's bird
+        - AtLocation
+        - Michael's sky
+        - 9362
+    -   - Thomas's knife
+        - AtLocation
+        - Thomas's kitchen
+        - 9363
+    -   - Thomas's bed
+        - AtLocation
+        - Thomas's refrigerator
+        - 9365
+    -   - William's bear
+        - AtLocation
+        - William's suitcase
+        - 9366
+    -   - Sarah's bottle
+        - AtLocation
+        - Sarah's plate
+        - 9369
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's park
+        - 9370
+    -   - John's laptop
+        - AtLocation
+        - John's desk
+        - 9371
+    -   - Karen's toilet
+        - AtLocation
+        - Karen's kitchen
+        - 9372
+    -   - William's bicycle
+        - AtLocation
+        - William's suitcase
+        - 9373
+    -   - John's book
+        - AtLocation
+        - John's classroom
+        - 9381
+    -   - Richard's toothbrush
+        - AtLocation
+        - Richard's water
+        - 9385
+    -   - Charles's bowl
+        - AtLocation
+        - Charles's city
+        - 9386
+    -   - Charles's bench
+        - AtLocation
+        - Charles's garage
+        - 9388
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's plate
+        - 9389
+    -   - Patricia's suitcase
+        - AtLocation
+        - Patricia's garden
+        - 9390
+    -   - Susan's toothbrush
+        - AtLocation
+        - Susan's suitcase
+        - 9391
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's suitcase
+        - 9392
+    -   - Sarah's car
+        - AtLocation
+        - Sarah's garden
+        - 9393
+    -   - Sarah's chair
+        - AtLocation
+        - Sarah's office
+        - 9396
+    -   - John's cow
+        - AtLocation
+        - John's plate
+        - 9397
+    -   - Barbara's horse
+        - AtLocation
+        - Barbara's city
+        - 9399
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 9401
+    -   - James's motorcycle
+        - AtLocation
+        - James's home
+        - 9402
+    -   - John's spoon
+        - AtLocation
+        - John's bowl
+        - 9404
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's garden
+        - 9406
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's home
+        - 9407
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's oven
+        - 9409
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - chair
+        - AtLocation
+        - office
+        - 103
+    -   - bowl
+        - AtLocation
+        - countryside
+        - 5
+    -   - cup
+        - AtLocation
+        - plate
+        - 10
+    -   - book
+        - AtLocation
+        - city
+        - 6
+    -   - cat
+        - AtLocation
+        - lap
+        - 98
+    -   - clock
+        - AtLocation
+        - desk
+        - 99
+    -   - pizza
+        - AtLocation
+        - oven
+        - 102
+    -   - motorcycle
+        - AtLocation
+        - lap
+        - 3
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 104
+    -   - toilet
+        - AtLocation
+        - farm
+        - 6
+    -   - airplane
+        - AtLocation
+        - home
+        - 4
+    -   - vase
+        - AtLocation
+        - apartment
+        - 6
+    -   - bowl
+        - AtLocation
+        - closet
+        - 4
+    -   - broccoli
+        - AtLocation
+        - oven
+        - 4
+    -   - bottle
+        - AtLocation
+        - store
+        - 104
+    -   - umbrella
+        - AtLocation
+        - city
+        - 4
+    -   - boat
+        - AtLocation
+        - airplane
+        - 6
+    -   - keyboard
+        - AtLocation
+        - water
+        - 8
+    -   - book
+        - AtLocation
+        - water
+        - 6
+    -   - elephant
+        - AtLocation
+        - desk
+        - 4
+    -   - cow
+        - AtLocation
+        - countryside
+        - 103
+    -   - toothbrush
+        - AtLocation
+        - cupboard
+        - 4
+    -   - keyboard
+        - AtLocation
+        - closet
+        - 4
+    -   - cake
+        - AtLocation
+        - classroom
+        - 4
+    -   - knife
+        - AtLocation
+        - lap
+        - 6
+    -   - bear
+        - AtLocation
+        - store
+        - 4
+    -   - oven
+        - AtLocation
+        - home
+        - 105
+    -   - mouse
+        - AtLocation
+        - countryside
+        - 6
+    -   - bench
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - bird
+        - AtLocation
+        - apartment
+        - 6
+    -   - sandwich
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - couch
+        - AtLocation
+        - garden
+        - 6
+    -   - dog
+        - AtLocation
+        - bowl
+        - 4
+    -   - airplane
+        - AtLocation
+        - garden
+        - 4
+    -   - vase
+        - AtLocation
+        - park
+        - 7
+    -   - car
+        - AtLocation
+        - park
+        - 4
+    -   - bird
+        - AtLocation
+        - tree
+        - 104
+    -   - bench
+        - AtLocation
+        - park
+        - 4
+    -   - sheep
+        - AtLocation
+        - farm
+        - 90
+    -   - clock
+        - AtLocation
+        - closet
+        - 4
+    -   - pizza
+        - AtLocation
+        - bakery
+        - 8
+    -   - sink
+        - AtLocation
+        - tree
+        - 6
+    -   - boat
+        - AtLocation
+        - water
+        - 92
+    -   - banana
+        - AtLocation
+        - tree
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - store
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - apartment
+        - 6
+    -   - broccoli
+        - AtLocation
+        - circus
+        - 4
+    -   - oven
+        - AtLocation
+        - airplane
+        - 6
+    -   - cup
+        - AtLocation
+        - table
+        - 107
+    -   - scissors
+        - AtLocation
+        - apartment
+        - 8
+    -   - motorcycle
+        - AtLocation
+        - kitchen
+        - 6
+    -   - bus
+        - AtLocation
+        - water
+        - 6
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 106
+    -   - knife
+        - AtLocation
+        - garage
+        - 5
+    -   - bowl
+        - AtLocation
+        - table
+        - 4
+    -   - toilet
+        - AtLocation
+        - garage
+        - 4
+    -   - bear
+        - AtLocation
+        - garage
+        - 4
+    -   - spoon
+        - AtLocation
+        - garden
+        - 4
+    -   - keyboard
+        - AtLocation
+        - building
+        - 4
+    -   - toilet
+        - AtLocation
+        - bowl
+        - 3
+    -   - bench
+        - AtLocation
+        - garden
+        - 91
+    -   - horse
+        - AtLocation
+        - building
+        - 4
+    -   - car
+        - AtLocation
+        - countryside
+        - 6
+    -   - dog
+        - AtLocation
+        - table
+        - 103
+    -   - toothbrush
+        - AtLocation
+        - city
+        - 4
+    -   - laptop
+        - AtLocation
+        - house
+        - 4
+    -   - pizza
+        - AtLocation
+        - farm
+        - 6
+    -   - suitcase
+        - AtLocation
+        - sky
+        - 6
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 110
+    -   - book
+        - AtLocation
+        - classroom
+        - 100
+    -   - toothbrush
+        - AtLocation
+        - home
+        - 8
+    -   - airplane
+        - AtLocation
+        - sky
+        - 107
+    -   - bed
+        - AtLocation
+        - house
+        - 108
+    -   - toilet
+        - AtLocation
+        - circus
+        - 6
+    -   - clock
+        - AtLocation
+        - tree
+        - 4
+    -   - motorcycle
+        - AtLocation
+        - apartment
+        - 6
+    -   - scissors
+        - AtLocation
+        - desk
+        - 103
+    -   - cup
+        - AtLocation
+        - sky
+        - 6
+    -   - sandwich
+        - AtLocation
+        - sky
+        - 4
+    -   - cake
+        - AtLocation
+        - bakery
+        - 102
+    -   - bottle
+        - AtLocation
+        - bowl
+        - 4
+    -   - sandwich
+        - AtLocation
+        - desk
+        - 4
+    -   - bowl
+        - AtLocation
+        - bowl
+        - 4
+    -   - umbrella
+        - AtLocation
+        - circus
+        - 6
+    -   - oven
+        - AtLocation
+        - office
+        - 6
+    -   - knife
+        - AtLocation
+        - plate
+        - 6
+    -   - banana
+        - AtLocation
+        - garage
+        - 3
+    -   - cat
+        - AtLocation
+        - cupboard
+        - 6
+    -   - person
+        - AtLocation
+        - building
+        - 108
+    -   - keyboard
+        - AtLocation
+        - oven
+        - 4
+    -   - bowl
+        - AtLocation
+        - sky
+        - 6
+    -   - mouse
+        - AtLocation
+        - garage
+        - 110
+    -   - sheep
+        - AtLocation
+        - water
+        - 6
+    -   - dog
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - banana
+        - AtLocation
+        - apartment
+        - 4
+    -   - umbrella
+        - AtLocation
+        - apartment
+        - 6
+    -   - spoon
+        - AtLocation
+        - countryside
+        - 4
+    -   - bowl
+        - AtLocation
+        - airplane
+        - 4
+    -   - umbrella
+        - AtLocation
+        - desk
+        - 4
+    -   - cake
+        - AtLocation
+        - closet
+        - 6
+    -   - cow
+        - AtLocation
+        - office
+        - 4
+    -   - bus
+        - AtLocation
+        - city
+        - 97
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 103
+    -   - banana
+        - AtLocation
+        - desk
+        - 4
+    -   - vase
+        - AtLocation
+        - table
+        - 98
+    -   - clock
+        - AtLocation
+        - apartment
+        - 6
+    -   - car
+        - AtLocation
+        - sky
+        - 6
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 105
+    -   - banana
+        - AtLocation
+        - park
+        - 6
+    -   - horse
+        - AtLocation
+        - circus
+        - 98
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 103
+    -   - bus
+        - AtLocation
+        - office
+        - 4
+    -   - dog
+        - AtLocation
+        - water
+        - 4
+    -   - apple
+        - AtLocation
+        - kitchen
+        - 6
+    -   - cake
+        - AtLocation
+        - house
+        - 4
+    -   - microwave
+        - AtLocation
+        - park
+        - 6
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 106
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 99
+    -   - bear
+        - AtLocation
+        - farm
+        - 4
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 99
+    -   - cow
+        - AtLocation
+        - park
+        - 4
+    -   - bottle
+        - AtLocation
+        - water
+        - 4
+    -   - truck
+        - AtLocation
+        - office
+        - 4
+    -   - sheep
+        - AtLocation
+        - city
+        - 4
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 101
+    -   - mouse
+        - AtLocation
+        - bowl
+        - 4
+    -   - car
+        - AtLocation
+        - classroom
+        - 4
+    -   - oven
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - bear
+        - AtLocation
+        - cupboard
+        - 6
+    -   - bench
+        - AtLocation
+        - oven
+        - 2
+    -   - chair
+        - AtLocation
+        - circus
+        - 4
+    -   - keyboard
+        - AtLocation
+        - garage
+        - 2
+    -   - oven
+        - AtLocation
+        - park
+        - 4
+    -   - banana
+        - AtLocation
+        - garden
+        - 2
+    -   - truck
+        - AtLocation
+        - circus
+        - 2
+    -   - laptop
+        - AtLocation
+        - sky
+        - 2
+    -   - cat
+        - AtLocation
+        - building
+        - 2
+    -   - chair
+        - AtLocation
+        - bowl
+        - 4
+    -   - broccoli
+        - AtLocation
+        - suitcase
+        - 4
+    -   - elephant
+        - AtLocation
+        - garden
+        - 2
+    -   - cup
+        - AtLocation
+        - office
+        - 2
+    -   - car
+        - AtLocation
+        - office
+        - 2
+    -   - elephant
+        - AtLocation
+        - countryside
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - refrigerator
+        - 6
+    -   - bench
+        - AtLocation
+        - table
+        - 2
+    -   - cup
+        - AtLocation
+        - bakery
+        - 2
+    -   - broccoli
+        - AtLocation
+        - office
+        - 4
+    -   - elephant
+        - AtLocation
+        - cupboard
+        - 2
+    -   - laptop
+        - AtLocation
+        - bowl
+        - 4
+    -   - boat
+        - AtLocation
+        - kitchen
+        - 2
+    -   - bicycle
+        - AtLocation
+        - pantry
+        - 2
+    -   - chair
+        - AtLocation
+        - building
+        - 2
+    -   - sink
+        - AtLocation
+        - city
+        - 2
+    -   - clock
+        - AtLocation
+        - farm
+        - 2
+    -   - airplane
+        - AtLocation
+        - house
+        - 2
+    -   - toilet
+        - AtLocation
+        - store
+        - 6
+    -   - chair
+        - AtLocation
+        - tree
+        - 4
+    -   - book
+        - AtLocation
+        - garage
+        - 2
+    -   - sandwich
+        - AtLocation
+        - suitcase
+        - 4
+    -   - cow
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - apple
+        - AtLocation
+        - bakery
+        - 4
+    -   - umbrella
+        - AtLocation
+        - tree
+        - 2
+    -   - knife
+        - AtLocation
+        - sky
+        - 3
+    -   - toothbrush
+        - AtLocation
+        - countryside
+        - 4
+    -   - laptop
+        - AtLocation
+        - pantry
+        - 4
+    -   - cat
+        - AtLocation
+        - garden
+        - 4
+    -   - horse
+        - AtLocation
+        - bowl
+        - 6
+    -   - sink
+        - AtLocation
+        - suitcase
+        - 2
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 99
+    -   - umbrella
+        - AtLocation
+        - office
+        - 2
+    -   - cat
+        - AtLocation
+        - countryside
+        - 2
+    -   - sandwich
+        - AtLocation
+        - farm
+        - 2
+    -   - bowl
+        - AtLocation
+        - park
+        - 2
+    -   - pizza
+        - AtLocation
+        - kitchen
+        - 10
+    -   - dog
+        - AtLocation
+        - house
+        - 6
+    -   - bed
+        - AtLocation
+        - apartment
+        - 2
+    -   - laptop
+        - AtLocation
+        - store
+        - 4
+    -   - suitcase
+        - AtLocation
+        - plate
+        - 2
+    -   - sink
+        - AtLocation
+        - apartment
+        - 2
+    -   - mouse
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - bird
+        - AtLocation
+        - bakery
+        - 2
+    -   - banana
+        - AtLocation
+        - refrigerator
+        - 6
+    -   - sheep
+        - AtLocation
+        - airplane
+        - 2
+    -   - oven
+        - AtLocation
+        - lap
+        - 2
+    -   - spoon
+        - AtLocation
+        - closet
+        - 2
+    -   - bed
+        - AtLocation
+        - garage
+        - 4
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 96
+    -   - boat
+        - AtLocation
+        - farm
+        - 2
+    -   - bed
+        - AtLocation
+        - garden
+        - 2
+    -   - elephant
+        - AtLocation
+        - home
+        - 4
+    -   - spoon
+        - AtLocation
+        - office
+        - 2
+    -   - vase
+        - AtLocation
+        - building
+        - 4
+    -   - sheep
+        - AtLocation
+        - bathroom
+        - 4
+    -   - knife
+        - AtLocation
+        - classroom
+        - 8
+    -   - banana
+        - AtLocation
+        - cupboard
+        - 2
+    -   - cup
+        - AtLocation
+        - house
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - suitcase
+        - 2
+    -   - microwave
+        - AtLocation
+        - store
+        - 2
+    -   - cow
+        - AtLocation
+        - table
+        - 2
+    -   - cow
+        - AtLocation
+        - building
+        - 2
+    -   - cow
+        - AtLocation
+        - pantry
+        - 6
+    -   - bus
+        - AtLocation
+        - lap
+        - 6
+    -   - car
+        - AtLocation
+        - farm
+        - 2
+    -   - microwave
+        - AtLocation
+        - bathroom
+        - 4
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 92
+    -   - keyboard
+        - AtLocation
+        - city
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - farm
+        - 4
+    -   - airplane
+        - AtLocation
+        - oven
+        - 2
+    -   - bed
+        - AtLocation
+        - plate
+        - 2
+    -   - clock
+        - AtLocation
+        - water
+        - 2
+    -   - suitcase
+        - AtLocation
+        - table
+        - 4
+    -   - spoon
+        - AtLocation
+        - bakery
+        - 4
+    -   - cake
+        - AtLocation
+        - garden
+        - 2
+    -   - chair
+        - AtLocation
+        - lap
+        - 2
+    -   - elephant
+        - AtLocation
+        - circus
+        - 95
+    -   - truck
+        - AtLocation
+        - tree
+        - 2
+    -   - bicycle
+        - AtLocation
+        - refrigerator
+        - 3
+    -   - suitcase
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - car
+        - AtLocation
+        - city
+        - 102
+    -   - apple
+        - AtLocation
+        - desk
+        - 4
+    -   - person
+        - AtLocation
+        - closet
+        - 4
+    -   - suitcase
+        - AtLocation
+        - house
+        - 2
+    -   - bench
+        - AtLocation
+        - apartment
+        - 4
+    -   - keyboard
+        - AtLocation
+        - farm
+        - 4
+    -   - book
+        - AtLocation
+        - plate
+        - 2
+    -   - microwave
+        - AtLocation
+        - kitchen
+        - 2
+    -   - dog
+        - AtLocation
+        - tree
+        - 2
+    -   - clock
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - bed
+        - AtLocation
+        - office
+        - 4
+    -   - airplane
+        - AtLocation
+        - store
+        - 8
+    -   - sheep
+        - AtLocation
+        - table
+        - 4
+    -   - umbrella
+        - AtLocation
+        - bakery
+        - 4
+    -   - car
+        - AtLocation
+        - home
+        - 4
+    -   - umbrella
+        - AtLocation
+        - kitchen
+        - 2
+    -   - dog
+        - AtLocation
+        - office
+        - 4
+    -   - cup
+        - AtLocation
+        - kitchen
+        - 2
+    -   - bear
+        - AtLocation
+        - apartment
+        - 6
+    -   - sheep
+        - AtLocation
+        - plate
+        - 2
+    -   - oven
+        - AtLocation
+        - bowl
+        - 2
+    -   - cake
+        - AtLocation
+        - store
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - desk
+        - 4
+    -   - microwave
+        - AtLocation
+        - farm
+        - 2
+    -   - elephant
+        - AtLocation
+        - house
+        - 4
+    -   - microwave
+        - AtLocation
+        - lap
+        - 6
+    -   - toilet
+        - AtLocation
+        - garden
+        - 4
+    -   - clock
+        - AtLocation
+        - oven
+        - 2
+    -   - oven
+        - AtLocation
+        - countryside
+        - 4
+    -   - truck
+        - AtLocation
+        - park
+        - 2
+    -   - bird
+        - AtLocation
+        - office
+        - 4
+    -   - knife
+        - AtLocation
+        - apartment
+        - 2
+    -   - oven
+        - AtLocation
+        - building
+        - 4
+    -   - person
+        - AtLocation
+        - garden
+        - 2
+    -   - apple
+        - AtLocation
+        - home
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - home
+        - 4
+    -   - bottle
+        - AtLocation
+        - city
+        - 2
+    -   - truck
+        - AtLocation
+        - house
+        - 2
+    -   - vase
+        - AtLocation
+        - tree
+        - 4
+    -   - car
+        - AtLocation
+        - garden
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 100
+    -   - mouse
+        - AtLocation
+        - lap
+        - 2
+    -   - bowl
+        - AtLocation
+        - water
+        - 2
+    -   - bear
+        - AtLocation
+        - city
+        - 4
+    -   - vase
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - keyboard
+        - AtLocation
+        - tree
+        - 2
+    -   - bowl
+        - AtLocation
+        - office
+        - 2
+    -   - vase
+        - AtLocation
+        - circus
+        - 4
+    -   - suitcase
+        - AtLocation
+        - park
+        - 2
+    -   - suitcase
+        - AtLocation
+        - pantry
+        - 4
+    -   - couch
+        - AtLocation
+        - airplane
+        - 2
+    -   - sink
+        - AtLocation
+        - pantry
+        - 4
+    -   - vase
+        - AtLocation
+        - pantry
+        - 5
+    -   - bottle
+        - AtLocation
+        - oven
+        - 4
+    -   - bowl
+        - AtLocation
+        - lap
+        - 2
+    -   - bird
+        - AtLocation
+        - kitchen
+        - 6
+    -   - cow
+        - AtLocation
+        - oven
+        - 4
+    -   - bench
+        - AtLocation
+        - suitcase
+        - 4
+    -   - book
+        - AtLocation
+        - lap
+        - 2
+    -   - book
+        - AtLocation
+        - oven
+        - 4
+    -   - couch
+        - AtLocation
+        - oven
+        - 2
+    -   - toilet
+        - AtLocation
+        - tree
+        - 2
+    -   - sandwich
+        - AtLocation
+        - oven
+        - 2
+    -   - chair
+        - AtLocation
+        - kitchen
+        - 4
+    -   - laptop
+        - AtLocation
+        - cupboard
+        - 2
+    -   - oven
+        - AtLocation
+        - circus
+        - 4
+    -   - chair
+        - AtLocation
+        - closet
+        - 4
+    -   - clock
+        - AtLocation
+        - office
+        - 2
+    -   - suitcase
+        - AtLocation
+        - apartment
+        - 2
+    -   - airplane
+        - AtLocation
+        - park
+        - 2
+    -   - mouse
+        - AtLocation
+        - store
+        - 2
+    -   - laptop
+        - AtLocation
+        - building
+        - 2
+    -   - bicycle
+        - AtLocation
+        - apartment
+        - 2
+    -   - sandwich
+        - AtLocation
+        - home
+        - 4
+    -   - cow
+        - AtLocation
+        - farm
+        - 2
+    -   - clock
+        - AtLocation
+        - house
+        - 6
+    -   - pizza
+        - AtLocation
+        - store
+        - 2
+    -   - toilet
+        - AtLocation
+        - sky
+        - 4
+    -   - bicycle
+        - AtLocation
+        - classroom
+        - 2
+    -   - chair
+        - AtLocation
+        - city
+        - 4
+    -   - cup
+        - AtLocation
+        - circus
+        - 2
+    -   - truck
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - mouse
+        - AtLocation
+        - closet
+        - 6
+    -   - bird
+        - AtLocation
+        - city
+        - 4
+    -   - spoon
+        - AtLocation
+        - farm
+        - 2
+    -   - couch
+        - AtLocation
+        - sky
+        - 2
+    -   - mouse
+        - AtLocation
+        - house
+        - 6
+    -   - knife
+        - AtLocation
+        - store
+        - 2
+    -   - vase
+        - AtLocation
+        - cupboard
+        - 2
+    -   - couch
+        - AtLocation
+        - apartment
+        - 2
+    -   - bear
+        - AtLocation
+        - plate
+        - 2
+    -   - bottle
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - chair
+        - AtLocation
+        - farm
+        - 2
+    -   - truck
+        - AtLocation
+        - garage
+        - 104
+    -   - toothbrush
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - garden
+        - 2
+    -   - airplane
+        - AtLocation
+        - garage
+        - 2
+    -   - bear
+        - AtLocation
+        - sky
+        - 4
+    -   - couch
+        - AtLocation
+        - house
+        - 95
+    -   - motorcycle
+        - AtLocation
+        - house
+        - 4
+    -   - apple
+        - AtLocation
+        - city
+        - 3
+    -   - car
+        - AtLocation
+        - bakery
+        - 5
+    -   - horse
+        - AtLocation
+        - farm
+        - 2
+    -   - person
+        - AtLocation
+        - city
+        - 2
+    -   - bench
+        - AtLocation
+        - bakery
+        - 2
+    -   - bed
+        - AtLocation
+        - bathroom
+        - 4
+    -   - truck
+        - AtLocation
+        - kitchen
+        - 2
+    -   - cake
+        - AtLocation
+        - circus
+        - 2
+    -   - person
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - toilet
+        - AtLocation
+        - bakery
+        - 2
+    -   - cat
+        - AtLocation
+        - plate
+        - 4
+    -   - bird
+        - AtLocation
+        - oven
+        - 4
+    -   - cow
+        - AtLocation
+        - store
+        - 4
+    -   - toothbrush
+        - AtLocation
+        - bakery
+        - 2
+    -   - bowl
+        - AtLocation
+        - tree
+        - 4
+    -   - scissors
+        - AtLocation
+        - city
+        - 2
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 101
+    -   - bench
+        - AtLocation
+        - building
+        - 2
+    -   - mouse
+        - AtLocation
+        - city
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - water
+        - 2
+    -   - sandwich
+        - AtLocation
+        - table
+        - 2
+    -   - bench
+        - AtLocation
+        - cupboard
+        - 4
+    -   - toothbrush
+        - AtLocation
+        - garden
+        - 4
+    -   - person
+        - AtLocation
+        - home
+        - 4
+    -   - dog
+        - AtLocation
+        - cupboard
+        - 2
+    -   - car
+        - AtLocation
+        - tree
+        - 6
+    -   - cat
+        - AtLocation
+        - apartment
+        - 2
+    -   - microwave
+        - AtLocation
+        - home
+        - 4
+    -   - bus
+        - AtLocation
+        - garage
+        - 4
+    -   - cup
+        - AtLocation
+        - desk
+        - 2
+    -   - banana
+        - AtLocation
+        - water
+        - 2
+    -   - chair
+        - AtLocation
+        - suitcase
+        - 4
+    -   - bottle
+        - AtLocation
+        - closet
+        - 8
+    -   - vase
+        - AtLocation
+        - kitchen
+        - 4
+    -   - bowl
+        - AtLocation
+        - farm
+        - 6
+    -   - cat
+        - AtLocation
+        - oven
+        - 2
+    -   - knife
+        - AtLocation
+        - park
+        - 4
+    -   - elephant
+        - AtLocation
+        - bowl
+        - 4
+    -   - apple
+        - AtLocation
+        - pantry
+        - 8
+    -   - person
+        - AtLocation
+        - sky
+        - 2
+    -   - spoon
+        - AtLocation
+        - store
+        - 2
+    -   - cow
+        - AtLocation
+        - kitchen
+        - 5
+    -   - bicycle
+        - AtLocation
+        - kitchen
+        - 2
+    -   - chair
+        - AtLocation
+        - apartment
+        - 4
+    -   - cat
+        - AtLocation
+        - desk
+        - 8
+    -   - spoon
+        - AtLocation
+        - building
+        - 4
+    -   - microwave
+        - AtLocation
+        - garden
+        - 2
+    -   - cow
+        - AtLocation
+        - city
+        - 2
+    -   - bear
+        - AtLocation
+        - house
+        - 3
+    -   - spoon
+        - AtLocation
+        - plate
+        - 2
+    -   - pizza
+        - AtLocation
+        - closet
+        - 2
+    -   - truck
+        - AtLocation
+        - home
+        - 2
+    -   - banana
+        - AtLocation
+        - building
+        - 2
+    -   - bear
+        - AtLocation
+        - park
+        - 98
+    -   - bicycle
+        - AtLocation
+        - city
+        - 4
+    -   - cup
+        - AtLocation
+        - oven
+        - 2
+    -   - bench
+        - AtLocation
+        - circus
+        - 2
+    -   - dog
+        - AtLocation
+        - sky
+        - 4
+    -   - bottle
+        - AtLocation
+        - circus
+        - 4
+    -   - book
+        - AtLocation
+        - bathroom
+        - 2
+    -   - microwave
+        - AtLocation
+        - closet
+        - 2
+    -   - bowl
+        - AtLocation
+        - building
+        - 2
+    -   - bottle
+        - AtLocation
+        - apartment
+        - 2
+    -   - clock
+        - AtLocation
+        - city
+        - 2
+    -   - boat
+        - AtLocation
+        - bowl
+        - 4
+    -   - chair
+        - AtLocation
+        - classroom
+        - 2
+    -   - knife
+        - AtLocation
+        - circus
+        - 2
+    -   - mouse
+        - AtLocation
+        - garden
+        - 4
+    -   - airplane
+        - AtLocation
+        - desk
+        - 4
+    -   - sandwich
+        - AtLocation
+        - garage
+        - 6
+    -   - motorcycle
+        - AtLocation
+        - store
+        - 4
+    -   - scissors
+        - AtLocation
+        - bakery
+        - 2
+    -   - cup
+        - AtLocation
+        - farm
+        - 2
+    -   - cup
+        - AtLocation
+        - airplane
+        - 2
+    -   - bed
+        - AtLocation
+        - park
+        - 2
+    -   - sink
+        - AtLocation
+        - store
+        - 2
+    -   - banana
+        - AtLocation
+        - sky
+        - 2
+    -   - sandwich
+        - AtLocation
+        - lap
+        - 2
+    -   - sink
+        - AtLocation
+        - plate
+        - 2
+    -   - cow
+        - AtLocation
+        - circus
+        - 2
+    -   - keyboard
+        - AtLocation
+        - home
+        - 2
+    -   - bench
+        - AtLocation
+        - city
+        - 8
+    -   - toothbrush
+        - AtLocation
+        - sky
+        - 2
+    -   - boat
+        - AtLocation
+        - plate
+        - 2
+    -   - mouse
+        - AtLocation
+        - home
+        - 4
+    -   - bear
+        - AtLocation
+        - bathroom
+        - 2
+    -   - umbrella
+        - AtLocation
+        - classroom
+        - 2
+    -   - bicycle
+        - AtLocation
+        - bathroom
+        - 2
+    -   - sink
+        - AtLocation
+        - office
+        - 4
+    -   - scissors
+        - AtLocation
+        - plate
+        - 4
+    -   - motorcycle
+        - AtLocation
+        - closet
+        - 2
+    -   - microwave
+        - AtLocation
+        - water
+        - 2
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 103
+    -   - cake
+        - AtLocation
+        - apartment
+        - 2
+    -   - boat
+        - AtLocation
+        - suitcase
+        - 2
+    -   - knife
+        - AtLocation
+        - bakery
+        - 4
+    -   - broccoli
+        - AtLocation
+        - sky
+        - 2
+    -   - boat
+        - AtLocation
+        - bakery
+        - 2
+    -   - boat
+        - AtLocation
+        - countryside
+        - 6
+    -   - bicycle
+        - AtLocation
+        - closet
+        - 4
+    -   - suitcase
+        - AtLocation
+        - classroom
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 101
+    -   - bus
+        - AtLocation
+        - kitchen
+        - 2
+    -   - horse
+        - AtLocation
+        - pantry
+        - 2
+    -   - car
+        - AtLocation
+        - circus
+        - 4
+    -   - clock
+        - AtLocation
+        - bakery
+        - 2
+    -   - horse
+        - AtLocation
+        - garden
+        - 2
+    -   - toilet
+        - AtLocation
+        - suitcase
+        - 2
+    -   - bed
+        - AtLocation
+        - table
+        - 2
+    -   - sandwich
+        - AtLocation
+        - cupboard
+        - 4
+    -   - horse
+        - AtLocation
+        - table
+        - 2
+    -   - airplane
+        - AtLocation
+        - cupboard
+        - 2
+    -   - spoon
+        - AtLocation
+        - tree
+        - 4
+    -   - cake
+        - AtLocation
+        - plate
+        - 2
+    -   - apple
+        - AtLocation
+        - plate
+        - 6
+    -   - keyboard
+        - AtLocation
+        - classroom
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - office
+        - 2
+    -   - oven
+        - AtLocation
+        - kitchen
+        - 4
+    -   - bed
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - pizza
+        - AtLocation
+        - office
+        - 6
+    -   - elephant
+        - AtLocation
+        - sky
+        - 4
+    -   - pizza
+        - AtLocation
+        - classroom
+        - 4
+    -   - chair
+        - AtLocation
+        - water
+        - 4
+    -   - bicycle
+        - AtLocation
+        - home
+        - 2
+    -   - bed
+        - AtLocation
+        - desk
+        - 2
+    -   - scissors
+        - AtLocation
+        - classroom
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - closet
+        - 4
+    -   - elephant
+        - AtLocation
+        - city
+        - 6
+    -   - refrigerator
+        - AtLocation
+        - pantry
+        - 2
+    -   - umbrella
+        - AtLocation
+        - house
+        - 2
+    -   - scissors
+        - AtLocation
+        - water
+        - 4
+    -   - oven
+        - AtLocation
+        - oven
+        - 2
+    -   - bird
+        - AtLocation
+        - suitcase
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - city
+        - 2
+    -   - sandwich
+        - AtLocation
+        - office
+        - 2
+    -   - microwave
+        - AtLocation
+        - desk
+        - 4
+    -   - knife
+        - AtLocation
+        - countryside
+        - 2
+    -   - horse
+        - AtLocation
+        - tree
+        - 7
+    -   - elephant
+        - AtLocation
+        - table
+        - 4
+    -   - bird
+        - AtLocation
+        - sky
+        - 4
+    -   - broccoli
+        - AtLocation
+        - home
+        - 4
+    -   - spoon
+        - AtLocation
+        - home
+        - 2
+    -   - sink
+        - AtLocation
+        - farm
+        - 4
+    -   - bus
+        - AtLocation
+        - bowl
+        - 2
+    -   - knife
+        - AtLocation
+        - cupboard
+        - 4
+    -   - airplane
+        - AtLocation
+        - water
+        - 2
+    -   - truck
+        - AtLocation
+        - countryside
+        - 6
+    -   - sandwich
+        - AtLocation
+        - house
+        - 4
+    -   - dog
+        - AtLocation
+        - home
+        - 2
+    -   - truck
+        - AtLocation
+        - farm
+        - 4
+    -   - sink
+        - AtLocation
+        - house
+        - 2
+    -   - cake
+        - AtLocation
+        - farm
+        - 2
+    -   - scissors
+        - AtLocation
+        - closet
+        - 4
+    -   - airplane
+        - AtLocation
+        - farm
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - table
+        - 4
+    -   - apple
+        - AtLocation
+        - bowl
+        - 2
+    -   - sheep
+        - AtLocation
+        - apartment
+        - 2
+    -   - chair
+        - AtLocation
+        - garage
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - countryside
+        - 4
+    -   - apple
+        - AtLocation
+        - airplane
+        - 2
+    -   - bed
+        - AtLocation
+        - city
+        - 2
+    -   - mouse
+        - AtLocation
+        - pantry
+        - 2
+    -   - person
+        - AtLocation
+        - classroom
+        - 4
+    -   - banana
+        - AtLocation
+        - kitchen
+        - 2
+    -   - broccoli
+        - AtLocation
+        - airplane
+        - 6
+    -   - bird
+        - AtLocation
+        - closet
+        - 2
+    -   - bicycle
+        - AtLocation
+        - bowl
+        - 2
+    -   - person
+        - AtLocation
+        - airplane
+        - 2
+    -   - sheep
+        - AtLocation
+        - bowl
+        - 2
+    -   - truck
+        - AtLocation
+        - cupboard
+        - 2
+    -   - mouse
+        - AtLocation
+        - apartment
+        - 4
+    -   - bear
+        - AtLocation
+        - circus
+        - 2
+    -   - dog
+        - AtLocation
+        - lap
+        - 6
+    -   - toothbrush
+        - AtLocation
+        - pantry
+        - 2
+    -   - suitcase
+        - AtLocation
+        - bathroom
+        - 4
+    -   - sandwich
+        - AtLocation
+        - city
+        - 2
+    -   - umbrella
+        - AtLocation
+        - store
+        - 4
+    -   - scissors
+        - AtLocation
+        - table
+        - 2
+    -   - banana
+        - AtLocation
+        - airplane
+        - 4
+    -   - clock
+        - AtLocation
+        - building
+        - 4
+    -   - cow
+        - AtLocation
+        - closet
+        - 2
+    -   - couch
+        - AtLocation
+        - office
+        - 9
+    -   - couch
+        - AtLocation
+        - cupboard
+        - 6
+    -   - cat
+        - AtLocation
+        - classroom
+        - 6
+    -   - couch
+        - AtLocation
+        - city
+        - 2
+    -   - bottle
+        - AtLocation
+        - suitcase
+        - 4
+    -   - motorcycle
+        - AtLocation
+        - bowl
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - bowl
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - table
+        - 2
+    -   - umbrella
+        - AtLocation
+        - suitcase
+        - 2
+    -   - apple
+        - AtLocation
+        - suitcase
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - farm
+        - 4
+    -   - laptop
+        - AtLocation
+        - desk
+        - 103
+    -   - boat
+        - AtLocation
+        - table
+        - 2
+val:
+    rewards: 48
+    num_samples: 1178
+    episodic_memories:
+    -   - Barbara's boat
+        - AtLocation
+        - Barbara's garden
+        - 9420
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's countryside
+        - 9423
+    -   - William's bird
+        - AtLocation
+        - William's city
+        - 9427
+    -   - Susan's car
+        - AtLocation
+        - Susan's farm
+        - 9428
+    -   - Jennifer's cow
+        - AtLocation
+        - Jennifer's bakery
+        - 9431
+    -   - Jennifer's apple
+        - AtLocation
+        - Jennifer's table
+        - 9432
+    -   - Barbara's horse
+        - AtLocation
+        - Barbara's airplane
+        - 9435
+    -   - Michael's sheep
+        - AtLocation
+        - Michael's home
+        - 9440
+    -   - Barbara's boat
+        - AtLocation
+        - Barbara's cupboard
+        - 9441
+    -   - Elizabeth's scissors
+        - AtLocation
+        - Elizabeth's pantry
+        - 9444
+    -   - Robert's bicycle
+        - AtLocation
+        - Robert's park
+        - 9446
+    -   - William's sandwich
+        - AtLocation
+        - William's building
+        - 9448
+    -   - Jennifer's umbrella
+        - AtLocation
+        - Jennifer's garden
+        - 9449
+    -   - William's toothbrush
+        - AtLocation
+        - William's store
+        - 9452
+    -   - Patricia's person
+        - AtLocation
+        - Patricia's refrigerator
+        - 9453
+    -   - Elizabeth's scissors
+        - AtLocation
+        - Elizabeth's bathroom
+        - 9454
+    -   - John's motorcycle
+        - AtLocation
+        - John's bowl
+        - 9460
+    -   - Charles's bed
+        - AtLocation
+        - Charles's sky
+        - 9465
+    -   - Thomas's broccoli
+        - AtLocation
+        - Thomas's suitcase
+        - 9466
+    -   - Elizabeth's clock
+        - AtLocation
+        - Elizabeth's garage
+        - 9469
+    -   - Mary's elephant
+        - AtLocation
+        - Mary's classroom
+        - 9470
+    -   - David's oven
+        - AtLocation
+        - David's office
+        - 9475
+    -   - Karen's airplane
+        - AtLocation
+        - Karen's desk
+        - 9477
+    -   - Mary's sink
+        - AtLocation
+        - Mary's oven
+        - 9478
+    -   - Richard's motorcycle
+        - AtLocation
+        - Richard's airplane
+        - 9479
+    -   - Sarah's truck
+        - AtLocation
+        - Sarah's tree
+        - 9481
+    -   - Charles's book
+        - AtLocation
+        - Charles's tree
+        - 9482
+    -   - Sarah's cake
+        - AtLocation
+        - Sarah's apartment
+        - 9484
+    -   - Richard's suitcase
+        - AtLocation
+        - Richard's plate
+        - 9486
+    -   - Sarah's cat
+        - AtLocation
+        - Sarah's store
+        - 9489
+    -   - Patricia's mouse
+        - AtLocation
+        - Patricia's tree
+        - 9490
+    -   - Michael's boat
+        - AtLocation
+        - Michael's bathroom
+        - 9491
+    -   - David's truck
+        - AtLocation
+        - David's classroom
+        - 9493
+    -   - Sarah's laptop
+        - AtLocation
+        - Sarah's bowl
+        - 9496
+    -   - John's cake
+        - AtLocation
+        - John's garden
+        - 9498
+    -   - Jessica's oven
+        - AtLocation
+        - Jessica's house
+        - 9499
+    -   - Jennifer's suitcase
+        - AtLocation
+        - Jennifer's classroom
+        - 9500
+    -   - Patricia's horse
+        - AtLocation
+        - Patricia's bakery
+        - 9501
+    -   - David's sheep
+        - AtLocation
+        - David's closet
+        - 9503
+    -   - Charles's apple
+        - AtLocation
+        - Charles's park
+        - 9504
+    -   - Barbara's apple
+        - AtLocation
+        - Barbara's cupboard
+        - 9508
+    -   - Susan's spoon
+        - AtLocation
+        - Susan's garden
+        - 9515
+    -   - Charles's airplane
+        - AtLocation
+        - Charles's kitchen
+        - 9518
+    -   - Linda's car
+        - AtLocation
+        - Linda's kitchen
+        - 9519
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's desk
+        - 9521
+    -   - Charles's cow
+        - AtLocation
+        - Charles's building
+        - 9524
+    -   - Thomas's laptop
+        - AtLocation
+        - Thomas's store
+        - 9525
+    -   - John's spoon
+        - AtLocation
+        - John's sky
+        - 9526
+    -   - Joseph's sink
+        - AtLocation
+        - Joseph's house
+        - 9527
+    -   - Michael's knife
+        - AtLocation
+        - Michael's garden
+        - 9533
+    -   - Mary's airplane
+        - AtLocation
+        - Mary's water
+        - 9537
+    -   - David's cup
+        - AtLocation
+        - David's farm
+        - 9538
+    -   - Thomas's bowl
+        - AtLocation
+        - Thomas's table
+        - 9540
+    -   - James's dog
+        - AtLocation
+        - James's garden
+        - 9544
+    -   - John's microwave
+        - AtLocation
+        - John's desk
+        - 9546
+    -   - Joseph's truck
+        - AtLocation
+        - Joseph's table
+        - 9547
+    -   - Linda's oven
+        - AtLocation
+        - Linda's tree
+        - 9548
+    -   - Karen's airplane
+        - AtLocation
+        - Karen's closet
+        - 9549
+    -   - Elizabeth's toothbrush
+        - AtLocation
+        - Elizabeth's bowl
+        - 9550
+    -   - Karen's pizza
+        - AtLocation
+        - Karen's refrigerator
+        - 9551
+    -   - Michael's car
+        - AtLocation
+        - Michael's bakery
+        - 9553
+    -   - Barbara's cow
+        - AtLocation
+        - Barbara's lap
+        - 9554
+    -   - Sarah's chair
+        - AtLocation
+        - Sarah's classroom
+        - 9558
+    -   - John's bus
+        - AtLocation
+        - John's pantry
+        - 9559
+    -   - Richard's motorcycle
+        - AtLocation
+        - Richard's tree
+        - 9561
+    -   - Joseph's elephant
+        - AtLocation
+        - Joseph's refrigerator
+        - 9562
+    -   - William's cake
+        - AtLocation
+        - William's garden
+        - 9563
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's refrigerator
+        - 9564
+    -   - Michael's car
+        - AtLocation
+        - Michael's water
+        - 9565
+    -   - David's bench
+        - AtLocation
+        - David's kitchen
+        - 9567
+    -   - Mary's spoon
+        - AtLocation
+        - Mary's home
+        - 9570
+    -   - Susan's book
+        - AtLocation
+        - Susan's garage
+        - 9574
+    -   - Thomas's airplane
+        - AtLocation
+        - Thomas's office
+        - 9580
+    -   - Susan's umbrella
+        - AtLocation
+        - Susan's home
+        - 9586
+    -   - Richard's boat
+        - AtLocation
+        - Richard's plate
+        - 9588
+    -   - Michael's toilet
+        - AtLocation
+        - Michael's office
+        - 9595
+    -   - Robert's knife
+        - AtLocation
+        - Robert's circus
+        - 9600
+    -   - Susan's suitcase
+        - AtLocation
+        - Susan's refrigerator
+        - 9604
+    -   - John's truck
+        - AtLocation
+        - John's house
+        - 9609
+    -   - Jessica's refrigerator
+        - AtLocation
+        - Jessica's plate
+        - 9610
+    -   - Mary's laptop
+        - AtLocation
+        - Mary's garage
+        - 9611
+    -   - Barbara's bear
+        - AtLocation
+        - Barbara's kitchen
+        - 9613
+    -   - Mary's cat
+        - AtLocation
+        - Mary's building
+        - 9616
+    -   - Charles's cow
+        - AtLocation
+        - Charles's oven
+        - 9628
+    -   - Jessica's cow
+        - AtLocation
+        - Jessica's oven
+        - 9633
+    -   - Robert's sink
+        - AtLocation
+        - Robert's classroom
+        - 9634
+    -   - David's microwave
+        - AtLocation
+        - David's garden
+        - 9635
+    -   - Barbara's bear
+        - AtLocation
+        - Barbara's closet
+        - 9637
+    -   - Linda's vase
+        - AtLocation
+        - Linda's garden
+        - 9638
+    -   - Jessica's toilet
+        - AtLocation
+        - Jessica's tree
+        - 9639
+    -   - Susan's cow
+        - AtLocation
+        - Susan's airplane
+        - 9640
+    -   - Mary's banana
+        - AtLocation
+        - Mary's house
+        - 9641
+    -   - Barbara's banana
+        - AtLocation
+        - Barbara's lap
+        - 9648
+    -   - Sarah's toilet
+        - AtLocation
+        - Sarah's closet
+        - 9651
+    -   - Karen's microwave
+        - AtLocation
+        - Karen's park
+        - 9655
+    -   - Jennifer's toothbrush
+        - AtLocation
+        - Jennifer's office
+        - 9656
+    -   - Elizabeth's knife
+        - AtLocation
+        - Elizabeth's building
+        - 9658
+    -   - James's bicycle
+        - AtLocation
+        - James's suitcase
+        - 9662
+    -   - Joseph's toilet
+        - AtLocation
+        - Joseph's lap
+        - 9669
+    -   - Robert's banana
+        - AtLocation
+        - Robert's apartment
+        - 9670
+    -   - Susan's vase
+        - AtLocation
+        - Susan's circus
+        - 9671
+    -   - William's cake
+        - AtLocation
+        - William's suitcase
+        - 9674
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's circus
+        - 9675
+    -   - John's laptop
+        - AtLocation
+        - John's lap
+        - 9676
+    -   - William's clock
+        - AtLocation
+        - William's bowl
+        - 9677
+    -   - Karen's broccoli
+        - AtLocation
+        - Karen's tree
+        - 9678
+    -   - Thomas's cat
+        - AtLocation
+        - Thomas's sky
+        - 9679
+    -   - Michael's scissors
+        - AtLocation
+        - Michael's suitcase
+        - 9680
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's pantry
+        - 9688
+    -   - Jennifer's truck
+        - AtLocation
+        - Jennifer's water
+        - 9689
+    -   - Jessica's cow
+        - AtLocation
+        - Jessica's office
+        - 9691
+    -   - John's airplane
+        - AtLocation
+        - John's suitcase
+        - 9693
+    -   - Michael's cat
+        - AtLocation
+        - Michael's farm
+        - 9702
+    -   - Linda's bicycle
+        - AtLocation
+        - Linda's sky
+        - 9704
+    -   - Jennifer's pizza
+        - AtLocation
+        - Jennifer's kitchen
+        - 9710
+    -   - James's banana
+        - AtLocation
+        - James's sky
+        - 9711
+    -   - Jennifer's vase
+        - AtLocation
+        - Jennifer's kitchen
+        - 9712
+    -   - William's refrigerator
+        - AtLocation
+        - William's sky
+        - 9713
+    -   - Karen's bottle
+        - AtLocation
+        - Karen's circus
+        - 9714
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's plate
+        - 9716
+    -   - James's cow
+        - AtLocation
+        - James's bowl
+        - 9717
+    -   - Mary's apple
+        - AtLocation
+        - Mary's airplane
+        - 9720
+    -   - Linda's knife
+        - AtLocation
+        - Linda's bakery
+        - 9722
+    -   - Thomas's bus
+        - AtLocation
+        - Thomas's bowl
+        - 9724
+    -   - Robert's person
+        - AtLocation
+        - Robert's circus
+        - 9727
+    -   - Robert's bus
+        - AtLocation
+        - Robert's countryside
+        - 9730
+    -   - Susan's refrigerator
+        - AtLocation
+        - Susan's table
+        - 9731
+    -   - Susan's suitcase
+        - AtLocation
+        - Susan's refrigerator
+        - 9732
+    -   - Joseph's book
+        - AtLocation
+        - Joseph's circus
+        - 9733
+    -   - Linda's cake
+        - AtLocation
+        - Linda's airplane
+        - 9738
+    -   - Elizabeth's bird
+        - AtLocation
+        - Elizabeth's building
+        - 9743
+    -   - Jennifer's clock
+        - AtLocation
+        - Jennifer's closet
+        - 9745
+    -   - David's sink
+        - AtLocation
+        - David's park
+        - 9751
+    -   - John's toilet
+        - AtLocation
+        - John's countryside
+        - 9752
+    -   - William's laptop
+        - AtLocation
+        - William's house
+        - 9754
+    -   - Mary's vase
+        - AtLocation
+        - Mary's closet
+        - 9756
+    -   - Karen's toothbrush
+        - AtLocation
+        - Karen's circus
+        - 9758
+    -   - William's laptop
+        - AtLocation
+        - William's tree
+        - 9760
+    -   - Robert's cat
+        - AtLocation
+        - Robert's city
+        - 9763
+    -   - Jennifer's cake
+        - AtLocation
+        - Jennifer's cupboard
+        - 9765
+    -   - Michael's horse
+        - AtLocation
+        - Michael's water
+        - 9766
+    -   - William's truck
+        - AtLocation
+        - William's cupboard
+        - 9768
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's city
+        - 9769
+    -   - Sarah's car
+        - AtLocation
+        - Sarah's cupboard
+        - 9774
+    -   - Elizabeth's cow
+        - AtLocation
+        - Elizabeth's refrigerator
+        - 9776
+    -   - William's car
+        - AtLocation
+        - William's building
+        - 9777
+    -   - David's bicycle
+        - AtLocation
+        - David's airplane
+        - 9778
+    -   - Susan's toilet
+        - AtLocation
+        - Susan's desk
+        - 9779
+    -   - John's bench
+        - AtLocation
+        - John's plate
+        - 9783
+    -   - Sarah's bench
+        - AtLocation
+        - Sarah's bathroom
+        - 9784
+    -   - Thomas's knife
+        - AtLocation
+        - Thomas's pantry
+        - 9786
+    -   - Karen's bench
+        - AtLocation
+        - Karen's bathroom
+        - 9789
+    -   - James's knife
+        - AtLocation
+        - James's countryside
+        - 9793
+    -   - Karen's keyboard
+        - AtLocation
+        - Karen's park
+        - 9795
+    -   - Charles's knife
+        - AtLocation
+        - Charles's oven
+        - 9796
+    -   - Richard's bus
+        - AtLocation
+        - Richard's airplane
+        - 9799
+    -   - Linda's car
+        - AtLocation
+        - Linda's lap
+        - 9801
+    -   - Mary's bottle
+        - AtLocation
+        - Mary's kitchen
+        - 9802
+    -   - Joseph's airplane
+        - AtLocation
+        - Joseph's garden
+        - 9803
+    -   - Linda's bird
+        - AtLocation
+        - Linda's airplane
+        - 9806
+    -   - Linda's scissors
+        - AtLocation
+        - Linda's bowl
+        - 9809
+    -   - Linda's car
+        - AtLocation
+        - Linda's oven
+        - 9810
+    -   - Robert's oven
+        - AtLocation
+        - Robert's water
+        - 9811
+    -   - Linda's knife
+        - AtLocation
+        - Linda's store
+        - 9815
+    -   - David's umbrella
+        - AtLocation
+        - David's airplane
+        - 9816
+    -   - Charles's vase
+        - AtLocation
+        - Charles's lap
+        - 9817
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's lap
+        - 9818
+    -   - Robert's boat
+        - AtLocation
+        - Robert's bowl
+        - 9819
+    -   - James's elephant
+        - AtLocation
+        - James's building
+        - 9820
+    -   - Barbara's bus
+        - AtLocation
+        - Barbara's closet
+        - 9824
+    -   - Elizabeth's banana
+        - AtLocation
+        - Elizabeth's garage
+        - 9825
+    -   - Elizabeth's bowl
+        - AtLocation
+        - Elizabeth's circus
+        - 9827
+    -   - Charles's sink
+        - AtLocation
+        - Charles's countryside
+        - 9828
+    -   - Jennifer's toilet
+        - AtLocation
+        - Jennifer's building
+        - 9832
+    -   - James's bicycle
+        - AtLocation
+        - James's pantry
+        - 9833
+    -   - William's person
+        - AtLocation
+        - William's pantry
+        - 9837
+    -   - Jessica's elephant
+        - AtLocation
+        - Jessica's cupboard
+        - 9839
+    -   - Sarah's keyboard
+        - AtLocation
+        - Sarah's circus
+        - 9846
+    -   - Barbara's sandwich
+        - AtLocation
+        - Barbara's home
+        - 9848
+    -   - Elizabeth's motorcycle
+        - AtLocation
+        - Elizabeth's apartment
+        - 9849
+    -   - Karen's book
+        - AtLocation
+        - Karen's store
+        - 9853
+    -   - John's elephant
+        - AtLocation
+        - John's desk
+        - 9856
+    -   - John's airplane
+        - AtLocation
+        - John's building
+        - 9862
+    -   - Joseph's sink
+        - AtLocation
+        - Joseph's countryside
+        - 9866
+    -   - Joseph's sink
+        - AtLocation
+        - Joseph's building
+        - 9869
+    -   - Joseph's bird
+        - AtLocation
+        - Joseph's farm
+        - 9870
+    -   - David's motorcycle
+        - AtLocation
+        - David's home
+        - 9872
+    -   - Jennifer's bird
+        - AtLocation
+        - Jennifer's kitchen
+        - 9874
+    -   - Karen's bus
+        - AtLocation
+        - Karen's store
+        - 9875
+    -   - Linda's umbrella
+        - AtLocation
+        - Linda's water
+        - 9876
+    -   - David's bench
+        - AtLocation
+        - David's oven
+        - 9877
+    -   - Richard's toilet
+        - AtLocation
+        - Richard's plate
+        - 9878
+    -   - Sarah's bench
+        - AtLocation
+        - Sarah's oven
+        - 9883
+    -   - Patricia's bottle
+        - AtLocation
+        - Patricia's desk
+        - 9884
+    -   - Charles's bench
+        - AtLocation
+        - Charles's farm
+        - 9889
+    -   - Susan's person
+        - AtLocation
+        - Susan's kitchen
+        - 9892
+    -   - Robert's elephant
+        - AtLocation
+        - Robert's office
+        - 9895
+    -   - Richard's spoon
+        - AtLocation
+        - Richard's lap
+        - 9896
+    -   - Jessica's horse
+        - AtLocation
+        - Jessica's city
+        - 9899
+    -   - Barbara's cow
+        - AtLocation
+        - Barbara's bowl
+        - 9901
+    -   - William's broccoli
+        - AtLocation
+        - William's airplane
+        - 9902
+    -   - Linda's couch
+        - AtLocation
+        - Linda's farm
+        - 9906
+    -   - William's chair
+        - AtLocation
+        - William's sky
+        - 9912
+    -   - Sarah's bus
+        - AtLocation
+        - Sarah's countryside
+        - 9914
+    -   - Charles's cat
+        - AtLocation
+        - Charles's apartment
+        - 9915
+    -   - Thomas's banana
+        - AtLocation
+        - Thomas's table
+        - 9916
+    -   - Barbara's bowl
+        - AtLocation
+        - Barbara's closet
+        - 9921
+    -   - John's motorcycle
+        - AtLocation
+        - John's water
+        - 9922
+    -   - Joseph's sink
+        - AtLocation
+        - Joseph's table
+        - 9923
+    -   - William's microwave
+        - AtLocation
+        - William's bakery
+        - 9926
+    -   - Karen's broccoli
+        - AtLocation
+        - Karen's apartment
+        - 9930
+    -   - Karen's apple
+        - AtLocation
+        - Karen's countryside
+        - 9932
+    -   - Mary's elephant
+        - AtLocation
+        - Mary's countryside
+        - 9937
+    -   - Richard's person
+        - AtLocation
+        - Richard's sky
+        - 9938
+    -   - Karen's bird
+        - AtLocation
+        - Karen's countryside
+        - 9948
+    -   - Thomas's bear
+        - AtLocation
+        - Thomas's sky
+        - 9951
+    -   - Jessica's airplane
+        - AtLocation
+        - Jessica's plate
+        - 9952
+    -   - Charles's sink
+        - AtLocation
+        - Charles's house
+        - 9954
+    -   - Linda's bowl
+        - AtLocation
+        - Linda's bowl
+        - 9955
+    -   - Susan's banana
+        - AtLocation
+        - Susan's plate
+        - 9957
+    -   - Patricia's sandwich
+        - AtLocation
+        - Patricia's oven
+        - 9961
+    -   - Barbara's vase
+        - AtLocation
+        - Barbara's bathroom
+        - 9967
+    -   - Robert's person
+        - AtLocation
+        - Robert's refrigerator
+        - 9968
+    -   - Sarah's bicycle
+        - AtLocation
+        - Sarah's countryside
+        - 9972
+    -   - Michael's clock
+        - AtLocation
+        - Michael's pantry
+        - 9973
+    -   - John's clock
+        - AtLocation
+        - John's building
+        - 9975
+    -   - Richard's umbrella
+        - AtLocation
+        - Richard's lap
+        - 9976
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's lap
+        - 9980
+    -   - Elizabeth's refrigerator
+        - AtLocation
+        - Elizabeth's airplane
+        - 9982
+    -   - Elizabeth's couch
+        - AtLocation
+        - Elizabeth's bakery
+        - 9983
+    -   - James's airplane
+        - AtLocation
+        - James's store
+        - 9985
+    -   - Barbara's laptop
+        - AtLocation
+        - Barbara's store
+        - 9988
+    -   - Barbara's book
+        - AtLocation
+        - Barbara's countryside
+        - 9991
+    -   - Jessica's oven
+        - AtLocation
+        - Jessica's countryside
+        - 9992
+    -   - Patricia's vase
+        - AtLocation
+        - Patricia's farm
+        - 10001
+    -   - Mary's umbrella
+        - AtLocation
+        - Mary's bowl
+        - 10002
+    -   - Joseph's cup
+        - AtLocation
+        - Joseph's desk
+        - 10003
+    -   - John's bird
+        - AtLocation
+        - John's lap
+        - 10004
+    -   - Richard's cup
+        - AtLocation
+        - Richard's refrigerator
+        - 10005
+    -   - Susan's apple
+        - AtLocation
+        - Susan's office
+        - 10006
+    -   - Mary's oven
+        - AtLocation
+        - Mary's pantry
+        - 10007
+    -   - Richard's cake
+        - AtLocation
+        - Richard's countryside
+        - 10009
+    -   - Elizabeth's horse
+        - AtLocation
+        - Elizabeth's airplane
+        - 10011
+    -   - Karen's bus
+        - AtLocation
+        - Karen's bakery
+        - 10014
+    -   - Linda's bed
+        - AtLocation
+        - Linda's refrigerator
+        - 10017
+    -   - Jennifer's sink
+        - AtLocation
+        - Jennifer's plate
+        - 10020
+    -   - David's person
+        - AtLocation
+        - David's park
+        - 10022
+    -   - Patricia's toothbrush
+        - AtLocation
+        - Patricia's refrigerator
+        - 10024
+    -   - Mary's car
+        - AtLocation
+        - Mary's garage
+        - 10026
+    -   - Robert's toilet
+        - AtLocation
+        - Robert's office
+        - 10027
+    -   - Sarah's elephant
+        - AtLocation
+        - Sarah's city
+        - 10028
+    -   - Richard's elephant
+        - AtLocation
+        - Richard's city
+        - 10033
+    -   - Charles's sheep
+        - AtLocation
+        - Charles's oven
+        - 10042
+    -   - Thomas's cow
+        - AtLocation
+        - Thomas's farm
+        - 10044
+    -   - Robert's laptop
+        - AtLocation
+        - Robert's pantry
+        - 10046
+    -   - Thomas's apple
+        - AtLocation
+        - Thomas's home
+        - 10050
+    -   - Mary's refrigerator
+        - AtLocation
+        - Mary's store
+        - 10051
+    -   - Jennifer's elephant
+        - AtLocation
+        - Jennifer's home
+        - 10053
+    -   - Sarah's spoon
+        - AtLocation
+        - Sarah's apartment
+        - 10054
+    -   - Karen's motorcycle
+        - AtLocation
+        - Karen's pantry
+        - 10056
+    -   - William's book
+        - AtLocation
+        - William's home
+        - 10058
+    -   - Elizabeth's bottle
+        - AtLocation
+        - Elizabeth's bathroom
+        - 10065
+    -   - Mary's couch
+        - AtLocation
+        - Mary's classroom
+        - 10066
+    -   - Robert's toothbrush
+        - AtLocation
+        - Robert's city
+        - 10069
+    -   - Richard's dog
+        - AtLocation
+        - Richard's home
+        - 10073
+    -   - Sarah's person
+        - AtLocation
+        - Sarah's sky
+        - 10075
+    -   - James's bowl
+        - AtLocation
+        - James's farm
+        - 10076
+    -   - Elizabeth's truck
+        - AtLocation
+        - Elizabeth's suitcase
+        - 10077
+    -   - Barbara's chair
+        - AtLocation
+        - Barbara's kitchen
+        - 10080
+    -   - Jennifer's sink
+        - AtLocation
+        - Jennifer's closet
+        - 10082
+    -   - William's bed
+        - AtLocation
+        - William's office
+        - 10084
+    -   - John's refrigerator
+        - AtLocation
+        - John's classroom
+        - 10086
+    -   - Barbara's book
+        - AtLocation
+        - Barbara's refrigerator
+        - 10089
+    -   - Elizabeth's bus
+        - AtLocation
+        - Elizabeth's bathroom
+        - 10091
+    -   - John's bed
+        - AtLocation
+        - John's apartment
+        - 10093
+    -   - Mary's elephant
+        - AtLocation
+        - Mary's cupboard
+        - 10097
+    -   - Linda's refrigerator
+        - AtLocation
+        - Linda's bowl
+        - 10098
+    -   - Mary's bear
+        - AtLocation
+        - Mary's garage
+        - 10099
+    -   - Robert's spoon
+        - AtLocation
+        - Robert's city
+        - 10100
+    -   - William's elephant
+        - AtLocation
+        - William's farm
+        - 10101
+    -   - Linda's clock
+        - AtLocation
+        - Linda's office
+        - 10105
+    -   - Robert's car
+        - AtLocation
+        - Robert's bathroom
+        - 10112
+    -   - Linda's airplane
+        - AtLocation
+        - Linda's farm
+        - 10113
+    -   - James's sink
+        - AtLocation
+        - James's sky
+        - 10117
+    -   - Richard's toothbrush
+        - AtLocation
+        - Richard's garden
+        - 10118
+    -   - John's scissors
+        - AtLocation
+        - John's closet
+        - 10122
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's plate
+        - 10123
+    -   - Patricia's sink
+        - AtLocation
+        - Patricia's apartment
+        - 10124
+    -   - William's bus
+        - AtLocation
+        - William's table
+        - 10126
+    -   - Linda's sandwich
+        - AtLocation
+        - Linda's home
+        - 10129
+    -   - Charles's book
+        - AtLocation
+        - Charles's bakery
+        - 10134
+    -   - Linda's bed
+        - AtLocation
+        - Linda's cupboard
+        - 10136
+    -   - Jessica's dog
+        - AtLocation
+        - Jessica's airplane
+        - 10137
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's water
+        - 10138
+    -   - Mary's bench
+        - AtLocation
+        - Mary's tree
+        - 10140
+    -   - Barbara's apple
+        - AtLocation
+        - Barbara's building
+        - 10144
+    -   - James's book
+        - AtLocation
+        - James's airplane
+        - 10145
+    -   - Jessica's bird
+        - AtLocation
+        - Jessica's bathroom
+        - 10149
+    -   - Jennifer's broccoli
+        - AtLocation
+        - Jennifer's lap
+        - 10152
+    -   - Jennifer's horse
+        - AtLocation
+        - Jennifer's pantry
+        - 10153
+    -   - Karen's umbrella
+        - AtLocation
+        - Karen's tree
+        - 10154
+    -   - Robert's couch
+        - AtLocation
+        - Robert's closet
+        - 10160
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's building
+        - 10165
+    -   - Barbara's vase
+        - AtLocation
+        - Barbara's bowl
+        - 10167
+    -   - James's vase
+        - AtLocation
+        - James's water
+        - 10169
+    -   - John's umbrella
+        - AtLocation
+        - John's desk
+        - 10170
+    -   - John's cake
+        - AtLocation
+        - John's oven
+        - 10172
+    -   - James's laptop
+        - AtLocation
+        - James's closet
+        - 10177
+    -   - William's person
+        - AtLocation
+        - William's airplane
+        - 10181
+    -   - Susan's broccoli
+        - AtLocation
+        - Susan's home
+        - 10183
+    -   - Mary's cake
+        - AtLocation
+        - Mary's water
+        - 10189
+    -   - Barbara's sheep
+        - AtLocation
+        - Barbara's cupboard
+        - 10191
+    -   - Karen's person
+        - AtLocation
+        - Karen's garden
+        - 10192
+    -   - William's boat
+        - AtLocation
+        - William's building
+        - 10193
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's bakery
+        - 10197
+    -   - Joseph's oven
+        - AtLocation
+        - Joseph's garage
+        - 10200
+    -   - Mary's boat
+        - AtLocation
+        - Mary's park
+        - 10202
+    -   - Barbara's sandwich
+        - AtLocation
+        - Barbara's bowl
+        - 10206
+    -   - Michael's knife
+        - AtLocation
+        - Michael's oven
+        - 10212
+    -   - Karen's spoon
+        - AtLocation
+        - Karen's garage
+        - 10213
+    -   - Jennifer's bowl
+        - AtLocation
+        - Jennifer's refrigerator
+        - 10214
+    -   - Jessica's chair
+        - AtLocation
+        - Jessica's tree
+        - 10217
+    -   - Barbara's suitcase
+        - AtLocation
+        - Barbara's park
+        - 10219
+    -   - Mary's sheep
+        - AtLocation
+        - Mary's lap
+        - 10220
+    -   - Barbara's cake
+        - AtLocation
+        - Barbara's desk
+        - 10223
+    -   - Charles's bowl
+        - AtLocation
+        - Charles's water
+        - 10225
+    -   - Richard's scissors
+        - AtLocation
+        - Richard's city
+        - 10226
+    -   - Linda's book
+        - AtLocation
+        - Linda's closet
+        - 10227
+    -   - Robert's bus
+        - AtLocation
+        - Robert's plate
+        - 10230
+    -   - John's bench
+        - AtLocation
+        - John's bakery
+        - 10236
+    -   - Patricia's bench
+        - AtLocation
+        - Patricia's house
+        - 10238
+    -   - Thomas's cake
+        - AtLocation
+        - Thomas's house
+        - 10239
+    -   - James's cup
+        - AtLocation
+        - James's classroom
+        - 10243
+    -   - Jessica's bowl
+        - AtLocation
+        - Jessica's house
+        - 10244
+    -   - Linda's couch
+        - AtLocation
+        - Linda's countryside
+        - 10245
+    -   - Barbara's bed
+        - AtLocation
+        - Barbara's classroom
+        - 10246
+    -   - Thomas's horse
+        - AtLocation
+        - Thomas's table
+        - 10248
+    -   - John's umbrella
+        - AtLocation
+        - John's cupboard
+        - 10249
+    -   - Mary's bottle
+        - AtLocation
+        - Mary's water
+        - 10250
+    -   - Susan's airplane
+        - AtLocation
+        - Susan's classroom
+        - 10251
+    -   - Mary's cup
+        - AtLocation
+        - Mary's bakery
+        - 10253
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's refrigerator
+        - 10257
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's park
+        - 10259
+    -   - Jennifer's bowl
+        - AtLocation
+        - Jennifer's water
+        - 10262
+    -   - Jessica's umbrella
+        - AtLocation
+        - Jessica's pantry
+        - 10266
+    -   - John's apple
+        - AtLocation
+        - John's home
+        - 10270
+    -   - Karen's refrigerator
+        - AtLocation
+        - Karen's home
+        - 10272
+    -   - Richard's banana
+        - AtLocation
+        - Richard's office
+        - 10274
+    -   - Robert's cup
+        - AtLocation
+        - Robert's countryside
+        - 10280
+    -   - Robert's car
+        - AtLocation
+        - Robert's city
+        - 10281
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's circus
+        - 10282
+    -   - William's laptop
+        - AtLocation
+        - William's park
+        - 10283
+    -   - Susan's couch
+        - AtLocation
+        - Susan's garden
+        - 10284
+    -   - William's cake
+        - AtLocation
+        - William's closet
+        - 10285
+    -   - Linda's banana
+        - AtLocation
+        - Linda's kitchen
+        - 10286
+    -   - Robert's bed
+        - AtLocation
+        - Robert's lap
+        - 10287
+    -   - Barbara's knife
+        - AtLocation
+        - Barbara's office
+        - 10291
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's lap
+        - 10293
+    -   - Joseph's truck
+        - AtLocation
+        - Joseph's farm
+        - 10296
+    -   - David's suitcase
+        - AtLocation
+        - David's house
+        - 10297
+    -   - Karen's boat
+        - AtLocation
+        - Karen's building
+        - 10299
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's garage
+        - 10301
+    -   - Barbara's spoon
+        - AtLocation
+        - Barbara's suitcase
+        - 10312
+    -   - Robert's pizza
+        - AtLocation
+        - Robert's bathroom
+        - 10314
+    -   - Susan's cow
+        - AtLocation
+        - Susan's apartment
+        - 10316
+    -   - Susan's truck
+        - AtLocation
+        - Susan's cupboard
+        - 10317
+    -   - Robert's book
+        - AtLocation
+        - Robert's apartment
+        - 10318
+    -   - Patricia's sandwich
+        - AtLocation
+        - Patricia's farm
+        - 10323
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bathroom
+        - 10324
+    -   - Thomas's horse
+        - AtLocation
+        - Thomas's garden
+        - 10326
+    -   - Karen's cup
+        - AtLocation
+        - Karen's classroom
+        - 10327
+    -   - Patricia's bus
+        - AtLocation
+        - Patricia's airplane
+        - 10328
+    -   - Mary's mouse
+        - AtLocation
+        - Mary's garden
+        - 10329
+    -   - Susan's keyboard
+        - AtLocation
+        - Susan's sky
+        - 10331
+    -   - Karen's laptop
+        - AtLocation
+        - Karen's building
+        - 10336
+    -   - Elizabeth's laptop
+        - AtLocation
+        - Elizabeth's desk
+        - 10337
+    -   - Charles's bottle
+        - AtLocation
+        - Charles's countryside
+        - 10341
+    -   - Charles's motorcycle
+        - AtLocation
+        - Charles's sky
+        - 10342
+    -   - Robert's cat
+        - AtLocation
+        - Robert's table
+        - 10344
+    -   - Charles's microwave
+        - AtLocation
+        - Charles's city
+        - 10345
+    -   - William's vase
+        - AtLocation
+        - William's building
+        - 10346
+    -   - Linda's scissors
+        - AtLocation
+        - Linda's classroom
+        - 10347
+    -   - Jennifer's suitcase
+        - AtLocation
+        - Jennifer's closet
+        - 10350
+    -   - David's cup
+        - AtLocation
+        - David's cupboard
+        - 10351
+    -   - Sarah's cup
+        - AtLocation
+        - Sarah's house
+        - 10352
+    -   - John's bottle
+        - AtLocation
+        - John's circus
+        - 10353
+    -   - Elizabeth's bench
+        - AtLocation
+        - Elizabeth's bowl
+        - 10355
+    -   - Barbara's bench
+        - AtLocation
+        - Barbara's water
+        - 10359
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's garage
+        - 10361
+    -   - Barbara's knife
+        - AtLocation
+        - Barbara's suitcase
+        - 10365
+    -   - Charles's pizza
+        - AtLocation
+        - Charles's circus
+        - 10367
+    -   - Thomas's bird
+        - AtLocation
+        - Thomas's pantry
+        - 10368
+    -   - Susan's car
+        - AtLocation
+        - Susan's office
+        - 10370
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's closet
+        - 10373
+    -   - Mary's vase
+        - AtLocation
+        - Mary's table
+        - 10376
+    -   - Elizabeth's clock
+        - AtLocation
+        - Elizabeth's park
+        - 10378
+    -   - Karen's vase
+        - AtLocation
+        - Karen's closet
+        - 10380
+    -   - Thomas's laptop
+        - AtLocation
+        - Thomas's farm
+        - 10385
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's pantry
+        - 10387
+    -   - Barbara's mouse
+        - AtLocation
+        - Barbara's garage
+        - 10388
+    -   - Michael's microwave
+        - AtLocation
+        - Michael's house
+        - 10389
+    -   - Barbara's truck
+        - AtLocation
+        - Barbara's refrigerator
+        - 10392
+    -   - Karen's knife
+        - AtLocation
+        - Karen's apartment
+        - 10393
+    -   - Karen's apple
+        - AtLocation
+        - Karen's store
+        - 10398
+    -   - Linda's broccoli
+        - AtLocation
+        - Linda's house
+        - 10400
+    -   - Robert's clock
+        - AtLocation
+        - Robert's bakery
+        - 10401
+    -   - William's scissors
+        - AtLocation
+        - William's desk
+        - 10402
+    -   - Susan's clock
+        - AtLocation
+        - Susan's water
+        - 10404
+    -   - Joseph's cake
+        - AtLocation
+        - Joseph's classroom
+        - 10405
+    -   - Jessica's sheep
+        - AtLocation
+        - Jessica's city
+        - 10406
+    -   - Susan's keyboard
+        - AtLocation
+        - Susan's classroom
+        - 10409
+    -   - Karen's dog
+        - AtLocation
+        - Karen's circus
+        - 10410
+    -   - Joseph's truck
+        - AtLocation
+        - Joseph's suitcase
+        - 10412
+    -   - John's spoon
+        - AtLocation
+        - John's bakery
+        - 10416
+    -   - Linda's bear
+        - AtLocation
+        - Linda's park
+        - 10422
+    -   - John's toilet
+        - AtLocation
+        - John's water
+        - 10423
+    -   - Susan's bed
+        - AtLocation
+        - Susan's apartment
+        - 10426
+    -   - Barbara's chair
+        - AtLocation
+        - Barbara's refrigerator
+        - 10427
+    -   - Susan's cat
+        - AtLocation
+        - Susan's building
+        - 10428
+    -   - Thomas's clock
+        - AtLocation
+        - Thomas's airplane
+        - 10429
+    -   - Michael's horse
+        - AtLocation
+        - Michael's cupboard
+        - 10430
+    -   - James's car
+        - AtLocation
+        - James's city
+        - 10431
+    -   - Karen's book
+        - AtLocation
+        - Karen's plate
+        - 10433
+    -   - Susan's elephant
+        - AtLocation
+        - Susan's oven
+        - 10434
+    -   - Linda's book
+        - AtLocation
+        - Linda's desk
+        - 10443
+    -   - Michael's bench
+        - AtLocation
+        - Michael's city
+        - 10447
+    -   - Robert's couch
+        - AtLocation
+        - Robert's city
+        - 10449
+    -   - William's truck
+        - AtLocation
+        - William's house
+        - 10452
+    -   - James's dog
+        - AtLocation
+        - James's refrigerator
+        - 10456
+    -   - Jessica's book
+        - AtLocation
+        - Jessica's pantry
+        - 10459
+    -   - William's scissors
+        - AtLocation
+        - William's oven
+        - 10460
+    -   - Richard's sink
+        - AtLocation
+        - Richard's water
+        - 10461
+    -   - David's bowl
+        - AtLocation
+        - David's countryside
+        - 10463
+    -   - Robert's suitcase
+        - AtLocation
+        - Robert's bakery
+        - 10465
+    -   - Joseph's car
+        - AtLocation
+        - Joseph's airplane
+        - 10466
+    -   - Robert's toilet
+        - AtLocation
+        - Robert's tree
+        - 10467
+    -   - Mary's knife
+        - AtLocation
+        - Mary's house
+        - 10470
+    -   - Mary's banana
+        - AtLocation
+        - Mary's farm
+        - 10471
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's garage
+        - 10472
+    -   - Charles's keyboard
+        - AtLocation
+        - Charles's building
+        - 10473
+    -   - Robert's mouse
+        - AtLocation
+        - Robert's garage
+        - 10474
+    -   - James's mouse
+        - AtLocation
+        - James's plate
+        - 10475
+    -   - Sarah's cup
+        - AtLocation
+        - Sarah's sky
+        - 10480
+    -   - Robert's cat
+        - AtLocation
+        - Robert's pantry
+        - 10484
+    -   - David's bear
+        - AtLocation
+        - David's airplane
+        - 10485
+    -   - John's bed
+        - AtLocation
+        - John's office
+        - 10487
+    -   - Jessica's banana
+        - AtLocation
+        - Jessica's desk
+        - 10488
+    -   - Barbara's laptop
+        - AtLocation
+        - Barbara's desk
+        - 10491
+    -   - Linda's laptop
+        - AtLocation
+        - Linda's kitchen
+        - 10494
+    -   - Thomas's sheep
+        - AtLocation
+        - Thomas's garage
+        - 10496
+    -   - Patricia's bus
+        - AtLocation
+        - Patricia's refrigerator
+        - 10498
+    -   - Charles's knife
+        - AtLocation
+        - Charles's city
+        - 10499
+    -   - Jessica's keyboard
+        - AtLocation
+        - Jessica's table
+        - 10500
+    -   - David's bear
+        - AtLocation
+        - David's desk
+        - 10505
+    -   - Thomas's bus
+        - AtLocation
+        - Thomas's city
+        - 10507
+    -   - Barbara's laptop
+        - AtLocation
+        - Barbara's table
+        - 10508
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's garden
+        - 10509
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's sky
+        - 10510
+    -   - Michael's mouse
+        - AtLocation
+        - Michael's water
+        - 10511
+    -   - Karen's vase
+        - AtLocation
+        - Karen's circus
+        - 10517
+    -   - Jessica's refrigerator
+        - AtLocation
+        - Jessica's circus
+        - 10520
+    -   - John's motorcycle
+        - AtLocation
+        - John's garage
+        - 10522
+    -   - Elizabeth's oven
+        - AtLocation
+        - Elizabeth's apartment
+        - 10525
+    -   - Elizabeth's broccoli
+        - AtLocation
+        - Elizabeth's plate
+        - 10527
+    -   - David's pizza
+        - AtLocation
+        - David's garage
+        - 10528
+    -   - Richard's bear
+        - AtLocation
+        - Richard's park
+        - 10529
+    -   - Robert's sandwich
+        - AtLocation
+        - Robert's plate
+        - 10532
+    -   - Susan's bench
+        - AtLocation
+        - Susan's building
+        - 10533
+    -   - William's motorcycle
+        - AtLocation
+        - William's bakery
+        - 10534
+    -   - Mary's sandwich
+        - AtLocation
+        - Mary's refrigerator
+        - 10535
+    -   - Patricia's motorcycle
+        - AtLocation
+        - Patricia's cupboard
+        - 10536
+    -   - Charles's clock
+        - AtLocation
+        - Charles's table
+        - 10538
+    -   - Mary's cake
+        - AtLocation
+        - Mary's farm
+        - 10540
+    -   - Jessica's book
+        - AtLocation
+        - Jessica's plate
+        - 10541
+    -   - Sarah's scissors
+        - AtLocation
+        - Sarah's refrigerator
+        - 10543
+    -   - Richard's keyboard
+        - AtLocation
+        - Richard's desk
+        - 10545
+    -   - James's umbrella
+        - AtLocation
+        - James's kitchen
+        - 10548
+    -   - Charles's sink
+        - AtLocation
+        - Charles's kitchen
+        - 10549
+    -   - Linda's bus
+        - AtLocation
+        - Linda's desk
+        - 10550
+    -   - William's elephant
+        - AtLocation
+        - William's park
+        - 10551
+    -   - Elizabeth's bed
+        - AtLocation
+        - Elizabeth's suitcase
+        - 10552
+    -   - Jessica's boat
+        - AtLocation
+        - Jessica's water
+        - 10553
+    -   - Elizabeth's airplane
+        - AtLocation
+        - Elizabeth's sky
+        - 10554
+    -   - Joseph's motorcycle
+        - AtLocation
+        - Joseph's closet
+        - 10555
+    -   - Charles's couch
+        - AtLocation
+        - Charles's house
+        - 10556
+    -   - Linda's couch
+        - AtLocation
+        - Linda's desk
+        - 10557
+    -   - Richard's bicycle
+        - AtLocation
+        - Richard's garage
+        - 10558
+    -   - Joseph's bus
+        - AtLocation
+        - Joseph's city
+        - 10559
+    -   - William's sandwich
+        - AtLocation
+        - William's plate
+        - 10560
+    -   - Robert's banana
+        - AtLocation
+        - Robert's pantry
+        - 10562
+    -   - James's clock
+        - AtLocation
+        - James's garage
+        - 10563
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's apartment
+        - 10565
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's cupboard
+        - 10568
+    -   - David's sink
+        - AtLocation
+        - David's kitchen
+        - 10570
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's pantry
+        - 10571
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's desk
+        - 10575
+    -   - Michael's couch
+        - AtLocation
+        - Michael's house
+        - 10577
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 10578
+    -   - Jessica's apple
+        - AtLocation
+        - Jessica's refrigerator
+        - 10579
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's desk
+        - 10580
+    -   - Jennifer's chair
+        - AtLocation
+        - Jennifer's office
+        - 10582
+    -   - Charles's apple
+        - AtLocation
+        - Charles's refrigerator
+        - 10583
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's table
+        - 10584
+    -   - Mary's cake
+        - AtLocation
+        - Mary's plate
+        - 10585
+    -   - Karen's umbrella
+        - AtLocation
+        - Karen's closet
+        - 10587
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's desk
+        - 10588
+    -   - Susan's truck
+        - AtLocation
+        - Susan's garage
+        - 10590
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's circus
+        - 10591
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - spoon
+        - AtLocation
+        - table
+        - 2
+    -   - book
+        - AtLocation
+        - office
+        - 2
+    -   - suitcase
+        - AtLocation
+        - home
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 11
+    -   - chair
+        - AtLocation
+        - office
+        - 11
+    -   - refrigerator
+        - AtLocation
+        - bakery
+        - 2
+    -   - laptop
+        - AtLocation
+        - garden
+        - 2
+    -   - cup
+        - AtLocation
+        - garage
+        - 2
+    -   - person
+        - AtLocation
+        - building
+        - 10
+    -   - toothbrush
+        - AtLocation
+        - table
+        - 2
+    -   - laptop
+        - AtLocation
+        - desk
+        - 8
+    -   - bed
+        - AtLocation
+        - closet
+        - 2
+    -   - bowl
+        - AtLocation
+        - sky
+        - 2
+    -   - microwave
+        - AtLocation
+        - tree
+        - 3
+    -   - mouse
+        - AtLocation
+        - garage
+        - 5
+    -   - bird
+        - AtLocation
+        - tree
+        - 9
+    -   - bus
+        - AtLocation
+        - desk
+        - 3
+    -   - mouse
+        - AtLocation
+        - bakery
+        - 2
+    -   - bird
+        - AtLocation
+        - water
+        - 2
+    -   - bus
+        - AtLocation
+        - city
+        - 9
+    -   - sheep
+        - AtLocation
+        - farm
+        - 15
+    -   - microwave
+        - AtLocation
+        - suitcase
+        - 2
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 6
+    -   - mouse
+        - AtLocation
+        - desk
+        - 3
+    -   - bird
+        - AtLocation
+        - house
+        - 2
+    -   - pizza
+        - AtLocation
+        - sky
+        - 2
+    -   - cake
+        - AtLocation
+        - garage
+        - 2
+    -   - vase
+        - AtLocation
+        - table
+        - 14
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 3
+    -   - book
+        - AtLocation
+        - city
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 18
+    -   - cat
+        - AtLocation
+        - lap
+        - 16
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 11
+    -   - truck
+        - AtLocation
+        - garage
+        - 10
+    -   - couch
+        - AtLocation
+        - house
+        - 19
+    -   - boat
+        - AtLocation
+        - water
+        - 15
+    -   - clock
+        - AtLocation
+        - desk
+        - 17
+    -   - bed
+        - AtLocation
+        - bakery
+        - 2
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 13
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 17
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 11
+    -   - cat
+        - AtLocation
+        - park
+        - 3
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 15
+    -   - oven
+        - AtLocation
+        - bakery
+        - 3
+    -   - cup
+        - AtLocation
+        - table
+        - 10
+    -   - refrigerator
+        - AtLocation
+        - countryside
+        - 2
+    -   - pizza
+        - AtLocation
+        - oven
+        - 8
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 14
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 12
+    -   - cat
+        - AtLocation
+        - oven
+        - 3
+    -   - sheep
+        - AtLocation
+        - store
+        - 2
+    -   - person
+        - AtLocation
+        - apartment
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 5
+    -   - spoon
+        - AtLocation
+        - pantry
+        - 4
+    -   - bear
+        - AtLocation
+        - park
+        - 11
+    -   - toilet
+        - AtLocation
+        - park
+        - 2
+    -   - banana
+        - AtLocation
+        - countryside
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 10
+    -   - banana
+        - AtLocation
+        - suitcase
+        - 3
+    -   - bench
+        - AtLocation
+        - garden
+        - 17
+    -   - dog
+        - AtLocation
+        - apartment
+        - 2
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 13
+    -   - sheep
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 15
+    -   - dog
+        - AtLocation
+        - table
+        - 7
+    -   - sheep
+        - AtLocation
+        - house
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 12
+    -   - keyboard
+        - AtLocation
+        - water
+        - 2
+    -   - keyboard
+        - AtLocation
+        - office
+        - 2
+    -   - bird
+        - AtLocation
+        - bakery
+        - 3
+    -   - pizza
+        - AtLocation
+        - farm
+        - 2
+    -   - cow
+        - AtLocation
+        - plate
+        - 3
+    -   - horse
+        - AtLocation
+        - office
+        - 2
+    -   - bottle
+        - AtLocation
+        - house
+        - 2
+    -   - cow
+        - AtLocation
+        - countryside
+        - 11
+    -   - suitcase
+        - AtLocation
+        - cupboard
+        - 3
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 14
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 7
+    -   - horse
+        - AtLocation
+        - classroom
+        - 2
+    -   - book
+        - AtLocation
+        - classroom
+        - 11
+    -   - airplane
+        - AtLocation
+        - sky
+        - 6
+    -   - bed
+        - AtLocation
+        - circus
+        - 2
+    -   - sandwich
+        - AtLocation
+        - garden
+        - 2
+    -   - couch
+        - AtLocation
+        - circus
+        - 2
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 19
+    -   - bed
+        - AtLocation
+        - house
+        - 12
+    -   - knife
+        - AtLocation
+        - table
+        - 2
+    -   - elephant
+        - AtLocation
+        - circus
+        - 11
+    -   - clock
+        - AtLocation
+        - tree
+        - 2
+    -   - microwave
+        - AtLocation
+        - oven
+        - 2
+    -   - car
+        - AtLocation
+        - city
+        - 8
+    -   - scissors
+        - AtLocation
+        - desk
+        - 12
+    -   - sink
+        - AtLocation
+        - bowl
+        - 2
+    -   - bed
+        - AtLocation
+        - store
+        - 2
+    -   - bear
+        - AtLocation
+        - tree
+        - 2
+    -   - sheep
+        - AtLocation
+        - park
+        - 3
+    -   - cake
+        - AtLocation
+        - kitchen
+        - 2
+    -   - scissors
+        - AtLocation
+        - park
+        - 2
+    -   - car
+        - AtLocation
+        - house
+        - 2
+    -   - cake
+        - AtLocation
+        - bakery
+        - 11
+    -   - bear
+        - AtLocation
+        - oven
+        - 2
+    -   - oven
+        - AtLocation
+        - store
+        - 2
+    -   - sink
+        - AtLocation
+        - airplane
+        - 3
+    -   - oven
+        - AtLocation
+        - home
+        - 10
+    -   - dog
+        - AtLocation
+        - countryside
+        - 2
+    -   - suitcase
+        - AtLocation
+        - bowl
+        - 3
+    -   - oven
+        - AtLocation
+        - closet
+        - 2
+test:
+    rewards: 47
+    num_samples: 1178
+    episodic_memories:
+    -   - Thomas's knife
+        - AtLocation
+        - Thomas's park
+        - 10598
+    -   - James's microwave
+        - AtLocation
+        - James's countryside
+        - 10599
+    -   - John's book
+        - AtLocation
+        - John's circus
+        - 10602
+    -   - Barbara's scissors
+        - AtLocation
+        - Barbara's oven
+        - 10604
+    -   - John's pizza
+        - AtLocation
+        - John's garden
+        - 10607
+    -   - Richard's toilet
+        - AtLocation
+        - Richard's refrigerator
+        - 10610
+    -   - Sarah's spoon
+        - AtLocation
+        - Sarah's plate
+        - 10611
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's countryside
+        - 10612
+    -   - James's laptop
+        - AtLocation
+        - James's bowl
+        - 10613
+    -   - James's cup
+        - AtLocation
+        - James's water
+        - 10616
+    -   - Charles's cake
+        - AtLocation
+        - Charles's desk
+        - 10617
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's closet
+        - 10619
+    -   - Barbara's bird
+        - AtLocation
+        - Barbara's lap
+        - 10621
+    -   - Robert's mouse
+        - AtLocation
+        - Robert's cupboard
+        - 10627
+    -   - Charles's pizza
+        - AtLocation
+        - Charles's circus
+        - 10628
+    -   - Linda's car
+        - AtLocation
+        - Linda's plate
+        - 10629
+    -   - Jennifer's pizza
+        - AtLocation
+        - Jennifer's park
+        - 10630
+    -   - Charles's bench
+        - AtLocation
+        - Charles's building
+        - 10640
+    -   - Joseph's mouse
+        - AtLocation
+        - Joseph's water
+        - 10643
+    -   - James's knife
+        - AtLocation
+        - James's apartment
+        - 10644
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's bathroom
+        - 10645
+    -   - Mary's boat
+        - AtLocation
+        - Mary's farm
+        - 10646
+    -   - Robert's bird
+        - AtLocation
+        - Robert's table
+        - 10648
+    -   - Patricia's cow
+        - AtLocation
+        - Patricia's park
+        - 10650
+    -   - Susan's cat
+        - AtLocation
+        - Susan's building
+        - 10655
+    -   - Jessica's clock
+        - AtLocation
+        - Jessica's kitchen
+        - 10657
+    -   - Richard's motorcycle
+        - AtLocation
+        - Richard's cupboard
+        - 10659
+    -   - Elizabeth's toilet
+        - AtLocation
+        - Elizabeth's suitcase
+        - 10661
+    -   - Richard's horse
+        - AtLocation
+        - Richard's park
+        - 10663
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's circus
+        - 10665
+    -   - William's clock
+        - AtLocation
+        - William's cupboard
+        - 10669
+    -   - Richard's toilet
+        - AtLocation
+        - Richard's bowl
+        - 10670
+    -   - James's spoon
+        - AtLocation
+        - James's farm
+        - 10671
+    -   - Richard's toothbrush
+        - AtLocation
+        - Richard's house
+        - 10675
+    -   - James's suitcase
+        - AtLocation
+        - James's pantry
+        - 10676
+    -   - Karen's person
+        - AtLocation
+        - Karen's garden
+        - 10678
+    -   - Jessica's truck
+        - AtLocation
+        - Jessica's building
+        - 10685
+    -   - John's umbrella
+        - AtLocation
+        - John's apartment
+        - 10692
+    -   - Elizabeth's dog
+        - AtLocation
+        - Elizabeth's plate
+        - 10695
+    -   - Patricia's bottle
+        - AtLocation
+        - Patricia's oven
+        - 10699
+    -   - Joseph's spoon
+        - AtLocation
+        - Joseph's table
+        - 10700
+    -   - Barbara's bus
+        - AtLocation
+        - Barbara's pantry
+        - 10702
+    -   - John's pizza
+        - AtLocation
+        - John's tree
+        - 10703
+    -   - Robert's elephant
+        - AtLocation
+        - Robert's bakery
+        - 10704
+    -   - Jennifer's person
+        - AtLocation
+        - Jennifer's store
+        - 10706
+    -   - James's cup
+        - AtLocation
+        - James's garden
+        - 10709
+    -   - Joseph's person
+        - AtLocation
+        - Joseph's garage
+        - 10712
+    -   - Sarah's spoon
+        - AtLocation
+        - Sarah's store
+        - 10715
+    -   - William's dog
+        - AtLocation
+        - William's tree
+        - 10716
+    -   - Barbara's toothbrush
+        - AtLocation
+        - Barbara's pantry
+        - 10719
+    -   - Mary's cow
+        - AtLocation
+        - Mary's sky
+        - 10720
+    -   - Linda's sheep
+        - AtLocation
+        - Linda's lap
+        - 10721
+    -   - Michael's boat
+        - AtLocation
+        - Michael's classroom
+        - 10723
+    -   - John's umbrella
+        - AtLocation
+        - John's suitcase
+        - 10724
+    -   - Charles's vase
+        - AtLocation
+        - Charles's circus
+        - 10726
+    -   - Thomas's mouse
+        - AtLocation
+        - Thomas's bathroom
+        - 10727
+    -   - Richard's car
+        - AtLocation
+        - Richard's bathroom
+        - 10729
+    -   - Barbara's bowl
+        - AtLocation
+        - Barbara's tree
+        - 10730
+    -   - Robert's knife
+        - AtLocation
+        - Robert's office
+        - 10734
+    -   - David's suitcase
+        - AtLocation
+        - David's closet
+        - 10736
+    -   - Thomas's laptop
+        - AtLocation
+        - Thomas's sky
+        - 10740
+    -   - Mary's broccoli
+        - AtLocation
+        - Mary's refrigerator
+        - 10743
+    -   - Robert's chair
+        - AtLocation
+        - Robert's plate
+        - 10744
+    -   - John's book
+        - AtLocation
+        - John's bathroom
+        - 10745
+    -   - John's knife
+        - AtLocation
+        - John's store
+        - 10747
+    -   - William's truck
+        - AtLocation
+        - William's building
+        - 10752
+    -   - John's bed
+        - AtLocation
+        - John's water
+        - 10754
+    -   - Jennifer's boat
+        - AtLocation
+        - Jennifer's refrigerator
+        - 10755
+    -   - David's cat
+        - AtLocation
+        - David's garden
+        - 10756
+    -   - Karen's knife
+        - AtLocation
+        - Karen's airplane
+        - 10761
+    -   - Richard's pizza
+        - AtLocation
+        - Richard's store
+        - 10764
+    -   - Robert's dog
+        - AtLocation
+        - Robert's suitcase
+        - 10765
+    -   - James's oven
+        - AtLocation
+        - James's park
+        - 10766
+    -   - Jessica's bicycle
+        - AtLocation
+        - Jessica's bowl
+        - 10767
+    -   - Thomas's elephant
+        - AtLocation
+        - Thomas's house
+        - 10772
+    -   - Richard's toilet
+        - AtLocation
+        - Richard's apartment
+        - 10774
+    -   - Karen's clock
+        - AtLocation
+        - Karen's garden
+        - 10775
+    -   - Jennifer's umbrella
+        - AtLocation
+        - Jennifer's farm
+        - 10778
+    -   - Elizabeth's suitcase
+        - AtLocation
+        - Elizabeth's house
+        - 10781
+    -   - Michael's banana
+        - AtLocation
+        - Michael's plate
+        - 10785
+    -   - William's cow
+        - AtLocation
+        - William's refrigerator
+        - 10786
+    -   - David's person
+        - AtLocation
+        - David's closet
+        - 10788
+    -   - Susan's banana
+        - AtLocation
+        - Susan's classroom
+        - 10798
+    -   - David's suitcase
+        - AtLocation
+        - David's water
+        - 10800
+    -   - Barbara's cow
+        - AtLocation
+        - Barbara's plate
+        - 10803
+    -   - Sarah's bicycle
+        - AtLocation
+        - Sarah's house
+        - 10804
+    -   - Karen's broccoli
+        - AtLocation
+        - Karen's office
+        - 10808
+    -   - Jennifer's sandwich
+        - AtLocation
+        - Jennifer's office
+        - 10809
+    -   - James's vase
+        - AtLocation
+        - James's bowl
+        - 10810
+    -   - Michael's knife
+        - AtLocation
+        - Michael's pantry
+        - 10814
+    -   - Mary's sheep
+        - AtLocation
+        - Mary's apartment
+        - 10815
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's sky
+        - 10816
+    -   - David's toothbrush
+        - AtLocation
+        - David's home
+        - 10817
+    -   - Barbara's broccoli
+        - AtLocation
+        - Barbara's bathroom
+        - 10818
+    -   - Mary's suitcase
+        - AtLocation
+        - Mary's sky
+        - 10822
+    -   - Linda's vase
+        - AtLocation
+        - Linda's garage
+        - 10824
+    -   - Mary's spoon
+        - AtLocation
+        - Mary's garden
+        - 10828
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's oven
+        - 10831
+    -   - Jessica's scissors
+        - AtLocation
+        - Jessica's closet
+        - 10832
+    -   - Jennifer's car
+        - AtLocation
+        - Jennifer's sky
+        - 10836
+    -   - Robert's oven
+        - AtLocation
+        - Robert's farm
+        - 10839
+    -   - David's pizza
+        - AtLocation
+        - David's suitcase
+        - 10840
+    -   - Elizabeth's airplane
+        - AtLocation
+        - Elizabeth's building
+        - 10841
+    -   - Robert's book
+        - AtLocation
+        - Robert's kitchen
+        - 10843
+    -   - Robert's umbrella
+        - AtLocation
+        - Robert's building
+        - 10844
+    -   - Barbara's oven
+        - AtLocation
+        - Barbara's desk
+        - 10847
+    -   - Karen's elephant
+        - AtLocation
+        - Karen's pantry
+        - 10848
+    -   - Sarah's bench
+        - AtLocation
+        - Sarah's closet
+        - 10850
+    -   - Joseph's apple
+        - AtLocation
+        - Joseph's building
+        - 10851
+    -   - Patricia's couch
+        - AtLocation
+        - Patricia's home
+        - 10852
+    -   - John's boat
+        - AtLocation
+        - John's pantry
+        - 10853
+    -   - Barbara's bottle
+        - AtLocation
+        - Barbara's oven
+        - 10854
+    -   - Linda's bed
+        - AtLocation
+        - Linda's table
+        - 10856
+    -   - Barbara's bench
+        - AtLocation
+        - Barbara's bathroom
+        - 10857
+    -   - David's motorcycle
+        - AtLocation
+        - David's plate
+        - 10858
+    -   - John's bus
+        - AtLocation
+        - John's oven
+        - 10860
+    -   - Karen's cow
+        - AtLocation
+        - Karen's bakery
+        - 10861
+    -   - Patricia's vase
+        - AtLocation
+        - Patricia's apartment
+        - 10864
+    -   - Robert's chair
+        - AtLocation
+        - Robert's garden
+        - 10867
+    -   - Jessica's laptop
+        - AtLocation
+        - Jessica's closet
+        - 10876
+    -   - Jennifer's oven
+        - AtLocation
+        - Jennifer's refrigerator
+        - 10877
+    -   - Barbara's bear
+        - AtLocation
+        - Barbara's bowl
+        - 10881
+    -   - Robert's spoon
+        - AtLocation
+        - Robert's building
+        - 10883
+    -   - Thomas's pizza
+        - AtLocation
+        - Thomas's bakery
+        - 10887
+    -   - Richard's bear
+        - AtLocation
+        - Richard's city
+        - 10888
+    -   - Susan's spoon
+        - AtLocation
+        - Susan's suitcase
+        - 10889
+    -   - Susan's dog
+        - AtLocation
+        - Susan's bowl
+        - 10892
+    -   - Mary's cat
+        - AtLocation
+        - Mary's city
+        - 10894
+    -   - John's pizza
+        - AtLocation
+        - John's classroom
+        - 10895
+    -   - Robert's couch
+        - AtLocation
+        - Robert's bathroom
+        - 10896
+    -   - Charles's microwave
+        - AtLocation
+        - Charles's store
+        - 10898
+    -   - Patricia's airplane
+        - AtLocation
+        - Patricia's suitcase
+        - 10899
+    -   - Linda's sandwich
+        - AtLocation
+        - Linda's bakery
+        - 10900
+    -   - Susan's book
+        - AtLocation
+        - Susan's garage
+        - 10903
+    -   - Patricia's bench
+        - AtLocation
+        - Patricia's store
+        - 10907
+    -   - Jennifer's person
+        - AtLocation
+        - Jennifer's city
+        - 10909
+    -   - Michael's motorcycle
+        - AtLocation
+        - Michael's apartment
+        - 10910
+    -   - David's bowl
+        - AtLocation
+        - David's garage
+        - 10911
+    -   - Barbara's broccoli
+        - AtLocation
+        - Barbara's desk
+        - 10912
+    -   - David's bed
+        - AtLocation
+        - David's cupboard
+        - 10914
+    -   - Jennifer's cup
+        - AtLocation
+        - Jennifer's park
+        - 10918
+    -   - Jessica's cow
+        - AtLocation
+        - Jessica's garden
+        - 10919
+    -   - Charles's cake
+        - AtLocation
+        - Charles's refrigerator
+        - 10920
+    -   - David's bench
+        - AtLocation
+        - David's kitchen
+        - 10922
+    -   - Charles's motorcycle
+        - AtLocation
+        - Charles's airplane
+        - 10923
+    -   - James's scissors
+        - AtLocation
+        - James's tree
+        - 10924
+    -   - Michael's umbrella
+        - AtLocation
+        - Michael's classroom
+        - 10925
+    -   - Patricia's apple
+        - AtLocation
+        - Patricia's suitcase
+        - 10931
+    -   - James's cup
+        - AtLocation
+        - James's city
+        - 10934
+    -   - Richard's pizza
+        - AtLocation
+        - Richard's table
+        - 10936
+    -   - Jennifer's person
+        - AtLocation
+        - Jennifer's house
+        - 10937
+    -   - Michael's laptop
+        - AtLocation
+        - Michael's house
+        - 10941
+    -   - Michael's bed
+        - AtLocation
+        - Michael's city
+        - 10947
+    -   - Mary's banana
+        - AtLocation
+        - Mary's tree
+        - 10950
+    -   - Thomas's bed
+        - AtLocation
+        - Thomas's refrigerator
+        - 10952
+    -   - David's bowl
+        - AtLocation
+        - David's office
+        - 10953
+    -   - Barbara's truck
+        - AtLocation
+        - Barbara's closet
+        - 10958
+    -   - Thomas's bird
+        - AtLocation
+        - Thomas's countryside
+        - 10963
+    -   - Richard's bear
+        - AtLocation
+        - Richard's kitchen
+        - 10965
+    -   - Karen's bed
+        - AtLocation
+        - Karen's farm
+        - 10968
+    -   - Karen's umbrella
+        - AtLocation
+        - Karen's countryside
+        - 10971
+    -   - Mary's airplane
+        - AtLocation
+        - Mary's apartment
+        - 10972
+    -   - Thomas's toilet
+        - AtLocation
+        - Thomas's closet
+        - 10974
+    -   - David's bench
+        - AtLocation
+        - David's apartment
+        - 10975
+    -   - Susan's bowl
+        - AtLocation
+        - Susan's sky
+        - 10976
+    -   - Sarah's spoon
+        - AtLocation
+        - Sarah's kitchen
+        - 10978
+    -   - Barbara's bicycle
+        - AtLocation
+        - Barbara's classroom
+        - 10982
+    -   - David's sandwich
+        - AtLocation
+        - David's table
+        - 10983
+    -   - Patricia's person
+        - AtLocation
+        - Patricia's oven
+        - 10988
+    -   - Linda's cup
+        - AtLocation
+        - Linda's circus
+        - 10990
+    -   - Linda's knife
+        - AtLocation
+        - Linda's closet
+        - 10991
+    -   - Thomas's sandwich
+        - AtLocation
+        - Thomas's cupboard
+        - 10993
+    -   - William's sheep
+        - AtLocation
+        - William's suitcase
+        - 10995
+    -   - Richard's knife
+        - AtLocation
+        - Richard's water
+        - 10996
+    -   - Susan's bus
+        - AtLocation
+        - Susan's table
+        - 11000
+    -   - Barbara's scissors
+        - AtLocation
+        - Barbara's countryside
+        - 11002
+    -   - David's scissors
+        - AtLocation
+        - David's circus
+        - 11006
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's sky
+        - 11011
+    -   - James's cup
+        - AtLocation
+        - James's plate
+        - 11025
+    -   - Sarah's horse
+        - AtLocation
+        - Sarah's desk
+        - 11029
+    -   - Richard's sandwich
+        - AtLocation
+        - Richard's garden
+        - 11031
+    -   - Susan's cat
+        - AtLocation
+        - Susan's closet
+        - 11033
+    -   - Jennifer's vase
+        - AtLocation
+        - Jennifer's office
+        - 11034
+    -   - Barbara's toothbrush
+        - AtLocation
+        - Barbara's farm
+        - 11036
+    -   - Mary's bear
+        - AtLocation
+        - Mary's airplane
+        - 11037
+    -   - Susan's sink
+        - AtLocation
+        - Susan's desk
+        - 11041
+    -   - Linda's toilet
+        - AtLocation
+        - Linda's tree
+        - 11045
+    -   - Karen's dog
+        - AtLocation
+        - Karen's water
+        - 11053
+    -   - Robert's refrigerator
+        - AtLocation
+        - Robert's house
+        - 11061
+    -   - Barbara's spoon
+        - AtLocation
+        - Barbara's office
+        - 11063
+    -   - Joseph's bottle
+        - AtLocation
+        - Joseph's cupboard
+        - 11065
+    -   - Barbara's motorcycle
+        - AtLocation
+        - Barbara's classroom
+        - 11066
+    -   - Barbara's apple
+        - AtLocation
+        - Barbara's bowl
+        - 11067
+    -   - Charles's scissors
+        - AtLocation
+        - Charles's office
+        - 11068
+    -   - Richard's cow
+        - AtLocation
+        - Richard's plate
+        - 11073
+    -   - Thomas's bed
+        - AtLocation
+        - Thomas's classroom
+        - 11081
+    -   - Robert's bird
+        - AtLocation
+        - Robert's bathroom
+        - 11082
+    -   - Charles's knife
+        - AtLocation
+        - Charles's suitcase
+        - 11086
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's store
+        - 11088
+    -   - David's book
+        - AtLocation
+        - David's home
+        - 11094
+    -   - Sarah's bottle
+        - AtLocation
+        - Sarah's park
+        - 11096
+    -   - Patricia's airplane
+        - AtLocation
+        - Patricia's bakery
+        - 11097
+    -   - Richard's couch
+        - AtLocation
+        - Richard's oven
+        - 11098
+    -   - Charles's toothbrush
+        - AtLocation
+        - Charles's countryside
+        - 11102
+    -   - John's bowl
+        - AtLocation
+        - John's office
+        - 11103
+    -   - William's suitcase
+        - AtLocation
+        - William's bowl
+        - 11104
+    -   - Charles's bear
+        - AtLocation
+        - Charles's cupboard
+        - 11105
+    -   - Jessica's book
+        - AtLocation
+        - Jessica's sky
+        - 11107
+    -   - Jessica's sink
+        - AtLocation
+        - Jessica's plate
+        - 11108
+    -   - Patricia's refrigerator
+        - AtLocation
+        - Patricia's garden
+        - 11110
+    -   - Jessica's cup
+        - AtLocation
+        - Jessica's circus
+        - 11113
+    -   - Jennifer's airplane
+        - AtLocation
+        - Jennifer's airplane
+        - 11115
+    -   - David's spoon
+        - AtLocation
+        - David's oven
+        - 11123
+    -   - Joseph's apple
+        - AtLocation
+        - Joseph's park
+        - 11130
+    -   - Richard's mouse
+        - AtLocation
+        - Richard's home
+        - 11132
+    -   - Linda's spoon
+        - AtLocation
+        - Linda's airplane
+        - 11141
+    -   - Michael's scissors
+        - AtLocation
+        - Michael's garage
+        - 11142
+    -   - Richard's sandwich
+        - AtLocation
+        - Richard's park
+        - 11143
+    -   - Mary's truck
+        - AtLocation
+        - Mary's bathroom
+        - 11144
+    -   - Mary's cat
+        - AtLocation
+        - Mary's park
+        - 11145
+    -   - William's sandwich
+        - AtLocation
+        - William's refrigerator
+        - 11146
+    -   - Joseph's cake
+        - AtLocation
+        - Joseph's garden
+        - 11148
+    -   - Elizabeth's bench
+        - AtLocation
+        - Elizabeth's farm
+        - 11149
+    -   - David's cup
+        - AtLocation
+        - David's airplane
+        - 11151
+    -   - Susan's umbrella
+        - AtLocation
+        - Susan's office
+        - 11152
+    -   - Susan's cup
+        - AtLocation
+        - Susan's oven
+        - 11155
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's water
+        - 11163
+    -   - Michael's couch
+        - AtLocation
+        - Michael's pantry
+        - 11168
+    -   - Charles's bear
+        - AtLocation
+        - Charles's table
+        - 11169
+    -   - Thomas's cow
+        - AtLocation
+        - Thomas's classroom
+        - 11170
+    -   - Jessica's umbrella
+        - AtLocation
+        - Jessica's oven
+        - 11176
+    -   - Michael's bicycle
+        - AtLocation
+        - Michael's home
+        - 11178
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's bakery
+        - 11179
+    -   - William's suitcase
+        - AtLocation
+        - William's apartment
+        - 11180
+    -   - Linda's laptop
+        - AtLocation
+        - Linda's garden
+        - 11181
+    -   - Elizabeth's toilet
+        - AtLocation
+        - Elizabeth's classroom
+        - 11185
+    -   - Thomas's pizza
+        - AtLocation
+        - Thomas's bowl
+        - 11186
+    -   - Elizabeth's sheep
+        - AtLocation
+        - Elizabeth's building
+        - 11187
+    -   - Jessica's toilet
+        - AtLocation
+        - Jessica's kitchen
+        - 11189
+    -   - Thomas's bed
+        - AtLocation
+        - Thomas's apartment
+        - 11190
+    -   - Karen's keyboard
+        - AtLocation
+        - Karen's garage
+        - 11192
+    -   - Mary's oven
+        - AtLocation
+        - Mary's cupboard
+        - 11193
+    -   - Linda's bus
+        - AtLocation
+        - Linda's water
+        - 11197
+    -   - Patricia's bed
+        - AtLocation
+        - Patricia's table
+        - 11199
+    -   - Linda's bear
+        - AtLocation
+        - Linda's office
+        - 11202
+    -   - Patricia's vase
+        - AtLocation
+        - Patricia's park
+        - 11203
+    -   - Jessica's umbrella
+        - AtLocation
+        - Jessica's desk
+        - 11209
+    -   - Mary's horse
+        - AtLocation
+        - Mary's oven
+        - 11212
+    -   - Richard's scissors
+        - AtLocation
+        - Richard's home
+        - 11214
+    -   - Michael's knife
+        - AtLocation
+        - Michael's classroom
+        - 11218
+    -   - Karen's bicycle
+        - AtLocation
+        - Karen's city
+        - 11220
+    -   - Jessica's boat
+        - AtLocation
+        - Jessica's garage
+        - 11222
+    -   - Thomas's bird
+        - AtLocation
+        - Thomas's circus
+        - 11225
+    -   - Barbara's sandwich
+        - AtLocation
+        - Barbara's bowl
+        - 11226
+    -   - Karen's broccoli
+        - AtLocation
+        - Karen's store
+        - 11227
+    -   - William's car
+        - AtLocation
+        - William's oven
+        - 11229
+    -   - David's book
+        - AtLocation
+        - David's bathroom
+        - 11233
+    -   - Elizabeth's toilet
+        - AtLocation
+        - Elizabeth's plate
+        - 11234
+    -   - Jessica's bottle
+        - AtLocation
+        - Jessica's building
+        - 11238
+    -   - Susan's bus
+        - AtLocation
+        - Susan's apartment
+        - 11243
+    -   - Charles's bowl
+        - AtLocation
+        - Charles's building
+        - 11245
+    -   - Barbara's cat
+        - AtLocation
+        - Barbara's garage
+        - 11248
+    -   - James's umbrella
+        - AtLocation
+        - James's store
+        - 11249
+    -   - Elizabeth's boat
+        - AtLocation
+        - Elizabeth's garden
+        - 11250
+    -   - Thomas's boat
+        - AtLocation
+        - Thomas's store
+        - 11251
+    -   - Jessica's bird
+        - AtLocation
+        - Jessica's bakery
+        - 11252
+    -   - David's refrigerator
+        - AtLocation
+        - David's plate
+        - 11254
+    -   - John's toothbrush
+        - AtLocation
+        - John's desk
+        - 11256
+    -   - Robert's mouse
+        - AtLocation
+        - Robert's oven
+        - 11258
+    -   - Joseph's vase
+        - AtLocation
+        - Joseph's water
+        - 11264
+    -   - James's spoon
+        - AtLocation
+        - James's garage
+        - 11267
+    -   - Susan's pizza
+        - AtLocation
+        - Susan's bowl
+        - 11268
+    -   - David's bench
+        - AtLocation
+        - David's circus
+        - 11270
+    -   - John's pizza
+        - AtLocation
+        - John's sky
+        - 11272
+    -   - Linda's banana
+        - AtLocation
+        - Linda's plate
+        - 11273
+    -   - James's boat
+        - AtLocation
+        - James's table
+        - 11278
+    -   - Mary's toothbrush
+        - AtLocation
+        - Mary's garden
+        - 11281
+    -   - Charles's airplane
+        - AtLocation
+        - Charles's farm
+        - 11284
+    -   - Michael's oven
+        - AtLocation
+        - Michael's bakery
+        - 11286
+    -   - Karen's refrigerator
+        - AtLocation
+        - Karen's office
+        - 11292
+    -   - Joseph's keyboard
+        - AtLocation
+        - Joseph's suitcase
+        - 11295
+    -   - Mary's cake
+        - AtLocation
+        - Mary's home
+        - 11299
+    -   - Michael's sandwich
+        - AtLocation
+        - Michael's classroom
+        - 11300
+    -   - Karen's couch
+        - AtLocation
+        - Karen's countryside
+        - 11303
+    -   - Mary's horse
+        - AtLocation
+        - Mary's refrigerator
+        - 11304
+    -   - William's clock
+        - AtLocation
+        - William's classroom
+        - 11305
+    -   - Richard's bicycle
+        - AtLocation
+        - Richard's refrigerator
+        - 11306
+    -   - Sarah's cup
+        - AtLocation
+        - Sarah's cupboard
+        - 11310
+    -   - Barbara's microwave
+        - AtLocation
+        - Barbara's plate
+        - 11311
+    -   - Elizabeth's chair
+        - AtLocation
+        - Elizabeth's garage
+        - 11312
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's bakery
+        - 11313
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's water
+        - 11314
+    -   - Sarah's truck
+        - AtLocation
+        - Sarah's kitchen
+        - 11315
+    -   - Barbara's bus
+        - AtLocation
+        - Barbara's tree
+        - 11317
+    -   - Karen's sheep
+        - AtLocation
+        - Karen's office
+        - 11320
+    -   - Robert's chair
+        - AtLocation
+        - Robert's suitcase
+        - 11321
+    -   - Barbara's person
+        - AtLocation
+        - Barbara's bakery
+        - 11322
+    -   - David's bed
+        - AtLocation
+        - David's building
+        - 11325
+    -   - Barbara's chair
+        - AtLocation
+        - Barbara's home
+        - 11326
+    -   - David's car
+        - AtLocation
+        - David's circus
+        - 11328
+    -   - Susan's keyboard
+        - AtLocation
+        - Susan's sky
+        - 11330
+    -   - Robert's bottle
+        - AtLocation
+        - Robert's kitchen
+        - 11332
+    -   - Thomas's toothbrush
+        - AtLocation
+        - Thomas's bakery
+        - 11344
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's closet
+        - 11345
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's classroom
+        - 11356
+    -   - William's suitcase
+        - AtLocation
+        - William's table
+        - 11358
+    -   - Charles's refrigerator
+        - AtLocation
+        - Charles's home
+        - 11361
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's city
+        - 11364
+    -   - Michael's umbrella
+        - AtLocation
+        - Michael's lap
+        - 11366
+    -   - Sarah's mouse
+        - AtLocation
+        - Sarah's desk
+        - 11369
+    -   - James's bed
+        - AtLocation
+        - James's oven
+        - 11371
+    -   - Jennifer's airplane
+        - AtLocation
+        - Jennifer's lap
+        - 11372
+    -   - Susan's bear
+        - AtLocation
+        - Susan's home
+        - 11375
+    -   - Sarah's bus
+        - AtLocation
+        - Sarah's classroom
+        - 11379
+    -   - Susan's sandwich
+        - AtLocation
+        - Susan's oven
+        - 11380
+    -   - Sarah's sheep
+        - AtLocation
+        - Sarah's home
+        - 11381
+    -   - Thomas's bench
+        - AtLocation
+        - Thomas's cupboard
+        - 11382
+    -   - Susan's sheep
+        - AtLocation
+        - Susan's bathroom
+        - 11387
+    -   - David's knife
+        - AtLocation
+        - David's tree
+        - 11389
+    -   - Barbara's oven
+        - AtLocation
+        - Barbara's circus
+        - 11390
+    -   - Karen's chair
+        - AtLocation
+        - Karen's countryside
+        - 11393
+    -   - Elizabeth's suitcase
+        - AtLocation
+        - Elizabeth's house
+        - 11401
+    -   - Thomas's mouse
+        - AtLocation
+        - Thomas's tree
+        - 11402
+    -   - Michael's car
+        - AtLocation
+        - Michael's tree
+        - 11403
+    -   - Charles's microwave
+        - AtLocation
+        - Charles's house
+        - 11404
+    -   - Jessica's bottle
+        - AtLocation
+        - Jessica's countryside
+        - 11409
+    -   - John's horse
+        - AtLocation
+        - John's sky
+        - 11410
+    -   - Patricia's bowl
+        - AtLocation
+        - Patricia's plate
+        - 11413
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's water
+        - 11417
+    -   - Patricia's bed
+        - AtLocation
+        - Patricia's home
+        - 11422
+    -   - Linda's refrigerator
+        - AtLocation
+        - Linda's desk
+        - 11423
+    -   - Charles's sink
+        - AtLocation
+        - Charles's classroom
+        - 11425
+    -   - John's pizza
+        - AtLocation
+        - John's pantry
+        - 11426
+    -   - Karen's car
+        - AtLocation
+        - Karen's home
+        - 11427
+    -   - Michael's book
+        - AtLocation
+        - Michael's refrigerator
+        - 11434
+    -   - James's horse
+        - AtLocation
+        - James's house
+        - 11435
+    -   - Thomas's bird
+        - AtLocation
+        - Thomas's city
+        - 11437
+    -   - Michael's bottle
+        - AtLocation
+        - Michael's refrigerator
+        - 11439
+    -   - Patricia's apple
+        - AtLocation
+        - Patricia's bakery
+        - 11443
+    -   - David's airplane
+        - AtLocation
+        - David's circus
+        - 11444
+    -   - Sarah's toilet
+        - AtLocation
+        - Sarah's garden
+        - 11449
+    -   - Jessica's dog
+        - AtLocation
+        - Jessica's classroom
+        - 11450
+    -   - Linda's airplane
+        - AtLocation
+        - Linda's countryside
+        - 11451
+    -   - Charles's oven
+        - AtLocation
+        - Charles's plate
+        - 11452
+    -   - James's sheep
+        - AtLocation
+        - James's garden
+        - 11460
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's apartment
+        - 11461
+    -   - Charles's sink
+        - AtLocation
+        - Charles's office
+        - 11465
+    -   - John's knife
+        - AtLocation
+        - John's water
+        - 11470
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's kitchen
+        - 11473
+    -   - Richard's boat
+        - AtLocation
+        - Richard's desk
+        - 11474
+    -   - Richard's bear
+        - AtLocation
+        - Richard's countryside
+        - 11476
+    -   - Barbara's person
+        - AtLocation
+        - Barbara's tree
+        - 11477
+    -   - Michael's umbrella
+        - AtLocation
+        - Michael's cupboard
+        - 11478
+    -   - John's boat
+        - AtLocation
+        - John's oven
+        - 11480
+    -   - John's vase
+        - AtLocation
+        - John's suitcase
+        - 11484
+    -   - Patricia's oven
+        - AtLocation
+        - Patricia's bowl
+        - 11489
+    -   - Jessica's clock
+        - AtLocation
+        - Jessica's pantry
+        - 11491
+    -   - William's banana
+        - AtLocation
+        - William's park
+        - 11492
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's house
+        - 11493
+    -   - David's horse
+        - AtLocation
+        - David's building
+        - 11494
+    -   - Jennifer's banana
+        - AtLocation
+        - Jennifer's farm
+        - 11495
+    -   - Robert's cat
+        - AtLocation
+        - Robert's refrigerator
+        - 11497
+    -   - Karen's book
+        - AtLocation
+        - Karen's bowl
+        - 11499
+    -   - Jennifer's clock
+        - AtLocation
+        - Jennifer's table
+        - 11501
+    -   - William's bird
+        - AtLocation
+        - William's desk
+        - 11504
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's closet
+        - 11506
+    -   - Jennifer's broccoli
+        - AtLocation
+        - Jennifer's table
+        - 11514
+    -   - Robert's cup
+        - AtLocation
+        - Robert's building
+        - 11515
+    -   - Linda's vase
+        - AtLocation
+        - Linda's building
+        - 11521
+    -   - Barbara's bottle
+        - AtLocation
+        - Barbara's garden
+        - 11522
+    -   - John's toilet
+        - AtLocation
+        - John's garage
+        - 11523
+    -   - Linda's microwave
+        - AtLocation
+        - Linda's bowl
+        - 11525
+    -   - Thomas's chair
+        - AtLocation
+        - Thomas's tree
+        - 11531
+    -   - James's clock
+        - AtLocation
+        - James's apartment
+        - 11533
+    -   - Charles's horse
+        - AtLocation
+        - Charles's cupboard
+        - 11535
+    -   - Joseph's book
+        - AtLocation
+        - Joseph's suitcase
+        - 11536
+    -   - Michael's dog
+        - AtLocation
+        - Michael's building
+        - 11537
+    -   - Charles's sandwich
+        - AtLocation
+        - Charles's store
+        - 11544
+    -   - Elizabeth's spoon
+        - AtLocation
+        - Elizabeth's bakery
+        - 11545
+    -   - Karen's suitcase
+        - AtLocation
+        - Karen's garage
+        - 11546
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's city
+        - 11547
+    -   - Elizabeth's elephant
+        - AtLocation
+        - Elizabeth's park
+        - 11548
+    -   - Richard's bear
+        - AtLocation
+        - Richard's park
+        - 11551
+    -   - Joseph's umbrella
+        - AtLocation
+        - Joseph's garage
+        - 11554
+    -   - Mary's clock
+        - AtLocation
+        - Mary's circus
+        - 11555
+    -   - Michael's suitcase
+        - AtLocation
+        - Michael's airplane
+        - 11559
+    -   - Robert's dog
+        - AtLocation
+        - Robert's bathroom
+        - 11560
+    -   - Karen's apple
+        - AtLocation
+        - Karen's sky
+        - 11561
+    -   - Susan's horse
+        - AtLocation
+        - Susan's water
+        - 11562
+    -   - Jennifer's keyboard
+        - AtLocation
+        - Jennifer's classroom
+        - 11563
+    -   - Linda's elephant
+        - AtLocation
+        - Linda's airplane
+        - 11568
+    -   - Susan's toothbrush
+        - AtLocation
+        - Susan's circus
+        - 11569
+    -   - Patricia's mouse
+        - AtLocation
+        - Patricia's park
+        - 11572
+    -   - Elizabeth's knife
+        - AtLocation
+        - Elizabeth's lap
+        - 11578
+    -   - Barbara's cup
+        - AtLocation
+        - Barbara's airplane
+        - 11581
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's sky
+        - 11582
+    -   - Mary's refrigerator
+        - AtLocation
+        - Mary's classroom
+        - 11590
+    -   - Sarah's bird
+        - AtLocation
+        - Sarah's airplane
+        - 11591
+    -   - Jessica's sandwich
+        - AtLocation
+        - Jessica's cupboard
+        - 11592
+    -   - James's bicycle
+        - AtLocation
+        - James's bathroom
+        - 11593
+    -   - Charles's cat
+        - AtLocation
+        - Charles's garden
+        - 11595
+    -   - Michael's motorcycle
+        - AtLocation
+        - Michael's closet
+        - 11597
+    -   - Karen's sink
+        - AtLocation
+        - Karen's refrigerator
+        - 11598
+    -   - Susan's motorcycle
+        - AtLocation
+        - Susan's oven
+        - 11601
+    -   - Jessica's suitcase
+        - AtLocation
+        - Jessica's park
+        - 11603
+    -   - Mary's refrigerator
+        - AtLocation
+        - Mary's refrigerator
+        - 11605
+    -   - Elizabeth's vase
+        - AtLocation
+        - Elizabeth's home
+        - 11607
+    -   - Robert's cat
+        - AtLocation
+        - Robert's countryside
+        - 11609
+    -   - Barbara's boat
+        - AtLocation
+        - Barbara's farm
+        - 11612
+    -   - James's truck
+        - AtLocation
+        - James's kitchen
+        - 11614
+    -   - Patricia's book
+        - AtLocation
+        - Patricia's water
+        - 11617
+    -   - Elizabeth's oven
+        - AtLocation
+        - Elizabeth's suitcase
+        - 11618
+    -   - Barbara's couch
+        - AtLocation
+        - Barbara's water
+        - 11619
+    -   - Elizabeth's cup
+        - AtLocation
+        - Elizabeth's refrigerator
+        - 11620
+    -   - Mary's bicycle
+        - AtLocation
+        - Mary's desk
+        - 11622
+    -   - Elizabeth's book
+        - AtLocation
+        - Elizabeth's store
+        - 11623
+    -   - James's couch
+        - AtLocation
+        - James's farm
+        - 11624
+    -   - Elizabeth's chair
+        - AtLocation
+        - Elizabeth's park
+        - 11625
+    -   - Jennifer's scissors
+        - AtLocation
+        - Jennifer's apartment
+        - 11626
+    -   - Robert's truck
+        - AtLocation
+        - Robert's lap
+        - 11627
+    -   - William's boat
+        - AtLocation
+        - William's lap
+        - 11628
+    -   - David's refrigerator
+        - AtLocation
+        - David's circus
+        - 11631
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's desk
+        - 11633
+    -   - Joseph's cat
+        - AtLocation
+        - Joseph's store
+        - 11635
+    -   - Charles's bowl
+        - AtLocation
+        - Charles's circus
+        - 11636
+    -   - Susan's couch
+        - AtLocation
+        - Susan's circus
+        - 11637
+    -   - Barbara's dog
+        - AtLocation
+        - Barbara's office
+        - 11638
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's bowl
+        - 11640
+    -   - Barbara's knife
+        - AtLocation
+        - Barbara's kitchen
+        - 11641
+    -   - Robert's sheep
+        - AtLocation
+        - Robert's oven
+        - 11644
+    -   - Patricia's suitcase
+        - AtLocation
+        - Patricia's cupboard
+        - 11645
+    -   - Charles's boat
+        - AtLocation
+        - Charles's plate
+        - 11646
+    -   - Susan's elephant
+        - AtLocation
+        - Susan's circus
+        - 11648
+    -   - Susan's bear
+        - AtLocation
+        - Susan's park
+        - 11649
+    -   - Mary's mouse
+        - AtLocation
+        - Mary's building
+        - 11652
+    -   - Mary's cake
+        - AtLocation
+        - Mary's suitcase
+        - 11653
+    -   - David's bicycle
+        - AtLocation
+        - David's closet
+        - 11655
+    -   - Sarah's microwave
+        - AtLocation
+        - Sarah's garden
+        - 11656
+    -   - Robert's person
+        - AtLocation
+        - Robert's plate
+        - 11657
+    -   - William's bear
+        - AtLocation
+        - William's bakery
+        - 11658
+    -   - Joseph's refrigerator
+        - AtLocation
+        - Joseph's garage
+        - 11659
+    -   - Susan's motorcycle
+        - AtLocation
+        - Susan's bowl
+        - 11660
+    -   - Karen's cow
+        - AtLocation
+        - Karen's classroom
+        - 11661
+    -   - Mary's bowl
+        - AtLocation
+        - Mary's bakery
+        - 11662
+    -   - Thomas's suitcase
+        - AtLocation
+        - Thomas's bakery
+        - 11663
+    -   - Richard's bear
+        - AtLocation
+        - Richard's tree
+        - 11664
+    -   - Mary's chair
+        - AtLocation
+        - Mary's water
+        - 11668
+    -   - Susan's cup
+        - AtLocation
+        - Susan's store
+        - 11669
+    -   - Michael's car
+        - AtLocation
+        - Michael's park
+        - 11670
+    -   - Linda's couch
+        - AtLocation
+        - Linda's kitchen
+        - 11672
+    -   - Mary's bench
+        - AtLocation
+        - Mary's bakery
+        - 11673
+    -   - Joseph's bird
+        - AtLocation
+        - Joseph's bowl
+        - 11674
+    -   - Joseph's boat
+        - AtLocation
+        - Joseph's city
+        - 11675
+    -   - Charles's elephant
+        - AtLocation
+        - Charles's farm
+        - 11677
+    -   - Robert's cup
+        - AtLocation
+        - Robert's closet
+        - 11679
+    -   - David's banana
+        - AtLocation
+        - David's city
+        - 11680
+    -   - Susan's airplane
+        - AtLocation
+        - Susan's closet
+        - 11682
+    -   - Karen's clock
+        - AtLocation
+        - Karen's desk
+        - 11683
+    -   - Charles's elephant
+        - AtLocation
+        - Charles's plate
+        - 11685
+    -   - Sarah's bird
+        - AtLocation
+        - Sarah's city
+        - 11686
+    -   - Sarah's cup
+        - AtLocation
+        - Sarah's sky
+        - 11688
+    -   - David's motorcycle
+        - AtLocation
+        - David's garage
+        - 11691
+    -   - James's motorcycle
+        - AtLocation
+        - James's suitcase
+        - 11693
+    -   - James's bowl
+        - AtLocation
+        - James's bowl
+        - 11695
+    -   - Mary's elephant
+        - AtLocation
+        - Mary's countryside
+        - 11697
+    -   - David's elephant
+        - AtLocation
+        - David's circus
+        - 11698
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's suitcase
+        - 11700
+    -   - Richard's broccoli
+        - AtLocation
+        - Richard's circus
+        - 11701
+    -   - Mary's suitcase
+        - AtLocation
+        - Mary's garden
+        - 11702
+    -   - Barbara's car
+        - AtLocation
+        - Barbara's home
+        - 11704
+    -   - Linda's banana
+        - AtLocation
+        - Linda's cupboard
+        - 11706
+    -   - Jennifer's toilet
+        - AtLocation
+        - Jennifer's farm
+        - 11709
+    -   - Karen's oven
+        - AtLocation
+        - Karen's pantry
+        - 11710
+    -   - Mary's motorcycle
+        - AtLocation
+        - Mary's lap
+        - 11712
+    -   - Mary's cup
+        - AtLocation
+        - Mary's table
+        - 11713
+    -   - William's sandwich
+        - AtLocation
+        - William's plate
+        - 11714
+    -   - Joseph's suitcase
+        - AtLocation
+        - Joseph's airplane
+        - 11715
+    -   - James's umbrella
+        - AtLocation
+        - James's lap
+        - 11717
+    -   - Richard's suitcase
+        - AtLocation
+        - Richard's countryside
+        - 11718
+    -   - Elizabeth's bus
+        - AtLocation
+        - Elizabeth's circus
+        - 11721
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's home
+        - 11722
+    -   - Patricia's airplane
+        - AtLocation
+        - Patricia's park
+        - 11724
+    -   - Linda's oven
+        - AtLocation
+        - Linda's garden
+        - 11725
+    -   - Barbara's bicycle
+        - AtLocation
+        - Barbara's store
+        - 11726
+    -   - Jennifer's sink
+        - AtLocation
+        - Jennifer's kitchen
+        - 11731
+    -   - Elizabeth's book
+        - AtLocation
+        - Elizabeth's closet
+        - 11733
+    -   - Charles's car
+        - AtLocation
+        - Charles's office
+        - 11734
+    -   - Michael's refrigerator
+        - AtLocation
+        - Michael's desk
+        - 11736
+    -   - John's bear
+        - AtLocation
+        - John's plate
+        - 11737
+    -   - David's scissors
+        - AtLocation
+        - David's desk
+        - 11738
+    -   - Sarah's bowl
+        - AtLocation
+        - Sarah's kitchen
+        - 11739
+    -   - Thomas's banana
+        - AtLocation
+        - Thomas's lap
+        - 11742
+    -   - Linda's chair
+        - AtLocation
+        - Linda's office
+        - 11745
+    -   - Jennifer's bed
+        - AtLocation
+        - Jennifer's cupboard
+        - 11746
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's house
+        - 11747
+    -   - Joseph's spoon
+        - AtLocation
+        - Joseph's refrigerator
+        - 11748
+    -   - Elizabeth's horse
+        - AtLocation
+        - Elizabeth's office
+        - 11750
+    -   - Linda's person
+        - AtLocation
+        - Linda's farm
+        - 11751
+    -   - Jessica's mouse
+        - AtLocation
+        - Jessica's garage
+        - 11754
+    -   - Michael's truck
+        - AtLocation
+        - Michael's apartment
+        - 11755
+    -   - Thomas's person
+        - AtLocation
+        - Thomas's building
+        - 11759
+    -   - Elizabeth's couch
+        - AtLocation
+        - Elizabeth's building
+        - 11760
+    -   - William's keyboard
+        - AtLocation
+        - William's desk
+        - 11761
+    -   - Sarah's dog
+        - AtLocation
+        - Sarah's table
+        - 11764
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's classroom
+        - 11765
+    -   - Michael's mouse
+        - AtLocation
+        - Michael's city
+        - 11766
+    -   - Karen's cat
+        - AtLocation
+        - Karen's house
+        - 11767
+    -   - Joseph's microwave
+        - AtLocation
+        - Joseph's farm
+        - 11770
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    semantic_memories:
+    -   - cat
+        - AtLocation
+        - kitchen
+        - 2
+    -   - knife
+        - AtLocation
+        - plate
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 14
+    -   - chair
+        - AtLocation
+        - office
+        - 11
+    -   - laptop
+        - AtLocation
+        - circus
+        - 2
+    -   - person
+        - AtLocation
+        - building
+        - 8
+    -   - toothbrush
+        - AtLocation
+        - plate
+        - 2
+    -   - mouse
+        - AtLocation
+        - garage
+        - 9
+    -   - bus
+        - AtLocation
+        - city
+        - 18
+    -   - cake
+        - AtLocation
+        - tree
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - desk
+        - 3
+    -   - sheep
+        - AtLocation
+        - farm
+        - 20
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 15
+    -   - laptop
+        - AtLocation
+        - lap
+        - 2
+    -   - vase
+        - AtLocation
+        - table
+        - 14
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 17
+    -   - broccoli
+        - AtLocation
+        - cupboard
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 11
+    -   - broccoli
+        - AtLocation
+        - farm
+        - 2
+    -   - cat
+        - AtLocation
+        - lap
+        - 9
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 11
+    -   - bicycle
+        - AtLocation
+        - building
+        - 2
+    -   - truck
+        - AtLocation
+        - garage
+        - 11
+    -   - bus
+        - AtLocation
+        - office
+        - 2
+    -   - couch
+        - AtLocation
+        - house
+        - 11
+    -   - boat
+        - AtLocation
+        - water
+        - 18
+    -   - dog
+        - AtLocation
+        - garage
+        - 2
+    -   - clock
+        - AtLocation
+        - desk
+        - 8
+    -   - sink
+        - AtLocation
+        - lap
+        - 2
+    -   - chair
+        - AtLocation
+        - bakery
+        - 2
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 9
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 9
+    -   - truck
+        - AtLocation
+        - store
+        - 2
+    -   - broccoli
+        - AtLocation
+        - circus
+        - 2
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 12
+    -   - truck
+        - AtLocation
+        - sky
+        - 2
+    -   - elephant
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 8
+    -   - bird
+        - AtLocation
+        - bowl
+        - 2
+    -   - cup
+        - AtLocation
+        - table
+        - 9
+    -   - pizza
+        - AtLocation
+        - oven
+        - 16
+    -   - motorcycle
+        - AtLocation
+        - lap
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 8
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9
+    -   - toilet
+        - AtLocation
+        - farm
+        - 2
+    -   - sheep
+        - AtLocation
+        - store
+        - 2
+    -   - truck
+        - AtLocation
+        - desk
+        - 2
+    -   - airplane
+        - AtLocation
+        - home
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 12
+    -   - chair
+        - AtLocation
+        - apartment
+        - 3
+    -   - refrigerator
+        - AtLocation
+        - tree
+        - 2
+    -   - elephant
+        - AtLocation
+        - office
+        - 4
+    -   - vase
+        - AtLocation
+        - lap
+        - 2
+    -   - toilet
+        - AtLocation
+        - airplane
+        - 2
+    -   - bear
+        - AtLocation
+        - park
+        - 12
+    -   - scissors
+        - AtLocation
+        - cupboard
+        - 2
+    -   - bear
+        - AtLocation
+        - garage
+        - 2
+    -   - keyboard
+        - AtLocation
+        - building
+        - 2
+    -   - bottle
+        - AtLocation
+        - store
+        - 11
+    -   - pizza
+        - AtLocation
+        - apartment
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - garage
+        - 2
+    -   - bench
+        - AtLocation
+        - garden
+        - 16
+    -   - bed
+        - AtLocation
+        - park
+        - 3
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 13
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 8
+    -   - suitcase
+        - AtLocation
+        - countryside
+        - 2
+    -   - oven
+        - AtLocation
+        - city
+        - 2
+    -   - dog
+        - AtLocation
+        - table
+        - 13
+    -   - boat
+        - AtLocation
+        - airplane
+        - 2
+    -   - cake
+        - AtLocation
+        - building
+        - 2
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 10
+    -   - banana
+        - AtLocation
+        - house
+        - 2
+    -   - scissors
+        - AtLocation
+        - sky
+        - 2
+    -   - cow
+        - AtLocation
+        - countryside
+        - 14
+    -   - apple
+        - AtLocation
+        - plate
+        - 3
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 13
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 10
+    -   - horse
+        - AtLocation
+        - classroom
+        - 2
+    -   - toilet
+        - AtLocation
+        - desk
+        - 2
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - airplane
+        - AtLocation
+        - sky
+        - 13
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 15
+    -   - bed
+        - AtLocation
+        - house
+        - 8
+    -   - elephant
+        - AtLocation
+        - circus
+        - 16
+    -   - truck
+        - AtLocation
+        - tree
+        - 3
+    -   - dog
+        - AtLocation
+        - closet
+        - 2
+    -   - car
+        - AtLocation
+        - city
+        - 13
+    -   - scissors
+        - AtLocation
+        - house
+        - 3
+    -   - scissors
+        - AtLocation
+        - desk
+        - 10
+    -   - bicycle
+        - AtLocation
+        - store
+        - 2
+    -   - truck
+        - AtLocation
+        - airplane
+        - 2
+    -   - person
+        - AtLocation
+        - plate
+        - 2
+    -   - cake
+        - AtLocation
+        - bakery
+        - 14
+    -   - oven
+        - AtLocation
+        - home
+        - 9
+    -   - airplane
+        - AtLocation
+        - table
+        - 2
+    -   - vase
+        - AtLocation
+        - store
+        - 2
+    -   - laptop
+        - AtLocation
+        - desk
+        - 12
+    -   - bird
+        - AtLocation
+        - tree
+        - 14
+policy:
+    episodic:
+        forget: random
+        answer: random
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 512
+    semantic: 512
+memory_type: both
+pretrained_semantic: false

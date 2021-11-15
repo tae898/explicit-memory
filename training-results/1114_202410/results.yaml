@@ -1,0 +1,68 @@
+train:
+    rewards: 462
+    num_samples: 9420
+    semantic_memories:
+    -   - bus
+        - AtLocation
+        - city
+        - 99
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 105
+    -   - car
+        - AtLocation
+        - city
+        - 103
+    -   - bear
+        - AtLocation
+        - park
+        - 100
+val:
+    rewards: 69
+    num_samples: 1178
+    semantic_memories:
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 13
+    -   - cup
+        - AtLocation
+        - table
+        - 9
+    -   - bear
+        - AtLocation
+        - park
+        - 10
+    -   - car
+        - AtLocation
+        - city
+        - 10
+test:
+    rewards: 70
+    num_samples: 1178
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 15
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - car
+        - AtLocation
+        - city
+        - 13
+    -   - bus
+        - AtLocation
+        - city
+        - 17
+policy:
+    forget: weakest
+    answer: strongest
+capacity:
+    episodic: 0
+    semantic: 4
+memory_type: semantic
+pretrained_semantic: false

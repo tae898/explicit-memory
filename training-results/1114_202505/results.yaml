@@ -1,0 +1,212 @@
+train:
+    rewards: 338
+    num_samples: 9420
+    semantic_memories:
+    -   - microwave
+        - AtLocation
+        - sky
+        - 1
+    -   - chair
+        - AtLocation
+        - farm
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - suitcase
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 1
+    -   - chair
+        - AtLocation
+        - desk
+        - 1
+    -   - horse
+        - AtLocation
+        - city
+        - 1
+    -   - sink
+        - AtLocation
+        - bowl
+        - 1
+    -   - sheep
+        - AtLocation
+        - farm
+        - 2
+    -   - bench
+        - AtLocation
+        - garden
+        - 1
+    -   - broccoli
+        - AtLocation
+        - cupboard
+        - 1
+    -   - sandwich
+        - AtLocation
+        - bowl
+        - 1
+    -   - oven
+        - AtLocation
+        - kitchen
+        - 1
+    -   - cow
+        - AtLocation
+        - plate
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - home
+        - 1
+    -   - toilet
+        - AtLocation
+        - oven
+        - 1
+val:
+    rewards: 48
+    num_samples: 1178
+    semantic_memories:
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 1
+    -   - elephant
+        - AtLocation
+        - circus
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - bakery
+        - 1
+    -   - clock
+        - AtLocation
+        - desk
+        - 1
+    -   - car
+        - AtLocation
+        - city
+        - 1
+    -   - couch
+        - AtLocation
+        - house
+        - 1
+    -   - bottle
+        - AtLocation
+        - store
+        - 1
+    -   - bear
+        - AtLocation
+        - farm
+        - 1
+    -   - broccoli
+        - AtLocation
+        - desk
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - circus
+        - 1
+    -   - cow
+        - AtLocation
+        - countryside
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 1
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 1
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 2
+    -   - pizza
+        - AtLocation
+        - park
+        - 1
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 1
+test:
+    rewards: 50
+    num_samples: 1178
+    semantic_memories:
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 1
+    -   - microwave
+        - AtLocation
+        - farm
+        - 1
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 1
+    -   - boat
+        - AtLocation
+        - water
+        - 1
+    -   - sheep
+        - AtLocation
+        - sky
+        - 1
+    -   - broccoli
+        - AtLocation
+        - plate
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 1
+    -   - airplane
+        - AtLocation
+        - sky
+        - 1
+    -   - airplane
+        - AtLocation
+        - house
+        - 1
+    -   - pizza
+        - AtLocation
+        - oven
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 1
+    -   - bear
+        - AtLocation
+        - classroom
+        - 1
+    -   - car
+        - AtLocation
+        - office
+        - 1
+    -   - cat
+        - AtLocation
+        - house
+        - 1
+    -   - bird
+        - AtLocation
+        - tree
+        - 1
+    -   - truck
+        - AtLocation
+        - apartment
+        - 1
+policy:
+    forget: random
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 16
+memory_type: semantic
+pretrained_semantic: false

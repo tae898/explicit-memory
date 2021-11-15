@@ -1,0 +1,75 @@
+train:
+    rewards: 505
+    num_samples: 9420
+    episodic_memories:
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    semantic_memories:
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 6
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 4
+val:
+    rewards: 64
+    num_samples: 1178
+    episodic_memories:
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 6
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 2
+test:
+    rewards: 30
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 2
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: random
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both
+pretrained_semantic: false

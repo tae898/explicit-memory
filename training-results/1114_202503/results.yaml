@@ -1,0 +1,212 @@
+train:
+    rewards: 356
+    num_samples: 9420
+    semantic_memories:
+    -   - mouse
+        - AtLocation
+        - garage
+        - 111
+    -   - bus
+        - AtLocation
+        - city
+        - 99
+    -   - clock
+        - AtLocation
+        - desk
+        - 101
+    -   - pizza
+        - AtLocation
+        - bakery
+        - 7
+    -   - car
+        - AtLocation
+        - park
+        - 4
+    -   - vase
+        - AtLocation
+        - pantry
+        - 5
+    -   - vase
+        - AtLocation
+        - table
+        - 79
+    -   - umbrella
+        - AtLocation
+        - plate
+        - 3
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 109
+    -   - banana
+        - AtLocation
+        - airplane
+        - 4
+    -   - sandwich
+        - AtLocation
+        - pantry
+        - 5
+    -   - cake
+        - AtLocation
+        - bakery
+        - 103
+    -   - toothbrush
+        - AtLocation
+        - home
+        - 9
+    -   - elephant
+        - AtLocation
+        - city
+        - 7
+    -   - dog
+        - AtLocation
+        - table
+        - 106
+    -   - bird
+        - AtLocation
+        - tree
+        - 82
+val:
+    rewards: 52
+    num_samples: 1178
+    semantic_memories:
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 8
+    -   - horse
+        - AtLocation
+        - circus
+        - 9
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 15
+    -   - bed
+        - AtLocation
+        - sky
+        - 1
+    -   - truck
+        - AtLocation
+        - classroom
+        - 1
+    -   - bicycle
+        - AtLocation
+        - park
+        - 1
+    -   - suitcase
+        - AtLocation
+        - plate
+        - 1
+    -   - boat
+        - AtLocation
+        - water
+        - 16
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 13
+    -   - vase
+        - AtLocation
+        - table
+        - 15
+    -   - spoon
+        - AtLocation
+        - pantry
+        - 5
+    -   - cow
+        - AtLocation
+        - bakery
+        - 1
+    -   - couch
+        - AtLocation
+        - house
+        - 11
+    -   - dog
+        - AtLocation
+        - table
+        - 8
+    -   - cake
+        - AtLocation
+        - bakery
+        - 3
+    -   - bird
+        - AtLocation
+        - tree
+        - 9
+test:
+    rewards: 55
+    num_samples: 1178
+    semantic_memories:
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 15
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 9
+    -   - scissors
+        - AtLocation
+        - desk
+        - 11
+    -   - pizza
+        - AtLocation
+        - park
+        - 1
+    -   - knife
+        - AtLocation
+        - apartment
+        - 1
+    -   - couch
+        - AtLocation
+        - house
+        - 11
+    -   - boat
+        - AtLocation
+        - water
+        - 10
+    -   - cake
+        - AtLocation
+        - desk
+        - 1
+    -   - pizza
+        - AtLocation
+        - circus
+        - 1
+    -   - elephant
+        - AtLocation
+        - farm
+        - 1
+    -   - vase
+        - AtLocation
+        - table
+        - 14
+    -   - book
+        - AtLocation
+        - circus
+        - 1
+    -   - dog
+        - AtLocation
+        - table
+        - 14
+    -   - laptop
+        - AtLocation
+        - lap
+        - 2
+    -   - bird
+        - AtLocation
+        - tree
+        - 14
+policy:
+    forget: weakest
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 16
+memory_type: semantic
+pretrained_semantic: false

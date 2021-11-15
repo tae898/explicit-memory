@@ -1,0 +1,51 @@
+train:
+    rewards: 136
+    num_samples: 9420
+    episodic_memories:
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - banana
+        - AtLocation
+        - pantry
+        - 2
+val:
+    rewards: 20
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+test:
+    rewards: 22
+    num_samples: 1178
+    episodic_memories:
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 2
+policy:
+    episodic:
+        forget: oldest
+        answer: latest
+    semantic:
+        forget: random
+        answer: strongest
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+pretrained_semantic: false

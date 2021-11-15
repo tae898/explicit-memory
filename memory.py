@@ -42,6 +42,35 @@ class Memory:
 
         return pformat(vars(self), indent=4, width=1)
 
+    def is_answerable(self, question: list) -> bool:
+        """Check if a relevant memory is in the system to answer the given question.
+
+        Args
+        ----
+        question: a triple (i.e., (head, relation, tail))
+
+        """
+        logging.debug(
+            f"Check if a relevant memory is in the system to answer the "
+            f"given question: {question} ..."
+        )
+
+        question_head = question[0]
+        question_relation = question[1]
+
+        for mem in self.entries:
+            head = mem[0]
+            assert len(question_head.split()) == len(head.split())
+            relation = mem[1]
+
+            if head == question_head and relation == question_relation:
+                logging.info("There is a relevant memory to answer the question!")
+                return True
+
+        logging.info("There is NOT a relevant memory to answer the question!")
+
+        return False
+
     def forget(self, mem: list):
         """forget the given memory.
 
@@ -391,7 +420,7 @@ class EpisodicMemory(Memory):
         """Turn an observation into an episodic memory.
 
         At the moment, an observation is the same as an episodic memory for
-            simplification.
+        simplification.
 
         Args
         ----

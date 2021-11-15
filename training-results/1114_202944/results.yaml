@@ -1,0 +1,51 @@
+train:
+    rewards: 317
+    num_samples: 9420
+    episodic_memories:
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    semantic_memories:
+    -   - bowl
+        - AtLocation
+        - cupboard
+        - 2
+val:
+    rewards: 52
+    num_samples: 1178
+    episodic_memories:
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+test:
+    rewards: 39
+    num_samples: 1178
+    episodic_memories:
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: random
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 1
+    semantic: 1
+memory_type: both
+pretrained_semantic: false

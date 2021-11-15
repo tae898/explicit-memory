@@ -8,7 +8,7 @@ import time
 import requests
 from tqdm import tqdm
 
-from utils import read_yaml, write_csv, write_json
+from utils import read_json, read_yaml, write_csv, write_json
 
 # for reproducibility
 random.seed(42)
@@ -27,7 +27,7 @@ class DataCollector:
         self,
         relation: str,
         raw_data_path: str,
-        raw_data_stats_path: str,
+        dataset_stats_path: str,
         semantic_knowledge_path: str,
         semantic_obs_path: str,
         weighting_mode: bool,
@@ -49,7 +49,7 @@ class DataCollector:
         relation: See https://github.com/commonsense/conceptnet5/wiki/Relations for
             all relations.
         raw_data_path: Where to save raw queried conceptnet data path
-        raw_data_stats_path: Where to save the stats of the raw data
+        dataset_stats_path: Where to save the stats of the raw data
         semantic_knowledge_path: Where to save pre-trained semantic (factual) knowledge
         semantic_obs_path: Where to save semantic observations
         weighting_mode: "highest" chooses the one with the highest weight, "weighted"
@@ -72,7 +72,7 @@ class DataCollector:
         self.relation_simple = self.relation.split("/")[-1]
 
         self.raw_data_path = raw_data_path
-        self.raw_data_stats_path = raw_data_stats_path
+        self.dataset_stats_path = dataset_stats_path
         self.semantic_knowledge_path = semantic_knowledge_path
         self.semantic_obs_path = semantic_obs_path
         self.weighting_mode = weighting_mode
@@ -195,33 +195,6 @@ class DataCollector:
             return False
         else:
             return True
-
-    def get_conceptnet_data_stats(self) -> None:
-        """Get basic data statistics."""
-        logging.info("getting conceptnet data stats ...")
-        self.raw_data_stats = {"num_examples": {}}
-        for key, val in self.raw_data.items():
-            num_examples = len(val)
-            self.raw_data_stats["num_examples"][key] = num_examples
-
-        all_locations = [
-            val_["end"]["@id"].split("/")[-1]
-            for key, val in self.raw_data.items()
-            for val_ in val
-        ]
-        self.raw_data_stats["num_locations_total"] = len(all_locations)
-        self.raw_data_stats["num_unique_locations"] = len(set(all_locations))
-
-        counts = dict(Counter(all_locations))
-        counts = {
-            key: val
-            for key, val in sorted(counts.items(), key=lambda x: x[1], reverse=True)
-        }
-
-        self.raw_data_stats["location_counts"] = counts
-
-        write_json(self.raw_data_stats, self.raw_data_stats_path)
-        logging.info(f"conceptnet data stats saved at {self.raw_data_stats_path}")
 
     def create_semantic_observations(self) -> None:
         """Create dummy semantic observations using 20 human names.
@@ -396,16 +369,111 @@ class DataCollector:
         write_json(self.questions_all, self.question_path)
         logging.info(f"questions saved at {self.question_path}")
 
+    def compute_dataset_stats(self) -> None:
+        """Get basic data statistics."""
+        logging.info("Computing dataset stats ...")
+        raw_data_stats = {}
+
+        num_train_samples = len(self.data_final["train"])
+        num_val_samples = len(self.data_final["val"])
+        num_test_samples = len(self.data_final["test"])
+
+        raw_data_stats["num_train_samples"] = num_train_samples
+        raw_data_stats["num_val_samples"] = num_val_samples
+        raw_data_stats["num_test_samples"] = num_test_samples
+
+        ######################################################################################
+        episodic_object_counts = dict(Counter([ob[0] for ob in self.obs_all]))
+        episodic_object_counts = {
+            key: val
+            for key, val in sorted(
+                episodic_object_counts.items(), key=lambda x: x[1], reverse=True
+            )
+        }
+
+        num_episodic_objects = sum([val for key, val in episodic_object_counts.items()])
+        num_unique_episodic_objects = len(episodic_object_counts)
+
+        raw_data_stats["episodic_object_counts"] = episodic_object_counts
+        raw_data_stats["num_episodic_objects"] = num_episodic_objects
+        raw_data_stats["num_unique_episodic_objects"] = num_unique_episodic_objects
+
+        ######################################################################################
+
+        ######################################################################################
+        semantic_object_counts = dict(
+            Counter([ob[0].split()[-1] for ob in self.obs_all])
+        )
+        semantic_object_counts = {
+            key: val
+            for key, val in sorted(
+                semantic_object_counts.items(), key=lambda x: x[1], reverse=True
+            )
+        }
+
+        num_semantic_objects = sum([val for key, val in semantic_object_counts.items()])
+        num_unique_semantic_objects = len(semantic_object_counts)
+
+        raw_data_stats["semantic_object_counts"] = semantic_object_counts
+        raw_data_stats["num_semantic_objects"] = num_semantic_objects
+        raw_data_stats["num_unique_semantic_objects"] = num_unique_semantic_objects
+
+        ######################################################################################
+
+        ######################################################################################
+        episodic_location_counts = dict(Counter([ob[2] for ob in self.obs_all]))
+        episodic_location_counts = {
+            key: val
+            for key, val in sorted(
+                episodic_location_counts.items(), key=lambda x: x[1], reverse=True
+            )
+        }
+
+        num_episodic_locations = sum(
+            [val for key, val in episodic_location_counts.items()]
+        )
+        num_unique_episodic_locations = len(episodic_location_counts)
+
+        raw_data_stats["episodic_location_counts"] = episodic_location_counts
+        raw_data_stats["num_episodic_locations"] = num_episodic_locations
+        raw_data_stats["num_unique_episodic_locations"] = num_unique_episodic_locations
+
+        ######################################################################################
+
+        ######################################################################################
+        semantic_location_counts = dict(
+            Counter([ob[2].split()[-1] for ob in self.obs_all])
+        )
+        semantic_location_counts = {
+            key: val
+            for key, val in sorted(
+                semantic_location_counts.items(), key=lambda x: x[1], reverse=True
+            )
+        }
+
+        num_semantic_locations = sum(
+            [val for key, val in semantic_location_counts.items()]
+        )
+        num_unique_semantic_locations = len(semantic_location_counts)
+
+        raw_data_stats["semantic_location_counts"] = semantic_location_counts
+        raw_data_stats["num_semantic_locations"] = num_semantic_locations
+        raw_data_stats["num_unique_semantic_locations"] = num_unique_semantic_locations
+        ######################################################################################
+
+        write_json(raw_data_stats, self.dataset_stats_path)
+        logging.info(f"Dataset stats saved at {self.dataset_stats_path}")
+
 
 def main(**kwargs) -> None:
     """Collect data. See ./collect-data.yaml for the config."""
     dc = DataCollector(**kwargs)
 
     dc.get_from_conceptnet()
-    dc.get_conceptnet_data_stats()
     dc.create_semantic_observations()
     dc.create_episodic_observations()
     dc.create_splits()
+    dc.compute_dataset_stats()
     dc.make_questions()
 
 

@@ -1,0 +1,219 @@
+train:
+    rewards: 517
+    num_samples: 9420
+    episodic_memories:
+    -   - James's motorcycle
+        - AtLocation
+        - James's home
+        - 9402
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's garden
+        - 9406
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's home
+        - 9407
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Thomas's keyboard
+        - AtLocation
+        - Thomas's desk
+        - 9415
+    -   - Patricia's broccoli
+        - AtLocation
+        - Patricia's cupboard
+        - 9418
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - oven
+        - AtLocation
+        - home
+        - 2
+    -   - vase
+        - AtLocation
+        - tree
+        - 2
+    -   - dog
+        - AtLocation
+        - table
+        - 6
+    -   - cow
+        - AtLocation
+        - countryside
+        - 4
+    -   - cake
+        - AtLocation
+        - bakery
+        - 2
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 4
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 4
+val:
+    rewards: 103
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's bicycle
+        - AtLocation
+        - Richard's garage
+        - 10558
+    -   - Karen's bed
+        - AtLocation
+        - Karen's house
+        - 10586
+    -   - Barbara's banana
+        - AtLocation
+        - Barbara's countryside
+        - 10589
+    -   - Jessica's microwave
+        - AtLocation
+        - Jessica's apartment
+        - 10592
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Elizabeth's pizza
+        - AtLocation
+        - Elizabeth's park
+        - 10594
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - bottle
+        - AtLocation
+        - store
+        - 2
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 2
+    -   - keyboard
+        - AtLocation
+        - desk
+        - 2
+    -   - microwave
+        - AtLocation
+        - apartment
+        - 2
+    -   - vase
+        - AtLocation
+        - table
+        - 2
+    -   - couch
+        - AtLocation
+        - house
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 2
+    -   - apple
+        - AtLocation
+        - refrigerator
+        - 2
+test:
+    rewards: 95
+    num_samples: 1178
+    episodic_memories:
+    -   - Elizabeth's horse
+        - AtLocation
+        - Elizabeth's office
+        - 11750
+    -   - Joseph's bear
+        - AtLocation
+        - Joseph's classroom
+        - 11765
+    -   - Michael's mouse
+        - AtLocation
+        - Michael's city
+        - 11766
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bakery
+        - 11769
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - chair
+        - AtLocation
+        - office
+        - 2
+    -   - elephant
+        - AtLocation
+        - office
+        - 2
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 2
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 2
+    -   - cat
+        - AtLocation
+        - lap
+        - 2
+    -   - horse
+        - AtLocation
+        - circus
+        - 2
+    -   - boat
+        - AtLocation
+        - water
+        - 2
+    -   - banana
+        - AtLocation
+        - pantry
+        - 2
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: random
+        answer: random
+capacity:
+    episodic: 8
+    semantic: 8
+memory_type: both
+pretrained_semantic: false

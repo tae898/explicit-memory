@@ -1,0 +1,75 @@
+train:
+    rewards: 217
+    num_samples: 9420
+    episodic_memories:
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+val:
+    rewards: 34
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+test:
+    rewards: 34
+    num_samples: 1178
+    episodic_memories:
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+policy:
+    episodic:
+        forget: random
+        answer: latest
+    semantic:
+        forget: weakest
+        answer: strongest
+capacity:
+    episodic: 2
+    semantic: 2
+memory_type: both
+pretrained_semantic: true

@@ -1,0 +1,404 @@
+train:
+    rewards: 1749
+    num_samples: 9420
+    semantic_memories:
+    -   - elephant
+        - AtLocation
+        - circus
+        - 98
+    -   - bowl
+        - AtLocation
+        - closet
+        - 5
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 98
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 104
+    -   - banana
+        - AtLocation
+        - lap
+        - 4
+    -   - banana
+        - AtLocation
+        - airplane
+        - 4
+    -   - refrigerator
+        - AtLocation
+        - garage
+        - 109
+    -   - truck
+        - AtLocation
+        - garage
+        - 95
+    -   - bus
+        - AtLocation
+        - city
+        - 99
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 44
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 111
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 103
+    -   - vase
+        - AtLocation
+        - table
+        - 99
+    -   - chair
+        - AtLocation
+        - office
+        - 104
+    -   - toothbrush
+        - AtLocation
+        - water
+        - 10
+    -   - person
+        - AtLocation
+        - table
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - building
+        - 3
+    -   - bed
+        - AtLocation
+        - table
+        - 3
+    -   - chair
+        - AtLocation
+        - apartment
+        - 5
+    -   - cat
+        - AtLocation
+        - lap
+        - 102
+    -   - truck
+        - AtLocation
+        - countryside
+        - 6
+    -   - dog
+        - AtLocation
+        - city
+        - 2
+    -   - cat
+        - AtLocation
+        - suitcase
+        - 2
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 105
+    -   - cat
+        - AtLocation
+        - table
+        - 1
+    -   - spoon
+        - AtLocation
+        - bowl
+        - 105
+    -   - knife
+        - AtLocation
+        - bakery
+        - 5
+    -   - motorcycle
+        - AtLocation
+        - apartment
+        - 3
+    -   - cake
+        - AtLocation
+        - bakery
+        - 103
+    -   - bench
+        - AtLocation
+        - store
+        - 4
+    -   - mouse
+        - AtLocation
+        - garage
+        - 111
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 101
+val:
+    rewards: 220
+    num_samples: 1178
+    semantic_memories:
+    -   - boat
+        - AtLocation
+        - water
+        - 16
+    -   - sink
+        - AtLocation
+        - kitchen
+        - 16
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 8
+    -   - bear
+        - AtLocation
+        - kitchen
+        - 1
+    -   - suitcase
+        - AtLocation
+        - airplane
+        - 15
+    -   - truck
+        - AtLocation
+        - tree
+        - 1
+    -   - laptop
+        - AtLocation
+        - desk
+        - 10
+    -   - cup
+        - AtLocation
+        - farm
+        - 1
+    -   - vase
+        - AtLocation
+        - table
+        - 15
+    -   - book
+        - AtLocation
+        - city
+        - 2
+    -   - cow
+        - AtLocation
+        - building
+        - 1
+    -   - suitcase
+        - AtLocation
+        - plate
+        - 1
+    -   - spoon
+        - AtLocation
+        - garden
+        - 1
+    -   - banana
+        - AtLocation
+        - house
+        - 1
+    -   - chair
+        - AtLocation
+        - office
+        - 12
+    -   - vase
+        - AtLocation
+        - garden
+        - 1
+    -   - motorcycle
+        - AtLocation
+        - bowl
+        - 1
+    -   - sandwich
+        - AtLocation
+        - building
+        - 1
+    -   - cat
+        - AtLocation
+        - park
+        - 3
+    -   - cat
+        - AtLocation
+        - lap
+        - 16
+    -   - apple
+        - AtLocation
+        - table
+        - 1
+    -   - refrigerator
+        - AtLocation
+        - bakery
+        - 2
+    -   - bicycle
+        - AtLocation
+        - park
+        - 1
+    -   - umbrella
+        - AtLocation
+        - garden
+        - 1
+    -   - cake
+        - AtLocation
+        - apartment
+        - 1
+    -   - horse
+        - AtLocation
+        - airplane
+        - 2
+    -   - refrigerator
+        - AtLocation
+        - countryside
+        - 2
+    -   - cow
+        - AtLocation
+        - oven
+        - 2
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 13
+    -   - mouse
+        - AtLocation
+        - garage
+        - 7
+    -   - dog
+        - AtLocation
+        - countryside
+        - 2
+    -   - toilet
+        - AtLocation
+        - office
+        - 2
+test:
+    rewards: 257
+    num_samples: 1178
+    semantic_memories:
+    -   - umbrella
+        - AtLocation
+        - closet
+        - 15
+    -   - book
+        - AtLocation
+        - classroom
+        - 14
+    -   - elephant
+        - AtLocation
+        - circus
+        - 18
+    -   - scissors
+        - AtLocation
+        - house
+        - 3
+    -   - car
+        - AtLocation
+        - city
+        - 13
+    -   - sandwich
+        - AtLocation
+        - plate
+        - 16
+    -   - truck
+        - AtLocation
+        - garage
+        - 9
+    -   - bus
+        - AtLocation
+        - city
+        - 18
+    -   - toilet
+        - AtLocation
+        - bathroom
+        - 10
+    -   - laptop
+        - AtLocation
+        - desk
+        - 12
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 11
+    -   - chair
+        - AtLocation
+        - office
+        - 12
+    -   - banana
+        - AtLocation
+        - house
+        - 2
+    -   - laptop
+        - AtLocation
+        - circus
+        - 2
+    -   - book
+        - AtLocation
+        - sky
+        - 1
+    -   - bed
+        - AtLocation
+        - water
+        - 1
+    -   - knife
+        - AtLocation
+        - closet
+        - 1
+    -   - sheep
+        - AtLocation
+        - lap
+        - 1
+    -   - umbrella
+        - AtLocation
+        - apartment
+        - 1
+    -   - scissors
+        - AtLocation
+        - closet
+        - 1
+    -   - cat
+        - AtLocation
+        - lap
+        - 10
+    -   - person
+        - AtLocation
+        - garden
+        - 1
+    -   - bench
+        - AtLocation
+        - store
+        - 1
+    -   - toothbrush
+        - AtLocation
+        - suitcase
+        - 12
+    -   - bicycle
+        - AtLocation
+        - building
+        - 2
+    -   - knife
+        - AtLocation
+        - kitchen
+        - 14
+    -   - clock
+        - AtLocation
+        - kitchen
+        - 2
+    -   - suitcase
+        - AtLocation
+        - house
+        - 2
+    -   - mouse
+        - AtLocation
+        - garage
+        - 10
+    -   - boat
+        - AtLocation
+        - refrigerator
+        - 1
+    -   - sandwich
+        - AtLocation
+        - table
+        - 1
+    -   - knife
+        - AtLocation
+        - store
+        - 1
+policy:
+    forget: weakest
+    answer: strongest
+capacity:
+    episodic: 0
+    semantic: 32
+memory_type: semantic
+pretrained_semantic: false

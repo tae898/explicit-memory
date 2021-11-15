@@ -1,0 +1,44 @@
+train:
+    rewards: 556
+    num_samples: 9420
+    semantic_memories:
+    -   - bus
+        - AtLocation
+        - city
+        - 99
+    -   - mouse
+        - AtLocation
+        - garage
+        - 111
+val:
+    rewards: 56
+    num_samples: 1178
+    semantic_memories:
+    -   - boat
+        - AtLocation
+        - water
+        - 16
+    -   - sheep
+        - AtLocation
+        - farm
+        - 15
+test:
+    rewards: 56
+    num_samples: 1178
+    semantic_memories:
+    -   - cake
+        - AtLocation
+        - desk
+        - 1
+    -   - laptop
+        - AtLocation
+        - desk
+        - 12
+policy:
+    forget: weakest
+    answer: random
+capacity:
+    episodic: 0
+    semantic: 2
+memory_type: semantic
+pretrained_semantic: false

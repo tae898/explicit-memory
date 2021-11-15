@@ -1,0 +1,411 @@
+train:
+    rewards: 358
+    num_samples: 9420
+    episodic_memories:
+    -   - Michael's bird
+        - AtLocation
+        - Michael's sky
+        - 9362
+    -   - William's bear
+        - AtLocation
+        - William's suitcase
+        - 9366
+    -   - Patricia's book
+        - AtLocation
+        - Patricia's classroom
+        - 9376
+    -   - James's bottle
+        - AtLocation
+        - James's closet
+        - 9377
+    -   - Charles's bowl
+        - AtLocation
+        - Charles's city
+        - 9386
+    -   - Charles's bench
+        - AtLocation
+        - Charles's garage
+        - 9388
+    -   - Sarah's sandwich
+        - AtLocation
+        - Sarah's plate
+        - 9403
+    -   - Joseph's bench
+        - AtLocation
+        - Joseph's garden
+        - 9406
+    -   - Sarah's toothbrush
+        - AtLocation
+        - Sarah's home
+        - 9407
+    -   - Elizabeth's elephant
+        - AtLocation
+        - Elizabeth's circus
+        - 9410
+    -   - Joseph's chair
+        - AtLocation
+        - Joseph's farm
+        - 9411
+    -   - Richard's sink
+        - AtLocation
+        - Richard's bowl
+        - 9413
+    -   - Mary's refrigerator
+        - AtLocation
+        - Mary's suitcase
+        - 9414
+    -   - Karen's refrigerator
+        - AtLocation
+        - Karen's suitcase
+        - 9416
+    -   - Karen's sandwich
+        - AtLocation
+        - Karen's bowl
+        - 9417
+    -   - Thomas's oven
+        - AtLocation
+        - Thomas's kitchen
+        - 9419
+    semantic_memories:
+    -   - dog
+        - AtLocation
+        - table
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bird
+        - AtLocation
+        - tree
+        - 9223372036854775807
+    -   - elephant
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - truck
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - sheep
+        - AtLocation
+        - farm
+        - 9223372036854775807
+    -   - airplane
+        - AtLocation
+        - sky
+        - 9223372036854775807
+    -   - bench
+        - AtLocation
+        - garden
+        - 9223372036854775807
+    -   - horse
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - cat
+        - AtLocation
+        - lap
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - boat
+        - AtLocation
+        - water
+        - 9223372036854775807
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - bus
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - cow
+        - AtLocation
+        - countryside
+        - 9223372036854775807
+val:
+    rewards: 45
+    num_samples: 1178
+    episodic_memories:
+    -   - Jennifer's spoon
+        - AtLocation
+        - Jennifer's pantry
+        - 10571
+    -   - Michael's keyboard
+        - AtLocation
+        - Michael's desk
+        - 10575
+    -   - Michael's couch
+        - AtLocation
+        - Michael's house
+        - 10577
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 10578
+    -   - Barbara's clock
+        - AtLocation
+        - Barbara's desk
+        - 10580
+    -   - Elizabeth's cow
+        - AtLocation
+        - Elizabeth's countryside
+        - 10581
+    -   - Charles's apple
+        - AtLocation
+        - Charles's refrigerator
+        - 10583
+    -   - Thomas's dog
+        - AtLocation
+        - Thomas's table
+        - 10584
+    -   - Barbara's banana
+        - AtLocation
+        - Barbara's countryside
+        - 10589
+    -   - Susan's truck
+        - AtLocation
+        - Susan's garage
+        - 10590
+    -   - Patricia's elephant
+        - AtLocation
+        - Patricia's circus
+        - 10591
+    -   - Jessica's microwave
+        - AtLocation
+        - Jessica's apartment
+        - 10592
+    -   - Linda's bottle
+        - AtLocation
+        - Linda's store
+        - 10593
+    -   - Richard's bear
+        - AtLocation
+        - Richard's farm
+        - 10595
+    -   - John's couch
+        - AtLocation
+        - John's circus
+        - 10596
+    -   - Mary's car
+        - AtLocation
+        - Mary's city
+        - 10597
+    semantic_memories:
+    -   - dog
+        - AtLocation
+        - table
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bird
+        - AtLocation
+        - tree
+        - 9223372036854775807
+    -   - elephant
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - truck
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - sheep
+        - AtLocation
+        - farm
+        - 9223372036854775807
+    -   - airplane
+        - AtLocation
+        - sky
+        - 9223372036854775807
+    -   - bench
+        - AtLocation
+        - garden
+        - 9223372036854775807
+    -   - horse
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - cat
+        - AtLocation
+        - lap
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - boat
+        - AtLocation
+        - water
+        - 9223372036854775807
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - bus
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - cow
+        - AtLocation
+        - countryside
+        - 9223372036854775807
+test:
+    rewards: 39
+    num_samples: 1178
+    episodic_memories:
+    -   - Linda's oven
+        - AtLocation
+        - Linda's garden
+        - 11725
+    -   - Charles's car
+        - AtLocation
+        - Charles's office
+        - 11734
+    -   - John's bear
+        - AtLocation
+        - John's plate
+        - 11737
+    -   - Michael's apple
+        - AtLocation
+        - Michael's plate
+        - 11743
+    -   - Michael's airplane
+        - AtLocation
+        - Michael's house
+        - 11747
+    -   - Michael's truck
+        - AtLocation
+        - Michael's apartment
+        - 11755
+    -   - Mary's boat
+        - AtLocation
+        - Mary's water
+        - 11758
+    -   - Linda's banana
+        - AtLocation
+        - Linda's pantry
+        - 11762
+    -   - Michael's mouse
+        - AtLocation
+        - Michael's city
+        - 11766
+    -   - Michael's spoon
+        - AtLocation
+        - Michael's bowl
+        - 11768
+    -   - Mary's cake
+        - AtLocation
+        - Mary's bakery
+        - 11769
+    -   - Richard's sheep
+        - AtLocation
+        - Richard's sky
+        - 11771
+    -   - Jennifer's cat
+        - AtLocation
+        - Jennifer's lap
+        - 11772
+    -   - Michael's broccoli
+        - AtLocation
+        - Michael's plate
+        - 11773
+    -   - Richard's airplane
+        - AtLocation
+        - Richard's sky
+        - 11774
+    -   - Robert's bird
+        - AtLocation
+        - Robert's tree
+        - 11775
+    semantic_memories:
+    -   - dog
+        - AtLocation
+        - table
+        - 9223372036854775807
+    -   - car
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - person
+        - AtLocation
+        - building
+        - 9223372036854775807
+    -   - bird
+        - AtLocation
+        - tree
+        - 9223372036854775807
+    -   - elephant
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - truck
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - sheep
+        - AtLocation
+        - farm
+        - 9223372036854775807
+    -   - airplane
+        - AtLocation
+        - sky
+        - 9223372036854775807
+    -   - bench
+        - AtLocation
+        - garden
+        - 9223372036854775807
+    -   - horse
+        - AtLocation
+        - circus
+        - 9223372036854775807
+    -   - cat
+        - AtLocation
+        - lap
+        - 9223372036854775807
+    -   - bicycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - boat
+        - AtLocation
+        - water
+        - 9223372036854775807
+    -   - motorcycle
+        - AtLocation
+        - garage
+        - 9223372036854775807
+    -   - bus
+        - AtLocation
+        - city
+        - 9223372036854775807
+    -   - cow
+        - AtLocation
+        - countryside
+        - 9223372036854775807
+policy:
+    episodic:
+        forget: random
+        answer: random
+    semantic:
+        forget: random
+        answer: strongest
+capacity:
+    episodic: 16
+    semantic: 16
+memory_type: both
+pretrained_semantic: true
