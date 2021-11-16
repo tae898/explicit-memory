@@ -108,7 +108,8 @@ class DataCollector:
         self.mscoco = [line.strip() for line in self.mscoco]
         self.mscoco = ["_".join(foo.split()) for foo in self.mscoco]
         logging.info(
-            f"Reading {path} complete! There are {len(self.mscoco)} object categories in total."
+            f"Reading {path} complete! There are {len(self.mscoco)} object categories "
+            "in total."
         )
 
     def read_names(self, path: str = "./data/top-human-names") -> None:
@@ -144,7 +145,7 @@ class DataCollector:
         )
 
     def get_from_conceptnet(self) -> None:
-        """Get data from ConceptNet API by HTTP get querying."""
+        """Get data from ConceptNet API by HTTP get query."""
         logging.debug("retrieving data from conceptnet ...")
 
         self.raw_data = {}

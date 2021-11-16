@@ -545,8 +545,8 @@ class SemanticMemory(Memory):
 
             relation = list(relation_head.keys())[0]
             tail = relation_head[relation][0]
-            # num_generalized_memories is a possible maximum value.
-            mem = [head, relation, tail, 9223372036854775807]
+            # num_generalized_memories is the maximum int 32 value.
+            mem = [head, relation, tail, 2147483647]
             logging.debug(f"adding {mem} to the semantic memory system ...")
             self.add(mem)
 
