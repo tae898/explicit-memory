@@ -7,6 +7,7 @@ from pprint import pformat
 from memory.environments import OQAGenerator
 from memory.utils import write_json, read_json
 from memory import EpisodicMemory, SemanticMemory
+from copy import deepcopy
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -80,16 +81,16 @@ def train_only_episodic(
                     raise NotImplementedError
 
             if policy["answer"].lower() == "latest":
-                reward = M_e.answer_latest(question_answer)
+                reward, _, _ = M_e.answer_latest(question_answer)
             elif policy["answer"].lower() == "random":
-                reward = M_e.answer_random(question_answer)
+                reward, _, _ = M_e.answer_random(question_answer)
             else:
                 raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["episodic_memories"] = M_e.entries
+        results[split]["episodic_memories"] = deepcopy(M_e.entries)
 
         logging.info(f"results so far: {results}")
 
@@ -183,16 +184,16 @@ def train_only_semantic(
             question = M_s.eq2sq(question_answer)
 
             if policy["answer"].lower() == "strongest":
-                reward = M_s.answer_strongest(question)
+                reward, _, _ = M_s.answer_strongest(question)
             elif policy["answer"].lower() == "random":
-                reward = M_s.answer_random(question)
+                reward, _, _ = M_s.answer_random(question)
             else:
                 raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["semantic_memories"] = M_s.entries
+        results[split]["semantic_memories"] = deepcopy(M_s.entries)
 
         logging.info(f"results so far: {results}")
 
@@ -317,24 +318,24 @@ def train_both_episodic_and_semantic(
 
             if policy["episodic"]["answer"].lower() == "latest":
                 if M_e.is_answerable(question_epi):
-                    reward = M_e.answer_latest(question_epi)
+                    reward, _, _ = M_e.answer_latest(question_epi)
                 else:
                     if policy["semantic"]["answer"].lower() == "strongest":
-                        reward = M_s.answer_strongest(question_sem)
+                        reward, _, _ = M_s.answer_strongest(question_sem)
                     elif policy["semantic"]["answer"].lower() == "random":
-                        reward = M_s.answer_random(question_sem)
+                        reward, _, _ = M_s.answer_random(question_sem)
                     else:
                         raise NotImplementedError
             elif policy["episodic"]["answer"].lower() == "random":
-                reward = M_e.answer_random(question_epi)
+                reward, _, _ = M_e.answer_random(question_epi)
             else:
                 raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["episodic_memories"] = M_e.entries
-        results[split]["semantic_memories"] = M_s.entries
+        results[split]["episodic_memories"] = deepcopy(M_e.entries)
+        results[split]["semantic_memories"] = deepcopy(M_s.entries)
 
         logging.info(f"results so far: {results}")
 

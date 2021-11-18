@@ -158,7 +158,7 @@ class OQAGenerator:
         head = name + posessive + " " + head
         tail = name + posessive + " " + tail
 
-        # unix timestamp in seconds
+        # unix timestamp in seconds (including decimal points)
         timestamp = time.time()
         ob = [head, relation, tail, timestamp]
         logging.info(f"A new observation generated: {ob}")

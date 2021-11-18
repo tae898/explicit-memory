@@ -212,6 +212,8 @@ class Memory:
         Returns
         -------
         reward: CORRECT or WRONG
+        pred: prediction
+        answer: correct answer
 
         """
         if not self.is_question_valid(question):
@@ -219,11 +221,13 @@ class Memory:
         logging.debug(
             "answering the question with a uniform-randomly retrieved memory ..."
         )
+        correct_answer = self.remove_name(question[2])
+
         if self.is_empty:
-            return WRONG
+            pred = None
+            return WRONG, pred, correct_answer
 
         pred = self.remove_name(random.choice(self.entries)[2])
-        correct_answer = self.remove_name(question[2])
 
         if pred == correct_answer:
             reward = CORRECT
@@ -234,7 +238,7 @@ class Memory:
             f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
         )
 
-        return reward
+        return reward, pred, correct_answer
 
     def add(self, mem: list):
         """Append a memory to the memory system.
@@ -377,18 +381,21 @@ class EpisodicMemory(Memory):
 
         Returns
         -------
-        reward: CORRECT if right, WRONG if wrong.
+        reward: CORRECT or WRONG
+        pred: prediction
+        answer: correct answer
 
         """
         if not self.is_question_valid(question):
             raise ValueError
         logging.debug("answering a question with the answer_latest policy ...")
+        correct_answer = self.remove_name(question[2])
 
         if self.is_empty:
-            return WRONG
+            pred = None
+            return WRONG, pred, correct_answer
 
         query_head = question[0]
-        correct_answer = self.remove_name(question[2])
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
             logging.info("no relevant memories found.")
@@ -412,7 +419,7 @@ class EpisodicMemory(Memory):
             f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
         )
 
-        return reward
+        return reward, pred, correct_answer
 
     def ob2epi(self, ob: list):
         """Turn an observation into an episodic memory.
@@ -657,19 +664,21 @@ class SemanticMemory(Memory):
 
         Returns
         -------
-        reward: -1 if no heads were found, +1 if the retrieved memory matches both head and
-            tail, and 0 if the retrieved memory only matches the head, not the tail.
+        reward: CORRECT or WRONG
+        pred: prediction
+        answer: correct answer
 
         """
         if not self.is_question_valid(question):
             raise ValueError
         logging.debug("answering a question with the answer_strongest policy ...")
+        correct_answer = self.remove_name(question[2])
 
         if self.is_empty:
-            return WRONG
+            pred = None
+            return WRONG, pred, correct_answer
 
         query_head = self.remove_name(question[0])
-        correct_answer = self.remove_name(question[2])
         duplicates = self.get_duplicate_heads(query_head, self.entries)
         if duplicates is None:
             logging.info("no relevant memories found.")
@@ -693,7 +702,7 @@ class SemanticMemory(Memory):
             f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
         )
 
-        return reward
+        return reward, pred, correct_answer
 
     def ob2sem(self, ob: list) -> list:
         """Turn an observation into a semantic memory.
