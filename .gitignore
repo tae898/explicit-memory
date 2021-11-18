@@ -130,5 +130,4 @@ dmypy.json
 
 lightning_logs/
 
-data/questions.zip
-data/questions.json
+training-results/

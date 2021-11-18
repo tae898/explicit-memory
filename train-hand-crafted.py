@@ -3,16 +3,9 @@ import logging
 import os
 import random
 import argparse
-import numpy as np
 from pprint import pformat
-
-from utils import (
-    read_yaml,
-    write_yaml,
-    read_data,
-    load_questions,
-    select_a_question,
-)
+from memory.environments import OQAGenerator
+from memory.utils import write_json, read_json
 from memory import EpisodicMemory, SemanticMemory
 
 logging.basicConfig(
@@ -24,34 +17,58 @@ logging.basicConfig(
 
 def train_only_episodic(
     policy: dict,
-    data: dict,
-    capacity: dict,
     save_at: str,
-    questions: dict,
+    names_path: str,
+    capacity: dict,
+    semantic_knowledge_path: str,
+    seed: int,
+    max_history: int,
+    commonsense_prob: float,
+    weighting_mode: str,
+    pretrain_semantic: bool,
 ) -> None:
     """Train only with a episodic memory system.
 
     Args
     ----
     policy: e.g., {'forget': 'oldest', 'answer': latest}
-    data: train, val, test data splits in dict
+    save_at: where to save training results.
+    names_path: The path to the top 20 human name list.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
-    save_at: where to save training results.
-    questions: questions in train, val, and test splits
+    semantic_knowledge_path: either the path or None.
+    seed: random seed.
+    max_history: maximum history of observations.
+    weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+        chooses all of them by weight, and null chooses every single one of them
+        without weighting.
+    commonsense_prob: the probability of an observation being covered by a
+        commonsense
+    pretrain_semantic: whether to pretrain semantic or not.
 
     """
     logging.info(f"episodic only training has started with policy {policy}")
 
     results = {"train": {}, "val": {}, "test": {}}
+    oqag = OQAGenerator(
+        max_history=max_history,
+        semantic_knowledge_path=semantic_knowledge_path,
+        names_path=names_path,
+        weighting_mode=weighting_mode,
+        commonsense_prob=commonsense_prob,
+    )
+    for split_idx, split in enumerate(["train", "val", "test"]):
+        # for reproducibility
+        random.seed(seed + split_idx)
 
-    for split in ["train", "val", "test"]:
         logging.info(f"Running on {split} split ...")
+        oqag.reset()
 
         M_e = EpisodicMemory(capacity["episodic"])
         rewards = 0
 
-        for step, ob in enumerate(data[split]):
+        for _ in range(max_history):
+            ob, question_answer = oqag.generate()
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
             if M_e.is_kinda_full:
@@ -62,19 +79,16 @@ def train_only_episodic(
                 else:
                     raise NotImplementedError
 
-            question = select_a_question(step, data, questions, split)
-
             if policy["answer"].lower() == "latest":
-                reward = M_e.answer_latest(question)
+                reward = M_e.answer_latest(question_answer)
             elif policy["answer"].lower() == "random":
-                reward = M_e.answer_random(question)
+                reward = M_e.answer_random(question_answer)
             else:
                 raise NotImplementedError
 
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["num_samples"] = len(data[split])
         results[split]["episodic_memories"] = M_e.entries
 
         logging.info(f"results so far: {results}")
@@ -85,46 +99,76 @@ def train_only_episodic(
     results["policy"] = policy
     results["capacity"] = capacity
     results["memory_type"] = "episodic"
-    write_yaml(results, os.path.join(save_at, "results.yaml"))
+
+    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    results.update(config)
+
+    write_json(results, os.path.join(save_at, "results.json"))
     logging.info(
-        f"training results written at {os.path.join(save_at, 'results.yaml')}!"
+        f"training results written at {os.path.join(save_at, 'results.json')}!"
     )
 
 
 def train_only_semantic(
     policy: dict,
-    data: dict,
-    capacity: dict,
-    pretrained_semantic: str,
     save_at: str,
-    questions: dict,
+    names_path: str,
+    capacity: dict,
+    semantic_knowledge_path: str,
+    seed: int,
+    max_history: int,
+    commonsense_prob: float,
+    weighting_mode: str,
+    pretrain_semantic: bool,
 ) -> None:
     """Train with only semantic memory.
 
     Args
     ----
     policy: e.g., {'forget': 'weakest', 'answer': strongest}
-    data: train, val, test data splits in dict
+    save_at: where to save training results.
+    names_path: The path to the top 20 human name list.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
-    pretrained_semantic: either the path or None.
-    save_at: where to save training results.
-    questions: questions in train, val, and test splits
+    semantic_knowledge_path: either the path or None.
+    max_history: maximum history of observations.
+    seed: random seed.
+    max_history: maximum history of observations.
+    weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+        chooses all of them by weight, and null chooses every single one of them
+        without weighting.
+    commonsense_prob: the probability of an observation being covered by a
+        commonsense
+    pretrain_semantic: whether to pretrain semantic or not.
 
     """
     logging.info(f"semantic only training has started with policy {policy}")
 
     results = {"train": {}, "val": {}, "test": {}}
+    oqag = OQAGenerator(
+        max_history=max_history,
+        semantic_knowledge_path=semantic_knowledge_path,
+        names_path=names_path,
+        weighting_mode=weighting_mode,
+        commonsense_prob=commonsense_prob,
+    )
 
-    for split in ["train", "val", "test"]:
+    for split_idx, split in enumerate(["train", "val", "test"]):
+        # for reproducibility
+        random.seed(seed + split_idx)
+
         logging.info(f"Running on {split} split ...")
+        oqag.reset()
 
         M_s = SemanticMemory(capacity["semantic"])
-        if pretrained_semantic is not None:
-            free_space = M_s.pretrain_semantic(pretrained_semantic)
+        if pretrain_semantic:
+            free_space = M_s.pretrain_semantic(
+                semantic_knowledge_path, weighting_mode=weighting_mode
+            )
 
         rewards = 0
-        for step, ob in enumerate(data[split]):
+        for _ in range(max_history):
+            ob, question_answer = oqag.generate()
             mem_sem = M_s.ob2sem(ob)
             if not M_s.is_frozen:
                 M_s.add(mem_sem)
@@ -136,8 +180,7 @@ def train_only_semantic(
                     else:
                         raise NotImplementedError
 
-            question = select_a_question(step, data, questions, split)
-            question = M_s.eq2sq(question)
+            question = M_s.eq2sq(question_answer)
 
             if policy["answer"].lower() == "strongest":
                 reward = M_s.answer_strongest(question)
@@ -149,7 +192,6 @@ def train_only_semantic(
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["num_samples"] = len(data[split])
         results[split]["semantic_memories"] = M_s.entries
 
         logging.info(f"results so far: {results}")
@@ -160,36 +202,47 @@ def train_only_semantic(
     results["policy"] = policy
     results["capacity"] = capacity
     results["memory_type"] = "semantic"
-    if pretrained_semantic is not None:
-        results["pretrained_semantic"] = True
-    else:
-        results["pretrained_semantic"] = False
-    write_yaml(results, os.path.join(save_at, "results.yaml"))
+    results["pretrain_semantic"] = pretrain_semantic
+    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    results.update(config)
+    write_json(results, os.path.join(save_at, "results.json"))
     logging.info(
-        f"training results written at {os.path.join(save_at, 'results.yaml')}!"
+        f"training results written at {os.path.join(save_at, 'results.json')}!"
     )
 
 
 def train_both_episodic_and_semantic(
     policy: dict,
-    data: dict,
-    capacity: dict,
-    pretrained_semantic: str,
     save_at: str,
-    questions: dict,
+    names_path: str,
+    capacity: dict,
+    semantic_knowledge_path: str,
+    seed: int,
+    max_history: int,
+    commonsense_prob: float,
+    weighting_mode: str,
+    pretrain_semantic: str,
 ) -> None:
     """Train with both episodic and semantic memory.
 
     Args
     ----
+
     policy: e.g., {'episodic': {'forget': 'oldest', 'answer': latest},
         'semantic': {'forget': 'weakest', 'answer': strongest}}
-    data: train, val, test data splits in dict.
+    save_at: where to save training results.
+    names_path: The path to the top 20 human name list.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
-    pretrained_semantic: either the path or None.
-    save_at: where to save training results.
-    questions: questions in train, val, and test splits
+    semantic_knowledge_path: either the path or None.
+    seed: random seed.
+    max_history: maximum history of observations.
+    weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+        chooses all of them by weight, and null chooses every single one of them
+        without weighting.
+    commonsense_prob: the probability of an observation being covered by a
+        commonsense
+    pretrain_semantic: whether to pretrain semantic or not.
 
     """
     logging.info(
@@ -197,21 +250,35 @@ def train_both_episodic_and_semantic(
     )
 
     results = {"train": {}, "val": {}, "test": {}}
+    oqag = OQAGenerator(
+        max_history=max_history,
+        semantic_knowledge_path=semantic_knowledge_path,
+        names_path=names_path,
+        weighting_mode=weighting_mode,
+        commonsense_prob=commonsense_prob,
+    )
+    for split_idx, split in enumerate(["train", "val", "test"]):
+        # for reproducibility
+        random.seed(seed + split_idx)
 
-    for split in ["train", "val", "test"]:
         logging.info(f"Running on {split} split ...")
+        oqag.reset()
+
         M_e = EpisodicMemory(capacity["episodic"])
         M_s = SemanticMemory(capacity["semantic"])
 
-        if pretrained_semantic is not None:
-            free_space = M_s.pretrain_semantic(pretrained_semantic)
+        if pretrain_semantic:
+            free_space = M_s.pretrain_semantic(
+                semantic_knowledge_path, weighting_mode=weighting_mode
+            )
             M_e.increase_capacity(free_space)
             assert (M_e.capacity + M_s.capacity) == (
                 capacity["episodic"] + capacity["semantic"]
             )
 
         rewards = 0
-        for step, ob in enumerate(data[split]):
+        for _ in range(max_history):
+            ob, question_answer = oqag.generate()
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
             if M_s.is_frozen:
@@ -245,7 +312,7 @@ def train_both_episodic_and_semantic(
                         else:
                             raise NotImplementedError
 
-            question_epi = select_a_question(step, data, questions, split)
+            question_epi = question_answer
             question_sem = M_s.eq2sq(question_epi)
 
             if policy["episodic"]["answer"].lower() == "latest":
@@ -266,7 +333,6 @@ def train_both_episodic_and_semantic(
             rewards += reward
 
         results[split]["rewards"] = rewards
-        results[split]["num_samples"] = len(data[split])
         results[split]["episodic_memories"] = M_e.entries
         results[split]["semantic_memories"] = M_s.entries
 
@@ -278,13 +344,12 @@ def train_both_episodic_and_semantic(
     results["policy"] = policy
     results["capacity"] = capacity
     results["memory_type"] = "both"
-    if pretrained_semantic is not None:
-        results["pretrained_semantic"] = True
-    else:
-        results["pretrained_semantic"] = False
-    write_yaml(results, os.path.join(save_at, "results.yaml"))
+    results["pretrain_semantic"] = pretrain_semantic
+    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    results.update(config)
+    write_json(results, os.path.join(save_at, "results.json"))
     logging.info(
-        f"training results written at {os.path.join(save_at, 'results.yaml')}!"
+        f"training results written at {os.path.join(save_at, 'results.json')}!"
     )
 
 
@@ -292,11 +357,14 @@ def main(
     memory_type: str,
     policy: dict,
     save_at: str,
-    data_path: str,
+    names_path: str,
     capacity: dict,
-    pretrained_semantic: str,
-    question_path: str,
+    semantic_knowledge_path: str,
     seed: int,
+    max_history: int,
+    commonsense_prob: float,
+    weighting_mode: str,
+    pretrain_semantic: str,
 ) -> None:
     """Run training with the given arguments.
 
@@ -306,29 +374,59 @@ def main(
     policy: e.g., {'episodic': {'forget': 'oldest', 'answer': latest},
         'semantic': {'forget': 'weakest', 'answer': strongest}}
     save_at: where to save training results.
-    data_path: path to data.
+    names_path: The path to the top 20 human name list.
     capacity: memory capacity for episodic and semantic
         e.g., {'episodic': 46, 'semantic': 0}
-    pretrained_semantic: either the path or None.
-    question_path: path to the questions file.
+    semantic_knowledge_path: either the path or None.
     seed: random seed.
+    max_history: maximum history of observations.
+    weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+        chooses all of them by weight, and null chooses every single one of them
+        without weighting.
+    commonsense_prob: the probability of an observation being covered by a
+        commonsense
+    pretrain_semantic: whether to pretrain semantic or not.
 
     """
-    # for reproducibility
-    random.seed(seed)
-    np.random.seed(seed)
 
-    data = read_data(data_path)
-    questions = load_questions(question_path)
     if memory_type == "episodic":
-        train_only_episodic(policy["episodic"], data, capacity, save_at, questions)
+        train_only_episodic(
+            policy["episodic"],
+            save_at,
+            names_path,
+            capacity,
+            semantic_knowledge_path,
+            seed,
+            max_history,
+            commonsense_prob,
+            weighting_mode,
+            pretrain_semantic,
+        )
     elif memory_type == "semantic":
         train_only_semantic(
-            policy["semantic"], data, capacity, pretrained_semantic, save_at, questions
+            policy["semantic"],
+            save_at,
+            names_path,
+            capacity,
+            semantic_knowledge_path,
+            seed,
+            max_history,
+            commonsense_prob,
+            weighting_mode,
+            pretrain_semantic,
         )
     elif memory_type == "both":
         train_both_episodic_and_semantic(
-            policy, data, capacity, pretrained_semantic, save_at, questions
+            policy,
+            save_at,
+            names_path,
+            capacity,
+            semantic_knowledge_path,
+            seed,
+            max_history,
+            commonsense_prob,
+            weighting_mode,
+            pretrain_semantic,
         )
     else:
         raise ValueError
@@ -336,10 +434,10 @@ def main(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="train handcrafted policies")
-    parser.add_argument("--config", type=str, default="train-hand-crafted.yaml")
+    parser.add_argument("--config", type=str, default="train-hand-crafted.json")
     args = parser.parse_args()
 
-    config = read_yaml(args.config)
+    config = read_json(args.config)
     logging.info(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
 
     logging.debug(f"Training results will be saved at {config['save_at']}")

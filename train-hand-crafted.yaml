@@ -1,17 +1,19 @@
-memory_type: both
+memory_type: episodic
 policy:
     episodic:
-        forget: random
-        answer: random
+        forget: oldest
+        answer: latest
     semantic:
-        forget: random
-        answer: random
-save_at: training-results
-data_path: ./data/data.json
+        forget: null
+        answer: null
+save_at: training-results/1118_170206
+names_path: ./data/top-human-names
 capacity:
-    episodic: 512
-    semantic: 512
-pretrained_semantic: ./data/semantic-knowledge.json
-question_path: ./data/questions.json
-creation_time: 1602929100
+    episodic: 2
+    semantic: 0
+semantic_knowledge_path: ./data/semantic-knowledge.json
+pretrain_semantic: false
+max_history: 1024
 seed: 42
+commonsense_prob: 0.5
+weighting_mode: highest

@@ -2,7 +2,7 @@ import argparse
 import time
 from subprocess import Popen
 from tqdm import tqdm
-from utils import write_yaml
+from memory.utils import write_json
 import logging
 import os
 from datetime import datetime
@@ -13,173 +13,85 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+seeds = [0, 3, 6, 9, 12]
+max_history = 1024
+weighting_mode = "highest"
+capacities = [1, 2, 4, 8, 16, 32, 64, 128, 256, 512]
+commonsense_prob = 0.5
+semantic_knowledge_path = "./data/semantic-knowledge.json"
+names_path = "./data/top-human-names"
+
 
 def generate_all_configs():
     logging.debug("Generating configs ...")
     configs = []
 
-    capacities = [
-        (2, 0),
-        (4, 0),
-        (8, 0),
-        (16, 0),
-        (32, 0),
-        (64, 0),
-        (128, 0),
-        (256, 0),
-        (512, 0),
-        (1024, 0),
-    ]
-
     for capacity in capacities:
-        for forget in ["oldest", "random"]:
-            for answer in ["latest", "random"]:
-
-                config = {
-                    "memory_type": None,
-                    "policy": {
-                        "episodic": {"forget": None, "answer": None},
-                        "semantic": {"forget": None, "answer": None},
-                    },
-                    "save_at": None,
-                    "data_path": "./data/data.json",
-                    "capacity": {"episodic": None, "semantic": None},
-                    "pretrained_semantic": None,
-                    "question_path": "./data/questions.json",
-                    "seed": 42,
-                }
-                config["memory_type"] = "episodic"
-                config["capacity"]["episodic"] = capacity[0]
-                config["capacity"]["semantic"] = capacity[1]
-                config["policy"]["episodic"]["forget"] = forget
-                config["policy"]["episodic"]["answer"] = answer
-                config["pretrained_semantic"] = None
-
-                configs.append(config)
-
-    capacities = [
-        (2, 0),
-        (4, 0),
-        (8, 0),
-        (16, 0),
-        (32, 0),
-        (64, 0),
-        (128, 0),
-        (256, 0),
-        (512, 0),
-        (1024, 0),
-    ]
-    for capacity in capacities:
-        for forget in ["weakest", "random"]:
-            for answer in ["strongest", "random"]:
-
-                config = {
-                    "memory_type": None,
-                    "policy": {
-                        "episodic": {"forget": None, "answer": None},
-                        "semantic": {"forget": None, "answer": None},
-                    },
-                    "save_at": None,
-                    "data_path": "./data/data.json",
-                    "capacity": {"episodic": None, "semantic": None},
-                    "pretrained_semantic": None,
-                    "question_path": "./data/questions.json",
-                    "seed": 42,
-                }
-                config["memory_type"] = "semantic"
-                config["capacity"]["episodic"] = capacity[1]
-                config["capacity"]["semantic"] = capacity[0]
-                config["policy"]["semantic"]["forget"] = forget
-                config["policy"]["semantic"]["answer"] = answer
-                config["pretrained_semantic"] = None
-
-                configs.append(config)
-
-    capacities = [
-        (1, 1),
-        (2, 2),
-        (4, 4),
-        (8, 8),
-        (16, 16),
-        (32, 32),
-        (64, 64),
-        (128, 128),
-        (256, 256),
-        (512, 512),
-    ]
-    for capacity in capacities:
-        for forget_semantic in ["weakest", "random"]:
-            for answer_semantic in ["strongest", "random"]:
-                for forget_episodic in ["oldest", "random"]:
-                    for answer_episodic in ["latest", "random"]:
-
+        for forget in [
+            {"episodic": "oldest", "semantic": "weakest"},
+            {"episodic": "random", "semantic": "random"},
+        ]:
+            for answer in [
+                {"episodic": "latest", "semantic": "strongest"},
+                {"episodic": "random", "semantic": "random"},
+            ]:
+                for memory_type in ["episodic", "semantic"]:
+                    for seed in seeds:
                         config = {
-                            "memory_type": None,
+                            "memory_type": memory_type,
                             "policy": {
                                 "episodic": {"forget": None, "answer": None},
                                 "semantic": {"forget": None, "answer": None},
                             },
                             "save_at": None,
-                            "data_path": "./data/data.json",
-                            "capacity": {"episodic": None, "semantic": None},
-                            "pretrained_semantic": None,
-                            "question_path": "./data/questions.json",
-                            "seed": 42,
+                            "names_path": names_path,
+                            "capacity": {"episodic": 0, "semantic": 0},
+                            "semantic_knowledge_path": semantic_knowledge_path,
+                            "pretrain_semantic": False,
+                            "max_history": max_history,
+                            "seed": seed,
+                            "commonsense_prob": commonsense_prob,
+                            "weighting_mode": weighting_mode,
                         }
-
-                        config["memory_type"] = "both"
-                        config["capacity"]["episodic"] = capacity[0]
-                        config["capacity"]["semantic"] = capacity[1]
-                        config["policy"]["semantic"]["forget"] = forget_semantic
-                        config["policy"]["semantic"]["answer"] = answer_semantic
-                        config["policy"]["episodic"]["forget"] = forget_episodic
-                        config["policy"]["episodic"]["answer"] = answer_episodic
-                        config["pretrained_semantic"] = None
+                        config["capacity"][memory_type] = capacity * 2
+                        config["policy"][memory_type]["forget"] = forget[memory_type]
+                        config["policy"][memory_type]["answer"] = answer[memory_type]
 
                         configs.append(config)
 
-    capacities = [
-        (1, 1),
-        (2, 2),
-        (4, 4),
-        (8, 8),
-        (16, 16),
-        (32, 32),
-        (64, 64),
-        (128, 128),
-        (256, 256),
-        (512, 512),
-    ]
     for capacity in capacities:
         for forget_semantic in ["weakest", "random"]:
             for answer_semantic in ["strongest", "random"]:
                 for forget_episodic in ["oldest", "random"]:
                     for answer_episodic in ["latest", "random"]:
+                        for pretrain_semantic in [True, False]:
+                            for seed in seeds:
+                                config = {
+                                    "memory_type": "both",
+                                    "policy": {
+                                        "episodic": {"forget": None, "answer": None},
+                                        "semantic": {"forget": None, "answer": None},
+                                    },
+                                    "save_at": None,
+                                    "names_path": names_path,
+                                    "capacity": {
+                                        "episodic": capacity,
+                                        "semantic": capacity,
+                                    },
+                                    "semantic_knowledge_path": semantic_knowledge_path,
+                                    "pretrain_semantic": None,
+                                    "max_history": max_history,
+                                    "seed": seed,
+                                    "commonsense_prob": commonsense_prob,
+                                    "weighting_mode": weighting_mode,
+                                }
+                                config["policy"]["semantic"]["forget"] = forget_semantic
+                                config["policy"]["semantic"]["answer"] = answer_semantic
+                                config["policy"]["episodic"]["forget"] = forget_episodic
+                                config["policy"]["episodic"]["answer"] = answer_episodic
+                                config["pretrain_semantic"] = pretrain_semantic
 
-                        config = {
-                            "memory_type": None,
-                            "policy": {
-                                "episodic": {"forget": None, "answer": None},
-                                "semantic": {"forget": None, "answer": None},
-                            },
-                            "save_at": None,
-                            "data_path": "./data/data.json",
-                            "capacity": {"episodic": None, "semantic": None},
-                            "pretrained_semantic": None,
-                            "question_path": "./data/questions.json",
-                            "seed": 42,
-                        }
-
-                        config["memory_type"] = "both"
-                        config["capacity"]["episodic"] = capacity[0]
-                        config["capacity"]["semantic"] = capacity[1]
-                        config["policy"]["semantic"]["forget"] = forget_semantic
-                        config["policy"]["semantic"]["answer"] = answer_semantic
-                        config["policy"]["episodic"]["forget"] = forget_episodic
-                        config["policy"]["episodic"]["answer"] = answer_episodic
-                        config["pretrained_semantic"] = "./data/semantic-knowledge.json"
-
-                        configs.append(config)
+                                configs.append(config)
 
     logging.info(f"In total of {len(configs)} configs generated!")
     return configs
@@ -214,15 +126,15 @@ if __name__ == "__main__":
             logging.debug(f"Creating a directory at {config['save_at']} ...")
             os.makedirs(config["save_at"], exist_ok=True)
 
-            config_path = f"training-results/{current_time}/train-hand-crafted.yaml"
+            config_path = f"training-results/{current_time}/train-hand-crafted.json"
             logging.debug(f"Writing a config path at {config_path} ...")
             configs_batch_paths.append(config_path)
-            write_yaml(config, config_path)
+            write_json(config, config_path)
 
             time.sleep(1)
 
         commands = [
-            f"nohup python train-hand-crafted.py --config {cp} > {cp.replace('yaml','log')}"
+            f"nohup python train-hand-crafted.py --config {cp} > {cp.replace('json','log')}"
             for cp in configs_batch_paths
         ]
 

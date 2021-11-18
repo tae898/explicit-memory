@@ -2,47 +2,50 @@
 relation: /r/AtLocation
 
 # Where to save raw queried conceptnet data path
-raw_data_path: ./data/conceptnet-data.json
+conceptnet_data_path: ./data/conceptnet-data.json
 
-# Where to save the stats of the raw data
-dataset_stats_path: ./data/dataset-stats.json
+# Whether to download the conceptnet data again or not.
+conceptnet_data_refresh: false
 
 # Where to save pre-trained semantic (factual) knowledge
 semantic_knowledge_path: ./data/semantic-knowledge.json
 
-# Where to save semantic observations
-semantic_obs_path: ./data/observations-semantic.csv
-
 # "highest" chooses the one with the highest weight, "weighted" chooses all of them by weight,
 # and null chooses every single one of them without weighting.
-weighting_mode: highest
+weighting_mode: weighted
 
-# Number of repeats for semantic observations to increase data size
-num_repeat: 128
+# # Where to save the stats of the raw data
+# dataset_stats_path: ./data/dataset-stats.json
 
-# factor for episodic observations. 2 means it will generate twice as much
-episodic_factor: 1
+# # Where to save common observations
+# common_obs_path: ./data/common-observations.csv
 
-# Where to save episodic observations
-episodic_obs_path: ./data/observations-episodic.csv
+# # Where to save noncommon observations
+# noncommon_obs_path: ./data/non-common-observations.csv
 
-# Where to save all observations
-all_obs_path: ./data/observations-all.csv
+# # Number of repeats for common observations to increase data size
+# num_repeat: 1
 
-# Where to save train, val, test splits
-final_data_path: ./data/data.json
+# # factor for noncommon observations. 2 means it will generate twice as much
+# episodic_factor: 1
 
-# validation split ratio
-val_ratio: 0.1
+# # Where to save all observations
+# all_obs_path: ./data/all-observations.csv
 
-# test split ratio
-test_ratio: 0.1
+# # Where to save train, val, test splits
+# final_data_path: ./data/data.json
 
-# where to save questions
-question_path: ./data/questions.json
+# # validation split ratio
+# val_ratio: 0.1
 
-# mock time delay between observations. 3600 seconds is one hour
-delay_seconds: 1
+# # test split ratio
+# test_ratio: 0.1
 
-# set the earliest time to zero for convenience
-time_zero: true 
+# # where to save questions
+# question_path: ./data/questions.json
+
+# # mock time delay between observations. 3600 seconds is one hour
+# delay_seconds: 1
+
+# # set the earliest time to zero for convenience
+# time_zero: true

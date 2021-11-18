@@ -1,0 +1,2 @@
+CORRECT = 1
+WRONG = 0

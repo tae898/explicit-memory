@@ -1,232 +1,1294 @@
 {
     "person": {
         "AtLocation": [
-            "building"
+            {
+                "tail": "building",
+                "weight": 2
+            },
+            {
+                "tail": "garage",
+                "weight": 2
+            },
+            {
+                "tail": "hospital",
+                "weight": 2
+            },
+            {
+                "tail": "desk",
+                "weight": 1
+            },
+            {
+                "tail": "theater",
+                "weight": 1
+            },
+            {
+                "tail": "family",
+                "weight": 1
+            },
+            {
+                "tail": "opera",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            },
+            {
+                "tail": "conference",
+                "weight": 1
+            }
         ]
     },
     "bicycle": {
         "AtLocation": [
-            "garage"
+            {
+                "tail": "garage",
+                "weight": 7
+            },
+            {
+                "tail": "street",
+                "weight": 7
+            },
+            {
+                "tail": "lab",
+                "weight": 1
+            },
+            {
+                "tail": "shed",
+                "weight": 1
+            },
+            {
+                "tail": "university",
+                "weight": 1
+            },
+            {
+                "tail": "park",
+                "weight": 1
+            },
+            {
+                "tail": "store",
+                "weight": 1
+            }
         ]
     },
     "car": {
         "AtLocation": [
-            "city"
+            {
+                "tail": "city",
+                "weight": 7
+            },
+            {
+                "tail": "road",
+                "weight": 4
+            },
+            {
+                "tail": "parade",
+                "weight": 1
+            },
+            {
+                "tail": "highway",
+                "weight": 1
+            },
+            {
+                "tail": "land",
+                "weight": 1
+            },
+            {
+                "tail": "driveway",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            }
         ]
     },
     "motorcycle": {
         "AtLocation": [
-            "garage"
+            {
+                "tail": "garage",
+                "weight": 4
+            }
         ]
     },
     "airplane": {
         "AtLocation": [
-            "sky"
+            {
+                "tail": "sky",
+                "weight": 7
+            },
+            {
+                "tail": "air",
+                "weight": 4
+            }
         ]
     },
     "bus": {
         "AtLocation": [
-            "city"
+            {
+                "tail": "city",
+                "weight": 3
+            },
+            {
+                "tail": "street",
+                "weight": 1
+            },
+            {
+                "tail": "school",
+                "weight": 1
+            },
+            {
+                "tail": "garage",
+                "weight": 1
+            }
         ]
     },
     "truck": {
         "AtLocation": [
-            "garage"
+            {
+                "tail": "garage",
+                "weight": 2
+            },
+            {
+                "tail": "road",
+                "weight": 1
+            }
         ]
     },
     "boat": {
         "AtLocation": [
-            "water"
+            {
+                "tail": "water",
+                "weight": 8
+            },
+            {
+                "tail": "lake",
+                "weight": 4
+            },
+            {
+                "tail": "harbor",
+                "weight": 3
+            },
+            {
+                "tail": "ocean",
+                "weight": 3
+            },
+            {
+                "tail": "bay",
+                "weight": 1
+            },
+            {
+                "tail": "garage",
+                "weight": 1
+            }
         ]
     },
     "bench": {
         "AtLocation": [
-            "garden"
+            {
+                "tail": "garden",
+                "weight": 1
+            },
+            {
+                "tail": "lawn",
+                "weight": 1
+            }
         ]
     },
     "bird": {
         "AtLocation": [
-            "tree"
+            {
+                "tail": "tree",
+                "weight": 4
+            },
+            {
+                "tail": "nest",
+                "weight": 4
+            },
+            {
+                "tail": "sky",
+                "weight": 4
+            },
+            {
+                "tail": "forest",
+                "weight": 3
+            },
+            {
+                "tail": "roof",
+                "weight": 3
+            },
+            {
+                "tail": "cage",
+                "weight": 3
+            },
+            {
+                "tail": "air",
+                "weight": 2
+            },
+            {
+                "tail": "sea",
+                "weight": 2
+            },
+            {
+                "tail": "wild",
+                "weight": 1
+            },
+            {
+                "tail": "countryside",
+                "weight": 1
+            },
+            {
+                "tail": "bush",
+                "weight": 1
+            },
+            {
+                "tail": "garden",
+                "weight": 1
+            },
+            {
+                "tail": "lawn",
+                "weight": 1
+            }
         ]
     },
     "cat": {
         "AtLocation": [
-            "lap"
+            {
+                "tail": "lap",
+                "weight": 10
+            },
+            {
+                "tail": "bed",
+                "weight": 9
+            },
+            {
+                "tail": "vet",
+                "weight": 4
+            },
+            {
+                "tail": "chair",
+                "weight": 4
+            },
+            {
+                "tail": "table",
+                "weight": 4
+            },
+            {
+                "tail": "floor",
+                "weight": 4
+            },
+            {
+                "tail": "barn",
+                "weight": 4
+            },
+            {
+                "tail": "rug",
+                "weight": 3
+            },
+            {
+                "tail": "backyard",
+                "weight": 3
+            },
+            {
+                "tail": "bag",
+                "weight": 3
+            },
+            {
+                "tail": "home",
+                "weight": 3
+            },
+            {
+                "tail": "roof",
+                "weight": 3
+            },
+            {
+                "tail": "closet",
+                "weight": 3
+            },
+            {
+                "tail": "house",
+                "weight": 3
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "heat",
+                "weight": 2
+            },
+            {
+                "tail": "outside",
+                "weight": 2
+            },
+            {
+                "tail": "sofa",
+                "weight": 2
+            },
+            {
+                "tail": "nature",
+                "weight": 2
+            },
+            {
+                "tail": "residence",
+                "weight": 1
+            },
+            {
+                "tail": "bedroom",
+                "weight": 1
+            },
+            {
+                "tail": "town",
+                "weight": 1
+            },
+            {
+                "tail": "arms",
+                "weight": 1
+            },
+            {
+                "tail": "ground",
+                "weight": 1
+            }
         ]
     },
     "dog": {
         "AtLocation": [
-            "table"
+            {
+                "tail": "table",
+                "weight": 6
+            },
+            {
+                "tail": "park",
+                "weight": 5
+            },
+            {
+                "tail": "porch",
+                "weight": 3
+            },
+            {
+                "tail": "backyard",
+                "weight": 3
+            },
+            {
+                "tail": "house",
+                "weight": 3
+            },
+            {
+                "tail": "rug",
+                "weight": 3
+            },
+            {
+                "tail": "bed",
+                "weight": 2
+            },
+            {
+                "tail": "couch",
+                "weight": 2
+            },
+            {
+                "tail": "outside",
+                "weight": 1
+            },
+            {
+                "tail": "desk",
+                "weight": 1
+            },
+            {
+                "tail": "ground",
+                "weight": 1
+            }
         ]
     },
     "horse": {
         "AtLocation": [
-            "circus"
+            {
+                "tail": "circus",
+                "weight": 4
+            },
+            {
+                "tail": "country",
+                "weight": 3
+            },
+            {
+                "tail": "parade",
+                "weight": 2
+            },
+            {
+                "tail": "trailer",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            },
+            {
+                "tail": "history",
+                "weight": 1
+            },
+            {
+                "tail": "outside",
+                "weight": 1
+            },
+            {
+                "tail": "gate",
+                "weight": 1
+            }
         ]
     },
     "sheep": {
         "AtLocation": [
-            "farm"
+            {
+                "tail": "farm",
+                "weight": 2
+            },
+            {
+                "tail": "fair",
+                "weight": 1
+            }
         ]
     },
     "cow": {
         "AtLocation": [
-            "countryside"
+            {
+                "tail": "countryside",
+                "weight": 5
+            },
+            {
+                "tail": "stable",
+                "weight": 3
+            },
+            {
+                "tail": "grass",
+                "weight": 1
+            },
+            {
+                "tail": "swamp",
+                "weight": 1
+            },
+            {
+                "tail": "outdoors",
+                "weight": 1
+            },
+            {
+                "tail": "fence",
+                "weight": 1
+            }
         ]
     },
     "elephant": {
         "AtLocation": [
-            "circus"
+            {
+                "tail": "circus",
+                "weight": 5
+            },
+            {
+                "tail": "africa",
+                "weight": 3
+            },
+            {
+                "tail": "india",
+                "weight": 1
+            }
         ]
     },
     "bear": {
         "AtLocation": [
-            "park"
+            {
+                "tail": "park",
+                "weight": 1
+            },
+            {
+                "tail": "countryside",
+                "weight": 1
+            }
         ]
     },
     "umbrella": {
         "AtLocation": [
-            "closet"
+            {
+                "tail": "closet",
+                "weight": 4
+            },
+            {
+                "tail": "car",
+                "weight": 3
+            },
+            {
+                "tail": "beach",
+                "weight": 2
+            },
+            {
+                "tail": "store",
+                "weight": 1
+            },
+            {
+                "tail": "suitcase",
+                "weight": 1
+            }
         ]
     },
     "suitcase": {
         "AtLocation": [
-            "airplane"
+            {
+                "tail": "airplane",
+                "weight": 1
+            },
+            {
+                "tail": "taxi",
+                "weight": 1
+            }
         ]
     },
     "bottle": {
         "AtLocation": [
-            "store"
+            {
+                "tail": "store",
+                "weight": 1
+            },
+            {
+                "tail": "fridge",
+                "weight": 1
+            },
+            {
+                "tail": "supermarket",
+                "weight": 1
+            }
         ]
     },
     "cup": {
         "AtLocation": [
-            "table"
+            {
+                "tail": "table",
+                "weight": 4
+            },
+            {
+                "tail": "dishwasher",
+                "weight": 3
+            },
+            {
+                "tail": "shelf",
+                "weight": 3
+            },
+            {
+                "tail": "kitchen",
+                "weight": 2
+            },
+            {
+                "tail": "closet",
+                "weight": 2
+            },
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "cafe",
+                "weight": 1
+            },
+            {
+                "tail": "counter",
+                "weight": 1
+            },
+            {
+                "tail": "restaurant",
+                "weight": 1
+            },
+            {
+                "tail": "sink",
+                "weight": 1
+            }
         ]
     },
     "knife": {
         "AtLocation": [
-            "kitchen"
+            {
+                "tail": "kitchen",
+                "weight": 7
+            },
+            {
+                "tail": "pocket",
+                "weight": 3
+            },
+            {
+                "tail": "backpack",
+                "weight": 1
+            },
+            {
+                "tail": "plate",
+                "weight": 1
+            },
+            {
+                "tail": "war",
+                "weight": 1
+            },
+            {
+                "tail": "table",
+                "weight": 1
+            }
         ]
     },
     "spoon": {
         "AtLocation": [
-            "bowl"
+            {
+                "tail": "bowl",
+                "weight": 3
+            },
+            {
+                "tail": "dinner",
+                "weight": 3
+            },
+            {
+                "tail": "table",
+                "weight": 1
+            },
+            {
+                "tail": "soup",
+                "weight": 1
+            },
+            {
+                "tail": "hand",
+                "weight": 1
+            },
+            {
+                "tail": "bed",
+                "weight": 1
+            },
+            {
+                "tail": "dishwasher",
+                "weight": 1
+            }
         ]
     },
     "bowl": {
         "AtLocation": [
-            "cupboard"
+            {
+                "tail": "cupboard",
+                "weight": 7
+            },
+            {
+                "tail": "cabinet",
+                "weight": 1
+            },
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "table",
+                "weight": 1
+            },
+            {
+                "tail": "restaurant",
+                "weight": 1
+            },
+            {
+                "tail": "sink",
+                "weight": 1
+            },
+            {
+                "tail": "refrigerator",
+                "weight": 1
+            },
+            {
+                "tail": "dishwasher",
+                "weight": 1
+            }
         ]
     },
     "banana": {
         "AtLocation": [
-            "pantry"
+            {
+                "tail": "pantry",
+                "weight": 1
+            },
+            {
+                "tail": "stomach",
+                "weight": 1
+            }
         ]
     },
     "apple": {
         "AtLocation": [
-            "refrigerator"
+            {
+                "tail": "refrigerator",
+                "weight": 1
+            },
+            {
+                "tail": "house",
+                "weight": 1
+            },
+            {
+                "tail": "fridge",
+                "weight": 1
+            }
         ]
     },
     "sandwich": {
         "AtLocation": [
-            "plate"
+            {
+                "tail": "plate",
+                "weight": 1
+            },
+            {
+                "tail": "fridge",
+                "weight": 1
+            }
         ]
     },
     "broccoli": {
         "AtLocation": [
-            "plate"
+            {
+                "tail": "plate",
+                "weight": 1
+            }
         ]
     },
     "pizza": {
         "AtLocation": [
-            "oven"
+            {
+                "tail": "oven",
+                "weight": 4
+            },
+            {
+                "tail": "plate",
+                "weight": 2
+            },
+            {
+                "tail": "restaurant",
+                "weight": 1
+            }
         ]
     },
     "cake": {
         "AtLocation": [
-            "bakery"
+            {
+                "tail": "bakery",
+                "weight": 5
+            },
+            {
+                "tail": "party",
+                "weight": 4
+            },
+            {
+                "tail": "oven",
+                "weight": 3
+            },
+            {
+                "tail": "refrigerator",
+                "weight": 1
+            },
+            {
+                "tail": "plate",
+                "weight": 1
+            }
         ]
     },
     "chair": {
         "AtLocation": [
-            "office"
+            {
+                "tail": "office",
+                "weight": 8
+            },
+            {
+                "tail": "desk",
+                "weight": 7
+            },
+            {
+                "tail": "porch",
+                "weight": 3
+            },
+            {
+                "tail": "room",
+                "weight": 3
+            },
+            {
+                "tail": "church",
+                "weight": 3
+            },
+            {
+                "tail": "kitchen",
+                "weight": 3
+            },
+            {
+                "tail": "floor",
+                "weight": 2
+            },
+            {
+                "tail": "lobby",
+                "weight": 1
+            },
+            {
+                "tail": "theatre",
+                "weight": 1
+            },
+            {
+                "tail": "dentist",
+                "weight": 1
+            },
+            {
+                "tail": "airport",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            },
+            {
+                "tail": "university",
+                "weight": 1
+            },
+            {
+                "tail": "building",
+                "weight": 1
+            },
+            {
+                "tail": "bedroom",
+                "weight": 1
+            }
         ]
     },
     "couch": {
         "AtLocation": [
-            "house"
+            {
+                "tail": "house",
+                "weight": 5
+            },
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "loft",
+                "weight": 1
+            },
+            {
+                "tail": "party",
+                "weight": 1
+            },
+            {
+                "tail": "room",
+                "weight": 1
+            }
         ]
     },
     "bed": {
         "AtLocation": [
-            "house"
+            {
+                "tail": "house",
+                "weight": 4
+            },
+            {
+                "tail": "room",
+                "weight": 3
+            },
+            {
+                "tail": "hospital",
+                "weight": 3
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "loft",
+                "weight": 2
+            },
+            {
+                "tail": "basement",
+                "weight": 1
+            }
         ]
     },
     "toilet": {
         "AtLocation": [
-            "bathroom"
+            {
+                "tail": "bathroom",
+                "weight": 7
+            },
+            {
+                "tail": "house",
+                "weight": 4
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "stadium",
+                "weight": 2
+            },
+            {
+                "tail": "hospital",
+                "weight": 2
+            },
+            {
+                "tail": "hotel",
+                "weight": 1
+            },
+            {
+                "tail": "restaurant",
+                "weight": 1
+            }
         ]
     },
     "laptop": {
         "AtLocation": [
-            "desk"
+            {
+                "tail": "desk",
+                "weight": 1
+            }
         ]
     },
     "mouse": {
         "AtLocation": [
-            "garage"
+            {
+                "tail": "garage",
+                "weight": 6
+            },
+            {
+                "tail": "laboratory",
+                "weight": 6
+            },
+            {
+                "tail": "kitchen",
+                "weight": 5
+            },
+            {
+                "tail": "cupboard",
+                "weight": 5
+            },
+            {
+                "tail": "trap",
+                "weight": 5
+            },
+            {
+                "tail": "cellar",
+                "weight": 4
+            },
+            {
+                "tail": "desk",
+                "weight": 4
+            },
+            {
+                "tail": "hole",
+                "weight": 4
+            },
+            {
+                "tail": "sewer",
+                "weight": 4
+            },
+            {
+                "tail": "desktop",
+                "weight": 3
+            },
+            {
+                "tail": "pantry",
+                "weight": 3
+            },
+            {
+                "tail": "garden",
+                "weight": 3
+            },
+            {
+                "tail": "grain",
+                "weight": 2
+            },
+            {
+                "tail": "office",
+                "weight": 2
+            },
+            {
+                "tail": "cat",
+                "weight": 2
+            },
+            {
+                "tail": "box",
+                "weight": 1
+            },
+            {
+                "tail": "field",
+                "weight": 1
+            },
+            {
+                "tail": "grass",
+                "weight": 1
+            },
+            {
+                "tail": "shelf",
+                "weight": 1
+            },
+            {
+                "tail": "farm",
+                "weight": 1
+            }
         ]
     },
     "keyboard": {
         "AtLocation": [
-            "desk"
+            {
+                "tail": "desk",
+                "weight": 4
+            },
+            {
+                "tail": "office",
+                "weight": 2
+            },
+            {
+                "tail": "piano",
+                "weight": 1
+            },
+            {
+                "tail": "desktop",
+                "weight": 1
+            },
+            {
+                "tail": "school",
+                "weight": 1
+            },
+            {
+                "tail": "finger",
+                "weight": 1
+            }
         ]
     },
     "microwave": {
         "AtLocation": [
-            "apartment"
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "kitchen",
+                "weight": 1
+            }
         ]
     },
     "oven": {
         "AtLocation": [
-            "home"
+            {
+                "tail": "home",
+                "weight": 2
+            },
+            {
+                "tail": "prison",
+                "weight": 1
+            },
+            {
+                "tail": "restaurant",
+                "weight": 1
+            },
+            {
+                "tail": "stove",
+                "weight": 1
+            }
         ]
     },
     "sink": {
         "AtLocation": [
-            "kitchen"
+            {
+                "tail": "kitchen",
+                "weight": 7
+            },
+            {
+                "tail": "house",
+                "weight": 3
+            },
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "home",
+                "weight": 1
+            },
+            {
+                "tail": "laboratory",
+                "weight": 1
+            }
         ]
     },
     "refrigerator": {
         "AtLocation": [
-            "garage"
+            {
+                "tail": "garage",
+                "weight": 3
+            },
+            {
+                "tail": "home",
+                "weight": 2
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "house",
+                "weight": 1
+            }
         ]
     },
     "book": {
         "AtLocation": [
-            "classroom"
+            {
+                "tail": "classroom",
+                "weight": 6
+            },
+            {
+                "tail": "shelf",
+                "weight": 5
+            },
+            {
+                "tail": "university",
+                "weight": 4
+            },
+            {
+                "tail": "desk",
+                "weight": 3
+            },
+            {
+                "tail": "store",
+                "weight": 3
+            },
+            {
+                "tail": "backpack",
+                "weight": 3
+            },
+            {
+                "tail": "bedroom",
+                "weight": 2
+            },
+            {
+                "tail": "closet",
+                "weight": 2
+            },
+            {
+                "tail": "table",
+                "weight": 2
+            },
+            {
+                "tail": "house",
+                "weight": 2
+            },
+            {
+                "tail": "library",
+                "weight": 2
+            },
+            {
+                "tail": "bed",
+                "weight": 1
+            },
+            {
+                "tail": "floor",
+                "weight": 1
+            },
+            {
+                "tail": "suitcase",
+                "weight": 1
+            }
         ]
     },
     "clock": {
         "AtLocation": [
-            "desk"
+            {
+                "tail": "desk",
+                "weight": 4
+            },
+            {
+                "tail": "house",
+                "weight": 3
+            },
+            {
+                "tail": "shelf",
+                "weight": 3
+            },
+            {
+                "tail": "wall",
+                "weight": 2
+            },
+            {
+                "tail": "office",
+                "weight": 2
+            },
+            {
+                "tail": "car",
+                "weight": 1
+            },
+            {
+                "tail": "store",
+                "weight": 1
+            },
+            {
+                "tail": "table",
+                "weight": 1
+            },
+            {
+                "tail": "airport",
+                "weight": 1
+            }
         ]
     },
     "vase": {
         "AtLocation": [
-            "table"
+            {
+                "tail": "table",
+                "weight": 4
+            },
+            {
+                "tail": "shelf",
+                "weight": 2
+            },
+            {
+                "tail": "cabinet",
+                "weight": 1
+            }
         ]
     },
     "scissors": {
         "AtLocation": [
-            "desk"
+            {
+                "tail": "desk",
+                "weight": 3
+            },
+            {
+                "tail": "cabinet",
+                "weight": 2
+            },
+            {
+                "tail": "house",
+                "weight": 1
+            },
+            {
+                "tail": "backpack",
+                "weight": 1
+            }
         ]
     },
     "toothbrush": {
         "AtLocation": [
-            "suitcase"
+            {
+                "tail": "suitcase",
+                "weight": 4
+            },
+            {
+                "tail": "dentist",
+                "weight": 2
+            },
+            {
+                "tail": "mouth",
+                "weight": 2
+            },
+            {
+                "tail": "store",
+                "weight": 1
+            },
+            {
+                "tail": "bedroom",
+                "weight": 1
+            },
+            {
+                "tail": "cabinet",
+                "weight": 1
+            }
         ]
     }
 }
