@@ -1,9 +1,10 @@
-import os
 import logging
+import os
 import random
 from pprint import pformat
-from .utils import read_json
+
 from .constants import CORRECT, WRONG
+from .utils import read_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -35,6 +36,30 @@ class Memory:
         self._frozen = False
 
         logging.debug(f"{memory_type} memory object with size {capacity} instantiated!")
+
+    def __eq__(self, other):
+        eps = 0.01
+        if self.memory_type != other.memory_type:
+            return False
+        if self.capacity != other.capacity:
+            return False
+        if self._frozen != other._frozen:
+            return False
+
+        if len(self.entries) != len(other.entries):
+            return False
+
+        for se, oe in zip(self.entries, other.entries):
+            if se[0] != oe[0]:
+                return False
+            if se[1] != oe[1]:
+                return False
+            if se[2] != oe[2]:
+                return False
+            if abs(se[3] - oe[3]) > eps:
+                return False
+
+        return True
 
     def __repr__(self):
 
@@ -69,7 +94,7 @@ class Memory:
 
         return False
 
-    def forget(self, mem: list):
+    def forget(self, mem: list) -> None:
         """forget the given memory.
 
         Args
@@ -91,6 +116,11 @@ class Memory:
         logging.debug(f"Forgetting {mem} ...")
         self.entries.remove(mem)
         logging.info(f"{mem} forgotten!")
+
+    def forget_all(self) -> None:
+        """Forget everything in the memory system!"""
+        logging.warning("EVERYTHING IN THE MEMORY SYSTEM WILL BE FORGOTTEN!")
+        self.entries = []
 
     @property
     def is_empty(self) -> bool:
@@ -172,7 +202,8 @@ class Memory:
         mem = random.choice(self.entries)
         self.forget(mem)
 
-    def remove_name(self, entity: str) -> str:
+    @staticmethod
+    def remove_name(entity: str) -> str:
         """Remove name from the entity.
 
         Args
@@ -182,7 +213,8 @@ class Memory:
         """
         return entity.split()[-1]
 
-    def is_question_valid(self, question) -> bool:
+    @staticmethod
+    def is_question_valid(question) -> bool:
         """Check if the given question is valid.
 
         Args
@@ -421,7 +453,8 @@ class EpisodicMemory(Memory):
 
         return reward, pred, correct_answer
 
-    def ob2epi(self, ob: list):
+    @staticmethod
+    def ob2epi(ob: list):
         """Turn an observation into an episodic memory.
 
         At the moment, an observation is the same as an episodic memory for
@@ -440,7 +473,8 @@ class EpisodicMemory(Memory):
 
         return mem_epi
 
-    def remove_timestamp(self, entry: list) -> list:
+    @staticmethod
+    def remove_timestamp(entry: list) -> list:
         """Remove the timestamp from a given observation/episodic memory.
 
         Args
@@ -704,7 +738,8 @@ class SemanticMemory(Memory):
 
         return reward, pred, correct_answer
 
-    def ob2sem(self, ob: list) -> list:
+    @staticmethod
+    def ob2sem(ob: list) -> list:
         """Turn an observation into a semantic memory.
 
         At the moment, this is simply done by removing the names from the head and the
@@ -719,9 +754,9 @@ class SemanticMemory(Memory):
         assert len(ob) == 4
         logging.debug(f"Turning an observation {ob} into a semantic memory ...")
         # split to remove the name
-        head = self.remove_name(ob[0])
+        head = Memory.remove_name(ob[0])
         relation = ob[1]
-        tail = self.remove_name(ob[2])
+        tail = Memory.remove_name(ob[2])
 
         # 1 stands for the 1 generalized.
         mem_sem = [head, relation, tail, 1]
@@ -729,7 +764,8 @@ class SemanticMemory(Memory):
 
         return mem_sem
 
-    def eq2sq(self, episodic_question) -> list:
+    @staticmethod
+    def eq2sq(episodic_question) -> list:
         """Turn an episodic question to a semantic question.
 
         At the moment, this is simply done by removing the names from the head and the
@@ -741,7 +777,7 @@ class SemanticMemory(Memory):
             (i.e., (head, relation, tail))
 
         """
-        if not self.is_question_valid(episodic_question):
+        if not Memory.is_question_valid(episodic_question):
             raise ValueError
 
         logging.debug(
@@ -749,9 +785,9 @@ class SemanticMemory(Memory):
             f"question ..."
         )
         # split to remove the name
-        head = self.remove_name(episodic_question[0])
+        head = Memory.remove_name(episodic_question[0])
         relation = episodic_question[1]
-        tail = self.remove_name(episodic_question[2])
+        tail = Memory.remove_name(episodic_question[2])
 
         semantic_question = [head, relation, tail]
         logging.info(

@@ -1,13 +1,14 @@
 """Hand crafted training"""
+import argparse
 import logging
 import os
 import random
-import argparse
-from pprint import pformat
-from memory.environments import OQAGenerator
-from memory.utils import write_json, read_json
-from memory import EpisodicMemory, SemanticMemory
 from copy import deepcopy
+from pprint import pformat
+
+from memory import EpisodicMemory, SemanticMemory
+from memory.environments import OQAGenerator
+from memory.utils import read_json, write_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -313,21 +314,21 @@ def train_both_episodic_and_semantic(
                         else:
                             raise NotImplementedError
 
-            question_epi = question_answer
-            question_sem = M_s.eq2sq(question_epi)
+            qa_epi = question_answer
+            qa_sem = M_s.eq2sq(qa_epi)
 
             if policy["episodic"]["answer"].lower() == "latest":
-                if M_e.is_answerable(question_epi):
-                    reward, _, _ = M_e.answer_latest(question_epi)
+                if M_e.is_answerable(qa_epi):
+                    reward, _, _ = M_e.answer_latest(qa_epi)
                 else:
                     if policy["semantic"]["answer"].lower() == "strongest":
-                        reward, _, _ = M_s.answer_strongest(question_sem)
+                        reward, _, _ = M_s.answer_strongest(qa_sem)
                     elif policy["semantic"]["answer"].lower() == "random":
-                        reward, _, _ = M_s.answer_random(question_sem)
+                        reward, _, _ = M_s.answer_random(qa_sem)
                     else:
                         raise NotImplementedError
             elif policy["episodic"]["answer"].lower() == "random":
-                reward, _, _ = M_e.answer_random(question_epi)
+                reward, _, _ = M_e.answer_random(qa_epi)
             else:
                 raise NotImplementedError
 

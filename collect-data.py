@@ -2,8 +2,8 @@
 import logging
 import os
 import random
-from collections import Counter
 import time
+from collections import Counter
 
 import requests
 from tqdm import tqdm

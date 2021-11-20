@@ -1,9 +1,11 @@
-from memory.environments import OQAGenerator
-from memory import EpisodicMemory, SemanticMemory
-from memory.utils import write_json
 import random
-from tqdm import tqdm
 from copy import deepcopy
+
+from tqdm import tqdm
+
+from memory import EpisodicMemory, SemanticMemory
+from memory.environments import OQAGenerator
+from memory.utils import write_json
 
 seed = 42
 
@@ -17,7 +19,7 @@ def sanity_check(results):
                 rewards += 1
 
         assert rewards == results["rewards"][split]
-        assert len(results[split]) == results['max_history']
+        assert len(results[split]) == results["max_history"]
 
 
 for max_history in tqdm([128]):
@@ -30,7 +32,7 @@ for max_history in tqdm([128]):
             "max_history": max_history,
             "capacity": capacity,
             "rewards": {"train": None, "val": None, "test": None},
-            "accuracy": {"train": None, "val": None, "test": None}
+            "accuracy": {"train": None, "val": None, "test": None},
         }
 
         oqag = OQAGenerator(
@@ -59,13 +61,13 @@ for max_history in tqdm([128]):
                     else:
                         M_e.forget_oldest()
 
-                question_epi = question_answer
-                question_sem = M_s.eq2sq(question_epi)
+                qa_epi = question_answer
+                qa_sem = M_s.eq2sq(qa_epi)
 
-                if M_e.is_answerable(question_epi):
-                    reward, pred, correct_answer = M_e.answer_latest(question_epi)
+                if M_e.is_answerable(qa_epi):
+                    reward, pred, correct_answer = M_e.answer_latest(qa_epi)
                 else:
-                    reward, pred, correct_answer = M_s.answer_strongest(question_sem)
+                    reward, pred, correct_answer = M_s.answer_strongest(qa_sem)
 
                 rewards += reward
                 results[split].append(

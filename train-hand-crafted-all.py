@@ -1,11 +1,13 @@
 import argparse
-import time
-from subprocess import Popen
-from tqdm import tqdm
-from memory.utils import write_json
 import logging
 import os
+import time
 from datetime import datetime
+from subprocess import Popen
+
+from tqdm import tqdm
+
+from memory.utils import write_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
