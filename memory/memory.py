@@ -2,6 +2,7 @@ import logging
 import os
 import random
 from pprint import pformat
+from typing import List, Tuple
 
 from .constants import CORRECT, WRONG
 from .utils import read_json
@@ -493,6 +494,28 @@ class EpisodicMemory(Memory):
         logging.info(f"Timestamp is removed from {entry}: {entry_without_timestamp}")
 
         return entry_without_timestamp
+
+    @staticmethod
+    def split_name_entity(name_entity: str) -> Tuple[str, str]:
+        """Separate name and entity from the given string.
+
+        Args
+        ----
+        name_entity: e.g., "Tae's laptop"
+
+        Returns
+        -------
+        name: e.g., Tae
+        entity: e.g., laptop
+
+        """
+        logging.debug(f"splitin name and entity fromn {name_entity}")
+        splitted = name_entity.split()
+        assert len(splitted) == 2 and "'" in splitted[0]
+        name = splitted[0].split("'")[0]
+        entity = splitted[1]
+
+        return name, entity
 
     def get_similar(self, entries: list = None):
         """Find N episodic memories that can be compressed into one semantic.
