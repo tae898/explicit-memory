@@ -5,11 +5,10 @@ import time
 from pprint import pformat
 from typing import List, Tuple
 import numpy as np
-
-from gym import spaces
 from gym.spaces import Space
 
-from .constants import CORRECT, MAX_INT_32, WRONG
+
+from .constants import MAX_INT_32, TIME_OFFSET
 from .memory import Memory, EpisodicMemory, SemanticMemory
 from .utils import read_json
 
@@ -254,7 +253,7 @@ class OQAGenerator:
         tail = name + posessive + " " + tail
 
         # unix timestamp in seconds (including decimal points)
-        timestamp = time.time()
+        timestamp = time.time() - TIME_OFFSET
         ob = [head, relation, tail, timestamp]
         logging.info(f"A new observation generated: {ob}")
 
@@ -467,7 +466,7 @@ class MemorySpace(Space):
             relation = row[1]
             tail = row[2]
             name2, location = M_e.split_name_entity(tail)
-            timestamp = row[3]
+            timestamp = np.float32(row[3])
 
             assert name1 == name2
 
@@ -507,7 +506,7 @@ class MemorySpace(Space):
             relation = self.oqag.number2string(int(row[2]))
             name2 = self.oqag.number2string(int(row[3]))
             location = self.oqag.number2string(int(row[4]))
-            timestamp = row[5]
+            timestamp = np.float32(row[5])
 
             assert name1 == name2
 
@@ -531,7 +530,7 @@ class MemorySpace(Space):
         return entries
 
     def semantic_memory_system_to_numbers(
-        self, M_s: SemanticMemory, ms_max: int, pad_zero: bool = False
+        self, M_s: SemanticMemory, ms_max: int, pad: bool = False
     ) -> np.ndarray:
         """Convert a given semantic memory system to numbers.
 
@@ -541,7 +540,7 @@ class MemorySpace(Space):
         ----
         M_s: Semantic memory object
         ms_max: maximum number of semantic memories (rows)
-        pad_zero: This makes the number of columns 6, not 4.
+        pad: This makes the number of columns 6, not 4.
 
         Returns
         -------
@@ -550,7 +549,7 @@ class MemorySpace(Space):
         """
         logging.debug("Converting the semantic memory system to a numpy array ...")
 
-        if pad_zero:
+        if pad:
             NUM_COLUMNS = 6
             state_string = M_s.entries.copy()
             state_numeric = np.zeros((ms_max, NUM_COLUMNS), dtype=np.float32)
@@ -699,7 +698,7 @@ class MemorySpace(Space):
         qa_epi: episodic question and answer, [head, relation, tail]
 
         """
-        logging.deubg("Converting the numpy array to an episodic qa ...")
+        logging.debug("Converting the numpy array to an episodic qa ...")
 
         assert qa_num.shape == (1, 6)
 
@@ -715,7 +714,7 @@ class MemorySpace(Space):
 
         qa_epi = [f"{name1}'s {obj}", relation, f"{name2}'s {location}"]
 
-        logging.deubg("The numpy array has been converted to an episodic qa!")
+        logging.info("The numpy array has been converted to an episodic qa!")
 
         return qa_epi
 
@@ -762,7 +761,7 @@ class MemorySpace(Space):
         qa_sem: semantic question and answer, [head, relation, tail]
 
         """
-        logging.deubg("Converting the numpy array to an episodic qa ...")
+        logging.debug("Converting the numpy array to an episodic qa ...")
         assert qa_num.shape == (1, 4)
 
         obj = self.oqag.number2string(int(qa_num[0][0]))
@@ -773,18 +772,18 @@ class MemorySpace(Space):
         assert answer == "<answer>"
 
         qa_sem = [obj, relation, location]
-        logging.deubg("The numpy array has been converted to a semantic qa!")
+        logging.info("The numpy array has been converted to a semantic qa!")
 
         return qa_sem
 
     def sample(self):
         """Sample a state."""
-        self.oqag.reset()
+        logging.debug(f"Sampling a state from the {self.space_type} space ...")
         self.M_e.forget_all()
         self.M_s.forget_all()
 
         me_max = self.M_e.capacity
-        ms_max = self.M_e.capacity
+        ms_max = self.M_s.capacity
 
         if self.space_type in [
             "episodic_memory_manage",
@@ -795,7 +794,8 @@ class MemorySpace(Space):
             ms_max += 1
 
         if self.M_e.capacity > 0:
-            for _ in range(random.randint(1, me_max)):
+            self.oqag.reset()
+            for _ in range(random.randint(0, self.M_e.capacity)):
                 ob, _ = self.oqag.generate(generate_qa=False)
                 mem_epi = self.M_e.ob2epi(ob)
                 self.M_e.add(mem_epi)
@@ -803,7 +803,8 @@ class MemorySpace(Space):
             qa_epi = qa
 
         if self.M_s.capacity > 0:
-            for _ in range(random.randint(1, ms_max)):
+            self.oqag.reset()
+            for _ in range(random.randint(0, self.M_s.capacity)):
                 ob, _ = self.oqag.generate(generate_qa=False)
                 mem_sem = self.M_s.ob2sem(ob)
                 self.M_s.add(mem_sem)
@@ -825,13 +826,13 @@ class MemorySpace(Space):
 
         elif self.space_type == "semantic_memory_manage":
             state_numeric = self.semantic_memory_system_to_numbers(
-                self.M_s, ms_max, pad_zero=False
+                self.M_s, ms_max, pad=False
             )
 
             return state_numeric
 
         elif self.space_type == "semantic_question_answer":
-            state_numeric_1 = self.episodic_memory_system_to_numbers(self.M_s, me_max)
+            state_numeric_1 = self.semantic_memory_system_to_numbers(self.M_s, ms_max)
             state_numeric_2 = self.semantic_question_answer_to_numbers(qa_sem)
 
             state_numeric = np.concatenate([state_numeric_1, state_numeric_2])
@@ -846,7 +847,7 @@ class MemorySpace(Space):
         elif self.space_type == "episodic_semantic_question_answer":
             state_numeric_1 = self.episodic_memory_system_to_numbers(self.M_e, me_max)
             state_numeric_2 = self.semantic_memory_system_to_numbers(
-                self.M_s, ms_max, pad_zero=True
+                self.M_s, ms_max, pad=True
             )
             state_numeric_3 = self.episodic_question_answer_to_numbers(qa_epi)
 
@@ -952,7 +953,8 @@ class MemorySpace(Space):
 
         """
         assert state_numeric.shape[1] in [4, 6]
-        if self.oqag.number2string(int(state_numeric[-1][-1])) == "<answer>":
+
+        if state_numeric[-1][-1] == self.oqag.string2number("<answer>"):
             is_qa = True
         else:
             is_qa = False

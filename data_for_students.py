@@ -12,7 +12,7 @@ seed = 42
 
 def sanity_check(results):
     """Check if things add up."""
-    for split in ["train", "val", "test"]:
+    for split in ["val", "test"]:
         rewards = 0
         for result in results[split]:
             if result["prediction_hand_crafted"] == result["correct_answer"]:
@@ -26,19 +26,18 @@ for max_history in tqdm([128]):
     for capacity in [1, 2, 4, 8, 16, 32, 64]:
 
         results = {
-            "train": [],
             "val": [],
             "test": [],
             "max_history": max_history,
             "capacity": capacity,
-            "rewards": {"train": None, "val": None, "test": None},
-            "accuracy": {"train": None, "val": None, "test": None},
+            "rewards": {"val": None, "test": None},
+            "accuracy": {"val": None, "test": None},
         }
 
         oqag = OQAGenerator(
             max_history=max_history, weighting_mode="highest", commonsense_prob=0.5
         )
-        for split_idx, split in enumerate(["train", "val", "test"]):
+        for split_idx, split in enumerate(["val", "test"]):
             random.seed(seed + split_idx)
             oqag.reset()
             M_e = EpisodicMemory(capacity)
@@ -48,6 +47,7 @@ for max_history in tqdm([128]):
             for idx in range(max_history):
 
                 ob, question_answer = oqag.generate()
+                ob[-1] += 86400 * idx + 1000000000
                 mem_epi = M_e.ob2epi(ob)
                 M_e.add(mem_epi)
                 if M_e.is_kinda_full:
