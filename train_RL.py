@@ -18,7 +18,7 @@ class EpisodicMemoryManageEnv(gym.Env):
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "highest",
         commonsense_prob: float = 0.5,
-        memory_manage: str = "hand_crafted",
+        memory_manage: str = "RL_train",
         question_answer: str = "hand_crafted",
     ) -> None:
         """
@@ -36,18 +36,17 @@ class EpisodicMemoryManageEnv(gym.Env):
             without weighting.
         commonsense_prob: the probability of an observation being covered by a
             commonsense
-        memory_manage: either "hand_crafted", "RL_train", or "RL_trained". Note that at
+        memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
             this point `memory_manage` and `question_answer` can't be "RL" at the same
             time.
-        question_answer: either "hand_crafted", "RL_trained". Note that at
+        question_answer: either "random", "latest", "RL_trained". Note that at
             this point `memory_manage` and `question_answer` can't be "RL" at the same
             time.
 
         """
         super().__init__()
-        assert memory_manage in ["hand_crafted", "RL_train", "RL_trained"]
-        assert question_answer in ["hand_crafted", "RL_train", "RL_trained"]
-        assert not (memory_manage == "RL_train" and question_answer == "RL_train")
+        assert memory_manage in ["random", "oldest", "RL_train", "RL_trained"]
+        assert question_answer in ["random", "latest", "RL_trained"]
 
         self.memory_manage = memory_manage
         self.question_answer = question_answer
@@ -60,10 +59,10 @@ class EpisodicMemoryManageEnv(gym.Env):
             weighting_mode,
             commonsense_prob,
         )
-        self.n_actions = 139
+        self.n_actions = self.capacity["episodic"] + 1
         self.action_space = spaces.Discrete(self.n_actions)
         self.M_e = EpisodicMemory(self.capacity["episodic"])
-        space_type = "episodic_question_answer"
+        space_type = "episodic_memory_manage"
 
         self.observation_space = MemorySpace(
             capacity,
@@ -74,96 +73,62 @@ class EpisodicMemoryManageEnv(gym.Env):
             weighting_mode,
             commonsense_prob,
         )
-        # self.time_zero = 100000
-        # self.time_delta = 100
-        # self.counter = 0
 
     def reset(self):
         self.oqag.reset()
         self.M_e.forget_all()
 
-        ob, qa = self.oqag.generate(generate_qa=True)
+        ob, self.qa = self.oqag.generate(generate_qa=True)
         mem_epi = self.M_e.ob2epi(ob)
         self.M_e.add(mem_epi)
 
-        state_numeric_1 = self.observation_space.episodic_memory_system_to_numbers(
-            self.M_e, self.M_e.capacity
+        state_numeric = self.observation_space.episodic_memory_system_to_numbers(
+            self.M_e, self.M_e.capacity + 1
         )
-        state_numeric_2 = self.observation_space.episodic_question_answer_to_numbers(qa)
 
-        next_state = np.concatenate([state_numeric_1, state_numeric_2])
-
-        self.qa = qa
-
-        return next_state
+        return state_numeric
 
     def step(self, action):
         # import pdb; pdb.set_trace()
 
-        # if self.M_e.is_kinda_full:
-        #     if self.memory_manage == "hand_crafted":
-        #         self.M_e.forget_oldest()
-        #         # self.M_e.forget_random()
-        #     # elif self.memory_manage == "RL_train":
-        #     #     print(f"ACTION: {action}")
-        #     #     mem = self.M_e.entries[action]
-        #     #     self.M_e.forget(mem)
-        #     # elif self.memory_manage == "RL_trained":
-        #     #     pass
-        #     else:
-        #         raise ValueError
+        if self.M_e.is_kinda_full:
+            if self.memory_manage == "oldest":
+                self.M_e.forget_oldest()
+            elif self.memory_manage == "random":
+                self.M_e.forget_random()
+            elif self.memory_manage == "RL_train":
+                mem = self.M_e.entries[action]
+                self.M_e.forget(mem)
+            elif self.memory_manage == "RL_trained":
+                raise NotImplementedError
+            else:
+                raise ValueError
 
-        # if self.question_answer == "hand_crafted":
-        #     raise ValueError
-
-        # elif self.question_answer == "RL_train":
-        reward_, _, correct_answer = self.M_e.answer_latest(self.qa)
-
-        pred = self.oqag.number2string(action + 10000)
-        if pred == correct_answer:
-            reward = CORRECT
+        if self.question_answer == "latest":
+            reward, pred, correct_answer = self.M_e.answer_latest(self.qa)
+        elif self.question_answer == "random":
+            reward, pred, correct_answer = self.M_e.answer_random(self.qa)
+        elif self.question_answer == "RL_trained":
+            raise NotImplementedError
         else:
-            reward = WRONG
-
-        # elif self.question_answer == "RL_trained":
-        #     pass
-        # else:
-        #     raise ValueError
+            raise ValueError
 
         ob, self.qa = self.oqag.generate(generate_qa=True)
         mem_epi = self.M_e.ob2epi(ob)
         self.M_e.add(mem_epi)
 
-        # ob[-1] = np.float32(self.time_zero + (self.counter * self.time_delta))
-
-        state_numeric_1 = self.observation_space.episodic_memory_system_to_numbers(
-            self.M_e, self.M_e.capacity
+        state_numeric = self.observation_space.episodic_memory_system_to_numbers(
+            self.M_e, self.M_e.capacity + 1
         )
-        state_numeric_2 = self.observation_space.episodic_question_answer_to_numbers(
-            self.qa
-        )
-
-        next_state = np.concatenate([state_numeric_1, state_numeric_2])
-
-        # mem_epi = self.M_e.ob2epi(ob)
-        # self.M_e.add(mem_epi)
 
         if self.oqag.is_full:
-            print(f"TAETAETAE DONE FULL")
             done = True
         else:
             done = False
 
         info = {}
 
-        # next_state = self.observation_space.episodic_memory_system_to_numbers(
-        #     self.M_e, self.me_max
-        # )
-
-        # import pdb; pdb.set_trace()
-
-        # self.counter += 1
-        return next_state, reward, done, info
+        return state_numeric, reward, done, info
 
     def render(self, mode="console"):
         if mode != "console":
@@ -401,7 +366,6 @@ class DQNLightning(LightningModule):
         memory_manage: str,
         question_answer: str,
         max_history: int,
-        num_actions: int,
         batch_size: int = 1,
         lr: float = 1e-2,
         env: str = "CartPole-v0",
@@ -448,8 +412,8 @@ class DQNLightning(LightningModule):
         # self.net = DQN(obs_size, n_actions)
         # self.target_net = DQN(obs_size, n_actions)
 
-        self.net = DQN(num_rows, num_cols, num_actions)
-        self.target_net = DQN(num_rows, num_cols, num_actions)
+        self.net = DQN(num_rows, num_cols, num_rows)
+        self.target_net = DQN(num_rows, num_cols, num_rows)
 
         self.buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = Agent(self.env, self.buffer)
@@ -580,11 +544,10 @@ class DQNLightning(LightningModule):
 if __name__ == "__main__":
 
     model = DQNLightning(
-        capacity={"episodic": 1024, "semantic": 0},
-        memory_manage="hand_crafted",
-        question_answer="RL_train",
-        batch_size=4,
-        num_actions=139,
+        capacity={"episodic": 256, "semantic": 0},
+        memory_manage="oldest",
+        question_answer="latest",
+        batch_size=1,
         lr=1e-2,
         gamma=0.99,
         sync_rate=10,
@@ -593,14 +556,14 @@ if __name__ == "__main__":
         eps_last_frame=1000,
         eps_start=1.0,
         eps_end=0.01,
-        episode_length=200,
+        episode_length=256,
         warm_start_steps=1000,
         max_history=1024,
     )
 
     trainer = Trainer(
         gpus=1,
-        max_epochs=1000,
+        max_epochs=50,
         val_check_interval=1,
     )
 

@@ -259,8 +259,15 @@ class OQAGenerator:
 
         return ob
 
-    def generate_question_answer(self) -> List[str]:
+    def generate_question_answer(self, recent_more_likely: bool = True) -> List[str]:
         """Generate a question based on the observation history.
+
+        The recent observations are more likely to be questions.
+
+        Args
+        ----
+        recent_more_likely: put more weights on the recent observations when random
+            sampling so that they are more likely
 
         Returns
         -------
@@ -272,14 +279,24 @@ class OQAGenerator:
         logging.debug("Generating a question and answer based on the history ...")
         heads_covered = []
         questions = []
-        for ob in self.history[::-1]:
+        for ob in self.history[::-1].copy():  # we start from latest first
             head = ob[0]
+            # This way the question only asks the latest location of an object
             if head not in heads_covered:
                 questions.append(ob)
                 heads_covered.append(head)
 
+        # now we start from oldest first
+        questions = questions[::-1]
+        if recent_more_likely:
+            # The recent observations are more likely to be questions
+            question_answer = random.choices(
+                questions, weights=[i + 1 for i in range(len(questions))], k=1
+            )[0]
+        else:
+            question_answer = random.choice(questions)
         # -1 removes the timestamp
-        question_answer = random.choice(questions)[:-1]
+        question_answer = question_answer[:-1]
         logging.info(f"Generated question and answer is {question_answer}")
 
         return question_answer
@@ -299,7 +316,9 @@ class OQAGenerator:
         self.history.append(ob)
         logging.info(f"observation {ob} is added to history!")
 
-    def generate(self, generate_qa: bool = True) -> Tuple[list, List[str]]:
+    def generate(
+        self, generate_qa: bool = True, recent_more_likely: bool = True
+    ) -> Tuple[list, List[str]]:
         """Generate an observation, question, and answer.
 
         Everything comes from a uniform random distribution.
@@ -308,6 +327,8 @@ class OQAGenerator:
         ----
         generate_qa: Whether to generate a question and answer along with
             observation or not.
+        recent_more_likely: put more weights on the recent observations when random
+            sampling so that they are more likely
 
         Returns
         --------
@@ -323,7 +344,7 @@ class OQAGenerator:
         self.add_observation_to_history(ob)
         logging.info("The new observation is added to the history.")
         if generate_qa:
-            qa = self.generate_question_answer()
+            qa = self.generate_question_answer(recent_more_likely)
         else:
             qa = None
 
@@ -1008,13 +1029,17 @@ class MemorySpace(Space):
                 memories = x[:-1, :]
                 qa = x[-1, :]
 
-                if self.oqag.number2string(int(qa[0])) not in self.oqag.names + ["<pad>"]:
+                if self.oqag.number2string(int(qa[0])) not in self.oqag.names + [
+                    "<pad>"
+                ]:
                     return False
                 if self.oqag.number2string(int(qa[1])) not in self.oqag.heads:
                     return False
                 if self.oqag.number2string(int(qa[2])) not in self.oqag.relations:
                     return False
-                if self.oqag.number2string(int(qa[3])) not in self.oqag.names + ["<pad>"]:
+                if self.oqag.number2string(int(qa[3])) not in self.oqag.names + [
+                    "<pad>"
+                ]:
                     return False
                 if self.oqag.number2string(int(qa[4])) not in self.oqag.tails:
                     return False

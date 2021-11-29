@@ -14,7 +14,7 @@ Data is collected from querying ConceptNet APIs. For simplicity, we only collect
 If you want to collect the data manually, then run below:
 
 ```
-python collect-data.py
+python collect_data.py
 ```
 
 Otherwise, just use `./data/data.json`

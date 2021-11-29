@@ -55,7 +55,6 @@ class DataCollector:
 
         self.read_mscoco()
         self.read_names()
-        self.read_dirty_tails()
         os.makedirs("./data", exist_ok=True)
 
         logging.info("DataCollector object successfully instantiated!")
@@ -94,22 +93,6 @@ class DataCollector:
             f"Reading {path} complete! There are {len(self.names)} names in total"
         )
 
-    def read_dirty_tails(self, path: str = "./data/dirty_tails") -> None:
-        """Read dirty tails.
-
-        Args
-        ----
-        path: The path to the dirty tail list.
-
-        """
-        logging.debug(f"Reading {path} ...")
-        with open(path, "r") as stream:
-            self.dirty_tails = stream.readlines()
-        self.dirty_tails = [line.strip() for line in self.dirty_tails]
-        logging.info(
-            f"Reading {path} complete! There are {len(self.dirty_tails)} dirty tails!"
-        )
-
     def get_from_conceptnet(self) -> None:
         """Get data from ConceptNet API by HTTP get query."""
         logging.debug("retrieving data from conceptnet ...")
@@ -134,16 +117,14 @@ class DataCollector:
                 self.raw_data[object_category] = []
 
                 for edge in tqdm(response["edges"]):
-
-                    if self.is_clean(edge):
-                        self.raw_data[object_category].append(
-                            {
-                                "start": edge["start"],
-                                "end": edge["end"],
-                                "weight": edge["weight"],
-                                "surfaceText": edge["surfaceText"],
-                            }
-                        )
+                    self.raw_data[object_category].append(
+                        {
+                            "start": edge["start"],
+                            "end": edge["end"],
+                            "weight": edge["weight"],
+                            "surfaceText": edge["surfaceText"],
+                        }
+                    )
 
             write_json(self.raw_data, self.conceptnet_data_path)
             logging.info(
@@ -190,32 +171,15 @@ class DataCollector:
         write_json(self.semantic_knowledge, self.semantic_knowledge_path)
         logging.info(f"semantic knowledge saved at {self.semantic_knowledge_path} ...")
 
-    def is_clean(self, edge: dict) -> None:
-        """See if conceptnet query is clean or not.
-
-        I really tried to accept as much noise as possible, since I didn't want
-        to manually clean the data, but some are really dirty. I gotta clean them.
-
-        Args
-        ----
-        edge: edge from the ConceptNet query output.
-
-        """
-        logging.debug(f"Checking if {edge} is clean or not ...")
-        if edge["end"]["@id"].split("/")[-1] in self.dirty_tails:
-            return False
-        else:
-            return True
-
 
 def main(**kwargs) -> None:
-    """Collect data. See ./collect-data.yaml for the config."""
+    """Collect data. See ./collect_data.yaml for the config."""
     dc = DataCollector(**kwargs)
     dc.get_from_conceptnet()
 
 
 if __name__ == "__main__":
-    config = read_yaml("./collect-data.yaml")
+    config = read_yaml("./collect_data.yaml")
     print("Arguments:")
     for k, v in config.items():
         print(f"  {k:>21} : {v}")

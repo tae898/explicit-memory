@@ -128,7 +128,7 @@ if __name__ == "__main__":
             logging.debug(f"Creating a directory at {config['save_at']} ...")
             os.makedirs(config["save_at"], exist_ok=True)
 
-            config_path = f"training-results/{current_time}/train-hand-crafted.json"
+            config_path = f"training-results/{current_time}/train_hand_crafted.json"
             logging.debug(f"Writing a config path at {config_path} ...")
             configs_batch_paths.append(config_path)
             write_json(config, config_path)
@@ -136,7 +136,7 @@ if __name__ == "__main__":
             time.sleep(1)
 
         commands = [
-            f"nohup python train-hand-crafted.py --config {cp} > {cp.replace('json','log')}"
+            f"nohup python train_hand_crafted.py --config {cp} > {cp.replace('json','log')}"
             for cp in configs_batch_paths
         ]
 

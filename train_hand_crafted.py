@@ -102,7 +102,7 @@ def train_only_episodic(
     results["capacity"] = capacity
     results["memory_type"] = "episodic"
 
-    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    config = read_json(os.path.join(save_at, "train_hand_crafted.json"))
     results.update(config)
 
     write_json(results, os.path.join(save_at, "results.json"))
@@ -205,7 +205,7 @@ def train_only_semantic(
     results["capacity"] = capacity
     results["memory_type"] = "semantic"
     results["pretrain_semantic"] = pretrain_semantic
-    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    config = read_json(os.path.join(save_at, "train_hand_crafted.json"))
     results.update(config)
     write_json(results, os.path.join(save_at, "results.json"))
     logging.info(
@@ -347,7 +347,7 @@ def train_both_episodic_and_semantic(
     results["capacity"] = capacity
     results["memory_type"] = "both"
     results["pretrain_semantic"] = pretrain_semantic
-    config = read_json(os.path.join(save_at, "train-hand-crafted.json"))
+    config = read_json(os.path.join(save_at, "train_hand_crafted.json"))
     results.update(config)
     write_json(results, os.path.join(save_at, "results.json"))
     logging.info(
@@ -436,7 +436,7 @@ def main(
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="train handcrafted policies")
-    parser.add_argument("--config", type=str, default="train-hand-crafted.json")
+    parser.add_argument("--config", type=str, default="train_hand_crafted.json")
     args = parser.parse_args()
 
     config = read_json(args.config)
