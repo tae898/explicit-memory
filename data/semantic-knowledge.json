@@ -6,19 +6,27 @@
                 "weight": 2
             },
             {
-                "tail": "garage",
-                "weight": 2
-            },
-            {
                 "tail": "hospital",
                 "weight": 2
             },
             {
-                "tail": "desk",
+                "tail": "garage",
+                "weight": 2
+            },
+            {
+                "tail": "quandry",
+                "weight": 2
+            },
+            {
+                "tail": "bus_stop",
+                "weight": 2
+            },
+            {
+                "tail": "synagogue",
                 "weight": 1
             },
             {
-                "tail": "theater",
+                "tail": "fairy_tale",
                 "weight": 1
             },
             {
@@ -30,11 +38,51 @@
                 "weight": 1
             },
             {
+                "tail": "conference",
+                "weight": 1
+            },
+            {
+                "tail": "space_shuttle",
+                "weight": 1
+            },
+            {
+                "tail": "corner_of_two_streets",
+                "weight": 1
+            },
+            {
+                "tail": "demonstration",
+                "weight": 1
+            },
+            {
+                "tail": "street_corner",
+                "weight": 1
+            },
+            {
+                "tail": "desk",
+                "weight": 1
+            },
+            {
                 "tail": "show",
                 "weight": 1
             },
             {
-                "tail": "conference",
+                "tail": "universe",
+                "weight": 1
+            },
+            {
+                "tail": "water_cooler",
+                "weight": 1
+            },
+            {
+                "tail": "zoo",
+                "weight": 1
+            },
+            {
+                "tail": "phine_directory",
+                "weight": 1
+            },
+            {
+                "tail": "theater",
                 "weight": 1
             }
         ]
@@ -50,16 +98,8 @@
                 "weight": 7
             },
             {
-                "tail": "lab",
-                "weight": 1
-            },
-            {
-                "tail": "shed",
-                "weight": 1
-            },
-            {
-                "tail": "university",
-                "weight": 1
+                "tail": "toy_store",
+                "weight": 3
             },
             {
                 "tail": "park",
@@ -67,6 +107,34 @@
             },
             {
                 "tail": "store",
+                "weight": 1
+            },
+            {
+                "tail": "university",
+                "weight": 1
+            },
+            {
+                "tail": "shed",
+                "weight": 1
+            },
+            {
+                "tail": "lab",
+                "weight": 1
+            },
+            {
+                "tail": "netherlands",
+                "weight": 1
+            },
+            {
+                "tail": "schoolyard",
+                "weight": 1
+            },
+            {
+                "tail": "triatholon",
+                "weight": 1
+            },
+            {
+                "tail": "bicycle_shop",
                 "weight": 1
             }
         ]
@@ -78,11 +146,39 @@
                 "weight": 7
             },
             {
+                "tail": "parking_lot",
+                "weight": 7
+            },
+            {
+                "tail": "repair_shop",
+                "weight": 6
+            },
+            {
                 "tail": "road",
                 "weight": 4
             },
             {
-                "tail": "parade",
+                "tail": "freeway",
+                "weight": 4
+            },
+            {
+                "tail": "car_show",
+                "weight": 3
+            },
+            {
+                "tail": "race_track",
+                "weight": 3
+            },
+            {
+                "tail": "car_dealership",
+                "weight": 3
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 2
+            },
+            {
+                "tail": "land",
                 "weight": 1
             },
             {
@@ -90,7 +186,27 @@
                 "weight": 1
             },
             {
-                "tail": "land",
+                "tail": "scrapyard",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            },
+            {
+                "tail": "packinglot",
+                "weight": 1
+            },
+            {
+                "tail": "in_phoenix",
+                "weight": 1
+            },
+            {
+                "tail": "car_park",
+                "weight": 1
+            },
+            {
+                "tail": "parking_garage",
                 "weight": 1
             },
             {
@@ -98,7 +214,23 @@
                 "weight": 1
             },
             {
-                "tail": "show",
+                "tail": "scrap_heap",
+                "weight": 1
+            },
+            {
+                "tail": "parade",
+                "weight": 1
+            },
+            {
+                "tail": "street_corner",
+                "weight": 1
+            },
+            {
+                "tail": "motel",
+                "weight": 1
+            },
+            {
+                "tail": "corner_of_two_streets",
                 "weight": 1
             }
         ]
@@ -120,17 +252,69 @@
             {
                 "tail": "air",
                 "weight": 4
+            },
+            {
+                "tail": "military_base",
+                "weight": 2
+            },
+            {
+                "tail": "hanger",
+                "weight": 2
+            },
+            {
+                "tail": "airplane_hangar",
+                "weight": 1
+            },
+            {
+                "tail": "hangar",
+                "weight": 1
             }
         ]
     },
     "bus": {
         "AtLocation": [
             {
+                "tail": "bus_stop",
+                "weight": 5
+            },
+            {
                 "tail": "city",
                 "weight": 3
             },
             {
+                "tail": "bus_station",
+                "weight": 3
+            },
+            {
+                "tail": "artifact",
+                "weight": 2
+            },
+            {
+                "tail": "michigan",
+                "weight": 1
+            },
+            {
+                "tail": "seats",
+                "weight": 1
+            },
+            {
+                "tail": "big_cities",
+                "weight": 1
+            },
+            {
+                "tail": "computer",
+                "weight": 1
+            },
+            {
                 "tail": "street",
+                "weight": 1
+            },
+            {
+                "tail": "garage",
+                "weight": 1
+            },
+            {
+                "tail": "use",
                 "weight": 1
             },
             {
@@ -138,7 +322,15 @@
                 "weight": 1
             },
             {
-                "tail": "garage",
+                "tail": "new_york",
+                "weight": 1
+            }
+        ]
+    },
+    "train": {
+        "AtLocation": [
+            {
+                "tail": "zoo",
                 "weight": 1
             }
         ]
@@ -151,6 +343,10 @@
             },
             {
                 "tail": "road",
+                "weight": 1
+            },
+            {
+                "tail": "freeway",
                 "weight": 1
             }
         ]
@@ -174,11 +370,63 @@
                 "weight": 3
             },
             {
-                "tail": "bay",
-                "weight": 1
+                "tail": "river",
+                "weight": 3
+            },
+            {
+                "tail": "river",
+                "weight": 2
             },
             {
                 "tail": "garage",
+                "weight": 1
+            },
+            {
+                "tail": "bay",
+                "weight": 1
+            }
+        ]
+    },
+    "traffic_light": {
+        "AtLocation": [
+            {
+                "tail": "corner_of_two_streets",
+                "weight": 3
+            },
+            {
+                "tail": "street",
+                "weight": 1
+            }
+        ]
+    },
+    "fire_hydrant": {
+        "AtLocation": [
+            {
+                "tail": "corner_of_two_streets",
+                "weight": 1
+            },
+            {
+                "tail": "street_corner",
+                "weight": 1
+            }
+        ]
+    },
+    "stop_sign": {
+        "AtLocation": [
+            {
+                "tail": "corner_of_two_streets",
+                "weight": 3
+            },
+            {
+                "tail": "street_corner",
+                "weight": 2
+            },
+            {
+                "tail": "fork_in_road",
+                "weight": 2
+            },
+            {
+                "tail": "bus_stop",
                 "weight": 1
             }
         ]
@@ -186,11 +434,35 @@
     "bench": {
         "AtLocation": [
             {
+                "tail": "bus_stop",
+                "weight": 4
+            },
+            {
+                "tail": "bus_depot",
+                "weight": 3
+            },
+            {
+                "tail": "train_station",
+                "weight": 3
+            },
+            {
+                "tail": "state_park",
+                "weight": 2
+            },
+            {
                 "tail": "garden",
                 "weight": 1
             },
             {
+                "tail": "rest_area",
+                "weight": 1
+            },
+            {
                 "tail": "lawn",
+                "weight": 1
+            },
+            {
+                "tail": "dugout",
                 "weight": 1
             }
         ]
@@ -214,11 +486,11 @@
                 "weight": 3
             },
             {
-                "tail": "roof",
+                "tail": "cage",
                 "weight": 3
             },
             {
-                "tail": "cage",
+                "tail": "roof",
                 "weight": 3
             },
             {
@@ -226,11 +498,19 @@
                 "weight": 2
             },
             {
+                "tail": "birdbath",
+                "weight": 2
+            },
+            {
                 "tail": "sea",
                 "weight": 2
             },
             {
-                "tail": "wild",
+                "tail": "branch_of_tree",
+                "weight": 1
+            },
+            {
+                "tail": "garden",
                 "weight": 1
             },
             {
@@ -242,11 +522,15 @@
                 "weight": 1
             },
             {
-                "tail": "garden",
+                "tail": "windowsill",
                 "weight": 1
             },
             {
                 "tail": "lawn",
+                "weight": 1
+            },
+            {
+                "tail": "wild",
                 "weight": 1
             }
         ]
@@ -262,6 +546,10 @@
                 "weight": 9
             },
             {
+                "tail": "windowsill",
+                "weight": 7
+            },
+            {
                 "tail": "vet",
                 "weight": 4
             },
@@ -274,19 +562,23 @@
                 "weight": 4
             },
             {
-                "tail": "floor",
-                "weight": 4
-            },
-            {
                 "tail": "barn",
                 "weight": 4
             },
             {
-                "tail": "rug",
+                "tail": "way",
+                "weight": 4
+            },
+            {
+                "tail": "floor",
+                "weight": 4
+            },
+            {
+                "tail": "home",
                 "weight": 3
             },
             {
-                "tail": "backyard",
+                "tail": "rug",
                 "weight": 3
             },
             {
@@ -294,15 +586,19 @@
                 "weight": 3
             },
             {
-                "tail": "home",
+                "tail": "backyard",
                 "weight": 3
             },
             {
-                "tail": "roof",
+                "tail": "back_yard",
                 "weight": 3
             },
             {
-                "tail": "closet",
+                "tail": "alley",
+                "weight": 3
+            },
+            {
+                "tail": "cat_box",
                 "weight": 3
             },
             {
@@ -310,11 +606,19 @@
                 "weight": 3
             },
             {
-                "tail": "apartment",
-                "weight": 2
+                "tail": "closet",
+                "weight": 3
             },
             {
-                "tail": "heat",
+                "tail": "zoo",
+                "weight": 3
+            },
+            {
+                "tail": "roof",
+                "weight": 3
+            },
+            {
+                "tail": "cat_litter_tray",
                 "weight": 2
             },
             {
@@ -322,7 +626,35 @@
                 "weight": 2
             },
             {
+                "tail": "appartments",
+                "weight": 2
+            },
+            {
+                "tail": "warm_place",
+                "weight": 2
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "it's_basket",
+                "weight": 2
+            },
+            {
+                "tail": "alleyway",
+                "weight": 2
+            },
+            {
+                "tail": "heat",
+                "weight": 2
+            },
+            {
                 "tail": "sofa",
+                "weight": 2
+            },
+            {
+                "tail": "beam_of_sunlight",
                 "weight": 2
             },
             {
@@ -330,29 +662,89 @@
                 "weight": 2
             },
             {
-                "tail": "residence",
+                "tail": "art",
                 "weight": 1
             },
             {
-                "tail": "bedroom",
+                "tail": "dirt",
                 "weight": 1
             },
             {
-                "tail": "town",
+                "tail": "attic",
                 "weight": 1
             },
             {
-                "tail": "arms",
+                "tail": "field",
                 "weight": 1
             },
             {
-                "tail": "ground",
+                "tail": "owner's_home",
+                "weight": 1
+            },
+            {
+                "tail": "lava_pit",
+                "weight": 1
+            },
+            {
+                "tail": "africa",
+                "weight": 1
+            },
+            {
+                "tail": "catlover's_home",
+                "weight": 1
+            },
+            {
+                "tail": "kitchen",
+                "weight": 1
+            },
+            {
+                "tail": "american_home",
+                "weight": 1
+            },
+            {
+                "tail": "warm_bed",
+                "weight": 1
+            },
+            {
+                "tail": "sun",
+                "weight": 1
+            },
+            {
+                "tail": "kitty_litter_bin",
+                "weight": 1
+            },
+            {
+                "tail": "be",
+                "weight": 1
+            },
+            {
+                "tail": "family_room",
+                "weight": 1
+            },
+            {
+                "tail": "relaxed_position",
+                "weight": 1
+            },
+            {
+                "tail": "sitting_on_chair",
+                "weight": 1
+            },
+            {
+                "tail": "persons_house",
+                "weight": 1
+            },
+            {
+                "tail": "curled_position",
                 "weight": 1
             }
         ]
     },
     "dog": {
         "AtLocation": [
+            {
+                "tail": "kennel",
+                "weight": 9
+            },
             {
                 "tail": "table",
                 "weight": 6
@@ -362,15 +754,19 @@
                 "weight": 5
             },
             {
-                "tail": "porch",
-                "weight": 3
+                "tail": "doghouse",
+                "weight": 4
+            },
+            {
+                "tail": "dog_house",
+                "weight": 4
             },
             {
                 "tail": "backyard",
                 "weight": 3
             },
             {
-                "tail": "house",
+                "tail": "porch",
                 "weight": 3
             },
             {
@@ -378,15 +774,59 @@
                 "weight": 3
             },
             {
-                "tail": "bed",
-                "weight": 2
+                "tail": "house",
+                "weight": 3
             },
             {
                 "tail": "couch",
                 "weight": 2
             },
             {
+                "tail": "bed",
+                "weight": 2
+            },
+            {
+                "tail": "leash",
+                "weight": 2
+            },
+            {
+                "tail": "dogpound",
+                "weight": 2
+            },
+            {
+                "tail": "farmyard",
+                "weight": 1
+            },
+            {
+                "tail": "pound",
+                "weight": 1
+            },
+            {
+                "tail": "petshop",
+                "weight": 1
+            },
+            {
+                "tail": "front_door",
+                "weight": 1
+            },
+            {
                 "tail": "outside",
+                "weight": 1
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 1
+            },
+            {
+                "tail": "dog_owner's_home",
+                "weight": 1
+            },
+            {
+                "tail": "ground",
+                "weight": 1
+            },
+            {
+                "tail": "back_yard",
                 "weight": 1
             },
             {
@@ -394,7 +834,19 @@
                 "weight": 1
             },
             {
-                "tail": "ground",
+                "tail": "pet_shop",
+                "weight": 1
+            },
+            {
+                "tail": "pet_store",
+                "weight": 1
+            },
+            {
+                "tail": "relatives_house",
+                "weight": 1
+            },
+            {
+                "tail": "it's_kennel",
                 "weight": 1
             }
         ]
@@ -402,23 +854,123 @@
     "horse": {
         "AtLocation": [
             {
+                "tail": "race_track",
+                "weight": 6
+            },
+            {
+                "tail": "cavalry",
+                "weight": 5
+            },
+            {
+                "tail": "stall",
+                "weight": 4
+            },
+            {
                 "tail": "circus",
                 "weight": 4
+            },
+            {
+                "tail": "equestrian_competition",
+                "weight": 3
             },
             {
                 "tail": "country",
                 "weight": 3
             },
             {
+                "tail": "canada",
+                "weight": 3
+            },
+            {
+                "tail": "a",
+                "weight": 2
+            },
+            {
                 "tail": "parade",
                 "weight": 2
             },
             {
-                "tail": "trailer",
+                "tail": "movies",
+                "weight": 2
+            },
+            {
+                "tail": "kentucky",
+                "weight": 2
+            },
+            {
+                "tail": "farmyard",
+                "weight": 2
+            },
+            {
+                "tail": "western_movie",
+                "weight": 2
+            },
+            {
+                "tail": "persons_heart",
                 "weight": 1
             },
             {
-                "tail": "show",
+                "tail": "women's_literature",
+                "weight": 1
+            },
+            {
+                "tail": "grazing_field",
+                "weight": 1
+            },
+            {
+                "tail": "horse_box",
+                "weight": 1
+            },
+            {
+                "tail": "montana",
+                "weight": 1
+            },
+            {
+                "tail": "barn_or_stable",
+                "weight": 1
+            },
+            {
+                "tail": "triple_crown",
+                "weight": 1
+            },
+            {
+                "tail": "field_lazily_grazing_grass",
+                "weight": 1
+            },
+            {
+                "tail": "western",
+                "weight": 1
+            },
+            {
+                "tail": "cartoon",
+                "weight": 1
+            },
+            {
+                "tail": "pocket",
+                "weight": 1
+            },
+            {
+                "tail": "washington",
+                "weight": 1
+            },
+            {
+                "tail": "circus_act",
+                "weight": 1
+            },
+            {
+                "tail": "horsebox",
+                "weight": 1
+            },
+            {
+                "tail": "american_southwest",
+                "weight": 1
+            },
+            {
+                "tail": "minnesota",
+                "weight": 1
+            },
+            {
+                "tail": "non_urban_area",
                 "weight": 1
             },
             {
@@ -426,11 +978,79 @@
                 "weight": 1
             },
             {
-                "tail": "outside",
+                "tail": "arizona",
                 "weight": 1
             },
             {
-                "tail": "gate",
+                "tail": "ranch_gambling_racecourse",
+                "weight": 1
+            },
+            {
+                "tail": "throat",
+                "weight": 1
+            },
+            {
+                "tail": "engraving",
+                "weight": 1
+            },
+            {
+                "tail": "esquestrian_event",
+                "weight": 1
+            },
+            {
+                "tail": "harness_pulling_carriage",
+                "weight": 1
+            },
+            {
+                "tail": "john_wayne_movie",
+                "weight": 1
+            },
+            {
+                "tail": "toy_store",
+                "weight": 1
+            },
+            {
+                "tail": "us_cavalry",
+                "weight": 1
+            },
+            {
+                "tail": "picture_book_of_horses",
+                "weight": 1
+            },
+            {
+                "tail": "florida",
+                "weight": 1
+            },
+            {
+                "tail": "horce_racing",
+                "weight": 1
+            },
+            {
+                "tail": "show",
+                "weight": 1
+            },
+            {
+                "tail": "glue_factory",
+                "weight": 1
+            },
+            {
+                "tail": "horse_racetrack",
+                "weight": 1
+            },
+            {
+                "tail": "derby",
+                "weight": 1
+            },
+            {
+                "tail": "pasture_or_field",
+                "weight": 1
+            },
+            {
+                "tail": "zoo",
+                "weight": 1
+            },
+            {
+                "tail": "riding_stable",
                 "weight": 1
             }
         ]
@@ -440,6 +1060,14 @@
             {
                 "tail": "farm",
                 "weight": 2
+            },
+            {
+                "tail": "meadow",
+                "weight": 2
+            },
+            {
+                "tail": "fairgrounds",
+                "weight": 1
             },
             {
                 "tail": "fair",
@@ -458,11 +1086,139 @@
                 "weight": 3
             },
             {
+                "tail": "hamburger",
+                "weight": 3
+            },
+            {
+                "tail": "slaughter_house",
+                "weight": 3
+            },
+            {
+                "tail": "milking_stall",
+                "weight": 2
+            },
+            {
+                "tail": "milking_barn",
+                "weight": 2
+            },
+            {
+                "tail": "paddock",
+                "weight": 2
+            },
+            {
+                "tail": "barnyard",
+                "weight": 2
+            },
+            {
+                "tail": "county_fair",
+                "weight": 2
+            },
+            {
+                "tail": "butcher_shop",
+                "weight": 2
+            },
+            {
+                "tail": "farmyard",
+                "weight": 2
+            },
+            {
+                "tail": "canada",
+                "weight": 2
+            },
+            {
+                "tail": "ranch",
+                "weight": 2
+            },
+            {
+                "tail": "dairy_farm",
+                "weight": 2
+            },
+            {
+                "tail": "cow_pasture",
+                "weight": 1
+            },
+            {
+                "tail": "herd",
+                "weight": 1
+            },
+            {
+                "tail": "farmer's_field",
+                "weight": 1
+            },
+            {
+                "tail": "story_book",
+                "weight": 1
+            },
+            {
+                "tail": "outside_in_pasture",
+                "weight": 1
+            },
+            {
+                "tail": "freezer",
+                "weight": 1
+            },
+            {
+                "tail": "farmer's_pasture",
+                "weight": 1
+            },
+            {
+                "tail": "childrens_book",
+                "weight": 1
+            },
+            {
+                "tail": "fair",
+                "weight": 1
+            },
+            {
+                "tail": "pasture_grazing",
+                "weight": 1
+            },
+            {
+                "tail": "diary_farm",
+                "weight": 1
+            },
+            {
+                "tail": "northern_california",
+                "weight": 1
+            },
+            {
+                "tail": "borden_commercial",
+                "weight": 1
+            },
+            {
+                "tail": "village",
+                "weight": 1
+            },
+            {
+                "tail": "it's_natural_habitat",
+                "weight": 1
+            },
+            {
+                "tail": "country_field",
+                "weight": 1
+            },
+            {
                 "tail": "grass",
                 "weight": 1
             },
             {
-                "tail": "swamp",
+                "tail": "feed_lot",
+                "weight": 1
+            },
+            {
+                "tail": "paddock_or_field",
+                "weight": 1
+            },
+            {
+                "tail": "cow_shed",
+                "weight": 1
+            },
+            {
+                "tail": "america",
+                "weight": 1
+            },
+            {
+                "tail": "ohio",
                 "weight": 1
             },
             {
@@ -470,7 +1226,55 @@
                 "weight": 1
             },
             {
-                "tail": "fence",
+                "tail": "middle_of_eating_grass",
+                "weight": 1
+            },
+            {
+                "tail": "milking_parlor",
+                "weight": 1
+            },
+            {
+                "tail": "fenced_in_area",
+                "weight": 1
+            },
+            {
+                "tail": "meat_processing_plant",
+                "weight": 1
+            },
+            {
+                "tail": "switzerland",
+                "weight": 1
+            },
+            {
+                "tail": "farm_yard",
+                "weight": 1
+            },
+            {
+                "tail": "petting_zoo",
+                "weight": 1
+            },
+            {
+                "tail": "nebraska",
+                "weight": 1
+            },
+            {
+                "tail": "hamburger_meat",
+                "weight": 1
+            },
+            {
+                "tail": "field_on_farm",
+                "weight": 1
+            },
+            {
+                "tail": "gateway_country",
+                "weight": 1
+            },
+            {
+                "tail": "butcher's_shop",
+                "weight": 1
+            },
+            {
+                "tail": "computer_commercial",
                 "weight": 1
             }
         ]
@@ -486,6 +1290,10 @@
                 "weight": 3
             },
             {
+                "tail": "zoo",
+                "weight": 3
+            },
+            {
                 "tail": "india",
                 "weight": 1
             }
@@ -494,11 +1302,39 @@
     "bear": {
         "AtLocation": [
             {
+                "tail": "countryside",
+                "weight": 1
+            },
+            {
+                "tail": "meadow",
+                "weight": 1
+            },
+            {
                 "tail": "park",
                 "weight": 1
             },
             {
-                "tail": "countryside",
+                "tail": "drawer",
+                "weight": 1
+            }
+        ]
+    },
+    "zebra": {
+        "AtLocation": [
+            {
+                "tail": "zoo",
+                "weight": 4
+            }
+        ]
+    },
+    "giraffe": {
+        "AtLocation": [
+            {
+                "tail": "zoo",
+                "weight": 4
+            },
+            {
+                "tail": "drawer",
                 "weight": 1
             }
         ]
@@ -514,8 +1350,32 @@
                 "weight": 3
             },
             {
+                "tail": "umbrella_stand",
+                "weight": 2
+            },
+            {
                 "tail": "beach",
                 "weight": 2
+            },
+            {
+                "tail": "backseat_of_car",
+                "weight": 1
+            },
+            {
+                "tail": "seattle",
+                "weight": 1
+            },
+            {
+                "tail": "rainy_place",
+                "weight": 1
+            },
+            {
+                "tail": "jacket_closet",
+                "weight": 1
+            },
+            {
+                "tail": "charlie_chaplin_film",
+                "weight": 1
             },
             {
                 "tail": "store",
@@ -524,17 +1384,209 @@
             {
                 "tail": "suitcase",
                 "weight": 1
+            },
+            {
+                "tail": "wet_city",
+                "weight": 1
+            }
+        ]
+    },
+    "handbag": {
+        "AtLocation": [
+            {
+                "tail": "store",
+                "weight": 2
+            },
+            {
+                "tail": "shop",
+                "weight": 1
+            },
+            {
+                "tail": "department_store",
+                "weight": 1
+            },
+            {
+                "tail": "woman's_hand",
+                "weight": 1
+            },
+            {
+                "tail": "womens_department",
+                "weight": 1
+            },
+            {
+                "tail": "woman's_closet",
+                "weight": 1
+            },
+            {
+                "tail": "wal_mart",
+                "weight": 1
+            },
+            {
+                "tail": "wardrobe",
+                "weight": 1
             }
         ]
     },
     "suitcase": {
         "AtLocation": [
             {
+                "tail": "taxi",
+                "weight": 1
+            },
+            {
+                "tail": "movie",
+                "weight": 1
+            },
+            {
                 "tail": "airplane",
                 "weight": 1
             },
             {
-                "tail": "taxi",
+                "tail": "baggage_compartment",
+                "weight": 1
+            },
+            {
+                "tail": "luggage_store",
+                "weight": 1
+            },
+            {
+                "tail": "cargo_hold",
+                "weight": 1
+            }
+        ]
+    },
+    "frisbee": {
+        "AtLocation": [
+            {
+                "tail": "park",
+                "weight": 3
+            },
+            {
+                "tail": "toy_chest",
+                "weight": 1
+            },
+            {
+                "tail": "roof",
+                "weight": 1
+            },
+            {
+                "tail": "air",
+                "weight": 1
+            },
+            {
+                "tail": "frisbee_golf_course",
+                "weight": 1
+            },
+            {
+                "tail": "tree",
+                "weight": 1
+            },
+            {
+                "tail": "deadhead's_van",
+                "weight": 1
+            }
+        ]
+    },
+    "skis": {
+        "AtLocation": [
+            {
+                "tail": "garage",
+                "weight": 1
+            }
+        ]
+    },
+    "sports_ball": {
+        "AtLocation": [
+            {
+                "tail": "sport",
+                "weight": 1
+            },
+            {
+                "tail": "department_store",
+                "weight": 1
+            },
+            {
+                "tail": "baseball_game",
+                "weight": 1
+            },
+            {
+                "tail": "sports_arena",
+                "weight": 1
+            },
+            {
+                "tail": "sports_shop",
+                "weight": 1
+            },
+            {
+                "tail": "gym_locker",
+                "weight": 1
+            },
+            {
+                "tail": "sports_store",
+                "weight": 1
+            },
+            {
+                "tail": "gym",
+                "weight": 1
+            },
+            {
+                "tail": "school",
+                "weight": 1
+            },
+            {
+                "tail": "michaels_hand",
+                "weight": 1
+            },
+            {
+                "tail": "sporting_event",
+                "weight": 1
+            },
+            {
+                "tail": "gymnasium",
+                "weight": 1
+            },
+            {
+                "tail": "sporting_good_store",
+                "weight": 1
+            }
+        ]
+    },
+    "kite": {
+        "AtLocation": [
+            {
+                "tail": "air",
+                "weight": 4
+            },
+            {
+                "tail": "toy_store",
+                "weight": 3
+            },
+            {
+                "tail": "sky",
+                "weight": 2
+            },
+            {
+                "tail": "hobby_shop",
+                "weight": 1
+            },
+            {
+                "tail": "end_of_line",
+                "weight": 1
+            },
+            {
+                "tail": "park",
+                "weight": 1
+            },
+            {
+                "tail": "child's_hand",
+                "weight": 1
+            },
+            {
+                "tail": "downstairs_closet",
+                "weight": 1
+            },
+            {
+                "tail": "store_at_beach",
                 "weight": 1
             }
         ]
@@ -542,7 +1594,23 @@
     "bottle": {
         "AtLocation": [
             {
-                "tail": "store",
+                "tail": "grocery_store",
+                "weight": 2
+            },
+            {
+                "tail": "nursery",
+                "weight": 2
+            },
+            {
+                "tail": "medicine_cabinet",
+                "weight": 1
+            },
+            {
+                "tail": "drink",
+                "weight": 1
+            },
+            {
+                "tail": "refigerator",
                 "weight": 1
             },
             {
@@ -550,7 +1618,27 @@
                 "weight": 1
             },
             {
+                "tail": "diaper_bag",
+                "weight": 1
+            },
+            {
+                "tail": "store",
+                "weight": 1
+            },
+            {
                 "tail": "supermarket",
+                "weight": 1
+            },
+            {
+                "tail": "liquor_store",
+                "weight": 1
+            }
+        ]
+    },
+    "wine_glass": {
+        "AtLocation": [
+            {
+                "tail": "cupboard",
                 "weight": 1
             }
         ]
@@ -578,11 +1666,31 @@
                 "weight": 2
             },
             {
-                "tail": "apartment",
+                "tail": "sand_box",
+                "weight": 1
+            },
+            {
+                "tail": "kitchen_cabinet",
                 "weight": 1
             },
             {
                 "tail": "cafe",
+                "weight": 1
+            },
+            {
+                "tail": "sink",
+                "weight": 1
+            },
+            {
+                "tail": "water_fountain",
+                "weight": 1
+            },
+            {
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "drink",
                 "weight": 1
             },
             {
@@ -594,7 +1702,71 @@
                 "weight": 1
             },
             {
-                "tail": "sink",
+                "tail": "washing_up_bowl",
+                "weight": 1
+            }
+        ]
+    },
+    "fork": {
+        "AtLocation": [
+            {
+                "tail": "kitchen",
+                "weight": 5
+            },
+            {
+                "tail": "table",
+                "weight": 5
+            },
+            {
+                "tail": "drawer",
+                "weight": 4
+            },
+            {
+                "tail": "plate",
+                "weight": 3
+            },
+            {
+                "tail": "road",
+                "weight": 3
+            },
+            {
+                "tail": "plane",
+                "weight": 2
+            },
+            {
+                "tail": "kitchen_drawer",
+                "weight": 2
+            },
+            {
+                "tail": "a",
+                "weight": 1
+            },
+            {
+                "tail": "housewares_store",
+                "weight": 1
+            },
+            {
+                "tail": "silverware_drawer",
+                "weight": 1
+            },
+            {
+                "tail": "untensil_drawer",
+                "weight": 1
+            },
+            {
+                "tail": "back",
+                "weight": 1
+            },
+            {
+                "tail": "cutlery_drawer",
+                "weight": 1
+            },
+            {
+                "tail": "resturant",
+                "weight": 1
+            },
+            {
+                "tail": "napkin",
                 "weight": 1
             }
         ]
@@ -606,15 +1778,27 @@
                 "weight": 7
             },
             {
+                "tail": "drawer",
+                "weight": 4
+            },
+            {
+                "tail": "kitchen_drawer",
+                "weight": 3
+            },
+            {
                 "tail": "pocket",
                 "weight": 3
             },
             {
-                "tail": "backpack",
+                "tail": "plate",
                 "weight": 1
             },
             {
-                "tail": "plate",
+                "tail": "knife_store",
+                "weight": 1
+            },
+            {
+                "tail": "drawer_in_kitchen",
                 "weight": 1
             },
             {
@@ -622,7 +1806,43 @@
                 "weight": 1
             },
             {
+                "tail": "backpack",
+                "weight": 1
+            },
+            {
+                "tail": "fishing_boat",
+                "weight": 1
+            },
+            {
+                "tail": "back",
+                "weight": 1
+            },
+            {
+                "tail": "knife_block",
+                "weight": 1
+            },
+            {
+                "tail": "knife_holder",
+                "weight": 1
+            },
+            {
+                "tail": "ex_husbands_back",
+                "weight": 1
+            },
+            {
+                "tail": "stabbing_victim",
+                "weight": 1
+            },
+            {
+                "tail": "sheath",
+                "weight": 1
+            },
+            {
                 "tail": "table",
+                "weight": 1
+            },
+            {
+                "tail": "silverware_drawer",
                 "weight": 1
             }
         ]
@@ -630,15 +1850,39 @@
     "spoon": {
         "AtLocation": [
             {
-                "tail": "bowl",
-                "weight": 3
-            },
-            {
                 "tail": "dinner",
                 "weight": 3
             },
             {
-                "tail": "table",
+                "tail": "bowl",
+                "weight": 3
+            },
+            {
+                "tail": "childs_sand_box",
+                "weight": 1
+            },
+            {
+                "tail": "glass_of_iced_tea",
+                "weight": 1
+            },
+            {
+                "tail": "fork_in_road",
+                "weight": 1
+            },
+            {
+                "tail": "resturant",
+                "weight": 1
+            },
+            {
+                "tail": "dishwasher",
+                "weight": 1
+            },
+            {
+                "tail": "table_setting",
+                "weight": 1
+            },
+            {
+                "tail": "cutlery_draw",
                 "weight": 1
             },
             {
@@ -646,7 +1890,23 @@
                 "weight": 1
             },
             {
-                "tail": "hand",
+                "tail": "kitchen_drawer",
+                "weight": 1
+            },
+            {
+                "tail": "serving_dish",
+                "weight": 1
+            },
+            {
+                "tail": "cutlery_drawer",
+                "weight": 1
+            },
+            {
+                "tail": "bowl_of_soup",
+                "weight": 1
+            },
+            {
+                "tail": "table",
                 "weight": 1
             },
             {
@@ -654,7 +1914,11 @@
                 "weight": 1
             },
             {
-                "tail": "dishwasher",
+                "tail": "hand",
+                "weight": 1
+            },
+            {
+                "tail": "silverware_drawer",
                 "weight": 1
             }
         ]
@@ -666,15 +1930,7 @@
                 "weight": 7
             },
             {
-                "tail": "cabinet",
-                "weight": 1
-            },
-            {
-                "tail": "apartment",
-                "weight": 1
-            },
-            {
-                "tail": "table",
+                "tail": "cubboard",
                 "weight": 1
             },
             {
@@ -682,11 +1938,23 @@
                 "weight": 1
             },
             {
+                "tail": "refrigerator",
+                "weight": 1
+            },
+            {
                 "tail": "sink",
                 "weight": 1
             },
             {
-                "tail": "refrigerator",
+                "tail": "cabinet",
+                "weight": 1
+            },
+            {
+                "tail": "table",
+                "weight": 1
+            },
+            {
+                "tail": "apartment",
                 "weight": 1
             },
             {
@@ -698,11 +1966,15 @@
     "banana": {
         "AtLocation": [
             {
+                "tail": "stomach",
+                "weight": 1
+            },
+            {
                 "tail": "pantry",
                 "weight": 1
             },
             {
-                "tail": "stomach",
+                "tail": "monkey's_hand",
                 "weight": 1
             }
         ]
@@ -710,15 +1982,51 @@
     "apple": {
         "AtLocation": [
             {
-                "tail": "refrigerator",
-                "weight": 1
+                "tail": "apple_tree",
+                "weight": 6
+            },
+            {
+                "tail": "grocery_store",
+                "weight": 4
             },
             {
                 "tail": "house",
                 "weight": 1
             },
             {
+                "tail": "apple_orchard",
+                "weight": 1
+            },
+            {
+                "tail": "refrigerator",
+                "weight": 1
+            },
+            {
+                "tail": "toffee_apple",
+                "weight": 1
+            },
+            {
+                "tail": "produce_section_of_supermarket",
+                "weight": 1
+            },
+            {
                 "tail": "fridge",
+                "weight": 1
+            },
+            {
+                "tail": "orchard",
+                "weight": 1
+            },
+            {
+                "tail": "greengrocer",
+                "weight": 1
+            },
+            {
+                "tail": "horses_mouth",
+                "weight": 1
+            },
+            {
+                "tail": "apple_pie",
                 "weight": 1
             }
         ]
@@ -726,11 +2034,15 @@
     "sandwich": {
         "AtLocation": [
             {
-                "tail": "plate",
-                "weight": 1
+                "tail": "lunchbox",
+                "weight": 3
             },
             {
                 "tail": "fridge",
+                "weight": 1
+            },
+            {
+                "tail": "plate",
                 "weight": 1
             }
         ]
@@ -739,6 +2051,30 @@
         "AtLocation": [
             {
                 "tail": "plate",
+                "weight": 1
+            },
+            {
+                "tail": "farmer's_market",
+                "weight": 1
+            },
+            {
+                "tail": "tokyo",
+                "weight": 0
+            }
+        ]
+    },
+    "hot_dog": {
+        "AtLocation": [
+            {
+                "tail": "soccer_game",
+                "weight": 1
+            },
+            {
+                "tail": "fast_food_restaurant",
+                "weight": 1
+            },
+            {
+                "tail": "fair",
                 "weight": 1
             }
         ]
@@ -755,6 +2091,14 @@
             },
             {
                 "tail": "restaurant",
+                "weight": 1
+            }
+        ]
+    },
+    "donut": {
+        "AtLocation": [
+            {
+                "tail": "bakery",
                 "weight": 1
             }
         ]
@@ -778,7 +2122,23 @@
                 "weight": 1
             },
             {
+                "tail": "quandry",
+                "weight": 1
+            },
+            {
                 "tail": "plate",
+                "weight": 1
+            },
+            {
+                "tail": "birthday_party",
+                "weight": 1
+            },
+            {
+                "tail": "grocery_store",
+                "weight": 1
+            },
+            {
+                "tail": "cake_tin",
                 "weight": 1
             }
         ]
@@ -794,15 +2154,11 @@
                 "weight": 7
             },
             {
+                "tail": "cubicle",
+                "weight": 3
+            },
+            {
                 "tail": "porch",
-                "weight": 3
-            },
-            {
-                "tail": "room",
-                "weight": 3
-            },
-            {
-                "tail": "church",
                 "weight": 3
             },
             {
@@ -810,23 +2166,35 @@
                 "weight": 3
             },
             {
+                "tail": "living_room",
+                "weight": 3
+            },
+            {
+                "tail": "church",
+                "weight": 3
+            },
+            {
+                "tail": "room",
+                "weight": 3
+            },
+            {
+                "tail": "furniture_store",
+                "weight": 2
+            },
+            {
                 "tail": "floor",
                 "weight": 2
             },
             {
-                "tail": "lobby",
+                "tail": "rest_area",
                 "weight": 1
             },
             {
-                "tail": "theatre",
+                "tail": "synagogue",
                 "weight": 1
             },
             {
-                "tail": "dentist",
-                "weight": 1
-            },
-            {
-                "tail": "airport",
+                "tail": "friend's_house",
                 "weight": 1
             },
             {
@@ -834,15 +2202,55 @@
                 "weight": 1
             },
             {
-                "tail": "university",
-                "weight": 1
-            },
-            {
                 "tail": "building",
                 "weight": 1
             },
             {
+                "tail": "dentist",
+                "weight": 1
+            },
+            {
+                "tail": "confession",
+                "weight": 1
+            },
+            {
+                "tail": "airport",
+                "weight": 1
+            },
+            {
+                "tail": "lobby",
+                "weight": 1
+            },
+            {
+                "tail": "corner",
+                "weight": 1
+            },
+            {
                 "tail": "bedroom",
+                "weight": 1
+            },
+            {
+                "tail": "motel",
+                "weight": 1
+            },
+            {
+                "tail": "school_room",
+                "weight": 1
+            },
+            {
+                "tail": "theatre",
+                "weight": 1
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 1
+            },
+            {
+                "tail": "auditorium",
+                "weight": 1
+            },
+            {
+                "tail": "university",
                 "weight": 1
             }
         ]
@@ -854,7 +2262,43 @@
                 "weight": 5
             },
             {
+                "tail": "den",
+                "weight": 3
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 2
+            },
+            {
+                "tail": "livingroom",
+                "weight": 2
+            },
+            {
+                "tail": "party",
+                "weight": 1
+            },
+            {
+                "tail": "canada",
+                "weight": 1
+            },
+            {
+                "tail": "waiting_room",
+                "weight": 1
+            },
+            {
+                "tail": "doctor",
+                "weight": 1
+            },
+            {
                 "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "cash's_room",
+                "weight": 1
+            },
+            {
+                "tail": "rest_area",
                 "weight": 1
             },
             {
@@ -862,11 +2306,23 @@
                 "weight": 1
             },
             {
-                "tail": "party",
+                "tail": "room",
+                "weight": 1
+            }
+        ]
+    },
+    "potted_plant": {
+        "AtLocation": [
+            {
+                "tail": "windowsill",
+                "weight": 2
+            },
+            {
+                "tail": "shelf",
                 "weight": 1
             },
             {
-                "tail": "room",
+                "tail": "table",
                 "weight": 1
             }
         ]
@@ -886,6 +2342,14 @@
                 "weight": 3
             },
             {
+                "tail": "rest_area",
+                "weight": 3
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 3
+            },
+            {
                 "tail": "apartment",
                 "weight": 2
             },
@@ -895,6 +2359,34 @@
             },
             {
                 "tail": "basement",
+                "weight": 1
+            },
+            {
+                "tail": "homewares_department",
+                "weight": 1
+            },
+            {
+                "tail": "relatives_house",
+                "weight": 1
+            },
+            {
+                "tail": "hotel_room",
+                "weight": 1
+            }
+        ]
+    },
+    "dining_table": {
+        "AtLocation": [
+            {
+                "tail": "house",
+                "weight": 1
+            },
+            {
+                "tail": "formal_dining_room",
+                "weight": 1
+            },
+            {
+                "tail": "cafeteria",
                 "weight": 1
             }
         ]
@@ -910,6 +2402,18 @@
                 "weight": 4
             },
             {
+                "tail": "motel_room",
+                "weight": 3
+            },
+            {
+                "tail": "rest_area",
+                "weight": 2
+            },
+            {
+                "tail": "hospital",
+                "weight": 2
+            },
+            {
                 "tail": "apartment",
                 "weight": 2
             },
@@ -918,15 +2422,75 @@
                 "weight": 2
             },
             {
-                "tail": "hospital",
-                "weight": 2
+                "tail": "service_station",
+                "weight": 1
             },
             {
                 "tail": "hotel",
                 "weight": 1
             },
             {
+                "tail": "cubicle",
+                "weight": 1
+            },
+            {
+                "tail": "trash",
+                "weight": 1
+            },
+            {
                 "tail": "restaurant",
+                "weight": 1
+            },
+            {
+                "tail": "space_shuttle",
+                "weight": 1
+            },
+            {
+                "tail": "plumbing_shop",
+                "weight": 1
+            }
+        ]
+    },
+    "tv": {
+        "AtLocation": [
+            {
+                "tail": "house",
+                "weight": 6
+            },
+            {
+                "tail": "family_room",
+                "weight": 4
+            },
+            {
+                "tail": "livingroom",
+                "weight": 3
+            },
+            {
+                "tail": "appliance_store",
+                "weight": 3
+            },
+            {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 2
+            },
+            {
+                "tail": "arizona",
+                "weight": 2
+            },
+            {
+                "tail": "bedroom",
+                "weight": 2
+            },
+            {
+                "tail": "most_rooms",
+                "weight": 1
+            },
+            {
+                "tail": "sports_bar",
                 "weight": 1
             }
         ]
@@ -936,11 +2500,19 @@
             {
                 "tail": "desk",
                 "weight": 1
+            },
+            {
+                "tail": "internet_cafe",
+                "weight": 1
             }
         ]
     },
     "mouse": {
         "AtLocation": [
+            {
+                "tail": "hole_in_wall",
+                "weight": 6
+            },
             {
                 "tail": "garage",
                 "weight": 6
@@ -950,7 +2522,7 @@
                 "weight": 6
             },
             {
-                "tail": "kitchen",
+                "tail": "attic",
                 "weight": 5
             },
             {
@@ -958,8 +2530,16 @@
                 "weight": 5
             },
             {
+                "tail": "kitchen",
+                "weight": 5
+            },
+            {
                 "tail": "trap",
                 "weight": 5
+            },
+            {
+                "tail": "sewer",
+                "weight": 4
             },
             {
                 "tail": "cellar",
@@ -974,7 +2554,11 @@
                 "weight": 4
             },
             {
-                "tail": "sewer",
+                "tail": "disneyland",
+                "weight": 4
+            },
+            {
+                "tail": "grainery",
                 "weight": 4
             },
             {
@@ -982,7 +2566,11 @@
                 "weight": 3
             },
             {
-                "tail": "pantry",
+                "tail": "corn_field",
+                "weight": 3
+            },
+            {
+                "tail": "abandoned_houses",
                 "weight": 3
             },
             {
@@ -990,11 +2578,79 @@
                 "weight": 3
             },
             {
-                "tail": "grain",
+                "tail": "new_york",
+                "weight": 3
+            },
+            {
+                "tail": "computer_lab",
+                "weight": 3
+            },
+            {
+                "tail": "pantry",
+                "weight": 3
+            },
+            {
+                "tail": "old_barn",
+                "weight": 3
+            },
+            {
+                "tail": "research_laboratory",
+                "weight": 3
+            },
+            {
+                "tail": "own_home",
+                "weight": 3
+            },
+            {
+                "tail": "dirty_house",
+                "weight": 3
+            },
+            {
+                "tail": "grain_bin",
+                "weight": 3
+            },
+            {
+                "tail": "computer_store",
+                "weight": 3
+            },
+            {
+                "tail": "computer",
                 "weight": 2
             },
             {
-                "tail": "office",
+                "tail": "lab_maze",
+                "weight": 2
+            },
+            {
+                "tail": "grain_field",
+                "weight": 2
+            },
+            {
+                "tail": "grain_silo",
+                "weight": 2
+            },
+            {
+                "tail": "small_hole",
+                "weight": 2
+            },
+            {
+                "tail": "department_store",
+                "weight": 2
+            },
+            {
+                "tail": "tom_and_jerry_cartoon",
+                "weight": 2
+            },
+            {
+                "tail": "mousehouse",
+                "weight": 2
+            },
+            {
+                "tail": "cornfield",
+                "weight": 2
+            },
+            {
+                "tail": "cat's_mouth",
                 "weight": 2
             },
             {
@@ -1002,23 +2658,55 @@
                 "weight": 2
             },
             {
-                "tail": "box",
+                "tail": "office",
+                "weight": 2
+            },
+            {
+                "tail": "grain",
+                "weight": 2
+            },
+            {
+                "tail": "wall_space",
                 "weight": 1
             },
             {
-                "tail": "field",
+                "tail": "stew",
                 "weight": 1
             },
             {
-                "tail": "grass",
+                "tail": "cats_mouth",
                 "weight": 1
             },
             {
-                "tail": "shelf",
+                "tail": "tunnel",
                 "weight": 1
             },
             {
-                "tail": "farm",
+                "tail": "nest_in_tall_grass",
+                "weight": 1
+            },
+            {
+                "tail": "richard_gere's_ass",
+                "weight": 1
+            },
+            {
+                "tail": "grassy_field",
+                "weight": 1
+            },
+            {
+                "tail": "woods",
+                "weight": 1
+            },
+            {
+                "tail": "garbage",
+                "weight": 1
+            },
+            {
+                "tail": "oatmeal",
+                "weight": 1
+            },
+            {
+                "tail": "staples",
                 "weight": 1
             }
         ]
@@ -1034,11 +2722,15 @@
                 "weight": 2
             },
             {
-                "tail": "piano",
+                "tail": "desktop",
                 "weight": 1
             },
             {
-                "tail": "desktop",
+                "tail": "music_store",
+                "weight": 1
+            },
+            {
+                "tail": "piano",
                 "weight": 1
             },
             {
@@ -1048,17 +2740,41 @@
             {
                 "tail": "finger",
                 "weight": 1
+            },
+            {
+                "tail": "area_of_computer",
+                "weight": 1
+            },
+            {
+                "tail": "landfill",
+                "weight": 1
+            },
+            {
+                "tail": "onstage_at_concert",
+                "weight": 1
+            }
+        ]
+    },
+    "cell_phone": {
+        "AtLocation": [
+            {
+                "tail": "shelf",
+                "weight": 1
+            },
+            {
+                "tail": "backpack",
+                "weight": 1
             }
         ]
     },
     "microwave": {
         "AtLocation": [
             {
-                "tail": "apartment",
+                "tail": "kitchen",
                 "weight": 1
             },
             {
-                "tail": "kitchen",
+                "tail": "apartment",
                 "weight": 1
             }
         ]
@@ -1074,11 +2790,23 @@
                 "weight": 1
             },
             {
+                "tail": "pizza_place",
+                "weight": 1
+            },
+            {
+                "tail": "own_home",
+                "weight": 1
+            },
+            {
                 "tail": "restaurant",
                 "weight": 1
             },
             {
                 "tail": "stove",
+                "weight": 1
+            },
+            {
+                "tail": "pizza_store",
                 "weight": 1
             }
         ]
@@ -1094,7 +2822,23 @@
                 "weight": 3
             },
             {
-                "tail": "apartment",
+                "tail": "chemistry_lab",
+                "weight": 2
+            },
+            {
+                "tail": "laundry_room",
+                "weight": 1
+            },
+            {
+                "tail": "laboratory",
+                "weight": 1
+            },
+            {
+                "tail": "neighbor's_house",
+                "weight": 1
+            },
+            {
+                "tail": "bathroom_and_kitchen",
                 "weight": 1
             },
             {
@@ -1102,7 +2846,11 @@
                 "weight": 1
             },
             {
-                "tail": "laboratory",
+                "tail": "apartment",
+                "weight": 1
+            },
+            {
+                "tail": "kitchen_or_bathroom",
                 "weight": 1
             }
         ]
@@ -1114,12 +2862,20 @@
                 "weight": 3
             },
             {
+                "tail": "apartment",
+                "weight": 2
+            },
+            {
                 "tail": "home",
                 "weight": 2
             },
             {
-                "tail": "apartment",
-                "weight": 2
+                "tail": "food",
+                "weight": 1
+            },
+            {
+                "tail": "hospital_drug_storeroom",
+                "weight": 1
             },
             {
                 "tail": "house",
@@ -1135,6 +2891,10 @@
             },
             {
                 "tail": "shelf",
+                "weight": 5
+            },
+            {
+                "tail": "bookshelf",
                 "weight": 5
             },
             {
@@ -1154,10 +2914,6 @@
                 "weight": 3
             },
             {
-                "tail": "bedroom",
-                "weight": 2
-            },
-            {
                 "tail": "closet",
                 "weight": 2
             },
@@ -1166,15 +2922,55 @@
                 "weight": 2
             },
             {
-                "tail": "house",
-                "weight": 2
-            },
-            {
                 "tail": "library",
                 "weight": 2
             },
             {
-                "tail": "bed",
+                "tail": "bedroom",
+                "weight": 2
+            },
+            {
+                "tail": "house",
+                "weight": 2
+            },
+            {
+                "tail": "hands_of_student",
+                "weight": 1
+            },
+            {
+                "tail": "museum_store",
+                "weight": 1
+            },
+            {
+                "tail": "coffee_table",
+                "weight": 1
+            },
+            {
+                "tail": "discount_store",
+                "weight": 1
+            },
+            {
+                "tail": "school_room",
+                "weight": 1
+            },
+            {
+                "tail": "stack",
+                "weight": 1
+            },
+            {
+                "tail": "bibliography_of_another_book",
+                "weight": 1
+            },
+            {
+                "tail": "book_club",
+                "weight": 1
+            },
+            {
+                "tail": "library_of_congress",
+                "weight": 1
+            },
+            {
+                "tail": "hands_of_teacher",
                 "weight": 1
             },
             {
@@ -1182,7 +2978,79 @@
                 "weight": 1
             },
             {
+                "tail": "tourist_store",
+                "weight": 1
+            },
+            {
+                "tail": "bookshop",
+                "weight": 1
+            },
+            {
+                "tail": "bed",
+                "weight": 1
+            },
+            {
+                "tail": "bedside_table",
+                "weight": 1
+            },
+            {
+                "tail": "drawer",
+                "weight": 1
+            },
+            {
                 "tail": "suitcase",
+                "weight": 1
+            },
+            {
+                "tail": "satchel",
+                "weight": 1
+            },
+            {
+                "tail": "row",
+                "weight": 1
+            },
+            {
+                "tail": "college_store",
+                "weight": 1
+            },
+            {
+                "tail": "briefcase",
+                "weight": 1
+            },
+            {
+                "tail": "room_of_educated_person",
+                "weight": 1
+            },
+            {
+                "tail": "synagogue",
+                "weight": 1
+            },
+            {
+                "tail": "bookcase",
+                "weight": 1
+            },
+            {
+                "tail": "book_store",
+                "weight": 1
+            },
+            {
+                "tail": "pile_of_books",
+                "weight": 1
+            },
+            {
+                "tail": "book_bag",
+                "weight": 1
+            },
+            {
+                "tail": "bookshelves",
+                "weight": 1
+            },
+            {
+                "tail": "antique_store",
+                "weight": 1
+            },
+            {
+                "tail": "catalog",
                 "weight": 1
             }
         ]
@@ -1194,12 +3062,20 @@
                 "weight": 4
             },
             {
+                "tail": "shelf",
+                "weight": 3
+            },
+            {
                 "tail": "house",
                 "weight": 3
             },
             {
-                "tail": "shelf",
-                "weight": 3
+                "tail": "office_building",
+                "weight": 2
+            },
+            {
+                "tail": "own_bedroom",
+                "weight": 2
             },
             {
                 "tail": "wall",
@@ -1218,11 +3094,23 @@
                 "weight": 1
             },
             {
-                "tail": "table",
+                "tail": "airport",
                 "weight": 1
             },
             {
-                "tail": "airport",
+                "tail": "department_store",
+                "weight": 1
+            },
+            {
+                "tail": "school_room",
+                "weight": 1
+            },
+            {
+                "tail": "train_station",
+                "weight": 1
+            },
+            {
+                "tail": "table",
                 "weight": 1
             }
         ]
@@ -1236,6 +3124,10 @@
             {
                 "tail": "shelf",
                 "weight": 2
+            },
+            {
+                "tail": "windowsill",
+                "weight": 1
             },
             {
                 "tail": "cabinet",
@@ -1254,11 +3146,35 @@
                 "weight": 2
             },
             {
-                "tail": "house",
+                "tail": "backpack",
                 "weight": 1
             },
             {
-                "tail": "backpack",
+                "tail": "drawer",
+                "weight": 1
+            },
+            {
+                "tail": "house",
+                "weight": 1
+            }
+        ]
+    },
+    "teddy_bear": {
+        "AtLocation": [
+            {
+                "tail": "toy_store",
+                "weight": 3
+            },
+            {
+                "tail": "shelf",
+                "weight": 2
+            },
+            {
+                "tail": "home",
+                "weight": 1
+            },
+            {
+                "tail": "bed",
                 "weight": 1
             }
         ]
@@ -1282,11 +3198,27 @@
                 "weight": 1
             },
             {
+                "tail": "cabinet",
+                "weight": 1
+            },
+            {
+                "tail": "bathroom_cabinet",
+                "weight": 1
+            },
+            {
                 "tail": "bedroom",
                 "weight": 1
             },
             {
-                "tail": "cabinet",
+                "tail": "grocery_store",
+                "weight": 1
+            },
+            {
+                "tail": "drug_store",
+                "weight": 1
+            },
+            {
+                "tail": "dentist_office",
                 "weight": 1
             }
         ]

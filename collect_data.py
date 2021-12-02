@@ -30,6 +30,7 @@ class DataCollector:
         conceptnet_data_refresh: bool,
         semantic_knowledge_path: str,
         weighting_mode: bool,
+        api_url: str
     ):
         """Data (conceptnet) collector class.
 
@@ -43,6 +44,7 @@ class DataCollector:
         weighting_mode: "highest" chooses the one with the highest weight, "weighted"
             chooses all of them by weight, and null chooses every single one of them
             without weighting.
+        api_url: e.g., http://api.conceptnet.io/, http://127.0.0.1:8084/, etc.
 
         """
         self.relation = relation
@@ -52,6 +54,7 @@ class DataCollector:
         self.conceptnet_data_refresh = conceptnet_data_refresh
         self.semantic_knowledge_path = semantic_knowledge_path
         self.weighting_mode = weighting_mode
+        self.api_url = api_url
 
         self.read_mscoco()
         self.read_names()
@@ -101,7 +104,7 @@ class DataCollector:
             self.raw_data = {}
             for object_category in tqdm(self.mscoco):
                 query = (
-                    "http://api.conceptnet.io/"
+                    f"{self.api_url}"
                     f"query?start=/c/en/{object_category}&rel={self.relation}"
                 )
                 logging.debug(f"making an HTTP get request with query {query}")

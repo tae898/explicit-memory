@@ -541,8 +541,8 @@ class EpisodicMemory(Memory):
             [self.remove_name(e) for e in self.remove_timestamp(entry)]
             for entry in entries
         ]
-        # "_" is to allow hashing.
-        semantic_possibles = ["_".join(elem) for elem in semantic_possibles]
+        # "^" is to allow hashing.
+        semantic_possibles = ["^".join(elem) for elem in semantic_possibles]
 
         def duplicates(mylist, item):
             return [i for i, x in enumerate(mylist) if x == item]
@@ -564,7 +564,7 @@ class EpisodicMemory(Memory):
             episodic_memories = list(episodic_memories)
             # sort from the oldest to the latest
             episodic_memories = sorted(episodic_memories, key=lambda x: x[-1])
-            semantic_memory = max_key.split("_")
+            semantic_memory = max_key.split("^")
             # num_generalized_memories is the number of compressed episodic memories.
             semantic_memory.append(len(indexes))
             assert (len(semantic_memory)) == 4
@@ -836,7 +836,7 @@ class SemanticMemory(Memory):
         for mem in entries:
             assert len(mem) == 3
 
-        entries = ["_".join(mem) for mem in entries]  # to make list hashable
+        entries = ["^".join(mem) for mem in entries]  # to make list hashable
         uniques = set(entries)
 
         def list_duplicates_of(seq, item):

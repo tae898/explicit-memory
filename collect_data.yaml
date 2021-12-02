@@ -1,11 +1,14 @@
 # See https://github.com/commonsense/conceptnet5/wiki/Relations for all relations
 relation: /r/AtLocation
 
+# api_url: http://api.conceptnet.io/
+api_url: http://127.0.0.1:8084/
+
 # Where to save raw queried conceptnet data path
 conceptnet_data_path: ./data/conceptnet-data.json
 
 # Whether to download the conceptnet data again or not.
-conceptnet_data_refresh: false
+conceptnet_data_refresh: true
 
 # Where to save pre-trained semantic (factual) knowledge
 semantic_knowledge_path: ./data/semantic-knowledge.json

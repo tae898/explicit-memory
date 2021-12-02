@@ -1,4 +1,5 @@
 import random
+import numpy as np
 from copy import deepcopy
 
 from tqdm import tqdm
@@ -35,10 +36,14 @@ for max_history in tqdm([128]):
         }
 
         oqag = OQAGenerator(
-            max_history=max_history, weighting_mode="highest", commonsense_prob=0.5
+            max_history=max_history,
+            weighting_mode="highest",
+            commonsense_prob=0.5,
+            limits={"heads": 10, "tails": 1, "names": 5, "allow_spaces": False},
         )
         for split_idx, split in enumerate(["val", "test"]):
             random.seed(seed + split_idx)
+            np.random.seed(seed + split_idx)
             oqag.reset()
             M_e = EpisodicMemory(capacity)
             M_s = SemanticMemory(capacity)

@@ -35,6 +35,7 @@ class OQAGenerator:
         names_start_at: int = 100,
         heads_start_at: int = 1000,
         tails_start_at: int = 10000,
+        limits: dict = None,
     ) -> None:
         """Initialize the generator.
 
@@ -55,19 +56,30 @@ class OQAGenerator:
         names: from 100 to 999
         heads: from 1,000 to 9,999
         tails: from 10,000 to 99,999
+        limits: Limit the heads, tails per head, and the number of names. For example,
+            this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
+
         """
         logging.debug("Creating an Observation-Question-Answer generator object ...")
         self.max_history = max_history
         self.history = []
-
+        self.limits = limits
+        logging.warning(f"The obserations will be limited by {self.limits}")
         (
             self.semantic_knowledge,
             self.heads,
             self.relations,
             self.tails,
-        ) = self.load_semantic_knowledge(semantic_knowledge_path)
+        ) = self.load_semantic_knowledge(
+            semantic_knowledge_path,
+            self.limits["heads"],
+            self.limits["tails"],
+            self.limits["allow_spaces"],
+        )
 
-        self.names = self.read_names(names_path)
+        self.names = self.read_names(
+            names_path, self.limits["names"], self.limits["allow_spaces"]
+        )
         self.weighting_mode = weighting_mode
         self.commonsense_prob = commonsense_prob
 
@@ -143,12 +155,21 @@ class OQAGenerator:
         return len(self.history) == self.max_history
 
     @staticmethod
-    def load_semantic_knowledge(path: str) -> Tuple[list, list, list, list]:
+    def load_semantic_knowledge(
+        path: str,
+        limit_heads: int = None,
+        limit_tails: int = None,
+        allow_spaces: bool = False,
+    ) -> Tuple[list, list, list, list]:
         """Load saved semantic knowledge.
 
         Args
         ----
         path: the path to the pretrained semantic memory.
+        limit_heads: Limit the number of heads (e.g., 10)
+        limit_tails: Limit the number of tails per heads (e.g., 1)
+        allow_spaces: Whether to include words that have spaces
+            (e.g., corner of two streets)
 
         Returns
         -------
@@ -160,6 +181,42 @@ class OQAGenerator:
         """
         logging.debug(f"loading the semantic knowledge from {path}...")
         semantic_knowledge = read_json(path)
+
+        # sort the semantic knowledge by its highest weight to be sure.
+        semantic_knowledge = {
+            key: {
+                key_: sorted(val_, key=lambda x: -x["weight"])
+                for key_, val_ in val.items()
+            }
+            for key, val in semantic_knowledge.items()
+        }
+
+        if not allow_spaces:
+            semantic_knowledge = {
+                key: {
+                    key_: [v for v in val_ if len(v["tail"].split("_")) == 1]
+                    for key_, val_ in val.items()
+                }
+                for key, val in semantic_knowledge.items()
+                if (len(key.split("_"))) == 1
+            }
+
+        if limit_heads:
+            logging.warning(f"Limiting the number of heads to {limit_heads} ...")
+            semantic_knowledge = {
+                key: val
+                for idx, (key, val) in enumerate(semantic_knowledge.items())
+                if idx < limit_heads
+            }
+
+        if limit_tails:
+            logging.warning(
+                f"Limiting the number of tails per head to {limit_tails} ..."
+            )
+            semantic_knowledge = {
+                key: {key_: val_[:limit_tails] for key_, val_ in val.items()}
+                for key, val in semantic_knowledge.items()
+            }
 
         heads = sorted(list(set(semantic_knowledge.keys())))
         tails = sorted(
@@ -190,12 +247,19 @@ class OQAGenerator:
         return semantic_knowledge, heads, relations, tails
 
     @staticmethod
-    def read_names(path: str = "./data/top-human-names") -> list:
+    def read_names(
+        path: str = "./data/top-human-names",
+        limit_names: int = None,
+        allow_spaces: bool = False,
+    ) -> list:
         """Read 20 most common names.
 
         Args
         ----
         path: The path to the top 20 human name list.
+        limit_names: Limit the number of names
+        allow_spaces: Whether to include words that have spaces
+            (e.g., corner of two streets)
 
         Returns
         -------
@@ -206,6 +270,15 @@ class OQAGenerator:
         with open(path, "r") as stream:
             names = stream.readlines()
         names = [line.strip() for line in names]
+
+        if not allow_spaces:
+            names = [name for name in names if len(name.split("_")) == 1]
+
+        if limit_names:
+            logging.warning(f"The number of names will be limited to {limit_names}")
+            random.shuffle(names)
+            names = names[:limit_names]
+
         logging.info(f"Reading {path} complete! There are {len(names)} names in total")
 
         return names
@@ -389,6 +462,7 @@ class MemorySpace(Space):
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "highest",
         commonsense_prob: float = 0.5,
+        limits: dict = None,
     ) -> None:
         """
 
@@ -412,6 +486,8 @@ class MemorySpace(Space):
             without weighting.
         commonsense_prob: the probability of an observation being covered by a
             commonsense
+        limits: Limit the heads, tails per head, and the number of names. For example,
+            this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
 
         """
         assert space_type in [
@@ -448,11 +524,12 @@ class MemorySpace(Space):
         self.capacity = capacity
 
         self.oqag = OQAGenerator(
-            max_history,
-            semantic_knowledge_path,
-            names_path,
-            weighting_mode,
-            commonsense_prob,
+            max_history=max_history,
+            semantic_knowledge_path=semantic_knowledge_path,
+            names_path=names_path,
+            weighting_mode=weighting_mode,
+            commonsense_prob=commonsense_prob,
+            limits=limits,
         )
         self.M_e = EpisodicMemory(self.capacity["episodic"])
         self.M_s = SemanticMemory(self.capacity["semantic"])
