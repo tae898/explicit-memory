@@ -509,7 +509,7 @@ class EpisodicMemory(Memory):
         entity: e.g., laptop
 
         """
-        logging.debug(f"splitin name and entity fromn {name_entity}")
+        logging.debug(f"spliting name and entity from {name_entity}")
         splitted = name_entity.split()
         assert len(splitted) == 2 and "'" in splitted[0]
         name = splitted[0].split("'")[0]

@@ -1,221 +1,28 @@
+import argparse
+import logging
 import gym
-from gym import spaces
-from memory.constants import CORRECT, WRONG
-from memory.environments import OQAGenerator, MemorySpace
-from memory import Memory, EpisodicMemory, SemanticMemory
-
-
-class EpisodicMemoryManageEnv(gym.Env):
-    """Custom Memory environment compatiable with the gym interface."""
-
-    metadata = {"render.modes": ["console"]}
-
-    def __init__(
-        self,
-        capacity: dict,
-        max_history: int = 1024,
-        semantic_knowledge_path: str = "./data/semantic-knowledge.json",
-        names_path: str = "./data/top-human-names",
-        weighting_mode: str = "highest",
-        commonsense_prob: float = 0.5,
-        memory_manage: str = "RL_train",
-        question_answer: str = "hand_crafted",
-    ) -> None:
-        """
-
-        Args
-        ----
-        capacity: memory capacity
-            e.g., {'episodic': 42, 'semantic: 0}
-        max_history: maximum history of observations.
-        semantic_knowledge_path: path to the semantic knowledge generated from
-            `collect_data.py`
-        names_path: The path to the top 20 human name list.
-        weighting_mode: "highest" chooses the one with the highest weight, "weighted"
-            chooses all of them by weight, and null chooses every single one of them
-            without weighting.
-        commonsense_prob: the probability of an observation being covered by a
-            commonsense
-        memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
-            this point `memory_manage` and `question_answer` can't be "RL" at the same
-            time.
-        question_answer: either "random", "latest", "RL_trained". Note that at
-            this point `memory_manage` and `question_answer` can't be "RL" at the same
-            time.
-
-        """
-        super().__init__()
-        assert memory_manage in ["random", "oldest", "RL_train", "RL_trained"]
-        assert question_answer in ["random", "latest", "RL_trained"]
-
-        self.memory_manage = memory_manage
-        self.question_answer = question_answer
-        assert capacity["semantic"] == 0
-        self.capacity = capacity
-        self.oqag = OQAGenerator(
-            max_history,
-            semantic_knowledge_path,
-            names_path,
-            weighting_mode,
-            commonsense_prob,
-        )
-        self.n_actions = self.capacity["episodic"] + 1
-        self.action_space = spaces.Discrete(self.n_actions)
-        self.M_e = EpisodicMemory(self.capacity["episodic"])
-        space_type = "episodic_memory_manage"
-
-        self.observation_space = MemorySpace(
-            capacity,
-            space_type,
-            max_history,
-            semantic_knowledge_path,
-            names_path,
-            weighting_mode,
-            commonsense_prob,
-        )
-
-    def reset(self):
-        self.oqag.reset()
-        self.M_e.forget_all()
-
-        ob, self.qa = self.oqag.generate(generate_qa=True)
-        mem_epi = self.M_e.ob2epi(ob)
-        self.M_e.add(mem_epi)
-
-        state_numeric = self.observation_space.episodic_memory_system_to_numbers(
-            self.M_e, self.M_e.capacity + 1
-        )
-
-        return state_numeric
-
-    def step(self, action):
-        # import pdb; pdb.set_trace()
-
-        if self.M_e.is_kinda_full:
-            if self.memory_manage == "oldest":
-                self.M_e.forget_oldest()
-            elif self.memory_manage == "random":
-                self.M_e.forget_random()
-            elif self.memory_manage == "RL_train":
-                mem = self.M_e.entries[action]
-                self.M_e.forget(mem)
-            elif self.memory_manage == "RL_trained":
-                raise NotImplementedError
-            else:
-                raise ValueError
-
-        if self.question_answer == "latest":
-            reward, pred, correct_answer = self.M_e.answer_latest(self.qa)
-        elif self.question_answer == "random":
-            reward, pred, correct_answer = self.M_e.answer_random(self.qa)
-        elif self.question_answer == "RL_trained":
-            raise NotImplementedError
-        else:
-            raise ValueError
-
-        ob, self.qa = self.oqag.generate(generate_qa=True)
-        mem_epi = self.M_e.ob2epi(ob)
-        self.M_e.add(mem_epi)
-
-        state_numeric = self.observation_space.episodic_memory_system_to_numbers(
-            self.M_e, self.M_e.capacity + 1
-        )
-
-        if self.oqag.is_full:
-            done = True
-        else:
-            done = False
-
-        info = {}
-
-        return state_numeric, reward, done, info
-
-    def render(self, mode="console"):
-        if mode != "console":
-            raise NotImplementedError()
-        else:
-            print(self.M_e.entries)
-
-    def close(self):
-        pass
-
-
 import os
 from collections import OrderedDict, deque, namedtuple
 from typing import List, Tuple
+from pprint import pformat
 
-import gym
 import numpy as np
 import torch
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.utilities import DistributedType
+from pytorch_lightning.utilities.seed import seed_everything
 from torch import Tensor, nn
 from torch.optim import Adam, Optimizer
 from torch.utils.data import DataLoader
 from torch.utils.data.dataset import IterableDataset
 
-PATH_DATASETS = os.environ.get("PATH_DATASETS", ".")
-AVAIL_GPUS = min(1, torch.cuda.device_count())
+from memory.utils import read_yaml
 
-
-class DQN(nn.Module):
-    """Simple MLP network."""
-
-    def __init__(self, num_rows: int, num_cols: int, num_actions: int):
-        """
-        Args
-        ----
-        obs_size: observation/state size of the environment
-        n_actions: number of discrete actions available in the environment
-        hidden_size: size of hidden layers
-
-        """
-        super().__init__()
-        self.num_rows = num_rows
-        self.num_cols = num_cols
-        self.relu = nn.ReLU()
-        self.tanh = nn.Tanh()
-
-        self.bn_row = nn.BatchNorm1d(num_cols)
-        self.bn_col = nn.BatchNorm1d(num_rows)
-        self.dropout = nn.Dropout(0.5)
-
-        self.LinearRow1 = nn.Linear(num_cols, num_cols)
-        self.LinearRow2 = nn.Linear(num_cols, 1)
-
-        self.LinearCol1 = nn.Linear(num_rows, num_rows)
-        self.LinearCol2 = nn.Linear(num_rows, num_actions)
-
-    def forward(self, x):
-        # x = x.float()
-        x = self.LinearRow1(x)
-        x = self.relu(x)
-        # x = self.bn_row(x)
-        x = self.dropout(x)
-
-        x = self.LinearRow1(x)
-        x = self.relu(x)
-        # x = self.bn_row(x)
-        x = self.dropout(x)
-
-        x = self.LinearRow2(x)
-        x = self.relu(x)
-
-        x = x.view(-1, self.num_rows)
-
-        x = self.LinearCol1(x)
-        x = self.relu(x)
-        # x = self.bn_col(x)
-        x = self.dropout(x)
-
-        x = self.LinearCol1(x)
-        x = self.relu(x)
-        # x = self.bn_col(x)
-        x = self.dropout(x)
-
-        x = self.LinearCol2(x)
-
-        return x
+logging.basicConfig(
+    level=os.environ.get("LOGLEVEL", "INFO").upper(),
+    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 # Named tuple for storing experience steps gathered in training
@@ -228,8 +35,10 @@ Experience = namedtuple(
 class ReplayBuffer:
     """Replay Buffer for storing past experiences allowing the agent to learn from them.
 
-    Args:
-        capacity: size of the buffer
+    Args
+    ----
+    capacity: size of the buffer
+
     """
 
     def __init__(self, capacity: int) -> None:
@@ -241,8 +50,10 @@ class ReplayBuffer:
     def append(self, experience: Experience) -> None:
         """Add experience to the buffer.
 
-        Args:
-            experience: tuple (state, action, reward, done, new_state)
+        Args
+        ----
+        experience: tuple (state, action, reward, done, new_state)
+
         """
         self.buffer.append(experience)
 
@@ -262,11 +73,14 @@ class ReplayBuffer:
 
 
 class RLDataset(IterableDataset):
-    """Iterable Dataset containing the ExperienceBuffer which will be updated with new experiences during training.
+    """Iterable Dataset containing the ExperienceBuffer which will be updated with
+    new experiences during training.
 
-    Args:
-        buffer: replay buffer
-        sample_size: number of experiences to sample at a time
+    Args
+    ----
+    buffer: replay buffer
+    sample_size: number of experiences to sample at a time
+
     """
 
     def __init__(self, buffer: ReplayBuffer, sample_size: int = 200) -> None:
@@ -286,9 +100,11 @@ class Agent:
 
     def __init__(self, env: gym.Env, replay_buffer: ReplayBuffer) -> None:
         """
-        Args:
-            env: training environment
-            replay_buffer: replay buffer storing experiences
+        Args
+        ----
+        env: training environment
+        replay_buffer: replay buffer storing experiences
+
         """
         self.env = env
         self.replay_buffer = replay_buffer
@@ -300,15 +116,19 @@ class Agent:
         self.state = self.env.reset()
 
     def get_action(self, net: nn.Module, epsilon: float, device: str) -> int:
-        """Using the given network, decide what action to carry out using an epsilon-greedy policy.
+        """Using the given network, decide what action to carry out using an
+        epsilon-greedy policy.
 
-        Args:
-            net: DQN network
-            epsilon: value to determine likelihood of taking a random action
-            device: current device
+        Args
+        ----
+        net: DQN network
+        epsilon: value to determine likelihood of taking a random action
+        device: current device
 
-        Returns:
-            action
+        Returns
+        -------
+        action
+
         """
         if np.random.random() < epsilon:
             action = self.env.action_space.sample()
@@ -333,15 +153,17 @@ class Agent:
     ) -> Tuple[float, bool]:
         """Carries out a single interaction step between the agent and the environment.
 
-        Args:
-            net: DQN network
-            epsilon: value to determine likelihood of taking a random action
-            device: current device
+        Args
+        ----
+        net: DQN network
+        epsilon: value to determine likelihood of taking a random action
+        device: current device
 
-        Returns:
-            reward, done
+        Returns
+        -------
+        reward, done
+
         """
-
         action = self.get_action(net, epsilon, device)
 
         # do step in the environment
@@ -361,84 +183,117 @@ class DQNLightning(LightningModule):
     """Basic DQN Model."""
 
     def __init__(
-        self,
-        capacity: dict,
-        memory_manage: str,
-        question_answer: str,
-        max_history: int,
-        batch_size: int = 1,
-        lr: float = 1e-2,
-        env: str = "CartPole-v0",
-        gamma: float = 0.99,
-        sync_rate: int = 10,
-        replay_size: int = 1000,
-        warm_start_size: int = 1000,
-        eps_last_frame: int = 1000,
-        eps_start: float = 1.0,
-        eps_end: float = 0.01,
-        episode_length: int = 200,
-        warm_start_steps: int = 1000,
+        self, env_params: dict, dqn_params: dict, training_params: dict
     ) -> None:
         """
-        Args:
-            batch_size: size of the batches")
-            lr: learning rate
-            env: gym environment tag
-            gamma: discount factor
-            sync_rate: how many frames do we update the target network
-            replay_size: capacity of the replay buffer
-            warm_start_size: how many samples do we use to fill our buffer at the start of training
-            eps_last_frame: what frame should epsilon stop decaying
-            eps_start: starting value of epsilon
-            eps_end: final value of epsilon
-            episode_length: max length of an episode
-            warm_start_steps: max episode reward in the environment
+        Args
+        ----
+        env_params:
+            env: str
+                e.g., "EpisodicMemoryManageEnv"
+            capacity: dict
+                e.g., {episodic: 256, semantic: 0}
+            max_history: int
+                e.g., 256
+            semantic_knowledge_path: str
+                e.g., "./data/semantic-knowledge.json"
+            names_path: str
+                e.g., "./data/top-human-names"
+            weighting_mode: str
+                e.g., "highest"
+            commonsense_prob: float
+                e.g., 0.5
+            memory_manage: str,
+                e.g., "oldest"
+            question_answer: str
+                e.g., "latest"
+            limits: dict
+                e.g., {"heads": 10, "tails": 1, "names": 5, "allow_spaces": false"
+
+        dqn_params:
+            dqn: str
+                the deep q network model (e.g., MLP)
+
+        training_params:
+            gpus: int
+                e.g., 1
+            max_epochs: int
+                e.g., 50
+            val_check_interval: int
+                e.g., 1
+            batch_size: int
+                size of the batches (e.g., 1)
+            lr: float
+                learning rate (e.g., 0.01)
+            gamma: float
+                discount factor (e.g., 0.99)
+            sync_rate: int
+                how many frames do we update the target network (e.g., 10)
+            replay_size: int
+                capacity of the replay buffer (e.g., 1000)
+            warm_start_size: int
+                how many samples do we use to fill our buffer at the start of training
+                (e.g., 1000)
+            eps_last_frame: int
+                what frame should epsilon stop decaying (e.g., 1000)
+            eps_start: float
+                starting value of epsilon (e.g., 1.0)
+            eps_end: float
+                final value of epsilon (e.g., 0.01)
+            episode_length: int
+                max length of an episode (e.g., 200)
+            warm_start_steps: int
+                max episode reward in the environment (e.g., 1000)
+
         """
         super().__init__()
         self.save_hyperparameters()
 
-        self.env = EpisodicMemoryManageEnv(
-            capacity=capacity,
-            max_history=max_history,
-            memory_manage=memory_manage,
-            question_answer=question_answer,
-        )
-        num_rows = capacity["episodic"] + 1
-        num_cols = 6
-        # self.env = gym.make(self.hparams.env)
-        # obs_size = self.env.observation_space.shape[0]
-        # n_actions = self.env.action_space.n
+        if self.hparams.env_params["env"].lower() == "episodicmemorymanageenv":
+            from memory.environment.gym import EpisodicMemoryManageEnv as Env
 
-        # self.net = DQN(obs_size, n_actions)
-        # self.target_net = DQN(obs_size, n_actions)
+            num_rows = self.hparams.env_params["capacity"]["episodic"] + 1
+            num_cols = 6
+            num_actions = num_rows
 
-        self.net = DQN(num_rows, num_cols, num_rows)
-        self.target_net = DQN(num_rows, num_cols, num_rows)
+        self.env = Env(**env_params)
 
-        self.buffer = ReplayBuffer(self.hparams.replay_size)
+        if self.hparams.dqn_params["dqn"].lower() == "mlp":
+            from memory.model import MLP as DQN
+
+        self.net = DQN(num_rows, num_cols, num_actions)
+        self.target_net = DQN(num_rows, num_cols, num_actions)
+
+        self.buffer = ReplayBuffer(self.hparams.training_params["replay_size"])
         self.agent = Agent(self.env, self.buffer)
         self.total_reward = 0
         self.episode_reward = 0
-        self.populate(self.hparams.warm_start_steps)
+        self.populate(self.hparams.training_params["warm_start_steps"])
 
     def populate(self, steps: int = 1000) -> None:
-        """Carries out several random steps through the environment to initially fill up the replay buffer with
-        experiences.
+        """Carries out several random steps through the environment to initially fill up
+        the replay buffer with experiences.
 
-        Args:
-            steps: number of random steps to populate the buffer with
+        Args
+        ----
+        steps: number of random steps to populate the buffer with
+
         """
         for i in range(steps):
             self.agent.play_step(self.net, epsilon=1.0)
 
     def forward(self, x: Tensor) -> Tensor:
-        """Passes in a state x through the network and gets the q_values of each action as an output.
+        """Passes in a state x through the network and gets the q_values of each action
+        as an output.
 
-        Args:
-            x: environment state
+        Args
+        ----
+        x: environment state
 
-        Returns:
-            q values
+        Returns
+        -------
+        q values
+
         """
         output = self.net(x)
         return output
@@ -446,11 +301,14 @@ class DQNLightning(LightningModule):
     def dqn_mse_loss(self, batch: Tuple[Tensor, Tensor]) -> Tensor:
         """Calculates the mse loss using a mini batch from the replay buffer.
 
-        Args:
-            batch: current mini batch of replay data
+        Args
+        ----
+        batch: current mini batch of replay data
 
-        Returns:
-            loss
+        Returns
+        -------
+        mse loss
+
         """
         states, actions, rewards, dones, next_states = batch
 
@@ -463,18 +321,20 @@ class DQNLightning(LightningModule):
             next_state_values[dones] = 0.0
             next_state_values = next_state_values.detach()
 
-        expected_state_action_values = next_state_values * self.hparams.gamma + rewards
+        expected_state_action_values = (
+            next_state_values * self.hparams.training_params["gamma"] + rewards
+        )
 
         return nn.MSELoss()(state_action_values, expected_state_action_values)
 
-    def training_step(self, batch: Tuple[Tensor, Tensor], nb_batch) -> OrderedDict:
+    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
         """Carries out a single step through the environment to update the replay buffer.
         Then calculates loss based on the minibatch recieved.
 
         Args
         ----
         batch: current mini batch of replay data
-        nb_batch: batch number
+        batch_idx: batch number
 
         Returns
         -------
@@ -483,8 +343,10 @@ class DQNLightning(LightningModule):
         """
         device = self.get_device(batch)
         epsilon = max(
-            self.hparams.eps_end,
-            self.hparams.eps_start - self.global_step + 1 / self.hparams.eps_last_frame,
+            self.hparams.training_params["eps_end"],
+            self.hparams.training_params["eps_start"]
+            - self.global_step
+            + 1 / self.hparams.training_params["eps_last_frame"],
         )
 
         # step through environment with agent
@@ -502,33 +364,123 @@ class DQNLightning(LightningModule):
             self.episode_reward = 0
 
         # Soft update of target network
-        if self.global_step % self.hparams.sync_rate == 0:
+        if self.global_step % self.hparams.training_params["sync_rate"] == 0:
             self.target_net.load_state_dict(self.net.state_dict())
 
         log = {
-            "total_reward": torch.tensor(self.total_reward).to(device),
-            "reward": torch.tensor(reward).to(device),
-            "train_loss": loss,
+            "total_reward": torch.tensor(self.total_reward)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
+            "reward": torch.tensor(reward).to(device).detach().cpu().numpy().tolist(),
+            "train_loss": loss.detach().cpu().numpy().tolist(),
         }
         status = {
-            "steps": torch.tensor(self.global_step).to(device),
-            "total_reward": torch.tensor(self.total_reward).to(device),
+            "steps": torch.tensor(self.global_step)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
+            "total_reward": torch.tensor(self.total_reward)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
         }
-        print(log)
+
+        self.log("train_loss", log["train_loss"])
+        self.log("train_total_reward", log["total_reward"])
+        self.log("train_reward", log["reward"])
+        self.log("train_steps", status["steps"])
 
         return OrderedDict({"loss": loss, "log": log, "progress_bar": status})
 
-    def configure_optimizers(self) -> List[Optimizer]:
-        """Initialize Adam optimizer."""
-        optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
-        return [optimizer]
+    def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
+        self._shared_eval(batch, batch_idx, "val")
+
+    def test_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
+        self._shared_eval(batch, batch_idx, "test")
+
+    def _shared_eval(self, batch: Tuple[Tensor, Tensor], batch_idx, prefix):
+        """Carries out a single step through the environment to update the replay buffer.
+        Then calculates loss based on the minibatch recieved.
+
+        Args
+        ----
+        batch: current mini batch of replay data
+        batch_idx: batch number
+
+        Returns
+        -------
+        Training loss and log metrics
+
+        """
+        device = self.get_device(batch)
+        epsilon = max(
+            self.hparams.training_params["eps_end"],
+            self.hparams.training_params["eps_start"]
+            - self.global_step
+            + 1 / self.hparams.training_params["eps_last_frame"],
+        )
+
+        # step through environment with agent
+        reward, done = self.agent.play_step(self.net, epsilon, device)
+        self.episode_reward += reward
+
+        # calculates training loss
+        loss = self.dqn_mse_loss(batch)
+
+        if self.trainer._distrib_type in {DistributedType.DP, DistributedType.DDP2}:
+            loss = loss.unsqueeze(0)
+
+        if done:
+            self.total_reward = self.episode_reward
+            self.episode_reward = 0
+
+        # Soft update of target network
+        if self.global_step % self.hparams.training_params["sync_rate"] == 0:
+            self.target_net.load_state_dict(self.net.state_dict())
+
+        log = {
+            "total_reward": torch.tensor(self.total_reward)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
+            "reward": torch.tensor(reward).to(device).detach().cpu().numpy().tolist(),
+            "train_loss": loss.detach().cpu().numpy().tolist(),
+        }
+        status = {
+            "steps": torch.tensor(self.global_step)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
+            "total_reward": torch.tensor(self.total_reward)
+            .to(device)
+            .detach()
+            .cpu()
+            .numpy()
+            .tolist(),
+        }
+
+        self.log(f"{prefix}_loss", log["train_loss"])
+        self.log(f"{prefix}_total_reward", log["total_reward"])
+        self.log(f"{prefix}_reward", log["reward"])
+        self.log(f"{prefix}_steps", status["steps"])
 
     def __dataloader(self) -> DataLoader:
         """Initialize the Replay Buffer dataset used for retrieving experiences."""
-        dataset = RLDataset(self.buffer, self.hparams.episode_length)
+        dataset = RLDataset(self.buffer, self.hparams.training_params["episode_length"])
         dataloader = DataLoader(
             dataset=dataset,
-            batch_size=self.hparams.batch_size,
+            batch_size=self.hparams.training_params["batch_size"],
         )
         return dataloader
 
@@ -536,35 +488,61 @@ class DQNLightning(LightningModule):
         """Get train loader."""
         return self.__dataloader()
 
+    def val_dataloader(self) -> DataLoader:
+        """Get train loader."""
+        return self.__dataloader()
+
+    def test_dataloader(self) -> DataLoader:
+        """Get train loader."""
+        return self.__dataloader()
+
     def get_device(self, batch) -> str:
         """Retrieve device currently being used by minibatch."""
         return batch[0].device.index if self.on_gpu else "cpu"
 
+    def configure_optimizers(self) -> List[Optimizer]:
+        """Initialize Adam optimizer."""
+        optimizer = Adam(self.net.parameters(), lr=self.hparams.training_params["lr"])
+        return [optimizer]
 
-if __name__ == "__main__":
+
+def main(seed: int, env_params: dict, dqn_params: dict, training_params: dict) -> None:
+    """Instantiate a LightningModule and Trainer, and start training.
+
+    Args
+    ----
+    seed: global seed
+    env_params: environment parameters
+    dqn_parms: DQN parameters
+    training_params: training parameters
+
+    """
+    seed_everything(seed)
 
     model = DQNLightning(
-        capacity={"episodic": 256, "semantic": 0},
-        memory_manage="oldest",
-        question_answer="latest",
-        batch_size=1,
-        lr=1e-2,
-        gamma=0.99,
-        sync_rate=10,
-        replay_size=1000,
-        warm_start_size=1000,
-        eps_last_frame=1000,
-        eps_start=1.0,
-        eps_end=0.01,
-        episode_length=256,
-        warm_start_steps=1000,
-        max_history=1024,
+        env_params=env_params, dqn_params=dqn_params, training_params=training_params
     )
 
-    trainer = Trainer(
-        gpus=1,
-        max_epochs=50,
-        val_check_interval=1,
-    )
+    trainer_params = {
+        "gpus": training_params["gpus"],
+        "max_epochs": training_params["max_epochs"],
+        "val_check_interval": training_params["val_check_interval"],
+        "log_every_n_steps": training_params["log_every_n_steps"],
+    }
+
+    trainer = Trainer(**trainer_params)
 
     trainer.fit(model)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="train rl with arguments.")
+    parser.add_argument(
+        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
+    )
+    args = parser.parse_args()
+
+    config = read_yaml(args.config)
+    logging.info(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
+
+    main(**config)

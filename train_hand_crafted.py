@@ -7,7 +7,7 @@ from copy import deepcopy
 from pprint import pformat
 
 from memory import EpisodicMemory, SemanticMemory
-from memory.environments import OQAGenerator
+from memory.environment.generator import OQAGenerator
 from memory.utils import read_json, write_json
 
 logging.basicConfig(

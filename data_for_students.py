@@ -5,7 +5,7 @@ from copy import deepcopy
 from tqdm import tqdm
 
 from memory import EpisodicMemory, SemanticMemory
-from memory.environments import OQAGenerator
+from memory.environment.generator import OQAGenerator
 from memory.utils import write_json
 
 seed = 42
