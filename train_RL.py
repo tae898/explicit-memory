@@ -512,11 +512,13 @@ class ValidationCallback(Callback):
         state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
 
         val_rewards = 0
-        for _ in range(env.oqag.max_history):
-            action = torch.argmax(pl_module.net(state_numeric))
-            state_numeric, reward, done, info = env.step(action)
-            state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
-            val_rewards += reward
+        with torch.no_grad():
+            pl_module.net.eval()
+            for _ in range(env.oqag.max_history):
+                action = torch.argmax(pl_module.net(state_numeric))
+                state_numeric, reward, done, info = env.step(action)
+                state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
+                val_rewards += reward
 
         val_accuracy = val_rewards / env.oqag.max_history
 
@@ -528,6 +530,7 @@ class ValidationCallback(Callback):
             prog_bar=True,
             logger=True,
         )
+        pl_module.net.train()
 
 
 def main(

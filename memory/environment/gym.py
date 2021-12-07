@@ -102,11 +102,6 @@ class EpisodicMemoryManageEnv(gym.Env):
 
     def step(self, action, override_time=None):
 
-        ob, self.qa = self.oqag.generate(generate_qa=True, override_time=override_time)
-
-        mem_epi = self.M_e.ob2epi(ob)
-        self.M_e.add(mem_epi)
-
         if self.M_e.is_kinda_full:
             if self.memory_manage == "oldest":
                 self.M_e.forget_oldest()
@@ -119,15 +114,25 @@ class EpisodicMemoryManageEnv(gym.Env):
                 raise NotImplementedError
             else:
                 raise ValueError
-
-        if self.question_answer == "latest":
-            reward, pred, correct_answer = self.M_e.answer_latest(self.qa)
-        elif self.question_answer == "random":
-            reward, pred, correct_answer = self.M_e.answer_random(self.qa)
-        elif self.question_answer == "RL_trained":
-            raise NotImplementedError
+        
+        if len(self.oqag.history) == 0:
+            # HACK
+            reward, pred, correct_answer = 1, None, None
         else:
-            raise ValueError
+            qa = self.oqag.generate_question_answer()
+
+            if self.question_answer == "latest":
+                reward, pred, correct_answer = self.M_e.answer_latest(qa)
+            elif self.question_answer == "random":
+                reward, pred, correct_answer = self.M_e.answer_random(qa)
+            elif self.question_answer == "RL_trained":
+                raise NotImplementedError
+            else:
+                raise ValueError
+
+        ob, _ = self.oqag.generate(generate_qa=True, override_time=override_time)
+        mem_epi = self.M_e.ob2epi(ob)
+        self.M_e.add(mem_epi)
 
         state_numeric = self.observation_space.episodic_memory_system_to_numbers(
             self.M_e, self.M_e.capacity + 1

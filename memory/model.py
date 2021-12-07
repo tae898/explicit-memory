@@ -67,6 +67,14 @@ class MLP(nn.Module):
 
         # x = self.LinearCol2(x)
 
-        x = self.LinearCol2(x[..., -1])
+        # import pdb
+
+        # pdb.set_trace()
+        x = x[..., -1]
+        print(x.round())
+        x = self.LinearCol2(x)
+        x = self.relu(x)
+        # x[..., 1:] = 0
+        # x[..., 0] = 1
 
         return x

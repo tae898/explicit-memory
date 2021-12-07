@@ -13,10 +13,10 @@ env_params:
   memory_manage: RL_train
   question_answer: latest
   limits:
-    heads: 32
-    tails: 1
-    names: 1
-    allow_spaces: true
+    heads: 64
+    tails: 64
+    names: 20
+    allow_spaces: false
   override_time: true
 
 dqn_params:
@@ -31,21 +31,21 @@ callback_params:
 
 trainer_params:
   gpus: 1
-  max_epochs: 10
+  max_epochs: 20
   val_check_interval: 1.0
   log_every_n_steps: 1
 
 training_params:
   batch_size: 1
-  lr: 0.01
+  lr: 0.001
   gamma: 0.99
   sync_rate: 10
-  replay_size: 64
+  replay_size: 256
   # warm_start_size: 4
   eps_last_epoch: 5
   eps_start: 1.0
   eps_end: 0.01
-  episode_length: 64
-  warm_start_steps: 64
+  episode_length: 256
+  warm_start_steps: 256
   precision: 16
   num_processes: 16
