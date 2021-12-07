@@ -39,32 +39,34 @@ class MLP(nn.Module):
         self.LinearCol2 = nn.Linear(num_rows, num_actions)
 
     def forward(self, x):
-        # x = x.float()
-        x = self.LinearRow1(x)
-        x = self.relu(x)
-        # x = self.bn_row(x)
-        x = self.dropout(x)
+        # # x = x.float()
+        # x = self.LinearRow1(x)
+        # x = self.relu(x)
+        # # x = self.bn_row(x)
+        # x = self.dropout(x)
 
-        x = self.LinearRow1(x)
-        x = self.relu(x)
-        # x = self.bn_row(x)
-        x = self.dropout(x)
+        # x = self.LinearRow1(x)
+        # x = self.relu(x)
+        # # x = self.bn_row(x)
+        # x = self.dropout(x)
 
-        x = self.LinearRow2(x)
-        x = self.relu(x)
+        # x = self.LinearRow2(x)
+        # x = self.relu(x)
 
-        x = x.view(-1, self.num_rows)
+        # x = x.view(-1, self.num_rows)
 
-        x = self.LinearCol1(x)
-        x = self.relu(x)
-        # x = self.bn_col(x)
-        x = self.dropout(x)
+        # x = self.LinearCol1(x)
+        # x = self.relu(x)
+        # # x = self.bn_col(x)
+        # x = self.dropout(x)
 
-        x = self.LinearCol1(x)
-        x = self.relu(x)
-        # x = self.bn_col(x)
-        x = self.dropout(x)
+        # x = self.LinearCol1(x)
+        # x = self.relu(x)
+        # # x = self.bn_col(x)
+        # x = self.dropout(x)
 
-        x = self.LinearCol2(x)
+        # x = self.LinearCol2(x)
+
+        x = self.LinearCol2(x[..., -1])
 
         return x

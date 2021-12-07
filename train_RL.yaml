@@ -10,7 +10,7 @@ env_params:
   names_path: ./data/top-human-names
   weighting_mode: highest
   commonsense_prob: 0.5
-  memory_manage: oldest
+  memory_manage: RL_train
   question_answer: latest
   limits:
     heads: 32
