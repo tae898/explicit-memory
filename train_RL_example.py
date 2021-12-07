@@ -209,7 +209,6 @@ class DQNLightning(LightningModule):
             episode_length: max length of an episode
             warm_start_steps: max episode reward in the environment
         """
-        import pdb; pdb.set_trace()
         super().__init__()
         self.save_hyperparameters()
 

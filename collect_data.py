@@ -30,7 +30,7 @@ class DataCollector:
         conceptnet_data_refresh: bool,
         semantic_knowledge_path: str,
         weighting_mode: bool,
-        api_url: str
+        api_url: str,
     ):
         """Data (conceptnet) collector class.
 

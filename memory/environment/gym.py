@@ -1,10 +1,12 @@
 import logging
 import os
+
 import gym
 from gym import spaces
+
+from ..memory import EpisodicMemory, Memory, SemanticMemory
 from .generator import OQAGenerator
 from .space import MemorySpace
-from ..memory import Memory, EpisodicMemory, SemanticMemory
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -92,19 +94,18 @@ class EpisodicMemoryManageEnv(gym.Env):
         self.oqag.reset()
         self.M_e.forget_all()
 
-        # import pdb; pdb.set_trace()
-        ob, self.qa = self.oqag.generate(generate_qa=True)
-        mem_epi = self.M_e.ob2epi(ob)
-        self.M_e.add(mem_epi)
-
         state_numeric = self.observation_space.episodic_memory_system_to_numbers(
             self.M_e, self.M_e.capacity + 1
         )
 
         return state_numeric
 
-    def step(self, action):
-        # import pdb; pdb.set_trace()
+    def step(self, action, override_time=None):
+
+        ob, self.qa = self.oqag.generate(generate_qa=True, override_time=override_time)
+
+        mem_epi = self.M_e.ob2epi(ob)
+        self.M_e.add(mem_epi)
 
         if self.M_e.is_kinda_full:
             if self.memory_manage == "oldest":
@@ -127,10 +128,6 @@ class EpisodicMemoryManageEnv(gym.Env):
             raise NotImplementedError
         else:
             raise ValueError
-
-        ob, self.qa = self.oqag.generate(generate_qa=True)
-        mem_epi = self.M_e.ob2epi(ob)
-        self.M_e.add(mem_epi)
 
         state_numeric = self.observation_space.episodic_memory_system_to_numbers(
             self.M_e, self.M_e.capacity + 1

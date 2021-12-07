@@ -2,12 +2,12 @@ import logging
 import os
 import random
 from pprint import pformat
+
 import numpy as np
 from gym.spaces import Space
 
-
 from ..constants import MAX_INT_32
-from ..memory import Memory, EpisodicMemory, SemanticMemory
+from ..memory import EpisodicMemory, Memory, SemanticMemory
 from .generator import OQAGenerator
 
 logging.basicConfig(

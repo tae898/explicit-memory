@@ -278,7 +278,7 @@ class OQAGenerator:
 
         return names
 
-    def generate_observation(self) -> list:
+    def generate_observation(self, override_time: float = None) -> list:
         """
 
         Returns
@@ -321,7 +321,11 @@ class OQAGenerator:
         tail = name + posessive + " " + tail
 
         # unix timestamp in seconds (including decimal points)
-        timestamp = time.time() - TIME_OFFSET
+        if override_time is not None:
+            logging.debug(f"overriding time with {override_time} ...")
+            timestamp = override_time
+        else:
+            timestamp = time.time() - TIME_OFFSET
         ob = [head, relation, tail, timestamp]
         logging.info(f"A new observation generated: {ob}")
 
@@ -385,7 +389,10 @@ class OQAGenerator:
         logging.info(f"observation {ob} is added to history!")
 
     def generate(
-        self, generate_qa: bool = True, recent_more_likely: bool = True
+        self,
+        generate_qa: bool = True,
+        recent_more_likely: bool = True,
+        override_time: float = None,
     ) -> Tuple[list, List[str]]:
         """Generate an observation, question, and answer.
 
@@ -408,7 +415,7 @@ class OQAGenerator:
         if self.is_full:
             raise ValueError(f"History {len(self.history)} is full")
 
-        ob = self.generate_observation()
+        ob = self.generate_observation(override_time=override_time)
         self.add_observation_to_history(ob)
         logging.info("The new observation is added to the history.")
         if generate_qa:
@@ -430,10 +437,7 @@ class OQAGenerator:
         number: 1027
 
         """
-        # try:
         return self.s2n[string]
-        # except:
-        #     import pdb; pdb.set_trace() 
 
     def number2string(self, number) -> str:
         """Convert a given number to a string.

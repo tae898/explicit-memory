@@ -1,22 +1,28 @@
+"""Copied a lot from:
+https://pytorch-lightning-bolts.readthedocs.io/en/latest/reinforce_learn.html"""
 import argparse
 import logging
-import gym
 import os
 from collections import OrderedDict, deque, namedtuple
-from typing import List, Tuple
 from pprint import pformat
+from typing import List, Tuple
 
+import gym
 import numpy as np
 import torch
+import pytorch_lightning as pl
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.utilities import DistributedType
 from pytorch_lightning.utilities.seed import seed_everything
+from pytorch_lightning.callbacks import ModelCheckpoint, Callback
 from torch import Tensor, nn
 from torch.optim import Adam, Optimizer
 from torch.utils.data import DataLoader
 from torch.utils.data.dataset import IterableDataset
 
 from memory.utils import read_yaml
+
+GLOBAL_COUNT = 0
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -33,16 +39,17 @@ Experience = namedtuple(
 
 
 class ReplayBuffer:
-    """Replay Buffer for storing past experiences allowing the agent to learn from them.
+    """Replay Buffer for storing past experiences allowing the agent to learn from
+    them."""
 
-    Args
-    ----
-    capacity: size of the buffer
+    def __init__(self, replay_size: int) -> None:
+        """
+        Args
+        ----
+        replay_size: size of the buffer
 
-    """
-
-    def __init__(self, capacity: int) -> None:
-        self.buffer = deque(maxlen=capacity)
+        """
+        self.buffer = deque(maxlen=replay_size)
 
     def __len__(self) -> None:
         return len(self.buffer)
@@ -57,7 +64,20 @@ class ReplayBuffer:
         """
         self.buffer.append(experience)
 
-    def sample(self, batch_size: int) -> Tuple:
+    def sample(
+        self, batch_size: int
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
+        """Sample from the reply buffer.
+
+        Args
+        ----
+        batch_size: batch size
+
+        Returns
+        -------
+        states, actions, rewards, dones, next_states: the size is batch_size
+
+        """
         indices = np.random.choice(len(self.buffer), batch_size, replace=False)
         states, actions, rewards, dones, next_states = zip(
             *(self.buffer[idx] for idx in indices)
@@ -67,27 +87,29 @@ class ReplayBuffer:
             np.array(states),
             np.array(actions),
             np.array(rewards, dtype=np.float32),
-            np.array(dones, dtype=np.bool),
+            np.array(dones, dtype=bool),
             np.array(next_states),
         )
 
 
 class RLDataset(IterableDataset):
     """Iterable Dataset containing the ExperienceBuffer which will be updated with
-    new experiences during training.
-
-    Args
-    ----
-    buffer: replay buffer
-    sample_size: number of experiences to sample at a time
-
-    """
+    new experiences during training."""
 
     def __init__(self, buffer: ReplayBuffer, sample_size: int = 200) -> None:
+        """
+        Args
+        ----
+        buffer: replay buffer
+        sample_size: number of experiences to sample at a time
+
+        """
         self.buffer = buffer
         self.sample_size = sample_size
 
-    def __iter__(self) -> Tuple:
+    def __iter__(
+        self,
+    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
         states, actions, rewards, dones, new_states = self.buffer.sample(
             self.sample_size
         )
@@ -98,7 +120,9 @@ class RLDataset(IterableDataset):
 class Agent:
     """Base Agent class handeling the interaction with the environment."""
 
-    def __init__(self, env: gym.Env, replay_buffer: ReplayBuffer) -> None:
+    def __init__(
+        self, env: gym.Env, replay_buffer: ReplayBuffer, override_time: bool = False
+    ) -> None:
         """
         Args
         ----
@@ -108,11 +132,12 @@ class Agent:
         """
         self.env = env
         self.replay_buffer = replay_buffer
+        self.override_time = override_time
         self.reset()
         self.state = self.env.reset()
 
     def reset(self) -> None:
-        """Resents the environment and updates the state."""
+        """Reset the environment and update the state."""
         self.state = self.env.reset()
 
     def get_action(self, net: nn.Module, epsilon: float, device: str) -> int:
@@ -167,8 +192,14 @@ class Agent:
         action = self.get_action(net, epsilon, device)
 
         # do step in the environment
-        new_state, reward, done, _ = self.env.step(action)
-
+        global GLOBAL_COUNT
+        GLOBAL_COUNT += 1
+        if self.override_time:
+            new_state, reward, done, _ = self.env.step(
+                action, override_time=GLOBAL_COUNT
+            )
+        else:
+            new_state, reward, done, _ = self.env.step(action, override_time=None)
         exp = Experience(self.state, action, reward, done, new_state)
 
         self.replay_buffer.append(exp)
@@ -204,9 +235,9 @@ class DQNLightning(LightningModule):
             commonsense_prob: float
                 e.g., 0.5
             memory_manage: str,
-                e.g., "oldest"
+                e.g., "random", "oldest", "RL_train", "RL_trained"
             question_answer: str
-                e.g., "latest"
+                e.g., "random", "latest", "RL_trained"
             limits: dict
                 e.g., {"heads": 10, "tails": 1, "names": 5, "allow_spaces": false"
 
@@ -228,14 +259,17 @@ class DQNLightning(LightningModule):
             gamma: float
                 discount factor (e.g., 0.99)
             sync_rate: int
-                how many frames do we update the target network (e.g., 10)
+                the number of iterations (steps) between syncing up the target network
+                with the train network
             replay_size: int
-                capacity of the replay buffer (e.g., 1000)
+                the replay buffer size (e.g., 1000)
             warm_start_size: int
-                how many samples do we use to fill our buffer at the start of training
+                how many random steps through the environment to be carried out at the
+                start of training to fill the buffer with a starting point
                 (e.g., 1000)
-            eps_last_frame: int
-                what frame should epsilon stop decaying (e.g., 1000)
+            eps_last_epoch: int
+                the final epoch in for the decrease of epsilon. At this epoch
+                espilon = eps_end (e.g., 5)
             eps_start: float
                 starting value of epsilon (e.g., 1.0)
             eps_end: float
@@ -265,9 +299,12 @@ class DQNLightning(LightningModule):
         self.target_net = DQN(num_rows, num_cols, num_actions)
 
         self.buffer = ReplayBuffer(self.hparams.training_params["replay_size"])
-        self.agent = Agent(self.env, self.buffer)
-        self.total_reward = 0
-        self.episode_reward = 0
+        self.agent = Agent(
+            self.env, self.buffer, self.hparams.env_params["override_time"]
+        )
+        self.train_total_reward = 0
+        self.train_episode_reward = 0
+        self.train_accuracy = 0
         self.populate(self.hparams.training_params["warm_start_steps"])
 
     def populate(self, steps: int = 1000) -> None:
@@ -345,13 +382,21 @@ class DQNLightning(LightningModule):
         epsilon = max(
             self.hparams.training_params["eps_end"],
             self.hparams.training_params["eps_start"]
-            - self.global_step
-            + 1 / self.hparams.training_params["eps_last_frame"],
+            - (self.current_epoch / self.hparams.training_params["eps_last_epoch"]),
+        )
+
+        self.log(
+            "epsilon",
+            epsilon,
+            on_step=True,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
         )
 
         # step through environment with agent
         reward, done = self.agent.play_step(self.net, epsilon, device)
-        self.episode_reward += reward
+        self.train_episode_reward += reward
 
         # calculates training loss
         loss = self.dqn_mse_loss(batch)
@@ -360,139 +405,87 @@ class DQNLightning(LightningModule):
             loss = loss.unsqueeze(0)
 
         if done:
-            self.total_reward = self.episode_reward
-            self.episode_reward = 0
+            self.train_total_reward = self.train_episode_reward
+            self.train_episode_reward = 0
+            self.train_accuracy = (
+                self.train_total_reward / self.hparams.env_params["max_history"]
+            )
 
         # Soft update of target network
         if self.global_step % self.hparams.training_params["sync_rate"] == 0:
             self.target_net.load_state_dict(self.net.state_dict())
 
-        log = {
-            "total_reward": torch.tensor(self.total_reward)
+        train_total_reward = (
+            torch.tensor(self.train_total_reward)
             .to(device)
             .detach()
             .cpu()
             .numpy()
-            .tolist(),
-            "reward": torch.tensor(reward).to(device).detach().cpu().numpy().tolist(),
-            "train_loss": loss.detach().cpu().numpy().tolist(),
-        }
-        status = {
-            "steps": torch.tensor(self.global_step)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist(),
-            "total_reward": torch.tensor(self.total_reward)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist(),
-        }
-
-        self.log("train_loss", log["train_loss"])
-        self.log("train_total_reward", log["total_reward"])
-        self.log("train_reward", log["reward"])
-        self.log("train_steps", status["steps"])
-
-        return OrderedDict({"loss": loss, "log": log, "progress_bar": status})
-
-    def validation_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
-        self._shared_eval(batch, batch_idx, "val")
-
-    def test_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
-        self._shared_eval(batch, batch_idx, "test")
-
-    def _shared_eval(self, batch: Tuple[Tensor, Tensor], batch_idx, prefix):
-        """Carries out a single step through the environment to update the replay buffer.
-        Then calculates loss based on the minibatch recieved.
-
-        Args
-        ----
-        batch: current mini batch of replay data
-        batch_idx: batch number
-
-        Returns
-        -------
-        Training loss and log metrics
-
-        """
-        device = self.get_device(batch)
-        epsilon = max(
-            self.hparams.training_params["eps_end"],
-            self.hparams.training_params["eps_start"]
-            - self.global_step
-            + 1 / self.hparams.training_params["eps_last_frame"],
+            .tolist()
         )
 
-        # step through environment with agent
-        reward, done = self.agent.play_step(self.net, epsilon, device)
-        self.episode_reward += reward
+        train_reward = torch.tensor(reward).to(device).detach().cpu().numpy().tolist()
 
-        # calculates training loss
-        loss = self.dqn_mse_loss(batch)
+        train_loss = loss.detach().cpu().numpy().tolist()
 
-        if self.trainer._distrib_type in {DistributedType.DP, DistributedType.DDP2}:
-            loss = loss.unsqueeze(0)
+        train_accuracy = self.train_accuracy
 
-        if done:
-            self.total_reward = self.episode_reward
-            self.episode_reward = 0
+        # train_steps = torch.tensor(self.global_step).detach().cpu().numpy().tolist()
 
-        # Soft update of target network
-        if self.global_step % self.hparams.training_params["sync_rate"] == 0:
-            self.target_net.load_state_dict(self.net.state_dict())
+        self.log(
+            "train_loss",
+            train_loss,
+            on_step=True,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
+        self.log(
+            "train_total_reward",
+            train_total_reward,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
 
-        log = {
-            "total_reward": torch.tensor(self.total_reward)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist(),
-            "reward": torch.tensor(reward).to(device).detach().cpu().numpy().tolist(),
-            "train_loss": loss.detach().cpu().numpy().tolist(),
-        }
-        status = {
-            "steps": torch.tensor(self.global_step)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist(),
-            "total_reward": torch.tensor(self.total_reward)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist(),
-        }
+        self.log(
+            "train_accuracy",
+            train_accuracy,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
 
-        self.log(f"{prefix}_loss", log["train_loss"])
-        self.log(f"{prefix}_total_reward", log["total_reward"])
-        self.log(f"{prefix}_reward", log["reward"])
-        self.log(f"{prefix}_steps", status["steps"])
+        self.log(
+            "train_reward",
+            train_reward,
+            on_step=True,
+            on_epoch=False,
+            prog_bar=True,
+            logger=True,
+        )
+        # self.log(
+        #     "train_steps",
+        #     train_steps,
+        #     on_step=True,
+        #     on_epoch=True,
+        #     prog_bar=True,
+        #     logger=True,
+        # )
+
+        return loss
 
     def __dataloader(self) -> DataLoader:
         """Initialize the Replay Buffer dataset used for retrieving experiences."""
         dataset = RLDataset(self.buffer, self.hparams.training_params["episode_length"])
         dataloader = DataLoader(
-            dataset=dataset,
-            batch_size=self.hparams.training_params["batch_size"],
+            dataset=dataset, batch_size=self.hparams.training_params["batch_size"]
         )
         return dataloader
 
     def train_dataloader(self) -> DataLoader:
-        """Get train loader."""
-        return self.__dataloader()
-
-    def val_dataloader(self) -> DataLoader:
-        """Get train loader."""
-        return self.__dataloader()
-
-    def test_dataloader(self) -> DataLoader:
         """Get train loader."""
         return self.__dataloader()
 
@@ -506,31 +499,70 @@ class DQNLightning(LightningModule):
         return [optimizer]
 
 
-def main(seed: int, env_params: dict, dqn_params: dict, training_params: dict) -> None:
+class ValidationCallback(Callback):
+    def on_train_epoch_end(
+        self, trainer: pl.Trainer, pl_module: pl.LightningModule
+    ) -> None:
+
+        if pl_module.hparams.env_params["env"].lower() == "episodicmemorymanageenv":
+            from memory.environment.gym import EpisodicMemoryManageEnv as Env
+
+        env = Env(**pl_module.hparams.env_params)
+        state_numeric = env.reset()
+        state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
+
+        val_rewards = 0
+        for _ in range(env.oqag.max_history):
+            action = torch.argmax(pl_module.net(state_numeric))
+            state_numeric, reward, done, info = env.step(action)
+            state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
+            val_rewards += reward
+
+        val_accuracy = val_rewards / env.oqag.max_history
+
+        pl_module.log(
+            "val_accuracy",
+            val_accuracy,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
+
+
+def main(
+    seed: int,
+    env_params: dict,
+    dqn_params: dict,
+    callback_params: dict,
+    trainer_params: dict,
+    training_params: dict,
+) -> None:
     """Instantiate a LightningModule and Trainer, and start training.
 
     Args
     ----
     seed: global seed
     env_params: environment parameters
+    callback_params: callback function parameters
     dqn_parms: DQN parameters
+    trainer_params: trainer parameters
     training_params: training parameters
 
     """
+    assert training_params["batch_size"] == 1, "ONLY TESTED WITH BATCH SIZE 1 SO FAR."
     seed_everything(seed)
 
+    checkpoint_callback = ModelCheckpoint(**callback_params["model_checkpoint"])
+    my_callback = ValidationCallback()
+
     model = DQNLightning(
-        env_params=env_params, dqn_params=dqn_params, training_params=training_params
+        env_params=env_params,
+        dqn_params=dqn_params,
+        training_params=training_params,
     )
 
-    trainer_params = {
-        "gpus": training_params["gpus"],
-        "max_epochs": training_params["max_epochs"],
-        "val_check_interval": training_params["val_check_interval"],
-        "log_every_n_steps": training_params["log_every_n_steps"],
-    }
-
-    trainer = Trainer(**trainer_params)
+    trainer = Trainer(callbacks=[my_callback, checkpoint_callback], **trainer_params)
 
     trainer.fit(model)
 

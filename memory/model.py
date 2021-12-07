@@ -1,6 +1,7 @@
-from torch import nn
 import logging
 import os
+
+from torch import nn
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

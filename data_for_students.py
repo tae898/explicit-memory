@@ -1,7 +1,7 @@
 import random
-import numpy as np
 from copy import deepcopy
 
+import numpy as np
 from tqdm import tqdm
 
 from memory import EpisodicMemory, SemanticMemory
