@@ -1,21 +1,21 @@
-seed: 42
+seed: 0
 
 env_params:
   env: EpisodicMemoryManageEnv
   capacity:
-    episodic: 64
+    episodic: 4
     semantic: 0
-  max_history: 256
+  max_history: 64
   semantic_knowledge_path: ./data/semantic-knowledge.json
   names_path: ./data/top-human-names
   weighting_mode: highest
-  commonsense_prob: 0.5
+  commonsense_prob: 0.0
   memory_manage: RL_train
   question_answer: latest
   limits:
-    heads: 64
-    tails: 64
-    names: 20
+    heads: 4
+    tails: 1
+    names: 1
     allow_spaces: false
   override_time: true
 
@@ -30,22 +30,22 @@ callback_params:
     filename: "{epoch:03d}-{val_accuracy:.5f}"
 
 trainer_params:
-  gpus: 1
-  max_epochs: 20
+  gpus: 0
+  max_epochs: 30
   val_check_interval: 1.0
   log_every_n_steps: 1
 
 training_params:
   batch_size: 1
-  lr: 0.001
-  gamma: 0.99
-  sync_rate: 10
-  replay_size: 256
+  lr: 0.00001
+  gamma: 0
+  sync_rate: 32
+  replay_size: 64
   # warm_start_size: 4
-  eps_last_epoch: 5
+  eps_last_epoch: 15
   eps_start: 1.0
-  eps_end: 0.01
-  episode_length: 256
-  warm_start_steps: 256
-  precision: 16
-  num_processes: 16
+  eps_end: 0.1
+  episode_length: 64
+  warm_start_steps: 64
+  precision: 32
+  num_processes: 64

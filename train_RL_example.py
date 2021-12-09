@@ -184,7 +184,7 @@ class DQNLightning(LightningModule):
         batch_size: int = 16,
         lr: float = 1e-2,
         env: str = "CartPole-v0",
-        gamma: float = 0.99,
+        gamma: float = 0.8,
         sync_rate: int = 10,
         replay_size: int = 1000,
         warm_start_size: int = 1000,
@@ -306,18 +306,50 @@ class DQNLightning(LightningModule):
         if self.global_step % self.hparams.sync_rate == 0:
             self.target_net.load_state_dict(self.net.state_dict())
 
-        log = {
-            "total_reward": torch.tensor(self.total_reward).to(device),
-            "reward": torch.tensor(reward).to(device),
-            "train_loss": loss,
-        }
-        status = {
-            "steps": torch.tensor(self.global_step).to(device),
-            "total_reward": torch.tensor(self.total_reward).to(device),
-        }
+        train_total_reward = (
+            torch.tensor(self.total_reward).to(device).detach().cpu().numpy().tolist()
+        )
 
-        print(log)
-        return OrderedDict({"loss": loss, "log": log, "progress_bar": status})
+        train_reward = torch.tensor(reward).to(device).detach().cpu().numpy().tolist()
+
+        train_loss = loss.detach().cpu().numpy().tolist()
+
+        self.log(
+            "train_loss",
+            train_loss,
+            on_step=True,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
+        self.log(
+            "train_total_reward",
+            train_total_reward,
+            on_step=False,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+        )
+
+        self.log(
+            "train_reward",
+            train_reward,
+            on_step=True,
+            on_epoch=False,
+            prog_bar=True,
+            logger=True,
+        )
+        # self.log(
+        #     "train_steps",
+        #     train_steps,
+        #     on_step=True,
+        #     on_epoch=True,
+        #     prog_bar=True,
+        #     logger=True,
+        # )
+
+        # return loss
+        return OrderedDict({"loss": loss})
 
     def configure_optimizers(self) -> List[Optimizer]:
         """Initialize Adam optimizer."""
@@ -345,9 +377,7 @@ class DQNLightning(LightningModule):
 model = DQNLightning()
 
 trainer = Trainer(
-    gpus=AVAIL_GPUS,
-    max_epochs=5,
-    val_check_interval=100,
+    gpus=AVAIL_GPUS, max_epochs=20, val_check_interval=1.0, log_every_n_steps=1
 )
 
 trainer.fit(model)

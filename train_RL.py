@@ -214,11 +214,12 @@ class DQNLightning(LightningModule):
     """Basic DQN Model."""
 
     def __init__(
-        self, env_params: dict, dqn_params: dict, training_params: dict
+        self, seed: int, env_params: dict, dqn_params: dict, training_params: dict
     ) -> None:
         """
         Args
         ----
+        seed: seed
         env_params:
             env: str
                 e.g., "EpisodicMemoryManageEnv"
@@ -319,21 +320,21 @@ class DQNLightning(LightningModule):
         for i in range(steps):
             self.agent.play_step(self.net, epsilon=1.0)
 
-    def forward(self, x: Tensor) -> Tensor:
-        """Passes in a state x through the network and gets the q_values of each action
-        as an output.
+    # def forward(self, x: Tensor) -> Tensor:
+    #     """Passes in a state x through the network and gets the q_values of each action
+    #     as an output.
 
-        Args
-        ----
-        x: environment state
+    #     Args
+    #     ----
+    #     x: environment state
 
-        Returns
-        -------
-        q values
+    #     Returns
+    #     -------
+    #     q values
 
-        """
-        output = self.net(x)
-        return output
+    #     """
+    #     output = self.net(x)
+    #     return output
 
     def dqn_mse_loss(self, batch: Tuple[Tensor, Tensor]) -> Tensor:
         """Calculates the mse loss using a mini batch from the replay buffer.
@@ -560,6 +561,7 @@ def main(
     my_callback = ValidationCallback()
 
     model = DQNLightning(
+        seed=seed,
         env_params=env_params,
         dqn_params=dqn_params,
         training_params=training_params,

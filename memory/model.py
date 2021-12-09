@@ -1,5 +1,6 @@
 import logging
 import os
+import torch
 
 from torch import nn
 
@@ -70,10 +71,11 @@ class MLP(nn.Module):
         # import pdb
 
         # pdb.set_trace()
+        x[..., -1] = torch.arange(1, self.num_rows+1)
         x = x[..., -1]
-        print(x.round())
+        # print(x.round())
         x = self.LinearCol2(x)
-        x = self.relu(x)
+        # x = self.relu(x)
         # x[..., 1:] = 0
         # x[..., 0] = 1
 
