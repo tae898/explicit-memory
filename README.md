@@ -45,6 +45,10 @@ A reinforcement learning agent in an MDP environment. The semantic memory system
 
 To be fair, the total memory capacities are the same for each model. Since our experiment is about learning how to organize memories, we abstract away the question answering part. This means that as long as the relevant memory is in the memory systems, then we assume that the agent answers the question correctly and that it gets a reward of $+1$. If it can't be found in them, then the reward is $0$.
 
+## Troubleshooting
+
+The best way to find and solve your problems is to see in the github issue tab. If you can't find what you want, feel free to raise an issue. We are pretty responsive.
+
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
