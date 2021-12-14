@@ -84,7 +84,9 @@ class Memory:
 
         for mem in self.entries:
             head = mem[0]
-            assert len(question_head.split()) == len(head.split())
+            assert len(question_head.split()) == len(
+                head.split()
+            ), f"{question_head.split()}, {head.split()}"
             relation = mem[1]
 
             if head == question_head and relation == question_relation:
