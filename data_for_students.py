@@ -1,14 +1,21 @@
 import random
 from copy import deepcopy
 
-import numpy as np
 from tqdm import tqdm
 
 from memory import EpisodicMemory, SemanticMemory
 from memory.environment.generator import OQAGenerator
-from memory.utils import write_json
+from memory.utils import write_json, read_yaml
+import argparse
+import logging
+import os
+import numpy as np
 
-seed = 42
+logging.basicConfig(
+    level=os.environ.get("LOGLEVEL", "INFO").upper(),
+    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 def sanity_check(results):
@@ -23,70 +30,100 @@ def sanity_check(results):
         assert len(results[split]) == results["max_history"]
 
 
-for max_history in tqdm([128]):
-    for capacity in [1, 2, 4, 8, 16, 32, 64]:
+def main(
+    seed: int,
+    semantic_knowledge_path: str,
+    names_path: str,
+    max_history: list,
+    capacity: list,
+    weighting_mode: str,
+    commonsense_prob: float,
+    save_prefix: str,
+    limits: dict,
+):
+    for max_history in tqdm(max_history):
+        for capacity_ in tqdm(capacity):
 
-        results = {
-            "val": [],
-            "test": [],
-            "max_history": max_history,
-            "capacity": capacity,
-            "rewards": {"val": None, "test": None},
-            "accuracy": {"val": None, "test": None},
-        }
+            results = {
+                "train": [],
+                "val": [],
+                "test": [],
+                "max_history": max_history,
+                "capacity": capacity_,
+                "rewards": {"train": None, "val": None, "test": None},
+                "accuracy": {"train": None, "val": None, "test": None},
+            }
 
-        oqag = OQAGenerator(
-            max_history=max_history,
-            weighting_mode="highest",
-            commonsense_prob=0.5,
-            limits={"heads": 10, "tails": 1, "names": 5, "allow_spaces": False},
-        )
-        for split_idx, split in enumerate(["val", "test"]):
-            random.seed(seed + split_idx)
-            np.random.seed(seed + split_idx)
-            oqag.reset()
-            M_e = EpisodicMemory(capacity)
-            M_s = SemanticMemory(capacity)
+            oqag = OQAGenerator(
+                max_history=max_history,
+                weighting_mode=weighting_mode,
+                commonsense_prob=commonsense_prob,
+                semantic_knowledge_path=semantic_knowledge_path,
+                names_path=names_path,
+                limits=limits,
+            )
+            for split_idx, split in enumerate(["val", "test"]):
+                random.seed(seed + split_idx)
+                np.random.seed(seed + split_idx)
+                oqag.reset()
+                M_e = EpisodicMemory(capacity_)
+                M_s = SemanticMemory(capacity_)
 
-            rewards = 0
-            for idx in range(max_history):
+                rewards = 0
+                for idx in range(max_history):
 
-                ob, question_answer = oqag.generate()
-                ob[-1] += 86400 * idx + 1000000000
-                mem_epi = M_e.ob2epi(ob)
-                M_e.add(mem_epi)
-                if M_e.is_kinda_full:
-                    episodic_memories, semantic_memory = M_e.get_similar()
-                    if episodic_memories is not None:
-                        M_s.add(semantic_memory)
-                        if M_s.is_kinda_full:
-                            M_s.forget_weakest()
-                        for episodic_memory in episodic_memories:
-                            M_e.forget(episodic_memory)
+                    ob, question_answer = oqag.generate()
+                    ob[-1] += 86400 * idx + 1000000000
+                    mem_epi = M_e.ob2epi(ob)
+                    M_e.add(mem_epi)
+                    if M_e.is_kinda_full:
+                        episodic_memories, semantic_memory = M_e.get_similar()
+                        if episodic_memories is not None:
+                            M_s.add(semantic_memory)
+                            if M_s.is_kinda_full:
+                                M_s.forget_weakest()
+                            for episodic_memory in episodic_memories:
+                                M_e.forget(episodic_memory)
+                        else:
+                            M_e.forget_oldest()
+
+                    qa_epi = question_answer
+                    qa_sem = M_s.eq2sq(qa_epi)
+
+                    if M_e.is_answerable(qa_epi):
+                        reward, pred, correct_answer = M_e.answer_latest(qa_epi)
                     else:
-                        M_e.forget_oldest()
+                        reward, pred, correct_answer = M_s.answer_strongest(qa_sem)
 
-                qa_epi = question_answer
-                qa_sem = M_s.eq2sq(qa_epi)
+                    rewards += reward
+                    results[split].append(
+                        {
+                            "episodic_memory_system": deepcopy(M_e.entries),
+                            "semantic_memory_system": deepcopy(M_s.entries),
+                            "question": question_answer[:-1],
+                            "prediction_hand_crafted": pred,
+                            "correct_answer": correct_answer,
+                        }
+                    )
 
-                if M_e.is_answerable(qa_epi):
-                    reward, pred, correct_answer = M_e.answer_latest(qa_epi)
-                else:
-                    reward, pred, correct_answer = M_s.answer_strongest(qa_sem)
+                results["rewards"][split] = rewards
+                results["accuracy"][split] = rewards / max_history
 
-                rewards += reward
-                results[split].append(
-                    {
-                        "episodic_memory_system": deepcopy(M_e.entries),
-                        "semantic_memory_system": deepcopy(M_s.entries),
-                        "question": question_answer[:-1],
-                        "prediction_hand_crafted": pred,
-                        "correct_answer": correct_answer,
-                    }
-                )
+            sanity_check(results)
+            write_json(results, f"{save_prefix}-{max_history}_{capacity_}.json")
 
-            results["rewards"][split] = rewards
-            results["accuracy"][split] = rewards / max_history
 
-        sanity_check(results)
-        write_json(results, f"{max_history}_{capacity}.json")
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Create data for the students.")
+    parser.add_argument(
+        "--config",
+        type=str,
+        default="data_for_students.yaml",
+        help="path to the yaml config.",
+    )
+
+    args = read_yaml(parser.parse_args().config)
+
+    logging.info(f"args: {args}")
+
+    main(**args)
