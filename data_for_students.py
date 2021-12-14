@@ -45,13 +45,12 @@ def main(
         for capacity_ in tqdm(capacity):
 
             results = {
-                "train": [],
                 "val": [],
                 "test": [],
                 "max_history": max_history,
-                "capacity": capacity_,
-                "rewards": {"train": None, "val": None, "test": None},
-                "accuracy": {"train": None, "val": None, "test": None},
+                "capacity": capacity,
+                "rewards": {"val": None, "test": None},
+                "accuracy": {"val": None, "test": None},
             }
 
             oqag = OQAGenerator(
