@@ -1,17 +1,22 @@
 # explicit-memory
 
-This repo is to train an agent that has human-like memory systems. We explictly model it with an explicit (i.e., semantic and episodic) memory system.
+This repo is to train an agent that has human-like memory systems. We explictly model it 
+with an explicit (i.e., semantic and episodic) memory system.
 
 ## Prerequisites
 
 1. A unix or unix-like x86 machine
-1. python 3.7 or higher. Running in a virtual environment (e.g., conda, virtualenv, etc.) is highly recommended so that you don't mess up with the system python.
-1. `pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html`
-1. `pip install -r requirements.txt`
+1. python 3.7 or higher. Running in a virtual environment (e.g., conda, virtualenv, etc.) 
+2. is highly recommended so that you don't mess up with the system python.
+3. `pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f 
+https://download.pytorch.org/whl/cu113/torch_stable.html`
+4. `pip install -r requirements.txt`
 
 ## Data collection
 
-Data is collected from querying ConceptNet APIs. For simplicity, we only collect triples whose format is (`head`, `AtLocation`, `tail`). Here `head` is one of the 80 MS COCO dataset categories. This was kept in mind so that later on we can use images as well.
+Data is collected from querying ConceptNet APIs. For simplicity, we only collect triples 
+whose format is (`head`, `AtLocation`, `tail`). Here `head` is one of the 80 MS COCO 
+dataset categories. This was kept in mind so that later on we can use images as well.
 
 If you want to collect the data manually, then run below:
 
@@ -23,7 +28,13 @@ Otherwise, just use `./data/data.json`
 
 ## Evaluation
 
-We made the following five models (policies).
+Using cognitive science and commonsense knowledge, we've come up with six startegies (policies)
+
+
+### (i) Episodic Memory Manage
+
+Considering how the data is given, the best strategy is to remove the oldest memory in 
+the episodic 
 
 ### (i) Hand-crafted 1: Only episodic, FIFO and NRO.
 
