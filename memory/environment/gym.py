@@ -114,7 +114,7 @@ class EpisodicMemoryManageEnv(gym.Env):
                 raise NotImplementedError
             else:
                 raise ValueError
-        
+
         if len(self.oqag.history) == 0:
             # HACK
             reward, pred, correct_answer = 1, None, None

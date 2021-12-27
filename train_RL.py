@@ -1,585 +1,493 @@
-"""Copied a lot from:
-https://pytorch-lightning-bolts.readthedocs.io/en/latest/reinforce_learn.html"""
+"""Deep Q Network."""
 import argparse
-import logging
-import os
-from collections import OrderedDict, deque, namedtuple
-from pprint import pformat
-from typing import List, Tuple
+from collections import OrderedDict
+from typing import Dict, List, Optional, Tuple
 
-import gym
 import numpy as np
 import torch
-import pytorch_lightning as pl
-from pytorch_lightning import LightningModule, Trainer
-from pytorch_lightning.utilities import DistributedType
-from pytorch_lightning.utilities.seed import seed_everything
-from pytorch_lightning.callbacks import ModelCheckpoint, Callback
-from torch import Tensor, nn
-from torch.optim import Adam, Optimizer
+from pytorch_lightning import LightningModule, Trainer, seed_everything
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
+from torch import Tensor, optim
+from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
-from torch.utils.data.dataset import IterableDataset
 
-from memory.utils import read_yaml
+from pl_bolts.datamodules.experience_source import Experience, ExperienceSourceDataset
+from pl_bolts.losses.rl import dqn_loss
+from pl_bolts.models.rl.common.agents import ValueAgent
+from pl_bolts.models.rl.common.gym_wrappers import make_environment
+from pl_bolts.models.rl.common.memory import MultiStepBuffer
+from pl_bolts.models.rl.common.networks import CNN
+from pl_bolts.utils import _GYM_AVAILABLE
+from pl_bolts.utils.warnings import warn_missing_pkg
 
-GLOBAL_COUNT = 0
-
-logging.basicConfig(
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
-
-# Named tuple for storing experience steps gathered in training
-Experience = namedtuple(
-    "Experience",
-    field_names=["state", "action", "reward", "done", "new_state"],
-)
+if _GYM_AVAILABLE:
+    from gym import Env
+else:  # pragma: no cover
+    warn_missing_pkg("gym")
+    Env = object
 
 
-class ReplayBuffer:
-    """Replay Buffer for storing past experiences allowing the agent to learn from
-    them."""
-
-    def __init__(self, replay_size: int) -> None:
-        """
-        Args
-        ----
-        replay_size: size of the buffer
-
-        """
-        self.buffer = deque(maxlen=replay_size)
-
-    def __len__(self) -> None:
-        return len(self.buffer)
-
-    def append(self, experience: Experience) -> None:
-        """Add experience to the buffer.
-
-        Args
-        ----
-        experience: tuple (state, action, reward, done, new_state)
-
-        """
-        self.buffer.append(experience)
-
-    def sample(
-        self, batch_size: int
-    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        """Sample from the reply buffer.
-
-        Args
-        ----
-        batch_size: batch size
-
-        Returns
-        -------
-        states, actions, rewards, dones, next_states: the size is batch_size
-
-        """
-        indices = np.random.choice(len(self.buffer), batch_size, replace=False)
-        states, actions, rewards, dones, next_states = zip(
-            *(self.buffer[idx] for idx in indices)
-        )
-
-        return (
-            np.array(states),
-            np.array(actions),
-            np.array(rewards, dtype=np.float32),
-            np.array(dones, dtype=bool),
-            np.array(next_states),
-        )
-
-
-class RLDataset(IterableDataset):
-    """Iterable Dataset containing the ExperienceBuffer which will be updated with
-    new experiences during training."""
-
-    def __init__(self, buffer: ReplayBuffer, sample_size: int = 200) -> None:
-        """
-        Args
-        ----
-        buffer: replay buffer
-        sample_size: number of experiences to sample at a time
-
-        """
-        self.buffer = buffer
-        self.sample_size = sample_size
-
-    def __iter__(
-        self,
-    ) -> Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
-        states, actions, rewards, dones, new_states = self.buffer.sample(
-            self.sample_size
-        )
-        for i in range(len(dones)):
-            yield states[i], actions[i], rewards[i], dones[i], new_states[i]
-
-
-class Agent:
-    """Base Agent class handeling the interaction with the environment."""
+class DQN(LightningModule):
+    """Basic DQN Model.
+    PyTorch Lightning implementation of `DQN <https://arxiv.org/abs/1312.5602>`_
+    Paper authors: Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves,
+    Ioannis Antonoglou, Daan Wierstra, Martin Riedmiller.
+    Model implemented by:
+        - `Donal Byrne <https://github.com/djbyrne>`
+    Example:
+        >>> from pl_bolts.models.rl.dqn_model import DQN
+        ...
+        >>> model = DQN("PongNoFrameskip-v4")
+    Train::
+        trainer = Trainer()
+        trainer.fit(model)
+    Note:
+        This example is based on:
+        https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On-Second-Edition/blob/master/Chapter06/02_dqn_pong.py
+    Note:
+        Currently only supports CPU and single GPU training with `accelerator=dp`
+    """
 
     def __init__(
-        self, env: gym.Env, replay_buffer: ReplayBuffer, override_time: bool = False
-    ) -> None:
-        """
-        Args
-        ----
-        env: training environment
-        replay_buffer: replay buffer storing experiences
-
-        """
-        self.env = env
-        self.replay_buffer = replay_buffer
-        self.override_time = override_time
-        self.reset()
-        self.state = self.env.reset()
-
-    def reset(self) -> None:
-        """Reset the environment and update the state."""
-        self.state = self.env.reset()
-
-    def get_action(self, net: nn.Module, epsilon: float, device: str) -> int:
-        """Using the given network, decide what action to carry out using an
-        epsilon-greedy policy.
-
-        Args
-        ----
-        net: DQN network
-        epsilon: value to determine likelihood of taking a random action
-        device: current device
-
-        Returns
-        -------
-        action
-
-        """
-        if np.random.random() < epsilon:
-            action = self.env.action_space.sample()
-        else:
-            state = torch.tensor([self.state])
-
-            if device not in ["cpu"]:
-                state = state.cuda(device)
-
-            q_values = net(state)
-            _, action = torch.max(q_values, dim=1)
-            action = int(action.item())
-
-        return action
-
-    @torch.no_grad()
-    def play_step(
         self,
-        net: nn.Module,
-        epsilon: float = 0.0,
-        device: str = "cpu",
-    ) -> Tuple[float, bool]:
-        """Carries out a single interaction step between the agent and the environment.
-
-        Args
-        ----
-        net: DQN network
-        epsilon: value to determine likelihood of taking a random action
-        device: current device
-
-        Returns
-        -------
-        reward, done
-
-        """
-        action = self.get_action(net, epsilon, device)
-
-        # do step in the environment
-        global GLOBAL_COUNT
-        GLOBAL_COUNT += 1
-        if self.override_time:
-            new_state, reward, done, _ = self.env.step(
-                action, override_time=GLOBAL_COUNT
-            )
-        else:
-            new_state, reward, done, _ = self.env.step(action, override_time=None)
-        exp = Experience(self.state, action, reward, done, new_state)
-
-        self.replay_buffer.append(exp)
-
-        self.state = new_state
-        if done:
-            self.reset()
-        return reward, done
-
-
-class DQNLightning(LightningModule):
-    """Basic DQN Model."""
-
-    def __init__(
-        self, seed: int, env_params: dict, dqn_params: dict, training_params: dict
-    ) -> None:
+        env: str,
+        eps_start: float = 1.0,
+        eps_end: float = 0.02,
+        eps_last_frame: int = 150000,
+        sync_rate: int = 1000,
+        gamma: float = 0.99,
+        learning_rate: float = 1e-4,
+        batch_size: int = 32,
+        replay_size: int = 100000,
+        warm_start_size: int = 10000,
+        avg_reward_len: int = 100,
+        min_episode_reward: int = -21,
+        seed: int = 123,
+        batches_per_epoch: int = 1000,
+        n_steps: int = 1,
+        **kwargs,
+    ):
         """
         Args
         ----
-        seed: seed
-        env_params:
-            env: str
-                e.g., "EpisodicMemoryManageEnv"
-            capacity: dict
-                e.g., {episodic: 256, semantic: 0}
-            max_history: int
-                e.g., 256
-            semantic_knowledge_path: str
-                e.g., "./data/semantic-knowledge.json"
-            names_path: str
-                e.g., "./data/top-human-names"
-            weighting_mode: str
-                e.g., "highest"
-            commonsense_prob: float
-                e.g., 0.5
-            memory_manage: str,
-                e.g., "random", "oldest", "RL_train", "RL_trained"
-            question_answer: str
-                e.g., "random", "latest", "RL_trained"
-            limits: dict
-                e.g., {"heads": 10, "tails": 1, "names": 5, "allow_spaces": false"
-
-        dqn_params:
-            dqn: str
-                the deep q network model (e.g., MLP)
-
-        training_params:
-            gpus: int
-                e.g., 1
-            max_epochs: int
-                e.g., 50
-            val_check_interval: int
-                e.g., 1
-            batch_size: int
-                size of the batches (e.g., 1)
-            lr: float
-                learning rate (e.g., 0.01)
-            gamma: float
-                discount factor (e.g., 0.99)
-            sync_rate: int
-                the number of iterations (steps) between syncing up the target network
-                with the train network
-            replay_size: int
-                the replay buffer size (e.g., 1000)
-            warm_start_size: int
-                how many random steps through the environment to be carried out at the
-                start of training to fill the buffer with a starting point
-                (e.g., 1000)
-            eps_last_epoch: int
-                the final epoch in for the decrease of epsilon. At this epoch
-                espilon = eps_end (e.g., 5)
-            eps_start: float
-                starting value of epsilon (e.g., 1.0)
-            eps_end: float
-                final value of epsilon (e.g., 0.01)
-            episode_length: int
-                max length of an episode (e.g., 200)
-            warm_start_steps: int
-                max episode reward in the environment (e.g., 1000)
+        env: gym environment tag
+        eps_start: starting value of epsilon for the epsilon-greedy exploration
+        eps_end: final value of epsilon for the epsilon-greedy exploration
+        eps_last_frame: the final frame in for the decrease of epsilon. At this frame
+            espilon = eps_end
+        sync_rate: the number of iterations between syncing up the target network with
+            the train network
+        gamma: discount factor
+        learning_rate: learning rate
+        batch_size: size of minibatch pulled from the DataLoader
+        replay_size: total capacity of the replay buffer
+        warm_start_size: how many random steps through the environment to be carried out
+            at the start of training to fill the buffer with a starting point
+        avg_reward_len: how many episodes to take into account when calculating the avg
+            reward
+        min_episode_reward: the minimum score that can be achieved in an episode. Used
+            for filling the avg buffer before training begins
+        seed: seed value for all RNG used
+        batches_per_epoch: number of batches per epoch
+        n_steps: size of n step look ahead
 
         """
         super().__init__()
+
+        # Environment
+        self.exp = None
+        self.env = self.make_environment(env, seed)
+        self.test_env = self.make_environment(env)
+
+        self.obs_shape = self.env.observation_space.shape
+        self.n_actions = self.env.action_space.n
+
+        # Model Attributes
+        self.buffer = None
+        self.dataset = None
+
+        self.net = None
+        self.target_net = None
+        self.build_networks()
+
+        self.agent = ValueAgent(
+            self.net,
+            self.n_actions,
+            eps_start=eps_start,
+            eps_end=eps_end,
+            eps_frames=eps_last_frame,
+        )
+
+        # Hyperparameters
+        self.sync_rate = sync_rate
+        self.gamma = gamma
+        self.lr = learning_rate
+        self.batch_size = batch_size
+        self.replay_size = replay_size
+        self.warm_start_size = warm_start_size
+        self.batches_per_epoch = batches_per_epoch
+        self.n_steps = n_steps
+
         self.save_hyperparameters()
 
-        if self.hparams.env_params["env"].lower() == "episodicmemorymanageenv":
-            from memory.environment.gym import EpisodicMemoryManageEnv as Env
+        # Metrics
+        self.total_episode_steps = [0]
+        self.total_rewards = [0]
+        self.done_episodes = 0
+        self.total_steps = 0
 
-            num_rows = self.hparams.env_params["capacity"]["episodic"] + 1
-            num_cols = 6
-            num_actions = num_rows
+        # Average Rewards
+        self.avg_reward_len = avg_reward_len
 
-        self.env = Env(**env_params)
+        for _ in range(avg_reward_len):
+            self.total_rewards.append(
+                torch.tensor(min_episode_reward, device=self.device)
+            )
 
-        if self.hparams.dqn_params["dqn"].lower() == "mlp":
-            from memory.model import MLP as DQN
+        self.avg_rewards = float(np.mean(self.total_rewards[-self.avg_reward_len :]))
 
-        self.net = DQN(num_rows, num_cols, num_actions)
-        self.target_net = DQN(num_rows, num_cols, num_actions)
+        self.state = self.env.reset()
 
-        self.buffer = ReplayBuffer(self.hparams.training_params["replay_size"])
-        self.agent = Agent(
-            self.env, self.buffer, self.hparams.env_params["override_time"]
-        )
-        self.train_total_reward = 0
-        self.train_episode_reward = 0
-        self.train_accuracy = 0
-        self.populate(self.hparams.training_params["warm_start_steps"])
-
-    def populate(self, steps: int = 1000) -> None:
-        """Carries out several random steps through the environment to initially fill up
-        the replay buffer with experiences.
+    def run_n_episodes(
+        self, env, n_epsiodes: int = 1, epsilon: float = 1.0
+    ) -> List[int]:
+        """Carries out N episodes of the environment with the current agent.
 
         Args
         ----
-        steps: number of random steps to populate the buffer with
+        env: environment to use, either train environment or test environment
+        n_epsiodes: number of episodes to run
+        epsilon: epsilon value for DQN agent
 
         """
-        for i in range(steps):
-            self.agent.play_step(self.net, epsilon=1.0)
+        total_rewards = []
 
-    # def forward(self, x: Tensor) -> Tensor:
-    #     """Passes in a state x through the network and gets the q_values of each action
-    #     as an output.
+        for _ in range(n_epsiodes):
+            episode_state = env.reset()
+            done = False
+            episode_reward = 0
 
-    #     Args
-    #     ----
-    #     x: environment state
+            while not done:
+                self.agent.epsilon = epsilon
+                action = self.agent(episode_state, self.device)
+                next_state, reward, done, _ = env.step(action[0])
+                episode_state = next_state
+                episode_reward += reward
 
-    #     Returns
-    #     -------
-    #     q values
+            total_rewards.append(episode_reward)
 
-    #     """
-    #     output = self.net(x)
-    #     return output
+        return total_rewards
 
-    def dqn_mse_loss(self, batch: Tuple[Tensor, Tensor]) -> Tensor:
-        """Calculates the mse loss using a mini batch from the replay buffer.
+    def populate(self, warm_start: int) -> None:
+        """Populates the buffer with initial experience."""
+        if warm_start > 0:
+            self.state = self.env.reset()
+
+            for _ in range(warm_start):
+                self.agent.epsilon = 1.0
+                action = self.agent(self.state, self.device)
+                next_state, reward, done, _ = self.env.step(action[0])
+                exp = Experience(
+                    state=self.state,
+                    action=action[0],
+                    reward=reward,
+                    done=done,
+                    new_state=next_state,
+                )
+                self.buffer.append(exp)
+                self.state = next_state
+
+                if done:
+                    self.state = self.env.reset()
+
+    def build_networks(self) -> None:
+        """Initializes the DQN train and target networks."""
+        self.net = CNN(self.obs_shape, self.n_actions)
+        self.target_net = CNN(self.obs_shape, self.n_actions)
+
+    def forward(self, x: Tensor) -> Tensor:
+        """Passes in a state x through the network and gets the q_values of each action
+        as an output.
 
         Args
         ----
-        batch: current mini batch of replay data
+        x: environment state
 
         Returns
         -------
-        mse loss
+        q values
 
         """
-        states, actions, rewards, dones, next_states = batch
+        output = self.net(x)
+        return output
 
-        state_action_values = (
-            self.net(states).gather(1, actions.unsqueeze(-1)).squeeze(-1)
-        )
+    def train_batch(
+        self,
+    ) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]:
+        """Contains the logic for generating a new batch of data to be passed to the
+        DataLoader.
 
-        with torch.no_grad():
-            next_state_values = self.target_net(next_states).max(1)[0]
-            next_state_values[dones] = 0.0
-            next_state_values = next_state_values.detach()
+        Returns
+        -------
+        yields a Experience tuple containing the state, action, reward, done and
+        next_state.
 
-        expected_state_action_values = (
-            next_state_values * self.hparams.training_params["gamma"] + rewards
-        )
+        """
+        episode_reward = 0
+        episode_steps = 0
 
-        return nn.MSELoss()(state_action_values, expected_state_action_values)
+        while True:
+            self.total_steps += 1
+            action = self.agent(self.state, self.device)
 
-    def training_step(self, batch: Tuple[Tensor, Tensor], batch_idx) -> OrderedDict:
-        """Carries out a single step through the environment to update the replay buffer.
-        Then calculates loss based on the minibatch recieved.
+            next_state, r, is_done, _ = self.env.step(action[0])
+
+            episode_reward += r
+            episode_steps += 1
+
+            exp = Experience(
+                state=self.state,
+                action=action[0],
+                reward=r,
+                done=is_done,
+                new_state=next_state,
+            )
+
+            self.agent.update_epsilon(self.global_step)
+            self.buffer.append(exp)
+            self.state = next_state
+
+            if is_done:
+                self.done_episodes += 1
+                self.total_rewards.append(episode_reward)
+                self.total_episode_steps.append(episode_steps)
+                self.avg_rewards = float(
+                    np.mean(self.total_rewards[-self.avg_reward_len :])
+                )
+                self.state = self.env.reset()
+                episode_steps = 0
+                episode_reward = 0
+
+            states, actions, rewards, dones, new_states = self.buffer.sample(
+                self.batch_size
+            )
+
+            for idx, _ in enumerate(dones):
+                yield states[idx], actions[idx], rewards[idx], dones[idx], new_states[
+                    idx
+                ]
+
+            # Simulates epochs
+            if self.total_steps % self.batches_per_epoch == 0:
+                break
+
+    def training_step(self, batch: Tuple[Tensor, Tensor], _) -> OrderedDict:
+        """Carries out a single step through the environment to update the replay
+        buffer. Then calculates loss based on the minibatch recieved.
 
         Args
         ----
         batch: current mini batch of replay data
-        batch_idx: batch number
+        _: batch number, not used
 
         Returns
         -------
         Training loss and log metrics
 
         """
-        device = self.get_device(batch)
-        epsilon = max(
-            self.hparams.training_params["eps_end"],
-            self.hparams.training_params["eps_start"]
-            - (self.current_epoch / self.hparams.training_params["eps_last_epoch"]),
-        )
-
-        self.log(
-            "epsilon",
-            epsilon,
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
-
-        # step through environment with agent
-        reward, done = self.agent.play_step(self.net, epsilon, device)
-        self.train_episode_reward += reward
-
         # calculates training loss
-        loss = self.dqn_mse_loss(batch)
+        loss = dqn_loss(batch, self.net, self.target_net, self.gamma)
 
-        if self.trainer._distrib_type in {DistributedType.DP, DistributedType.DDP2}:
+        if self._use_dp_or_ddp2(self.trainer):
             loss = loss.unsqueeze(0)
 
-        if done:
-            self.train_total_reward = self.train_episode_reward
-            self.train_episode_reward = 0
-            self.train_accuracy = (
-                self.train_total_reward / self.hparams.env_params["max_history"]
-            )
-
         # Soft update of target network
-        if self.global_step % self.hparams.training_params["sync_rate"] == 0:
+        if self.global_step % self.sync_rate == 0:
             self.target_net.load_state_dict(self.net.state_dict())
 
-        train_total_reward = (
-            torch.tensor(self.train_total_reward)
-            .to(device)
-            .detach()
-            .cpu()
-            .numpy()
-            .tolist()
+        self.log_dict(
+            {
+                "total_reward": self.total_rewards[-1],
+                "avg_reward": self.avg_rewards,
+                "train_loss": loss,
+                "episodes": self.done_episodes,
+                "episode_steps": self.total_episode_steps[-1],
+            }
         )
 
-        train_reward = torch.tensor(reward).to(device).detach().cpu().numpy().tolist()
-
-        train_loss = loss.detach().cpu().numpy().tolist()
-
-        train_accuracy = self.train_accuracy
-
-        # train_steps = torch.tensor(self.global_step).detach().cpu().numpy().tolist()
-
-        self.log(
-            "train_loss",
-            train_loss,
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
-        self.log(
-            "train_total_reward",
-            train_total_reward,
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
+        return OrderedDict(
+            {
+                "loss": loss,
+                "avg_reward": self.avg_rewards,
+            }
         )
 
-        self.log(
-            "train_accuracy",
-            train_accuracy,
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
+    def test_step(self, *args, **kwargs) -> Dict[str, Tensor]:
+        """Evaluate the agent for 10 episodes."""
+        test_reward = self.run_n_episodes(self.test_env, 1, 0)
+        avg_reward = sum(test_reward) / len(test_reward)
+        return {"test_reward": avg_reward}
 
-        self.log(
-            "train_reward",
-            train_reward,
-            on_step=True,
-            on_epoch=False,
-            prog_bar=True,
-            logger=True,
-        )
-        # self.log(
-        #     "train_steps",
-        #     train_steps,
-        #     on_step=True,
-        #     on_epoch=True,
-        #     prog_bar=True,
-        #     logger=True,
-        # )
-
-        return loss
-
-    def __dataloader(self) -> DataLoader:
-        """Initialize the Replay Buffer dataset used for retrieving experiences."""
-        dataset = RLDataset(self.buffer, self.hparams.training_params["episode_length"])
-        dataloader = DataLoader(
-            dataset=dataset, batch_size=self.hparams.training_params["batch_size"]
-        )
-        return dataloader
-
-    def train_dataloader(self) -> DataLoader:
-        """Get train loader."""
-        return self.__dataloader()
-
-    def get_device(self, batch) -> str:
-        """Retrieve device currently being used by minibatch."""
-        return batch[0].device.index if self.on_gpu else "cpu"
+    def test_epoch_end(self, outputs) -> Dict[str, Tensor]:
+        """Log the avg of the test results."""
+        rewards = [x["test_reward"] for x in outputs]
+        avg_reward = sum(rewards) / len(rewards)
+        self.log("avg_test_reward", avg_reward)
+        return {"avg_test_reward": avg_reward}
 
     def configure_optimizers(self) -> List[Optimizer]:
         """Initialize Adam optimizer."""
-        optimizer = Adam(self.net.parameters(), lr=self.hparams.training_params["lr"])
+        optimizer = optim.Adam(self.net.parameters(), lr=self.lr)
         return [optimizer]
 
+    def _dataloader(self) -> DataLoader:
+        """Initialize the Replay Buffer dataset used for retrieving experiences."""
+        self.buffer = MultiStepBuffer(self.replay_size, self.n_steps)
+        self.populate(self.warm_start_size)
 
-class ValidationCallback(Callback):
-    def on_train_epoch_end(
-        self, trainer: pl.Trainer, pl_module: pl.LightningModule
-    ) -> None:
+        self.dataset = ExperienceSourceDataset(self.train_batch)
+        return DataLoader(dataset=self.dataset, batch_size=self.batch_size)
 
-        if pl_module.hparams.env_params["env"].lower() == "episodicmemorymanageenv":
-            from memory.environment.gym import EpisodicMemoryManageEnv as Env
+    def train_dataloader(self) -> DataLoader:
+        """Get train loader."""
+        return self._dataloader()
 
-        env = Env(**pl_module.hparams.env_params)
-        state_numeric = env.reset()
-        state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
+    def test_dataloader(self) -> DataLoader:
+        """Get test loader."""
+        return self._dataloader()
 
-        val_rewards = 0
-        with torch.no_grad():
-            pl_module.net.eval()
-            for _ in range(env.oqag.max_history):
-                action = torch.argmax(pl_module.net(state_numeric))
-                state_numeric, reward, done, info = env.step(action)
-                state_numeric = torch.from_numpy(state_numeric).to(pl_module.device)
-                val_rewards += reward
+    @staticmethod
+    def make_environment(env_name: str, seed: Optional[int] = None) -> Env:
+        """Initialise gym  environment.
 
-        val_accuracy = val_rewards / env.oqag.max_history
+        Args
+        ----
+        env_name: environment name or tag
+        seed: value to seed the environment RNG for reproducibility
 
-        pl_module.log(
-            "val_accuracy",
-            val_accuracy,
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
+        Returns
+        -------
+        gym environment
+
+        """
+        env = make_environment(env_name)
+
+        if seed:
+            env.seed(seed)
+
+        return env
+
+    @staticmethod
+    def add_model_specific_args(
+        arg_parser: argparse.ArgumentParser,
+    ) -> argparse.ArgumentParser:
+        """Adds arguments for DQN model.
+
+        Note
+        ----
+        These params are fine tuned for Pong env.
+
+        Args
+        ----
+        arg_parser: parent parser
+
+        """
+        arg_parser.add_argument(
+            "--sync_rate",
+            type=int,
+            default=1000,
+            help="how many frames do we update the target network",
         )
-        pl_module.net.train()
+        arg_parser.add_argument(
+            "--replay_size",
+            type=int,
+            default=100000,
+            help="capacity of the replay buffer",
+        )
+        arg_parser.add_argument(
+            "--warm_start_size",
+            type=int,
+            default=10000,
+            help="how many samples do we use to fill our buffer at the start of training",
+        )
+        arg_parser.add_argument(
+            "--eps_last_frame",
+            type=int,
+            default=150000,
+            help="what frame should epsilon stop decaying",
+        )
+        arg_parser.add_argument(
+            "--eps_start", type=float, default=1.0, help="starting value of epsilon"
+        )
+        arg_parser.add_argument(
+            "--eps_end", type=float, default=0.02, help="final value of epsilon"
+        )
+        arg_parser.add_argument(
+            "--batches_per_epoch",
+            type=int,
+            default=10000,
+            help="number of batches in an epoch",
+        )
+        arg_parser.add_argument(
+            "--batch_size", type=int, default=32, help="size of the batches"
+        )
+        arg_parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
+
+        arg_parser.add_argument(
+            "--env", type=str, required=True, help="gym environment tag"
+        )
+        arg_parser.add_argument(
+            "--gamma", type=float, default=0.99, help="discount factor"
+        )
+
+        arg_parser.add_argument(
+            "--avg_reward_len",
+            type=int,
+            default=100,
+            help="how many episodes to include in avg reward",
+        )
+        arg_parser.add_argument(
+            "--n_steps",
+            type=int,
+            default=1,
+            help="how many frames do we update the target network",
+        )
+
+        return arg_parser
+
+    @staticmethod
+    def _use_dp_or_ddp2(trainer: Trainer) -> bool:
+        return isinstance(
+            trainer.training_type_plugin, (DataParallelPlugin, DDP2Plugin)
+        )
 
 
-def main(
-    seed: int,
-    env_params: dict,
-    dqn_params: dict,
-    callback_params: dict,
-    trainer_params: dict,
-    training_params: dict,
-) -> None:
-    """Instantiate a LightningModule and Trainer, and start training.
+def cli_main():
+    parser = argparse.ArgumentParser(add_help=False)
 
-    Args
-    ----
-    seed: global seed
-    env_params: environment parameters
-    callback_params: callback function parameters
-    dqn_parms: DQN parameters
-    trainer_params: trainer parameters
-    training_params: training parameters
+    # trainer args
+    parser = Trainer.add_argparse_args(parser)
 
-    """
-    assert training_params["batch_size"] == 1, "ONLY TESTED WITH BATCH SIZE 1 SO FAR."
-    seed_everything(seed)
+    # model args
+    parser = DQN.add_model_specific_args(parser)
+    args = parser.parse_args()
 
-    checkpoint_callback = ModelCheckpoint(**callback_params["model_checkpoint"])
-    my_callback = ValidationCallback()
+    model = DQN(**args.__dict__)
 
-    model = DQNLightning(
-        seed=seed,
-        env_params=env_params,
-        dqn_params=dqn_params,
-        training_params=training_params,
+    # save checkpoints based on avg_reward
+    checkpoint_callback = ModelCheckpoint(
+        save_top_k=1, monitor="avg_reward", mode="max", verbose=True
     )
 
-    trainer = Trainer(callbacks=[my_callback, checkpoint_callback], **trainer_params)
+    seed_everything(123)
+    # I can't turn on the deterministic flag. It throws an error.
+    trainer = Trainer.from_argparse_args(
+        args, deterministic=False, callbacks=checkpoint_callback
+    )
 
     trainer.fit(model)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="train rl with arguments.")
-    parser.add_argument(
-        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
-    )
-    args = parser.parse_args()
-
-    config = read_yaml(args.config)
-    logging.info(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
-
-    main(**config)
+    cli_main()

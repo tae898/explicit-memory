@@ -1,383 +1,526 @@
-import os
-from collections import OrderedDict, deque, namedtuple
-from typing import List, Tuple
+"""Deep Q Network."""
+import argparse
+from collections import OrderedDict
+from typing import Dict, List, Optional, Tuple
 
-import gym
 import numpy as np
 import torch
-from pytorch_lightning import LightningModule, Trainer
-from pytorch_lightning.utilities import DistributedType
-from torch import Tensor, nn
-from torch.optim import Adam, Optimizer
+from pytorch_lightning import LightningModule, Trainer, seed_everything
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
+from torch import Tensor, optim
+from torch._C import Value
+from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
-from torch.utils.data.dataset import IterableDataset
 
-PATH_DATASETS = os.environ.get("PATH_DATASETS", ".")
-AVAIL_GPUS = min(1, torch.cuda.device_count())
+from pl_bolts.datamodules.experience_source import Experience, ExperienceSourceDataset
+from pl_bolts.losses.rl import dqn_loss
+from pl_bolts.models.rl.common.agents import ValueAgent
+from pl_bolts.models.rl.common.gym_wrappers import make_environment
+from pl_bolts.models.rl.common.memory import MultiStepBuffer
+from pl_bolts.models.rl.common.networks import CNN
+from pl_bolts.utils import _GYM_AVAILABLE
+from pl_bolts.utils.warnings import warn_missing_pkg
 
-
-class DQN(nn.Module):
-    """Simple MLP network."""
-
-    def __init__(self, obs_size: int, n_actions: int, hidden_size: int = 128):
-        """
-        Args:
-            obs_size: observation/state size of the environment
-            n_actions: number of discrete actions available in the environment
-            hidden_size: size of hidden layers
-        """
-        super().__init__()
-        self.net = nn.Sequential(
-            nn.Linear(obs_size, hidden_size),
-            nn.ReLU(),
-            nn.Linear(hidden_size, n_actions),
-        )
-
-    def forward(self, x):
-        return self.net(x.float())
+if _GYM_AVAILABLE:
+    from gym import Env
+else:  # pragma: no cover
+    warn_missing_pkg("gym")
+    Env = object
 
 
-# Named tuple for storing experience steps gathered in training
-Experience = namedtuple(
-    "Experience",
-    field_names=["state", "action", "reward", "done", "new_state"],
-)
-
-
-class ReplayBuffer:
-    """Replay Buffer for storing past experiences allowing the agent to learn from them.
-
-    Args:
-        capacity: size of the buffer
+class DQN(LightningModule):
+    """Basic DQN Model.
+    PyTorch Lightning implementation of `DQN <https://arxiv.org/abs/1312.5602>`_
+    Paper authors: Volodymyr Mnih, Koray Kavukcuoglu, David Silver, Alex Graves,
+    Ioannis Antonoglou, Daan Wierstra, Martin Riedmiller.
+    Model implemented by:
+        - `Donal Byrne <https://github.com/djbyrne>`
+    Example:
+        >>> from pl_bolts.models.rl.dqn_model import DQN
+        ...
+        >>> model = DQN("PongNoFrameskip-v4")
+    Train::
+        trainer = Trainer()
+        trainer.fit(model)
+    Note:
+        This example is based on:
+        https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On-Second-Edition/blob/master/Chapter06/02_dqn_pong.py
+    Note:
+        Currently only supports CPU and single GPU training with `accelerator=dp`
     """
-
-    def __init__(self, capacity: int) -> None:
-        self.buffer = deque(maxlen=capacity)
-
-    def __len__(self) -> None:
-        return len(self.buffer)
-
-    def append(self, experience: Experience) -> None:
-        """Add experience to the buffer.
-
-        Args:
-            experience: tuple (state, action, reward, done, new_state)
-        """
-        self.buffer.append(experience)
-
-    def sample(self, batch_size: int) -> Tuple:
-        indices = np.random.choice(len(self.buffer), batch_size, replace=False)
-        states, actions, rewards, dones, next_states = zip(
-            *(self.buffer[idx] for idx in indices)
-        )
-
-        return (
-            np.array(states),
-            np.array(actions),
-            np.array(rewards, dtype=np.float32),
-            np.array(dones, dtype=np.bool),
-            np.array(next_states),
-        )
-
-
-class RLDataset(IterableDataset):
-    """Iterable Dataset containing the ExperienceBuffer which will be updated with new experiences during training.
-
-    Args:
-        buffer: replay buffer
-        sample_size: number of experiences to sample at a time
-    """
-
-    def __init__(self, buffer: ReplayBuffer, sample_size: int = 200) -> None:
-        self.buffer = buffer
-        self.sample_size = sample_size
-
-    def __iter__(self) -> Tuple:
-        states, actions, rewards, dones, new_states = self.buffer.sample(
-            self.sample_size
-        )
-        for i in range(len(dones)):
-            yield states[i], actions[i], rewards[i], dones[i], new_states[i]
-
-
-class Agent:
-    """Base Agent class handeling the interaction with the environment."""
-
-    def __init__(self, env: gym.Env, replay_buffer: ReplayBuffer) -> None:
-        """
-        Args:
-            env: training environment
-            replay_buffer: replay buffer storing experiences
-        """
-        self.env = env
-        self.replay_buffer = replay_buffer
-        self.reset()
-        self.state = self.env.reset()
-
-    def reset(self) -> None:
-        """Resents the environment and updates the state."""
-        self.state = self.env.reset()
-
-    def get_action(self, net: nn.Module, epsilon: float, device: str) -> int:
-        """Using the given network, decide what action to carry out using an epsilon-greedy policy.
-
-        Args:
-            net: DQN network
-            epsilon: value to determine likelihood of taking a random action
-            device: current device
-
-        Returns:
-            action
-        """
-        if np.random.random() < epsilon:
-            action = self.env.action_space.sample()
-        else:
-            state = torch.tensor([self.state])
-
-            if device not in ["cpu"]:
-                state = state.cuda(device)
-
-            q_values = net(state)
-            _, action = torch.max(q_values, dim=1)
-            action = int(action.item())
-
-        return action
-
-    @torch.no_grad()
-    def play_step(
-        self,
-        net: nn.Module,
-        epsilon: float = 0.0,
-        device: str = "cpu",
-    ) -> Tuple[float, bool]:
-        """Carries out a single interaction step between the agent and the environment.
-
-        Args:
-            net: DQN network
-            epsilon: value to determine likelihood of taking a random action
-            device: current device
-
-        Returns:
-            reward, done
-        """
-
-        action = self.get_action(net, epsilon, device)
-
-        # do step in the environment
-        new_state, reward, done, _ = self.env.step(action)
-
-        exp = Experience(self.state, action, reward, done, new_state)
-
-        self.replay_buffer.append(exp)
-
-        self.state = new_state
-        if done:
-            self.reset()
-        return reward, done
-
-
-class DQNLightning(LightningModule):
-    """Basic DQN Model."""
 
     def __init__(
         self,
-        batch_size: int = 16,
-        lr: float = 1e-2,
-        env: str = "CartPole-v0",
-        gamma: float = 0.8,
-        sync_rate: int = 10,
-        replay_size: int = 1000,
-        warm_start_size: int = 1000,
-        eps_last_frame: int = 1000,
+        env: str,
         eps_start: float = 1.0,
-        eps_end: float = 0.01,
-        episode_length: int = 200,
-        warm_start_steps: int = 1000,
-    ) -> None:
+        eps_end: float = 0.02,
+        eps_last_frame: int = 150000,
+        sync_rate: int = 1000,
+        gamma: float = 0.99,
+        learning_rate: float = 1e-4,
+        batch_size: int = 32,
+        replay_size: int = 100000,
+        warm_start_size: int = 10000,
+        avg_reward_len: int = 100,
+        min_episode_reward: int = -21,
+        seed: int = None,
+        batches_per_epoch: int = 1000,
+        n_steps: int = 1,
+        **kwargs,
+    ):
         """
-        Args:
-            batch_size: size of the batches")
-            lr: learning rate
-            env: gym environment tag
-            gamma: discount factor
-            sync_rate: how many frames do we update the target network
-            replay_size: capacity of the replay buffer
-            warm_start_size: how many samples do we use to fill our buffer at the start of training
-            eps_last_frame: what frame should epsilon stop decaying
-            eps_start: starting value of epsilon
-            eps_end: final value of epsilon
-            episode_length: max length of an episode
-            warm_start_steps: max episode reward in the environment
+        Args
+        ----
+        env: gym environment tag
+        eps_start: starting value of epsilon for the epsilon-greedy exploration
+        eps_end: final value of epsilon for the epsilon-greedy exploration
+        eps_last_frame: the final frame in for the decrease of epsilon. At this frame
+            espilon = eps_end
+        sync_rate: the number of iterations between syncing up the target network with
+            the train network
+        gamma: discount factor
+        learning_rate: learning rate
+        batch_size: size of minibatch pulled from the DataLoader
+        replay_size: total capacity of the replay buffer
+        warm_start_size: how many random steps through the environment to be carried out
+            at the start of training to fill the buffer with a starting point
+        avg_reward_len: how many episodes to take into account when calculating the avg
+            reward
+        min_episode_reward: the minimum score that can be achieved in an episode. Used
+            for filling the avg buffer before training begins
+        seed: seed value for all RNG used
+        batches_per_epoch: number of batches per epoch
+        n_steps: size of n step look ahead
+
         """
         super().__init__()
+
+        # Environment
+        self.exp = None
+        self.env = self.make_environment(env, seed)
+        self.val_env = self.make_environment(env, seed + 1)
+        self.test_env = self.make_environment(env, seed + 2)
+
+        self.obs_shape = self.env.observation_space.shape
+        self.n_actions = self.env.action_space.n
+
+        # Model Attributes
+        self.buffer = None
+        self.dataset = None
+
+        self.net = None
+        self.target_net = None
+        self.build_networks()
+
+        self.agent = ValueAgent(
+            self.net,
+            self.n_actions,
+            eps_start=eps_start,
+            eps_end=eps_end,
+            eps_frames=eps_last_frame,
+        )
+
+        # Hyperparameters
+        self.sync_rate = sync_rate
+        self.gamma = gamma
+        self.lr = learning_rate
+        self.batch_size = batch_size
+        self.replay_size = replay_size
+        self.warm_start_size = warm_start_size
+        self.batches_per_epoch = batches_per_epoch
+        self.n_steps = n_steps
+
         self.save_hyperparameters()
 
-        self.env = gym.make(self.hparams.env)
-        obs_size = self.env.observation_space.shape[0]
-        n_actions = self.env.action_space.n
+        # Metrics
+        self.total_episode_steps = [0]
+        self.total_rewards = [0]
+        self.done_episodes = 0
+        self.total_steps = 0
 
-        self.net = DQN(obs_size, n_actions)
-        self.target_net = DQN(obs_size, n_actions)
+        # Average Rewards
+        self.avg_reward_len = avg_reward_len
 
-        self.buffer = ReplayBuffer(self.hparams.replay_size)
-        self.agent = Agent(self.env, self.buffer)
-        self.total_reward = 0
-        self.episode_reward = 0
-        self.populate(self.hparams.warm_start_steps)
+        for _ in range(avg_reward_len):
+            self.total_rewards.append(
+                torch.tensor(min_episode_reward, device=self.device)
+            )
 
-    def populate(self, steps: int = 1000) -> None:
-        """Carries out several random steps through the environment to initially fill up the replay buffer with
-        experiences.
+        self.avg_rewards = float(np.mean(self.total_rewards[-self.avg_reward_len :]))
 
-        Args:
-            steps: number of random steps to populate the buffer with
+        self.state = self.env.reset()
+
+    def run_n_episodes(
+        self, env, n_epsiodes: int = 1, epsilon: float = 1.0
+    ) -> List[int]:
+        """Carries out N episodes of the environment with the current agent.
+
+        Args
+        ----
+        env: environment to use, either train environment or test environment
+        n_epsiodes: number of episodes to run
+        epsilon: epsilon value for DQN agent
+
         """
-        for i in range(steps):
-            self.agent.play_step(self.net, epsilon=1.0)
+        total_rewards = []
+
+        for _ in range(n_epsiodes):
+            episode_state = env.reset()
+            done = False
+            episode_reward = 0
+
+            while not done:
+                self.agent.epsilon = epsilon
+                action = self.agent(episode_state, self.device)
+                next_state, reward, done, _ = env.step(action[0])
+                episode_state = next_state
+                episode_reward += reward
+
+            total_rewards.append(episode_reward)
+
+        return total_rewards
+
+    def populate(self, warm_start: int) -> None:
+        """Populates the buffer with initial experience."""
+        if warm_start > 0:
+            self.state = self.env.reset()
+
+            for _ in range(warm_start):
+                self.agent.epsilon = 1.0
+                action = self.agent(self.state, self.device)
+                next_state, reward, done, _ = self.env.step(action[0])
+                exp = Experience(
+                    state=self.state,
+                    action=action[0],
+                    reward=reward,
+                    done=done,
+                    new_state=next_state,
+                )
+                self.buffer.append(exp)
+                self.state = next_state
+
+                if done:
+                    self.state = self.env.reset()
+
+    def build_networks(self) -> None:
+        """Initializes the DQN train and target networks."""
+        self.net = CNN(self.obs_shape, self.n_actions)
+        self.target_net = CNN(self.obs_shape, self.n_actions)
 
     def forward(self, x: Tensor) -> Tensor:
-        """Passes in a state x through the network and gets the q_values of each action as an output.
+        """Passes in a state x through the network and gets the q_values of each action
+        as an output.
 
-        Args:
-            x: environment state
+        Args
+        ----
+        x: environment state
 
-        Returns:
-            q values
+        Returns
+        -------
+        q values
+
         """
         output = self.net(x)
         return output
 
-    def dqn_mse_loss(self, batch: Tuple[Tensor, Tensor]) -> Tensor:
-        """Calculates the mse loss using a mini batch from the replay buffer.
+    def train_batch(
+        self,
+    ) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]:
+        """Contains the logic for generating a new batch of data to be passed to the
+        DataLoader.
 
-        Args:
-            batch: current mini batch of replay data
+        Returns
+        -------
+        yields a Experience tuple containing the state, action, reward, done and
+        next_state.
 
-        Returns:
-            loss
         """
-        states, actions, rewards, dones, next_states = batch
+        episode_reward = 0
+        episode_steps = 0
 
-        state_action_values = (
-            self.net(states).gather(1, actions.unsqueeze(-1)).squeeze(-1)
-        )
+        while True:
+            self.total_steps += 1
+            action = self.agent(self.state, self.device)
 
-        with torch.no_grad():
-            next_state_values = self.target_net(next_states).max(1)[0]
-            next_state_values[dones] = 0.0
-            next_state_values = next_state_values.detach()
+            next_state, r, is_done, _ = self.env.step(action[0])
 
-        expected_state_action_values = next_state_values * self.hparams.gamma + rewards
+            episode_reward += r
+            episode_steps += 1
 
-        return nn.MSELoss()(state_action_values, expected_state_action_values)
+            exp = Experience(
+                state=self.state,
+                action=action[0],
+                reward=r,
+                done=is_done,
+                new_state=next_state,
+            )
 
-    def training_step(self, batch: Tuple[Tensor, Tensor], nb_batch) -> OrderedDict:
-        """Carries out a single step through the environment to update the replay buffer. Then calculates loss
-        based on the minibatch recieved.
+            self.agent.update_epsilon(self.global_step)
+            self.buffer.append(exp)
+            self.state = next_state
 
-        Args:
-            batch: current mini batch of replay data
-            nb_batch: batch number
+            if is_done:
+                self.done_episodes += 1
+                self.total_rewards.append(episode_reward)
+                self.total_episode_steps.append(episode_steps)
+                self.avg_rewards = float(
+                    np.mean(self.total_rewards[-self.avg_reward_len :])
+                )
+                self.state = self.env.reset()
+                episode_steps = 0
+                episode_reward = 0
 
-        Returns:
-            Training loss and log metrics
+            states, actions, rewards, dones, new_states = self.buffer.sample(
+                self.batch_size
+            )
+
+            for idx, _ in enumerate(dones):
+                yield states[idx], actions[idx], rewards[idx], dones[idx], new_states[
+                    idx
+                ]
+
+            # Simulates epochs
+            if self.total_steps % self.batches_per_epoch == 0:
+                break
+
+    def training_step(self, batch: Tuple[Tensor, Tensor], _) -> OrderedDict:
+        """Carries out a single step through the environment to update the replay
+        buffer. Then calculates loss based on the minibatch recieved.
+
+        Args
+        ----
+        batch: current mini batch of replay data
+        _: batch number, not used
+
+        Returns
+        -------
+        Training loss and log metrics
+
         """
-        device = self.get_device(batch)
-        epsilon = max(
-            self.hparams.eps_end,
-            self.hparams.eps_start - self.global_step + 1 / self.hparams.eps_last_frame,
-        )
-
-        # step through environment with agent
-        reward, done = self.agent.play_step(self.net, epsilon, device)
-        self.episode_reward += reward
-
+        print(f"TAETAE: training_step: global_step: {self.global_step} ")
         # calculates training loss
-        loss = self.dqn_mse_loss(batch)
+        loss = dqn_loss(batch, self.net, self.target_net, self.gamma)
 
-        if self.trainer._distrib_type in {DistributedType.DP, DistributedType.DDP2}:
+        if self._use_dp_or_ddp2(self.trainer):
             loss = loss.unsqueeze(0)
 
-        if done:
-            self.total_reward = self.episode_reward
-            self.episode_reward = 0
-
         # Soft update of target network
-        if self.global_step % self.hparams.sync_rate == 0:
+        if self.global_step % self.sync_rate == 0:
             self.target_net.load_state_dict(self.net.state_dict())
 
-        train_total_reward = (
-            torch.tensor(self.total_reward).to(device).detach().cpu().numpy().tolist()
+        self.log_dict(
+            {
+                "total_reward": self.total_rewards[-1],
+                "avg_reward": self.avg_rewards,
+                "train_loss": loss,
+                "episodes": self.done_episodes,
+                "episode_steps": self.total_episode_steps[-1],
+            }
         )
 
-        train_reward = torch.tensor(reward).to(device).detach().cpu().numpy().tolist()
-
-        train_loss = loss.detach().cpu().numpy().tolist()
-
-        self.log(
-            "train_loss",
-            train_loss,
-            on_step=True,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
-        )
-        self.log(
-            "train_total_reward",
-            train_total_reward,
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-            logger=True,
+        return OrderedDict(
+            {
+                "loss": loss,
+                "avg_reward": self.avg_rewards,
+            }
         )
 
-        self.log(
-            "train_reward",
-            train_reward,
-            on_step=True,
-            on_epoch=False,
-            prog_bar=True,
-            logger=True,
-        )
-        # self.log(
-        #     "train_steps",
-        #     train_steps,
-        #     on_step=True,
-        #     on_epoch=True,
-        #     prog_bar=True,
-        #     logger=True,
-        # )
+    def validation_step(self, *args, **kwargs) -> Dict[str, Tensor]:
+        """Validate the agent for 1 episodes."""
+        print(f"TAETAE: validation_step: global_step: {self.global_step} ")
+        val_reward = self.run_n_episodes(self.val_env, 1, 0)
+        avg_reward = sum(val_reward) / len(val_reward)
+        return {"val_reward": avg_reward}
 
-        # return loss
-        return OrderedDict({"loss": loss})
+    def validation_epoch_end(self, outputs) -> Dict[str, Tensor]:
+        """Log the avg of the val results."""
+        rewards = [x["val_reward"] for x in outputs]
+        avg_reward = sum(rewards) / len(rewards)
+        self.log("avg_val_reward", avg_reward)
+        return {"avg_val_reward": avg_reward}
+
+    def test_step(self, *args, **kwargs) -> Dict[str, Tensor]:
+        """Evaluate the agent for 1 episodes."""
+        print(f"TAETAE: test_step: global_step: {self.global_step} ")
+        test_reward = self.run_n_episodes(self.test_env, 1, 0)
+        avg_reward = sum(test_reward) / len(test_reward)
+        return {"test_reward": avg_reward}
+
+    def test_epoch_end(self, outputs) -> Dict[str, Tensor]:
+        """Log the avg of the test results."""
+        rewards = [x["test_reward"] for x in outputs]
+        avg_reward = sum(rewards) / len(rewards)
+        self.log("avg_test_reward", avg_reward)
+        return {"avg_test_reward": avg_reward}
 
     def configure_optimizers(self) -> List[Optimizer]:
         """Initialize Adam optimizer."""
-        optimizer = Adam(self.net.parameters(), lr=self.hparams.lr)
+        optimizer = optim.Adam(self.net.parameters(), lr=self.lr)
         return [optimizer]
 
-    def __dataloader(self) -> DataLoader:
+    def _dataloader(self) -> DataLoader:
         """Initialize the Replay Buffer dataset used for retrieving experiences."""
-        dataset = RLDataset(self.buffer, self.hparams.episode_length)
-        dataloader = DataLoader(
-            dataset=dataset,
-            batch_size=self.hparams.batch_size,
-        )
-        return dataloader
+        self.buffer = MultiStepBuffer(self.replay_size, self.n_steps)
+        self.populate(self.warm_start_size)
+
+        self.dataset = ExperienceSourceDataset(self.train_batch)
+        return DataLoader(dataset=self.dataset, batch_size=self.batch_size)
 
     def train_dataloader(self) -> DataLoader:
         """Get train loader."""
-        return self.__dataloader()
+        return self._dataloader()
 
-    def get_device(self, batch) -> str:
-        """Retrieve device currently being used by minibatch."""
-        return batch[0].device.index if self.on_gpu else "cpu"
+    def val_dataloader(self) -> DataLoader:
+        """Get val loader."""
+        return self._dataloader()
+
+    def test_dataloader(self) -> DataLoader:
+        """Get test loader."""
+        return self._dataloader()
+
+    @staticmethod
+    def make_environment(env_name: str, seed: Optional[int] = None) -> Env:
+        """Initialise gym  environment.
+
+        Args
+        ----
+        env_name: environment name or tag
+        seed: value to seed the environment RNG for reproducibility
+
+        Returns
+        -------
+        gym environment
+
+        """
+        env = make_environment(env_name)
+
+        if seed:
+            env.seed(seed)
+
+        return env
+
+    @staticmethod
+    def add_model_specific_args(
+        arg_parser: argparse.ArgumentParser,
+    ) -> argparse.ArgumentParser:
+        """Adds arguments for DQN model.
+
+        Note
+        ----
+        These params are fine tuned for Pong env.
+
+        Args
+        ----
+        arg_parser: parent parser
+
+        """
+        arg_parser.add_argument(
+            "--sync_rate",
+            type=int,
+            default=1000,
+            help="how many frames do we update the target network",
+        )
+        arg_parser.add_argument(
+            "--replay_size",
+            type=int,
+            default=100000,
+            help="capacity of the replay buffer",
+        )
+        arg_parser.add_argument(
+            "--warm_start_size",
+            type=int,
+            default=10000,
+            help="how many samples do we use to fill our buffer at the start of training",
+        )
+        arg_parser.add_argument(
+            "--eps_last_frame",
+            type=int,
+            default=150000,
+            help="what frame should epsilon stop decaying",
+        )
+        arg_parser.add_argument(
+            "--eps_start", type=float, default=1.0, help="starting value of epsilon"
+        )
+        arg_parser.add_argument(
+            "--eps_end", type=float, default=0.02, help="final value of epsilon"
+        )
+        arg_parser.add_argument(
+            "--batches_per_epoch",
+            type=int,
+            default=10000,
+            help="number of batches in an epoch",
+        )
+        arg_parser.add_argument(
+            "--batch_size", type=int, default=32, help="size of the batches"
+        )
+        arg_parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
+
+        arg_parser.add_argument(
+            "--env", type=str, required=True, help="gym environment tag"
+        )
+        arg_parser.add_argument(
+            "--gamma", type=float, default=0.99, help="discount factor"
+        )
+
+        arg_parser.add_argument(
+            "--avg_reward_len",
+            type=int,
+            default=100,
+            help="how many episodes to include in avg reward",
+        )
+        arg_parser.add_argument(
+            "--n_steps",
+            type=int,
+            default=1,
+            help="how many frames do we update the target network",
+        )
+
+        arg_parser.add_argument(
+            "--seed",
+            type=int,
+            default=42,
+            help="seed number",
+        )
+
+        return arg_parser
+
+    @staticmethod
+    def _use_dp_or_ddp2(trainer: Trainer) -> bool:
+        return isinstance(
+            trainer.training_type_plugin, (DataParallelPlugin, DDP2Plugin)
+        )
 
 
-model = DQNLightning()
+def cli_main():
+    parser = argparse.ArgumentParser(add_help=False)
 
-trainer = Trainer(
-    gpus=AVAIL_GPUS, max_epochs=20, val_check_interval=1.0, log_every_n_steps=1
-)
+    # trainer args
+    parser = Trainer.add_argparse_args(parser)
 
-trainer.fit(model)
+    # model args
+    parser = DQN.add_model_specific_args(parser)
+    args = parser.parse_args()
+    model = DQN(**args.__dict__)
+
+    # save checkpoints based on avg_reward
+    checkpoint_callback = ModelCheckpoint(
+        save_top_k=10, monitor="avg_val_reward", mode="max", verbose=True
+    )
+
+    seed_everything(args.seed)
+    if args.gpus is None:
+        deterministic = True
+    else:
+        # I can't turn on the deterministic flag when using cuda. It throws an error.
+        deterministic = False
+    trainer = Trainer.from_argparse_args(
+        args, deterministic=deterministic, callbacks=checkpoint_callback
+    )
+
+    trainer.fit(model)
+    trainer.test(model)
+
+
+if __name__ == "__main__":
+    cli_main()

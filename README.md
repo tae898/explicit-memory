@@ -6,6 +6,8 @@ This repo is to train an agent that has human-like memory systems. We explictly 
 
 1. A unix or unix-like x86 machine
 1. python 3.7 or higher. Running in a virtual environment (e.g., conda, virtualenv, etc.) is highly recommended so that you don't mess up with the system python.
+1. `pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f https://download.pytorch.org/whl/cu113/torch_stable.html`
+1. `pip install -r requirements.txt`
 
 ## Data collection
 
