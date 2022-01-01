@@ -474,6 +474,8 @@ class MemorySpace(Space):
             mask = self.oqag.number2string(int(qa_num[0][2]))
             pad = self.oqag.number2string(int(qa_num[0][3]))
 
+            assert pad == "<pad>"
+
         assert mask == "<MASK>"
 
         qa_sem = [obj, relation, "?"]
@@ -504,8 +506,7 @@ class MemorySpace(Space):
             assert self.M_e.capacity > 0
             self.oqag.reset()
             self.M_e.forget_all()
-            # for _ in range(random.randint(0, self.M_e.capacity)):
-            for _ in range(self.M_e.capacity):
+            for _ in range(random.randint(1, self.M_e.capacity)):
                 ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
                 mem_epi = self.M_e.ob2epi(ob)
                 self.M_e.add(mem_epi)
@@ -538,7 +539,6 @@ class MemorySpace(Space):
             assert self.M_s.capacity > 0
             self.oqag.reset()
             self.M_s.forget_all()
-            # for _ in range(random.randint(0, self.M_s.capacity)):
             for _ in range(self.M_s.capacity):
                 ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
                 mem_sem = self.M_s.ob2sem(ob)
@@ -554,51 +554,51 @@ class MemorySpace(Space):
 
             return state_numeric
 
-        # elif self.space_type == "episodic_to_semantic":
-        #     assert self.M_e.capacity > 0 and self.M_s.capacity > 0
-        #     self.oqag.reset()
-        #     self.M_e.forget_all()
-        #     for _ in range(self.M_e.capacity + 1):
-        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
-        #         mem_epi = self.M_e.ob2epi(ob)
-        #         self.M_e.add(mem_epi)
+        elif self.space_type == "episodic_to_semantic":
+            assert self.M_e.capacity > 0 and self.M_s.capacity > 0
+            self.oqag.reset()
+            self.M_e.forget_all()
+            for _ in range(self.M_e.capacity):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_epi = self.M_e.ob2epi(ob)
+                self.M_e.add(mem_epi)
 
-        #     state_numeric = self.episodic_memory_system_to_numbers(
-        #         self.M_e, self.M_e.capacity + 1
-        #     )
+            state_numeric = self.episodic_memory_system_to_numbers(
+                self.M_e, self.M_e.capacity
+            )
 
-        #     return state_numeric
+            return state_numeric
 
-        # elif self.space_type == "episodic_semantic_question_answer":
-        #     assert self.M_e.capacity > 0 and self.M_s.capacity > 0
-        #     self.oqag.reset()
-        #     self.M_e.forget_all()
-        #     self.M_s.forget_all()
+        elif self.space_type == "episodic_semantic_question_answer":
+            assert self.M_e.capacity > 0 and self.M_s.capacity > 0
+            self.oqag.reset()
+            self.M_e.forget_all()
+            self.M_s.forget_all()
 
-        #     for _ in range(random.randint(0, self.M_e.capacity)):
-        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
-        #         mem_epi = self.M_e.ob2epi(ob)
-        #         self.M_e.add(mem_epi)
-        #     state_numeric_e = self.episodic_memory_system_to_numbers(
-        #         self.M_e, self.M_e.capacity
-        #     )
-        #     state_numeric_eq = self.episodic_question_answer_to_numbers(qa_epi)
+            for _ in range(self.M_e.capacity):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_epi = self.M_e.ob2epi(ob)
+                self.M_e.add(mem_epi)
+            state_numeric_e = self.episodic_memory_system_to_numbers(
+                self.M_e, self.M_e.capacity
+            )
+            state_numeric_eq = self.episodic_question_answer_to_numbers(qa_epi)
 
-        #     for _ in range(random.randint(0, self.M_s.capacity)):
-        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
-        #         mem_sem = self.M_s.ob2sem(ob)
-        #         self.M_s.add(mem_sem)
-        #     qa_sem = self.M_s.eq2sq(qa_epi)
-        #     state_numeric_s = self.semantic_memory_system_to_numbers(
-        #         self.M_s, self.M_s.capacity, pad=False
-        #     )
-        #     state_numeric_sq = self.semantic_question_answer_to_numbers(qa_sem)
+            for _ in range(random.randint(0, self.M_s.capacity)):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_sem = self.M_s.ob2sem(ob)
+                self.M_s.add(mem_sem)
+            qa_sem = self.M_s.eq2sq(qa_epi)
+            state_numeric_s = self.semantic_memory_system_to_numbers(
+                self.M_s, self.M_s.capacity, pad=False
+            )
+            state_numeric_sq = self.semantic_question_answer_to_numbers(qa_sem)
 
-        #     state_numeric = np.concatenate(
-        #         [state_numeric_e, state_numeric_eq, state_numeric_s,state_numeric_sq]
-        #     )
+            state_numeric = np.concatenate(
+                [state_numeric_e, state_numeric_eq, state_numeric_s, state_numeric_sq]
+            )
 
-        #     return state_numeric
+            return state_numeric
 
         raise ValueError
 

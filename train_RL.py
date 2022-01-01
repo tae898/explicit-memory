@@ -25,7 +25,6 @@ from torch._C import Value
 from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
 
-from memory import memory
 from memory.utils import read_yaml
 
 if _GYM_AVAILABLE:
