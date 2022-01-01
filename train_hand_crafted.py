@@ -70,7 +70,7 @@ def train_only_episodic(
         rewards = 0
 
         for _ in range(max_history):
-            ob, question_answer = oqag.generate()
+            ob, question_answer = oqag.generate_with_history()
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
             if M_e.is_kinda_full:
@@ -170,7 +170,7 @@ def train_only_semantic(
 
         rewards = 0
         for _ in range(max_history):
-            ob, question_answer = oqag.generate()
+            ob, question_answer = oqag.generate_with_history()
             mem_sem = M_s.ob2sem(ob)
             if not M_s.is_frozen:
                 M_s.add(mem_sem)
@@ -280,7 +280,7 @@ def train_both_episodic_and_semantic(
 
         rewards = 0
         for _ in range(max_history):
-            ob, question_answer = oqag.generate()
+            ob, question_answer = oqag.generate_with_history()
             mem_epi = M_e.ob2epi(ob)
             M_e.add(mem_epi)
             if M_s.is_frozen:

@@ -1,15 +1,15 @@
+import argparse
+import logging
+import os
 import random
 from copy import deepcopy
 
+import numpy as np
 from tqdm import tqdm
 
 from memory import EpisodicMemory, SemanticMemory
 from memory.environment.generator import OQAGenerator
-from memory.utils import write_json, read_yaml
-import argparse
-import logging
-import os
-import numpy as np
+from memory.utils import read_yaml, write_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -71,7 +71,7 @@ def main(
                 rewards = 0
                 for idx in range(max_history):
 
-                    ob, question_answer = oqag.generate()
+                    ob, question_answer = oqag.generate_with_history()
                     ob[-1] += 86400 * idx + 1000000000
                     mem_epi = M_e.ob2epi(ob)
                     M_e.add(mem_epi)

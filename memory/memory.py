@@ -38,7 +38,7 @@ class Memory:
 
         logging.debug(f"{memory_type} memory object with size {capacity} instantiated!")
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         eps = 0.01
         if self.memory_type != other.memory_type:
             return False
@@ -145,7 +145,7 @@ class Memory:
         return len(self.entries) == self.capacity + 1
 
     @property
-    def is_frozen(self):
+    def is_frozen(self) -> bool:
         """Is frozen?"""
         return self._frozen
 
@@ -154,11 +154,11 @@ class Memory:
         """Get the size (number of filled entries) of the memory system."""
         return len(self.entries)
 
-    def freeze(self):
+    def freeze(self) -> None:
         """Freeze the memory so that nothing can be added / deleted."""
         self._frozen = True
 
-    def unfreeze(self):
+    def unfreeze(self) -> None:
         """Unfreeze the memory so that something can be added / deleted."""
         self._frozen = False
 
@@ -275,7 +275,7 @@ class Memory:
 
         return reward, pred, correct_answer
 
-    def add(self, mem: list):
+    def add(self, mem: list) -> None:
         """Append a memory to the memory system.
 
         Args
@@ -303,6 +303,12 @@ class Memory:
             f"memory entry {mem} added. Now there are in total of "
             f"{len(self.entries)} memories!"
         )
+        self.sort_memories_ascending()
+
+    def sort_memories_ascending(self) -> None:
+        """Sort the memories in an ascending order with respect to the 4th element."""
+        self.entries.sort(key=lambda x: x[3])
+        logging.info("memories have been sorted!")
 
     def increase_capacity(self, increase):
         """Increase the capacity.
@@ -404,7 +410,7 @@ class EpisodicMemory(Memory):
         mem = self.get_oldest_memory()
         self.forget(mem)
 
-    def answer_latest(self, question: list) -> int:
+    def answer_latest(self, question: list) -> Tuple[int, str, str]:
         """Answer the question with the latest relevant memory.
 
         If object X was found at Y and then later on found Z, then this strategy answers
@@ -460,7 +466,7 @@ class EpisodicMemory(Memory):
     def ob2epi(ob: list):
         """Turn an observation into an episodic memory.
 
-        At the moment, an observation is the same as an episodic memory for
+        At the moment, the observation format is the same as an episodic memory for
         simplification.
 
         Args
@@ -598,12 +604,13 @@ class SemanticMemory(Memory):
         ----
         semantic_knowledge_path: the path to the pretrained semantic memory.
         weighting_mode: "highest" chooses the one with the highest weight, "weighted"
-            chooses all of them by weight, and null chooses every single one of them
+            chooses all of them by weight, and None chooses every single one of them
             without weighting.
 
         Returns
         -------
-        free_space: free space that can be added to the episodic memory system.
+        free_space: free space that was not used, if any,  so that it can be added to
+            the episodic memory system.
 
         """
         logging.debug(
@@ -713,7 +720,7 @@ class SemanticMemory(Memory):
         self.forget(mem)
         logging.info(f"{mem} is forgotten!")
 
-    def answer_strongest(self, question: list) -> int:
+    def answer_strongest(self, question: list) -> Tuple[int, str, str]:
         """Answer the question (Find the head that matches the question, and choose the
         strongest one among them).
 
@@ -881,3 +888,4 @@ class SemanticMemory(Memory):
         """
         super().add(mem)
         self.clean_memories()
+        self.sort_memories_ascending()

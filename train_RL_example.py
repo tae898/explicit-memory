@@ -5,15 +5,8 @@ from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
-from pytorch_lightning import LightningModule, Trainer, seed_everything
-from pytorch_lightning.callbacks import ModelCheckpoint
-from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
-from torch import Tensor, optim
-from torch._C import Value
-from torch.optim.optimizer import Optimizer
-from torch.utils.data import DataLoader
-
-from pl_bolts.datamodules.experience_source import Experience, ExperienceSourceDataset
+from pl_bolts.datamodules.experience_source import (Experience,
+                                                    ExperienceSourceDataset)
 from pl_bolts.losses.rl import dqn_loss
 from pl_bolts.models.rl.common.agents import ValueAgent
 from pl_bolts.models.rl.common.gym_wrappers import make_environment
@@ -21,6 +14,13 @@ from pl_bolts.models.rl.common.memory import MultiStepBuffer
 from pl_bolts.models.rl.common.networks import CNN
 from pl_bolts.utils import _GYM_AVAILABLE
 from pl_bolts.utils.warnings import warn_missing_pkg
+from pytorch_lightning import LightningModule, Trainer, seed_everything
+from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
+from torch import Tensor, optim
+from torch._C import Value
+from torch.optim.optimizer import Optimizer
+from torch.utils.data import DataLoader
 
 if _GYM_AVAILABLE:
     from gym import Env
@@ -497,6 +497,7 @@ def cli_main():
 
     # trainer args
     parser = Trainer.add_argparse_args(parser)
+    # import pdb; pdb.set_trace()
 
     # model args
     parser = DQN.add_model_specific_args(parser)

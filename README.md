@@ -1,21 +1,20 @@
 # explicit-memory
 
-This repo is to train an agent that has human-like memory systems. We explictly model it 
+This repo is to train an agent that has human-like memory systems. We explictly model it
 with an explicit (i.e., semantic and episodic) memory system.
 
 ## Prerequisites
 
 1. A unix or unix-like x86 machine
-1. python 3.7 or higher. Running in a virtual environment (e.g., conda, virtualenv, etc.) 
-2. is highly recommended so that you don't mess up with the system python.
-3. `pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f 
-https://download.pytorch.org/whl/cu113/torch_stable.html`
-4. `pip install -r requirements.txt`
+1. python 3.7 or higher. Running in a virtual environment (e.g., conda, virtualenv, etc.)
+1. is highly recommended so that you don't mess up with the system python.
+1. `pip install torch==1.10.1+cu113 torchvision==0.11.2+cu113 torchaudio==0.10.1+cu113 -f  https://download.pytorch.org/whl/cu113/torch_stable.html`
+1. `pip install -r requirements.txt`
 
 ## Data collection
 
-Data is collected from querying ConceptNet APIs. For simplicity, we only collect triples 
-whose format is (`head`, `AtLocation`, `tail`). Here `head` is one of the 80 MS COCO 
+Data is collected from querying ConceptNet APIs. For simplicity, we only collect triples
+whose format is (`head`, `AtLocation`, `tail`). Here `head` is one of the 80 MS COCO
 dataset categories. This was kept in mind so that later on we can use images as well.
 
 If you want to collect the data manually, then run below:
@@ -28,39 +27,112 @@ Otherwise, just use `./data/data.json`
 
 ## Evaluation
 
-Using cognitive science and commonsense knowledge, we've come up with six startegies (policies)
-
+Using cognitive science and commonsense knowledge, we've come up with six startegies
+(policies)
 
 ### (i) Episodic Memory Manage
 
-Considering how the data is given, the best strategy is to remove the oldest memory in 
-the episodic 
+Considering how the data is given, the best hand-crafted strategy is to remove the oldest
+memory in the episodic memory system (upper bound).
 
-### (i) Hand-crafted 1: Only episodic, FIFO and NRO.
+A uniform-random strategy is to select and remove uniform-randomly selected memory (lower bound).
 
-This agent only has an episodic memory system. Memory is maintained as FIFO (first in, first out) and NRO (new replaces old). FIFO is basically a way to forget old memories so that there is room to store new memories. NRO works in a way that if, for example, an old observation `<Karen's laptop,AtLocation,Karen's desk>}` is already in $\\bm{M}_{E}$ and there is a new incoming observation `<Karen's laptop,AtLocation,Karen's house>}`, then the new one replaces the old one. $\\bm{M}_{E}$ is empty in the beginning of an episode.
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results.
 
-### (ii) Hand-crafted 2: Only semantic, FIFO and NRO.
+State: $N$ episodic memories + $1$ incoming episodic memory. This results in $N+1$ rows\
+Action: $N+1$ discrete actions. For example, if the action is $k$, its removing $k$ th memory.\
+Reward: If the episodic QA answers the question properly, then it's $+1$ and otherwise it's $+0$
 
-This agent only has a semantic memory system. $\\bm{M}\_{S}$ is empty in the beginning of an episode.
+### (ii) Episodic Question Answer
 
-### (iii) Hand-crafted 3: Both episodic and semantic, generalization, FIFO and NRO.
+Considering how the data is given, the best hand-crafted strategy is first to find the
+episodic memories whose head is the same as quesiton query head. And then among the $M$
+selected memories, it selects the latest one. (upper bound)
 
-This agent has both episodic and semantic memory systems. The generalization is achieved by finding episodic memories that can be compressed into one semantic memory. Both $\\bm{M}_{E}$ and $\\bm{M}_{S}$ is empty in the beginning of an episode.
+A uniform-random strategy is to select and remove uniform-randomly selected memory (lower bound).
 
-### (iv) RL 1: Both episodic and semantic, where semantic is scratch.
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results
 
-A reinforcement learning agent in an MDP environment learns how to generalize episodic memories into a semantic memory, and at the same time it learns how to forget redundant episodic and semantic memories. Both $\\bm{M}_{E}$ and $\\bm{M}_{S}$ is empty in the beginning of an episode.
+State: $N$ episodic memories + $1$ episodic question query. This results in $N+1$ rows\
+Action: $N+1$ discrete actions. For example, if the action is $k$, its selecting $k$ th
+memory to answer the question.\
+Reward: If retrieved the memory's tail is the correct location of the object, then $+0$,
+otherwise it's $0$.
 
-### (v) RL 2: Both episodic and semantic, where semantic is pretrained.
+### (iii) Semantic Memory Manage
 
-A reinforcement learning agent in an MDP environment. The semantic memory system is pretrained from ConceptNet. $\\bm{M}_{E}$ is empty in the beginning and $\\bm{M}_{S}$ is populated with the commonsense knowledge. $\\bm{M}\_{S}$ does not change throughout training.
+Considering how the data is given, the best hand-crafted strategy is to remove the weakest
+memory in the semantic memory system (upper bound).
 
-To be fair, the total memory capacities are the same for each model. Since our experiment is about learning how to organize memories, we abstract away the question answering part. This means that as long as the relevant memory is in the memory systems, then we assume that the agent answers the question correctly and that it gets a reward of $+1$. If it can't be found in them, then the reward is $0$.
+A uniform-random strategy is to select and remove uniform-randomly selected memory (lower bound).
 
-## Troubleshooting
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results.
 
-The best way to find and solve your problems is to see in the github issue tab. If you can't find what you want, feel free to raise an issue. We are pretty responsive.
+State: $N$ semantic memories + $1$ incoming semantic memory. This results in $N+1$ rows\
+Action: $N+1$ discrete actions. For example, if the action is $k$, its removing $k$ th memory.\
+Reward: If the semantic QA answers the question properly, then it's $+1$ and otherwise it's $+0$
+
+### (iv) Semantic Question Answer
+
+Considering how the data is given, the best hand-crafted strategy is first to find the
+semantic memories whose head is the same as quesiton query head. And then among the $M$
+selected memories, it selects the strongest one. (upper bound)
+
+A uniform-random strategy is to select and remove uniform-randomly selected memory (lower bound).
+
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results.
+
+State: $N$ semantic memories + $1$ semantic question query. This results in $N+1$ rows\
+Action: $N+1$ discrete actions. For example, if the action is $k$, its selecting $k$ th
+memory. to answer the question.\
+Reward: If retrieved the memory's tail is the correct location of the object, then $+0$,
+otherwise it's $0$.
+
+### (v): Episodic to Semantic
+
+This only applies when the agent has both episodic and semantic memory systems.
+
+Considering how the data is given, the best hand-crafted strategy is first to find the
+$L \\geq 2$ episodic memories that are "similar" and then compress them to one semantic memory.
+The similarity is defined as the episodic memories that have the same head and tail, if the
+person's name is removed.
+
+A uniform-random strategy is to select one episodic memory and turn it into a semantic
+memory (lower bound).
+
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results.
+
+State: $N$ episodic memories + $1$ incoming episodic memory. This results in $N+1$ rows\
+Action: ?
+Reward: ?
+
+I'm actually not sure if RL makes sense here. Perhaps it's better to do some ontology
+engineering + GNN to achieve compression.
+
+### (vi): Episodic Semantic Question Answer
+
+This only applies when the agent has both episodic and semantic memory systems.
+
+Considering how the data is given, the best hand-crafted strategy is first try to answer
+the question using the Episodic Question Answer and then Semantic Question Answer.
+
+A uniform-random strategy is to select one memory from episodic and semantic memories
+combined and use its tail to answer the question query.
+
+An RL agent has to learn its own strategy (policy). It doesn't have to be as good as the
+hand-crafted one, but I still expect some promising results.
+
+State: $N\_{e}$ episodic memories + $N\_{m}$ semantic memories + $1$ incoming episodic memory.
+This results in $N\_{1} + N\_{2} +1$ rows\
+Action: $N\_{1} + N\_{2} +1$ discrete actions. For example, if the action is $k$, its
+selecting $k$ th memory to answer the question.\
+Reward: If retrieved the memory's tail is the correct location of the object, then $+0$,
+otherwise it's $0$.
 
 ## Contributing
 

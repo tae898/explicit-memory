@@ -1,25 +1,32 @@
 """Deep Q Network."""
 import argparse
+import os
+import shutil
 from collections import OrderedDict
+from datetime import datetime
+from pprint import pformat
 from typing import Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
+from pl_bolts.datamodules.experience_source import (Experience,
+                                                    ExperienceSourceDataset)
+from pl_bolts.losses.rl import dqn_loss
+from pl_bolts.models.rl.common.agents import ValueAgent
+from pl_bolts.models.rl.common.memory import MultiStepBuffer
+from pl_bolts.utils import _GYM_AVAILABLE
+from pl_bolts.utils.warnings import warn_missing_pkg
 from pytorch_lightning import LightningModule, Trainer, seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
+from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
 from torch import Tensor, optim
+from torch._C import Value
 from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
 
-from pl_bolts.datamodules.experience_source import Experience, ExperienceSourceDataset
-from pl_bolts.losses.rl import dqn_loss
-from pl_bolts.models.rl.common.agents import ValueAgent
-from pl_bolts.models.rl.common.gym_wrappers import make_environment
-from pl_bolts.models.rl.common.memory import MultiStepBuffer
-from pl_bolts.models.rl.common.networks import CNN
-from pl_bolts.utils import _GYM_AVAILABLE
-from pl_bolts.utils.warnings import warn_missing_pkg
+from memory import memory
+from memory.utils import read_yaml
 
 if _GYM_AVAILABLE:
     from gym import Env
@@ -51,7 +58,6 @@ class DQN(LightningModule):
 
     def __init__(
         self,
-        env: str,
         eps_start: float = 1.0,
         eps_end: float = 0.02,
         eps_last_frame: int = 150000,
@@ -62,16 +68,17 @@ class DQN(LightningModule):
         replay_size: int = 100000,
         warm_start_size: int = 10000,
         avg_reward_len: int = 100,
-        min_episode_reward: int = -21,
-        seed: int = 123,
+        min_episode_reward: int = 0,
         batches_per_epoch: int = 1000,
+        batches_per_epoch_eval: int = 1000,
         n_steps: int = 1,
+        env_params: dict = None,
         **kwargs,
     ):
         """
         Args
         ----
-        env: gym environment tag
+        env_name: gym environment tag
         eps_start: starting value of epsilon for the epsilon-greedy exploration
         eps_end: final value of epsilon for the epsilon-greedy exploration
         eps_last_frame: the final frame in for the decrease of epsilon. At this frame
@@ -88,28 +95,41 @@ class DQN(LightningModule):
             reward
         min_episode_reward: the minimum score that can be achieved in an episode. Used
             for filling the avg buffer before training begins
-        seed: seed value for all RNG used
         batches_per_epoch: number of batches per epoch
+        batches_per_epoch_eval: number of batches per epoch for validation and test.
+            This is basically number of episodes for eval.
         n_steps: size of n step look ahead
+        env_params:
+            capacity: memory capacity
+                e.g., {'episodic': 42, 'semantic: 0}
+            max_history: maximum history of observations.
+            semantic_knowledge_path: path to the semantic knowledge generated from
+                `collect_data.py`
+            names_path: The path to the top 20 human name list.
+            weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+                chooses all of them by weight, and null chooses every single one of them
+                without weighting.
+            commonsense_prob: the probability of an observation being covered by a
+                commonsense
+            memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
+                this point `memory_manage` and `question_answer` can't be "RL" at the same
+                time.
+            question_answer: either "random", "latest", "RL_trained". Note that at
+                this point `memory_manage` and `question_answer` can't be "RL" at the same
+                time.
+            limits: Limit the heads, tails per head, and the number of names. For example,
+                this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
 
         """
         super().__init__()
 
         # Environment
         self.exp = None
-        self.env = self.make_environment(env, seed)
-        self.test_env = self.make_environment(env)
-
-        self.obs_shape = self.env.observation_space.shape
-        self.n_actions = self.env.action_space.n
+        self.make_environments(**env_params)
 
         # Model Attributes
         self.buffer = None
         self.dataset = None
-
-        self.net = None
-        self.target_net = None
-        self.build_networks()
 
         self.agent = ValueAgent(
             self.net,
@@ -127,9 +147,10 @@ class DQN(LightningModule):
         self.replay_size = replay_size
         self.warm_start_size = warm_start_size
         self.batches_per_epoch = batches_per_epoch
+        self.batches_per_epoch_eval = batches_per_epoch_eval
         self.n_steps = n_steps
 
-        self.save_hyperparameters()
+        # self.save_hyperparameters()
 
         # Metrics
         self.total_episode_steps = [0]
@@ -162,7 +183,6 @@ class DQN(LightningModule):
 
         """
         total_rewards = []
-
         for _ in range(n_epsiodes):
             episode_state = env.reset()
             done = False
@@ -200,11 +220,6 @@ class DQN(LightningModule):
 
                 if done:
                     self.state = self.env.reset()
-
-    def build_networks(self) -> None:
-        """Initializes the DQN train and target networks."""
-        self.net = CNN(self.obs_shape, self.n_actions)
-        self.target_net = CNN(self.obs_shape, self.n_actions)
 
     def forward(self, x: Tensor) -> Tensor:
         """Passes in a state x through the network and gets the q_values of each action
@@ -259,7 +274,6 @@ class DQN(LightningModule):
             self.state = next_state
 
             if is_done:
-                self.done_episodes += 1
                 self.total_rewards.append(episode_reward)
                 self.total_episode_steps.append(episode_steps)
                 self.avg_rewards = float(
@@ -280,6 +294,28 @@ class DQN(LightningModule):
 
             # Simulates epochs
             if self.total_steps % self.batches_per_epoch == 0:
+                break
+
+    def eval_batch(
+        self,
+    ) -> Tuple[Tensor, Tensor, Tensor, Tensor, Tensor]:
+        """This is a dummy function for evaluation. This is needed to simulate batch
+
+        Returns
+        -------
+        yields a Experience tuple containing the state, action, reward, done and
+        next_state.
+
+        """
+        dummy_steps = 0
+        while True:
+            dummy_steps += 1
+
+            for _ in range(self.batch_size):
+                yield [], [], [], [], []
+
+            # Simulates epochs
+            if dummy_steps % self.batches_per_epoch_eval == 0:
                 break
 
     def training_step(self, batch: Tuple[Tensor, Tensor], _) -> OrderedDict:
@@ -323,14 +359,31 @@ class DQN(LightningModule):
             }
         )
 
+    def validation_step(self, *args, **kwargs) -> Dict[str, Tensor]:
+        """Validate the agent for 1 episodes."""
+        val_reward = self.run_n_episodes(self.val_env, 1, 0)
+        avg_reward = sum(val_reward) / len(val_reward)
+        return {"val_reward": avg_reward}
+
+    def validation_epoch_end(self, outputs) -> Dict[str, Tensor]:
+        """Log the avg of the val results."""
+        print(
+            f"\nlogging validation results that ran {self.batches_per_epoch_eval} epoch\n"
+        )
+        rewards = [x["val_reward"] for x in outputs]
+        avg_reward = sum(rewards) / len(rewards)
+        self.log("avg_val_reward", avg_reward)
+        return {"avg_val_reward": avg_reward}
+
     def test_step(self, *args, **kwargs) -> Dict[str, Tensor]:
-        """Evaluate the agent for 10 episodes."""
+        """Evaluate the agent for 1 episodes."""
         test_reward = self.run_n_episodes(self.test_env, 1, 0)
         avg_reward = sum(test_reward) / len(test_reward)
         return {"test_reward": avg_reward}
 
     def test_epoch_end(self, outputs) -> Dict[str, Tensor]:
         """Log the avg of the test results."""
+        print(f"\nlogging test results that ran {self.batches_per_epoch_eval} epoch\n")
         rewards = [x["test_reward"] for x in outputs]
         avg_reward = sum(rewards) / len(rewards)
         self.log("avg_test_reward", avg_reward)
@@ -341,120 +394,138 @@ class DQN(LightningModule):
         optimizer = optim.Adam(self.net.parameters(), lr=self.lr)
         return [optimizer]
 
-    def _dataloader(self) -> DataLoader:
+    def _dataloader(self, train_mode: bool = True) -> DataLoader:
         """Initialize the Replay Buffer dataset used for retrieving experiences."""
         self.buffer = MultiStepBuffer(self.replay_size, self.n_steps)
         self.populate(self.warm_start_size)
 
-        self.dataset = ExperienceSourceDataset(self.train_batch)
+        if train_mode:
+            self.dataset = ExperienceSourceDataset(self.train_batch)
+        else:
+            self.dataset = ExperienceSourceDataset(self.eval_batch)
+
         return DataLoader(dataset=self.dataset, batch_size=self.batch_size)
 
     def train_dataloader(self) -> DataLoader:
         """Get train loader."""
-        return self._dataloader()
+        return self._dataloader(train_mode=True)
+
+    def val_dataloader(self) -> DataLoader:
+        """Get val loader."""
+        return self._dataloader(train_mode=False)
 
     def test_dataloader(self) -> DataLoader:
         """Get test loader."""
-        return self._dataloader()
+        return self._dataloader(train_mode=False)
 
-    @staticmethod
-    def make_environment(env_name: str, seed: Optional[int] = None) -> Env:
+    def build_networks(self, dqn: str) -> None:
+        """Initializes the DQN train and target networks."""
+        if dqn.lower() == "mlp":
+            from memory.model import MLP as NeuralNetwork
+        else:
+            raise NotImplementedError
+
+        self.obs_shape = self.env.observation_space.shape
+        self.n_actions = self.env.action_space.n
+
+        self.net = NeuralNetwork(self.obs_shape, self.n_actions)
+        self.target_net = NeuralNetwork(self.obs_shape, self.n_actions)
+
+    def make_environments(
+        self,
+        env_name: str,
+        capacity: dict,
+        max_history: int = 1024,
+        semantic_knowledge_path: str = "./data/semantic-knowledge.json",
+        names_path: str = "./data/top-human-names",
+        weighting_mode: str = "highest",
+        commonsense_prob: float = 0.5,
+        memory_manage: str = "RL_train",
+        question_answer: str = "latest",
+        limits: dict = {
+            "heads": None,
+            "tails": None,
+            "names": None,
+            "allow_spaces": True,
+        },
+        dqn: str = "mlp",
+    ) -> Env:
         """Initialise gym  environment.
 
         Args
         ----
         env_name: environment name or tag
-        seed: value to seed the environment RNG for reproducibility
+        capacity: memory capacity
+            e.g., {'episodic': 42, 'semantic: 0}
+        max_history: maximum history of observations.
+        semantic_knowledge_path: path to the semantic knowledge generated from
+            `collect_data.py`
+        names_path: The path to the top 20 human name list.
+        weighting_mode: "highest" chooses the one with the highest weight, "weighted"
+            chooses all of them by weight, and null chooses every single one of them
+            without weighting.
+        commonsense_prob: the probability of an observation being covered by a
+            commonsense
+        memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
+            this point `memory_manage` and `question_answer` can't be "RL" at the same
+            time.
+        question_answer: either "random", "latest", "RL_trained". Note that at
+            this point `memory_manage` and `question_answer` can't be "RL" at the same
+            time.
+        limits: Limit the heads, tails per head, and the number of names. For example,
+            this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
+        dqn: DQN model. E.g., MLP
 
         Returns
         -------
         gym environment
 
         """
-        env = make_environment(env_name)
+        if env_name.lower() == "episodicmemorymanageenv":
+            from memory.environment.gym import EpisodicMemoryManageEnv as Env
+        elif env_name.lower() == "episodicquestionanswerenv":
+            from memory.environment.gym import EpisodicQuestionAnswer as Env
+        elif env_name.lower() == "semanticmemorymanageenv":
+            from memory.environment.gym import SemanticMemoryManageEnv as Env
+        elif env_name.lower() == "semanticquestionanswerenv":
+            from memory.environment.gym import SemanticQuestionAnswerEnv as Env
+        else:
+            raise NotImplementedError
 
-        if seed:
-            env.seed(seed)
-
-        return env
-
-    @staticmethod
-    def add_model_specific_args(
-        arg_parser: argparse.ArgumentParser,
-    ) -> argparse.ArgumentParser:
-        """Adds arguments for DQN model.
-
-        Note
-        ----
-        These params are fine tuned for Pong env.
-
-        Args
-        ----
-        arg_parser: parent parser
-
-        """
-        arg_parser.add_argument(
-            "--sync_rate",
-            type=int,
-            default=1000,
-            help="how many frames do we update the target network",
+        self.env = Env(
+            capacity=capacity,
+            max_history=max_history,
+            semantic_knowledge_path=semantic_knowledge_path,
+            names_path=names_path,
+            weighting_mode=weighting_mode,
+            commonsense_prob=commonsense_prob,
+            memory_manage=memory_manage,
+            question_answer=question_answer,
+            limits=limits,
         )
-        arg_parser.add_argument(
-            "--replay_size",
-            type=int,
-            default=100000,
-            help="capacity of the replay buffer",
+        self.val_env = Env(
+            capacity=capacity,
+            max_history=max_history,
+            semantic_knowledge_path=semantic_knowledge_path,
+            names_path=names_path,
+            weighting_mode=weighting_mode,
+            commonsense_prob=commonsense_prob,
+            memory_manage=memory_manage,
+            question_answer=question_answer,
+            limits=limits,
         )
-        arg_parser.add_argument(
-            "--warm_start_size",
-            type=int,
-            default=10000,
-            help="how many samples do we use to fill our buffer at the start of training",
+        self.test_env = Env(
+            capacity=capacity,
+            max_history=max_history,
+            semantic_knowledge_path=semantic_knowledge_path,
+            names_path=names_path,
+            weighting_mode=weighting_mode,
+            commonsense_prob=commonsense_prob,
+            memory_manage=memory_manage,
+            question_answer=question_answer,
+            limits=limits,
         )
-        arg_parser.add_argument(
-            "--eps_last_frame",
-            type=int,
-            default=150000,
-            help="what frame should epsilon stop decaying",
-        )
-        arg_parser.add_argument(
-            "--eps_start", type=float, default=1.0, help="starting value of epsilon"
-        )
-        arg_parser.add_argument(
-            "--eps_end", type=float, default=0.02, help="final value of epsilon"
-        )
-        arg_parser.add_argument(
-            "--batches_per_epoch",
-            type=int,
-            default=10000,
-            help="number of batches in an epoch",
-        )
-        arg_parser.add_argument(
-            "--batch_size", type=int, default=32, help="size of the batches"
-        )
-        arg_parser.add_argument("--lr", type=float, default=1e-4, help="learning rate")
-
-        arg_parser.add_argument(
-            "--env", type=str, required=True, help="gym environment tag"
-        )
-        arg_parser.add_argument(
-            "--gamma", type=float, default=0.99, help="discount factor"
-        )
-
-        arg_parser.add_argument(
-            "--avg_reward_len",
-            type=int,
-            default=100,
-            help="how many episodes to include in avg reward",
-        )
-        arg_parser.add_argument(
-            "--n_steps",
-            type=int,
-            default=1,
-            help="how many frames do we update the target network",
-        )
-
-        return arg_parser
+        self.build_networks(dqn)
 
     @staticmethod
     def _use_dp_or_ddp2(trainer: Trainer) -> bool:
@@ -463,31 +534,82 @@ class DQN(LightningModule):
         )
 
 
-def cli_main():
-    parser = argparse.ArgumentParser(add_help=False)
+def main(
+    seed: int,
+    dqn_params: dict,
+    env_params: dict,
+    callback_params: dict,
+    trainer_params: dict,
+    save_dir: str,
+    model_summary: str,
+    current_time: str,
+) -> None:
+    """Instantiate a LightningModule and Trainer, and start training.
 
-    # trainer args
-    parser = Trainer.add_argparse_args(parser)
+    Args
+    ----
+    seed: global seed
+    dqn_parms: DQN parameters
+    env_params: environment parameters
+    callback_params: callback function parameters
+    trainer_params: trainer parameters
+    model_summary: model summary so that you remember what it is.
 
-    # model args
-    parser = DQN.add_model_specific_args(parser)
-    args = parser.parse_args()
+    """
+    seed_everything(seed)
 
-    model = DQN(**args.__dict__)
+    checkpoint_callback = ModelCheckpoint(**callback_params["model_checkpoint"])
 
-    # save checkpoints based on avg_reward
-    checkpoint_callback = ModelCheckpoint(
-        save_top_k=1, monitor="avg_reward", mode="max", verbose=True
+    model = DQN(
+        **dqn_params,
+        env_params=env_params,
     )
 
-    seed_everything(123)
-    # I can't turn on the deterministic flag. It throws an error.
-    trainer = Trainer.from_argparse_args(
-        args, deterministic=False, callbacks=checkpoint_callback
+    logger = TensorBoardLogger(
+        save_dir=save_dir,
+        name=model_summary,
+        version=current_time,
     )
+    trainer = Trainer(callbacks=[checkpoint_callback], logger=logger, **trainer_params)
 
     trainer.fit(model)
+    trainer.test(model)
 
 
 if __name__ == "__main__":
-    cli_main()
+    parser = argparse.ArgumentParser(description="train rl with arguments.")
+    parser.add_argument(
+        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
+    )
+    parser.add_argument(
+        "--save_dir",
+        type=str,
+        default="lightning_logs",
+        help="log and ckpt save dir",
+    )
+    parser.add_argument(
+        "--model_summary",
+        type=str,
+        help="model summary so that you remember what it is.",
+    )
+    args = parser.parse_args()
+
+    current_time = datetime.now().strftime(r"%m%d_%H%M%S")
+
+    config = read_yaml(args.config)
+    config_copy_dir = os.path.join(args.save_dir, args.model_summary, current_time)
+    config_copy_dst = os.path.join(config_copy_dir, args.config)
+    os.makedirs(config_copy_dir, exist_ok=True)
+    shutil.copy(
+        args.config,
+        config_copy_dst,
+    )
+
+    print(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
+
+    main(
+        **config,
+        save_dir=args.save_dir,
+        model_summary=args.model_summary,
+        current_time=current_time,
+    )

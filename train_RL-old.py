@@ -9,12 +9,12 @@ from typing import List, Tuple
 
 import gym
 import numpy as np
-import torch
 import pytorch_lightning as pl
+import torch
 from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning.callbacks import Callback, ModelCheckpoint
 from pytorch_lightning.utilities import DistributedType
 from pytorch_lightning.utilities.seed import seed_everything
-from pytorch_lightning.callbacks import ModelCheckpoint, Callback
 from torch import Tensor, nn
 from torch.optim import Adam, Optimizer
 from torch.utils.data import DataLoader

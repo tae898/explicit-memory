@@ -4,7 +4,6 @@ import random
 import time
 from typing import List, Tuple
 
-from ..constants import TIME_OFFSET
 from ..utils import read_json
 
 logging.basicConfig(
@@ -30,7 +29,14 @@ class OQAGenerator:
         names_start_at: int = 100,
         heads_start_at: int = 1000,
         tails_start_at: int = 10000,
-        limits: dict = None,
+        time_start_at: int = 100000,
+        limits: dict = {
+            "heads": None,
+            "tails": None,
+            "names": None,
+            "allow_spaces": False,
+        },
+        disjoint_entities: bool = True,
     ) -> None:
         """Initialize the generator.
 
@@ -51,15 +57,20 @@ class OQAGenerator:
         names: from 100 to 999
         heads: from 1,000 to 9,999
         tails: from 10,000 to 99,999
+        time_start_at: beginning number of timestamp
         limits: Limit the heads, tails per head, and the number of names. For example,
             this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
+        disjoint_entities: Whether to force that there are no common elements between
+            entities.
 
         """
         logging.debug("Creating an Observation-Question-Answer generator object ...")
         self.max_history = max_history
         self.history = []
         self.limits = limits
-        logging.warning(f"The obserations will be limited by {self.limits}")
+
+        if set(list(self.limits.values())) != {None}:
+            logging.warning(f"The obserations will be limited by {self.limits}")
         (
             self.semantic_knowledge,
             self.heads,
@@ -67,18 +78,30 @@ class OQAGenerator:
             self.tails,
         ) = self.load_semantic_knowledge(
             semantic_knowledge_path,
-            self.limits["heads"],
-            self.limits["tails"],
-            self.limits["allow_spaces"],
+            limit_heads=self.limits["heads"],
+            limit_tails=self.limits["tails"],
+            allow_spaces=self.limits["allow_spaces"],
+            disjoint_entities=disjoint_entities,
         )
 
         self.names = self.read_names(
             names_path, self.limits["names"], self.limits["allow_spaces"]
         )
+        if disjoint_entities:
+            lhs = len(set(self.relations + self.names + self.heads + self.tails))
+            rhs = (
+                len(self.relations)
+                + len(self.names)
+                + len(self.heads)
+                + len(self.tails)
+            )
+
+            assert lhs == rhs
+
         self.weighting_mode = weighting_mode
         self.commonsense_prob = commonsense_prob
 
-        self.SPECIALS = {"<pad>": pad, "<answer>": answer}
+        self.SPECIALS = {"<pad>": pad, "<MASK>": answer}
         self.RELATIONS = {
             rel: relations_start_at + idx
             for idx, rel in enumerate(sorted(self.relations))
@@ -102,7 +125,18 @@ class OQAGenerator:
         }
         self.n2s = {val: key for key, val in self.s2n.items()}
 
-        logging.info("An Observation-Question-Answer generator object is generated!")
+        self.time_start_at = time_start_at
+        self.reset_time()
+
+        logging.info(
+            "An Observation-Question-Answer generator object is generated. "
+            f"timestamp is set to {time_start_at}."
+        )
+
+    def reset_time(self) -> None:
+        """Reset time."""
+        self.timestamp = self.time_start_at
+        logging.info(f"time reset to {self.time_start_at}")
 
     def __eq__(self, other) -> bool:
         eps = 0.01
@@ -137,11 +171,16 @@ class OQAGenerator:
 
         return True
 
-    def reset(self) -> None:
-        """Reset the generator."""
+    def clear_history(self) -> None:
+        """Remove all history."""
         logging.debug(f"Reseting the history of length {len(self.history)}...")
         self.history.clear()
         logging.info("Reseting the history is done!")
+
+    def reset(self) -> None:
+        """Reset the generator."""
+        self.clear_history()
+        self.reset_time()
 
     @property
     def is_full(self) -> bool:
@@ -155,6 +194,7 @@ class OQAGenerator:
         limit_heads: int = None,
         limit_tails: int = None,
         allow_spaces: bool = False,
+        disjoint_entities: bool = True,
     ) -> Tuple[list, list, list, list]:
         """Load saved semantic knowledge.
 
@@ -165,6 +205,8 @@ class OQAGenerator:
         limit_tails: Limit the number of tails per heads (e.g., 1)
         allow_spaces: Whether to include words that have spaces
             (e.g., corner of two streets)
+        disjoint_entities: Whether to force that there are no common elements between
+            entities.
 
         Returns
         -------
@@ -176,6 +218,30 @@ class OQAGenerator:
         """
         logging.debug(f"loading the semantic knowledge from {path}...")
         semantic_knowledge = read_json(path)
+
+        heads = sorted(list(set(semantic_knowledge.keys())))
+        if disjoint_entities:
+            logging.warning("Tails that are heads will be removed.")
+            semantic_knowledge = {
+                key: {
+                    key_: [tail for tail in val_ if tail["tail"] not in heads]
+                    for key_, val_ in val.items()
+                }
+                for key, val in semantic_knowledge.items()
+            }
+
+        semantic_knowledge = {
+            key: {
+                key_: val_
+                for key_, val_ in val.items()
+                if len([tail for tail in val_ if tail["tail"] not in heads]) > 0
+            }
+            for key, val in semantic_knowledge.items()
+        }
+        semantic_knowledge = {
+            key: val for key, val in semantic_knowledge.items() if len(val) > 0
+        }
+        logging.info("empty entities are removed")
 
         # sort the semantic knowledge by its highest weight to be sure.
         semantic_knowledge = {
@@ -278,8 +344,8 @@ class OQAGenerator:
 
         return names
 
-    def generate_observation(self, override_time: float = None) -> list:
-        """
+    def generate_observation(self) -> list:
+        """Generate an observation.
 
         Returns
         --------
@@ -320,14 +386,10 @@ class OQAGenerator:
         head = name + posessive + " " + head
         tail = name + posessive + " " + tail
 
-        # unix timestamp in seconds (including decimal points)
-        if override_time is not None:
-            logging.debug(f"overriding time with {override_time} ...")
-            timestamp = override_time
-        else:
-            timestamp = time.time() - TIME_OFFSET
-        ob = [head, relation, tail, timestamp]
+        ob = [head, relation, tail, self.timestamp]
         logging.info(f"A new observation generated: {ob}")
+
+        self.timestamp += 1
 
         return ob
 
@@ -367,7 +429,7 @@ class OQAGenerator:
             )[0]
         else:
             question_answer = random.choice(questions)
-        # -1 removes the timestamp
+        # :-1 removes the timestamp
         question_answer = question_answer[:-1]
         logging.info(f"Generated question and answer is {question_answer}")
 
@@ -388,13 +450,12 @@ class OQAGenerator:
         self.history.append(ob)
         logging.info(f"observation {ob} is added to history!")
 
-    def generate(
+    def generate_with_history(
         self,
         generate_qa: bool = True,
         recent_more_likely: bool = True,
-        override_time: float = None,
     ) -> Tuple[list, List[str]]:
-        """Generate an observation, question, and answer.
+        """Generate an observation, question, and answer and add in the history.
 
         Everything comes from a uniform random distribution.
 
@@ -412,10 +473,14 @@ class OQAGenerator:
              a question and `tail` is the answer
 
         """
-        if self.is_full:
-            raise ValueError(f"History {len(self.history)} is full")
+        ob = self.generate_observation()
 
-        ob = self.generate_observation(override_time=override_time)
+        if self.is_full:
+            logging.info(
+                "history is full, the oldest observation will be removed to add a new one."
+            )
+            self.history.pop(0)
+
         self.add_observation_to_history(ob)
         logging.info("The new observation is added to the history.")
         if generate_qa:

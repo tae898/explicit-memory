@@ -27,7 +27,12 @@ class MemorySpace(Space):
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "highest",
         commonsense_prob: float = 0.5,
-        limits: dict = None,
+        limits: dict = {
+            "heads": None,
+            "tails": None,
+            "names": None,
+            "allow_spaces": True,
+        },
     ) -> None:
         """
 
@@ -63,24 +68,30 @@ class MemorySpace(Space):
             "episodic_to_semantic",
             "episodic_semantic_question_answer",
         ]
-
+        self.dtype = np.float32
         if space_type == "episodic_memory_manage":
             assert capacity["episodic"] > 0 and capacity["semantic"] == 0
+            self.shape = (capacity["episodic"] + 1, 6)
 
         elif space_type == "episodic_question_answer":
             assert capacity["episodic"] > 0 and capacity["semantic"] == 0
+            self.shape = (capacity["episodic"] + 1, 6)
 
         elif space_type == "semantic_memory_manage":
             assert capacity["episodic"] == 0 and capacity["semantic"] > 0
+            self.shape = (capacity["semantic"] + 1, 4)
 
         elif space_type == "semantic_question_answer":
             assert capacity["episodic"] == 0 and capacity["semantic"] > 0
+            self.shape = (capacity["semantic"] + 1, 4)
 
         elif space_type == "episodic_to_semantic":
             assert capacity["episodic"] > 0 and capacity["semantic"] > 0
+            raise NotImplementedError
 
         elif space_type == "episodic_semantic_question_answer":
             assert capacity["episodic"] > 0 and capacity["semantic"] > 0
+            raise NotImplementedError
 
         else:
             raise ValueError
@@ -99,7 +110,7 @@ class MemorySpace(Space):
         self.M_e = EpisodicMemory(self.capacity["episodic"])
         self.M_s = SemanticMemory(self.capacity["semantic"])
 
-        super().__init__()
+        super().__init__(shape=self.shape, dtype=self.dtype)
 
     def episodic_memory_system_to_numbers(
         self, M_e: EpisodicMemory, me_max: int
@@ -266,6 +277,7 @@ class MemorySpace(Space):
 
         """
         logging.debug("Converting the numpy array to semantic memories ...")
+        assert state_numeric.shape[1] in [4, 6]
         entries = []
         if state_numeric.shape[1] == 6:
             for row in state_numeric:
@@ -287,9 +299,10 @@ class MemorySpace(Space):
                         == "<pad>"
                     )
                     continue
+                else:
+                    entries.append([obj, relation, location, num_general])
 
-                entries.append([obj, relation, location, num_general])
-        elif state_numeric.shape[1] == 4:
+        else:
             for row in state_numeric:
                 obj = self.oqag.number2string(int(row[0]))
                 relation = self.oqag.number2string(int(row[1]))
@@ -306,7 +319,8 @@ class MemorySpace(Space):
                     )
                     continue
 
-                entries.append([obj, relation, location, num_general])
+                else:
+                    entries.append([obj, relation, location, num_general])
 
         logging.info("The numpy array has been converted to semantic memories!")
 
@@ -323,7 +337,7 @@ class MemorySpace(Space):
 
         Returns
         -------
-        qa_num: [name1, obj, relation, name2, location, <answer>]
+        qa_num: [name1, obj, relation, name2, <MASK>, <pad>]
 
         """
         logging.debug("Converting a given episodic qa into a numpy array ...")
@@ -341,8 +355,8 @@ class MemorySpace(Space):
         qa_num[0][1] = self.oqag.string2number(obj)
         qa_num[0][2] = self.oqag.string2number(relation)
         qa_num[0][3] = self.oqag.string2number(name2)
-        qa_num[0][4] = self.oqag.string2number(location)
-        qa_num[0][5] = self.oqag.string2number("<answer>")
+        qa_num[0][4] = self.oqag.string2number("<MASK>")
+        qa_num[0][5] = self.oqag.string2number("<pad>")
 
         logging.debug("The numpy array has been converted to an episodic qa!")
 
@@ -353,12 +367,12 @@ class MemorySpace(Space):
 
         Args
         ----
-        qa_num: [name1, obj, relation, name2, location, <answer>]
+        qa_num: [name1, obj, relation, name2, <MASK>, <pad>]
 
 
         Returns
         -------
-        qa_epi: episodic question and answer, [head, relation, tail]
+        qa_epi: episodic question and answer, [head, relation, ?]
 
         """
         logging.debug("Converting the numpy array to an episodic qa ...")
@@ -369,19 +383,22 @@ class MemorySpace(Space):
         obj = self.oqag.number2string(int(qa_num[0][1]))
         relation = self.oqag.number2string(int(qa_num[0][2]))
         name2 = self.oqag.number2string(int(qa_num[0][3]))
-        location = self.oqag.number2string(int(qa_num[0][4]))
-        answer = self.oqag.number2string(int(qa_num[0][5]))
+        mask = self.oqag.number2string(int(qa_num[0][4]))
+        pad = self.oqag.number2string(int(qa_num[0][5]))
 
-        assert answer == "<answer>"
+        assert mask == "<MASK>"
+        assert pad == "<pad>"
         assert name1 == name2
 
-        qa_epi = [f"{name1}'s {obj}", relation, f"{name2}'s {location}"]
+        qa_epi = [f"{name1}'s {obj}", relation, f"{name2}'s location"]
 
         logging.info("The numpy array has been converted to an episodic qa!")
 
         return qa_epi
 
-    def semantic_question_answer_to_numbers(self, qa_sem: list) -> np.ndarray:
+    def semantic_question_answer_to_numbers(
+        self, qa_sem: list, pad: bool = False
+    ) -> np.ndarray:
         """Convert a given semantic qa to numbers.
 
         This conversion is necessary so that we can use a computational model.
@@ -392,20 +409,35 @@ class MemorySpace(Space):
 
         Returns
         -------
-        qa_num: [obj, relation, location, <answer>]
+        qa_num: [obj, relation, <MASK>, <pad>]
 
         """
         logging.debug("Converting a given semantic qa into a numpy array ...")
 
-        qa_num = np.zeros((1, 4), dtype=np.float32)
+        if pad:
+            NUM_COLUMNS = 6
+
+        else:
+            NUM_COLUMNS = 4
+
+        qa_num = np.zeros((1, NUM_COLUMNS), dtype=np.float32)
         head = qa_sem[0]
         relation = qa_sem[1]
         tail = qa_sem[2]
 
-        qa_num[0][0] = self.oqag.string2number(head)
-        qa_num[0][1] = self.oqag.string2number(relation)
-        qa_num[0][2] = self.oqag.string2number(tail)
-        qa_num[0][3] = self.oqag.string2number("<answer>")
+        if pad:
+            qa_num[0][0] = self.oqag.string2number("<pad>")
+            qa_num[0][1] = self.oqag.string2number(head)
+            qa_num[0][2] = self.oqag.string2number(relation)
+            qa_num[0][3] = self.oqag.string2number("<pad>")
+            qa_num[0][4] = self.oqag.string2number("<MASK>")
+            qa_num[0][5] = self.oqag.string2number("<pad>")
+
+        else:
+            qa_num[0][0] = self.oqag.string2number(head)
+            qa_num[0][1] = self.oqag.string2number(relation)
+            qa_num[0][2] = self.oqag.string2number("<MASK>")
+            qa_num[0][3] = self.oqag.string2number("<pad>")
 
         logging.debug("The given semantic qa has been converted to a numpy array!")
 
@@ -416,25 +448,35 @@ class MemorySpace(Space):
 
         Args
         ----
-        qa_num: [obj, relation, location, <answer>]
+        qa_num: [obj, relation, <MASK>, <pad>]
 
 
         Returns
         -------
-        qa_sem: semantic question and answer, [head, relation, tail]
+        qa_sem: semantic question and answer, [head, relation, ?]
 
         """
-        logging.debug("Converting the numpy array to an episodic qa ...")
-        assert qa_num.shape == (1, 4)
+        logging.debug("Converting the numpy array to a semantic qa ...")
+        assert qa_num.shape in [(1, 4), (1, 6)]
 
-        obj = self.oqag.number2string(int(qa_num[0][0]))
-        relation = self.oqag.number2string(int(qa_num[0][1]))
-        location = self.oqag.number2string(int(qa_num[0][2]))
-        answer = self.oqag.number2string(int(qa_num[0][3]))
+        if qa_num.shape == (1, 6):
+            name1 = self.oqag.number2string(int(qa_num[0][0]))
+            obj = self.oqag.number2string(int(qa_num[0][1]))
+            relation = self.oqag.number2string(int(qa_num[0][2]))
+            name2 = self.oqag.number2string(int(qa_num[0][3]))
+            mask = self.oqag.number2string(int(qa_num[0][4]))
+            pad = self.oqag.number2string(int(qa_num[0][5]))
 
-        assert answer == "<answer>"
+            assert name1 == name2 == pad == "<pad>"
+        else:
+            obj = self.oqag.number2string(int(qa_num[0][0]))
+            relation = self.oqag.number2string(int(qa_num[0][1]))
+            mask = self.oqag.number2string(int(qa_num[0][2]))
+            pad = self.oqag.number2string(int(qa_num[0][3]))
 
-        qa_sem = [obj, relation, location]
+        assert mask == "<MASK>"
+
+        qa_sem = [obj, relation, "?"]
         logging.info("The numpy array has been converted to a semantic qa!")
 
         return qa_sem
@@ -442,45 +484,35 @@ class MemorySpace(Space):
     def sample(self):
         """Sample a state."""
         logging.debug(f"Sampling a state from the {self.space_type} space ...")
-        self.M_e.forget_all()
-        self.M_s.forget_all()
-
-        me_max = self.M_e.capacity
-        ms_max = self.M_s.capacity
-
-        if self.space_type in [
-            "episodic_memory_manage",
-            "semantic_memory_manage",
-            "episodic_to_semantic",
-        ]:
-            me_max += 1
-            ms_max += 1
-
-        if self.M_e.capacity > 0:
-            self.oqag.reset()
-            for _ in range(random.randint(0, self.M_e.capacity)):
-                ob, _ = self.oqag.generate(generate_qa=False)
-                mem_epi = self.M_e.ob2epi(ob)
-                self.M_e.add(mem_epi)
-            qa = self.oqag.generate_question_answer()
-            qa_epi = qa
-
-        if self.M_s.capacity > 0:
-            self.oqag.reset()
-            for _ in range(random.randint(0, self.M_s.capacity)):
-                ob, _ = self.oqag.generate(generate_qa=False)
-                mem_sem = self.M_s.ob2sem(ob)
-                self.M_s.add(mem_sem)
-            qa = self.oqag.generate_question_answer()
-            qa_sem = self.M_s.eq2sq(qa)
 
         if self.space_type == "episodic_memory_manage":
-            state_numeric = self.episodic_memory_system_to_numbers(self.M_e, me_max)
+            assert self.M_e.capacity > 0
+            self.oqag.reset()
+            self.M_e.forget_all()
+            for _ in range(self.M_e.capacity + 1):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_epi = self.M_e.ob2epi(ob)
+                self.M_e.add(mem_epi)
+
+            state_numeric = self.episodic_memory_system_to_numbers(
+                self.M_e, self.M_e.capacity + 1
+            )
 
             return state_numeric
 
         elif self.space_type == "episodic_question_answer":
-            state_numeric_1 = self.episodic_memory_system_to_numbers(self.M_e, me_max)
+            assert self.M_e.capacity > 0
+            self.oqag.reset()
+            self.M_e.forget_all()
+            # for _ in range(random.randint(0, self.M_e.capacity)):
+            for _ in range(self.M_e.capacity):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_epi = self.M_e.ob2epi(ob)
+                self.M_e.add(mem_epi)
+
+            state_numeric_1 = self.episodic_memory_system_to_numbers(
+                self.M_e, self.M_e.capacity
+            )
             state_numeric_2 = self.episodic_question_answer_to_numbers(qa_epi)
 
             state_numeric = np.concatenate([state_numeric_1, state_numeric_2])
@@ -488,37 +520,85 @@ class MemorySpace(Space):
             return state_numeric
 
         elif self.space_type == "semantic_memory_manage":
+            assert self.M_s.capacity > 0
+            self.oqag.reset()
+            self.M_s.forget_all()
+            for _ in range(self.M_s.capacity + 1):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_sem = self.M_s.ob2sem(ob)
+                self.M_s.add(mem_sem)
+            qa_sem = self.M_s.eq2sq(qa_epi)
             state_numeric = self.semantic_memory_system_to_numbers(
-                self.M_s, ms_max, pad=False
+                self.M_s, self.M_s.capacity + 1, pad=False
             )
 
             return state_numeric
 
         elif self.space_type == "semantic_question_answer":
-            state_numeric_1 = self.semantic_memory_system_to_numbers(self.M_s, ms_max)
+            assert self.M_s.capacity > 0
+            self.oqag.reset()
+            self.M_s.forget_all()
+            # for _ in range(random.randint(0, self.M_s.capacity)):
+            for _ in range(self.M_s.capacity):
+                ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+                mem_sem = self.M_s.ob2sem(ob)
+                self.M_s.add(mem_sem)
+            qa_sem = self.M_s.eq2sq(qa_epi)
+
+            state_numeric_1 = self.semantic_memory_system_to_numbers(
+                self.M_s, self.M_s.capacity, pad=False
+            )
             state_numeric_2 = self.semantic_question_answer_to_numbers(qa_sem)
 
             state_numeric = np.concatenate([state_numeric_1, state_numeric_2])
 
             return state_numeric
 
-        elif self.space_type == "episodic_to_semantic":
-            state_numeric = self.episodic_memory_system_to_numbers(self.M_e, me_max)
+        # elif self.space_type == "episodic_to_semantic":
+        #     assert self.M_e.capacity > 0 and self.M_s.capacity > 0
+        #     self.oqag.reset()
+        #     self.M_e.forget_all()
+        #     for _ in range(self.M_e.capacity + 1):
+        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+        #         mem_epi = self.M_e.ob2epi(ob)
+        #         self.M_e.add(mem_epi)
 
-            return state_numeric
+        #     state_numeric = self.episodic_memory_system_to_numbers(
+        #         self.M_e, self.M_e.capacity + 1
+        #     )
 
-        elif self.space_type == "episodic_semantic_question_answer":
-            state_numeric_1 = self.episodic_memory_system_to_numbers(self.M_e, me_max)
-            state_numeric_2 = self.semantic_memory_system_to_numbers(
-                self.M_s, ms_max, pad=True
-            )
-            state_numeric_3 = self.episodic_question_answer_to_numbers(qa_epi)
+        #     return state_numeric
 
-            state_numeric = np.concatenate(
-                [state_numeric_1, state_numeric_2, state_numeric_3]
-            )
+        # elif self.space_type == "episodic_semantic_question_answer":
+        #     assert self.M_e.capacity > 0 and self.M_s.capacity > 0
+        #     self.oqag.reset()
+        #     self.M_e.forget_all()
+        #     self.M_s.forget_all()
 
-            return state_numeric
+        #     for _ in range(random.randint(0, self.M_e.capacity)):
+        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+        #         mem_epi = self.M_e.ob2epi(ob)
+        #         self.M_e.add(mem_epi)
+        #     state_numeric_e = self.episodic_memory_system_to_numbers(
+        #         self.M_e, self.M_e.capacity
+        #     )
+        #     state_numeric_eq = self.episodic_question_answer_to_numbers(qa_epi)
+
+        #     for _ in range(random.randint(0, self.M_s.capacity)):
+        #         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+        #         mem_sem = self.M_s.ob2sem(ob)
+        #         self.M_s.add(mem_sem)
+        #     qa_sem = self.M_s.eq2sq(qa_epi)
+        #     state_numeric_s = self.semantic_memory_system_to_numbers(
+        #         self.M_s, self.M_s.capacity, pad=False
+        #     )
+        #     state_numeric_sq = self.semantic_question_answer_to_numbers(qa_sem)
+
+        #     state_numeric = np.concatenate(
+        #         [state_numeric_e, state_numeric_eq, state_numeric_s,state_numeric_sq]
+        #     )
+
+        #     return state_numeric
 
         raise ValueError
 
@@ -552,16 +632,12 @@ class MemorySpace(Space):
             if memory_type == "episodic":
                 if not (0 <= entry[3] <= MAX_INT_32):
                     return False
-                if not isinstance(entry[3], float):
-                    return False
                 if entry[0].split()[0].split("'s")[0] not in self.oqag.names:
                     return False
                 if entry[2].split()[0].split("'s")[0] not in self.oqag.names:
                     return False
             else:
                 if not (1 <= entry[3] <= MAX_INT_32):
-                    return False
-                if not isinstance(entry[3], int):
                     return False
         logging.info("Given memories match the memory system!")
 
@@ -617,7 +693,7 @@ class MemorySpace(Space):
         """
         assert state_numeric.shape[1] in [4, 6]
 
-        if state_numeric[-1][-1] == self.oqag.string2number("<answer>"):
+        if state_numeric[-1][-1] == self.oqag.string2number("<MASK>"):
             is_qa = True
         else:
             is_qa = False
@@ -644,7 +720,7 @@ class MemorySpace(Space):
                     return False
                 if self.oqag.number2string(int(qa[2])) not in self.oqag.tails:
                     return False
-                if self.oqag.number2string(int(qa[3])) != "<answer>":
+                if self.oqag.number2string(int(qa[3])) != "<MASK>":
                     return False
             else:
                 memories = x
@@ -685,7 +761,7 @@ class MemorySpace(Space):
                     return False
                 if self.oqag.number2string(int(qa[4])) not in self.oqag.tails:
                     return False
-                if self.oqag.number2string(int(qa[5])) != "<answer>":
+                if self.oqag.number2string(int(qa[5])) != "<MASK>":
                     return False
             else:
                 memories = x
