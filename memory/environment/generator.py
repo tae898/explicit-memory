@@ -1,10 +1,11 @@
 import logging
 import os
 import random
-import time
 from typing import List, Tuple
+import math
 
 from ..utils import read_json
+from ..memory import EpisodicMemory
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -23,13 +24,7 @@ class OQAGenerator:
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "highest",
         commonsense_prob: float = 0.5,
-        pad: int = 0,
-        answer: int = -1,
-        relations_start_at: int = 10,
-        names_start_at: int = 100,
-        heads_start_at: int = 1000,
-        tails_start_at: int = 10000,
-        time_start_at: int = 100000,
+        time_start_at: int = 0,
         limits: dict = {
             "heads": None,
             "tails": None,
@@ -51,12 +46,6 @@ class OQAGenerator:
             without weighting.
         commonsense_prob: the probability of an observation being covered by a
             commonsense
-        pad: 0
-        answer: -1
-        relations: from 10 to 99
-        names: from 100 to 999
-        heads: from 1,000 to 9,999
-        tails: from 10,000 to 99,999
         time_start_at: beginning number of timestamp
         limits: Limit the heads, tails per head, and the number of names. For example,
             this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
@@ -101,30 +90,6 @@ class OQAGenerator:
         self.weighting_mode = weighting_mode
         self.commonsense_prob = commonsense_prob
 
-        self.SPECIALS = {"<pad>": pad, "<MASK>": answer}
-        self.RELATIONS = {
-            rel: relations_start_at + idx
-            for idx, rel in enumerate(sorted(self.relations))
-        }
-        self.NAMES = {
-            name: names_start_at + idx for idx, name in enumerate(sorted(self.names))
-        }
-        self.HEADS = {
-            head: heads_start_at + idx for idx, head in enumerate(sorted(self.heads))
-        }
-        self.TAILS = {
-            tail: tails_start_at + idx for idx, tail in enumerate(sorted(self.tails))
-        }
-
-        self.s2n = {
-            **self.SPECIALS,
-            **self.RELATIONS,
-            **self.NAMES,
-            **self.HEADS,
-            **self.TAILS,
-        }
-        self.n2s = {val: key for key, val in self.s2n.items()}
-
         self.time_start_at = time_start_at
         self.reset_time()
 
@@ -132,11 +97,6 @@ class OQAGenerator:
             "An Observation-Question-Answer generator object is generated. "
             f"timestamp is set to {time_start_at}."
         )
-
-    def reset_time(self) -> None:
-        """Reset time."""
-        self.timestamp = self.time_start_at
-        logging.info(f"time reset to {self.time_start_at}")
 
     def __eq__(self, other) -> bool:
         eps = 0.01
@@ -166,8 +126,6 @@ class OQAGenerator:
             return False
         if self.commonsense_prob != other.commonsense_prob:
             return False
-        if self.s2n != other.s2n:
-            return False
 
         return True
 
@@ -176,6 +134,11 @@ class OQAGenerator:
         logging.debug(f"Reseting the history of length {len(self.history)}...")
         self.history.clear()
         logging.info("Reseting the history is done!")
+
+    def reset_time(self) -> None:
+        """Reset time."""
+        self.timestamp = self.time_start_at
+        logging.info(f"time reset to {self.time_start_at}")
 
     def reset(self) -> None:
         """Reset the generator."""
@@ -234,7 +197,7 @@ class OQAGenerator:
             key: {
                 key_: val_
                 for key_, val_ in val.items()
-                if len([tail for tail in val_ if tail["tail"] not in heads]) > 0
+                if len([tail for tail in val_ if tail["tail"]]) > 0
             }
             for key, val in semantic_knowledge.items()
         }
@@ -425,12 +388,15 @@ class OQAGenerator:
         if recent_more_likely:
             # The recent observations are more likely to be questions
             question_answer = random.choices(
-                questions, weights=[i + 1 for i in range(len(questions))], k=1
+                # questions, weights=[math.exp(i + 1) for i in range(len(questions))], k=1
+                questions, weights=[(i + 1) for i in range(len(questions))], k=1
+
             )[0]
         else:
             question_answer = random.choice(questions)
         # :-1 removes the timestamp
         question_answer = question_answer[:-1]
+        question_answer[-1] = EpisodicMemory.remove_name(question_answer[-1])
         logging.info(f"Generated question and answer is {question_answer}")
 
         return question_answer
@@ -490,30 +456,71 @@ class OQAGenerator:
 
         return ob, qa
 
-    def string2number(self, string) -> int:
-        """Convert a given string to a number.
+    def is_possible_observation(self, ob: list) -> bool:
+        """Test if a given observation can be generated with the current generator.
 
         Args
         ----
-        string: e.g., "laptop"
+        ob: observation in [head, relation, tail, timestamp]
 
         Returns
         -------
-        number: 1027
+        True or False
 
         """
-        return self.s2n[string]
+        if not isinstance(ob, list):
+            return False
+        if len(ob) != 4:
+            return False
 
-    def number2string(self, number) -> str:
-        """Convert a given number to a string.
+        head = ob[0]
+        name1, obj = EpisodicMemory.split_name_entity(head)
+        relation = ob[1]
+        tail = ob[2]
+        name2, location = EpisodicMemory.split_name_entity(tail)
+        timestamp = ob[3]
+
+        if name1 != name2:
+            return False
+        if obj not in self.heads:
+            return False
+        if relation not in self.relations:
+            return False
+        if location not in self.tails:
+            return False
+        if timestamp < 0:
+            return False
+
+        return True
+
+    def is_possible_qa(self, qa_epi: list) -> bool:
+        """Test if it is a possible question.
 
         Args
         ----
-        number: e.g., 1027
+        qa_epi: [head, relation, tail]. `head` and `relation` together make
+             a question and `tail` is the answer. The answer does not contain the name.
 
         Returns
         -------
-        string: e.g., "laptop"
+        True or False
 
         """
-        return self.n2s[number]
+        if not isinstance(qa_epi, list):
+            return False
+        if len(qa_epi) != 3:
+            return False
+
+        head = qa_epi[0]
+        name1, head = EpisodicMemory.split_name_entity(head)
+        relation = qa_epi[1]
+        tail = qa_epi[2]
+
+        if head not in self.heads:
+            return False
+        if relation not in self.relations:
+            return False
+        if tail not in self.tails:
+            return False
+
+        return True

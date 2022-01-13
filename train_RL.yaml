@@ -1,52 +1,47 @@
-seed: 42
+seed: 0
 
-dqn_params:
-  eps_start: 1.0
-  eps_end: 0.1
-  eps_last_frame: 150000
-  sync_rate: 1000
-  gamma: 0.9
-  learning_rate: 0.0001
-  batch_size: 128
-  replay_size: 100000
-  warm_start_size: 10000
-  avg_reward_len: 100
-  min_episode_reward: 0
-  batches_per_epoch: 1000
-  batches_per_epoch_eval: 5
-  n_steps: 1
+training_params:
+  algorithm: policy_gradients
+  device: cpu
+  precision: 32
+  num_processes: 16
+  gamma: 0.00001
+  learning_rate: 0.01
+  batch_size: 1
+  callbacks:
+    monitor:
+      metric: val_accuracy
+      max_or_min: max
+    early_stop:
+      patience: 5
+    lr_decay:
+      patience: 3
 
-env_params:
-  env_name: SemanticMemoryManageEnv
+strategies:
+  episodic_memory_manage: train
+  episodic_question_answer: latest
+  semantic_memory_manage: weakest
+  semantic_question_answer: strongest
+  episodic_to_semantic: find_common
+  episodic_semantic_question_answer: episodic_first
+  pretrain_semantic: false
   capacity:
-    episodic: 0
-    semantic: 128
+    episodic: 128
+    semantic: 0
+  policy_params:
+    function_type: mlp
+    embedding_dim: 4
+
+generator_params:
   max_history: 1024
   semantic_knowledge_path: ./data/semantic-knowledge.json
   names_path: ./data/top-human-names
   weighting_mode: highest
   commonsense_prob: 0.5
-  memory_manage: random
-  question_answer: strongest
+  time_start_at: 0
   limits:
-    heads: null
-    tails: null
-    names: null
-    allow_spaces: true
-  dqn: mlp
-
-callback_params:
-  model_checkpoint:
-    save_top_k: 3
-    monitor: "avg_val_reward"
-    mode: max
-    filename: "{epoch:03d}-{avg_val_reward:.5f}"
-
-trainer_params:
-  gpus: 1
-  max_epochs: 50
-  val_check_interval: 1.0
-  log_every_n_steps: 1
-  precision: 32
-  num_processes: 16
-  num_sanity_val_steps: 0
+    heads: 40
+    tails: 1
+    names: 20
+    allow_spaces: false
+  disjoint_entities: true
