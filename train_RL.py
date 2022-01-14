@@ -23,6 +23,7 @@ from memory.model import eps
 
 import torch
 import torch.optim as optim
+import torch.nn.functional as F
 from torch.utils.tensorboard import SummaryWriter
 
 
@@ -96,7 +97,10 @@ class Trainer:
         acc: accuracy for one episode
 
         """
+        for key, policy_net in self.agent.policy_nets.items():
+            del policy_net.saved_actions[:]
         del self.agent.rewards[:]
+
         self.agent.reset()
         state = self.env.reset()
         ep_reward = 0
@@ -393,11 +397,12 @@ class Trainer:
             )
 
             for key, policy_net in self.agent.policy_nets.items():
-                if len(policy_net.saved_log_probs) == 0:
+                if len(policy_net.saved_actions) == 0:
                     continue
-                num_steps_used = [lp["num_step"] for lp in policy_net.saved_log_probs]
+                num_steps_used = [lp["num_step"] for lp in policy_net.saved_actions]
                 R = 0
                 policy_loss = []
+                value_loss = []
                 returns = []
 
                 for r in self.agent.rewards[::-1]:
@@ -408,22 +413,30 @@ class Trainer:
                         R = reward + gamma * R
                         returns.insert(0, R)
 
-                returns = torch.tensor(returns)
+                returns = torch.tensor(returns, dtype=torch.float32)
                 returns = (returns - returns.mean()) / (returns.std() + eps)
 
-                assert len(policy_net.saved_log_probs) == len(returns)
+                assert len(policy_net.saved_actions) == len(returns)
 
-                for lp, R in zip(policy_net.saved_log_probs, returns):
+                for lp, R in zip(policy_net.saved_actions, returns):
                     log_prob = lp["log_prob"]
+                    value = lp["state_value"]
+                    advantage = R - value.item()
 
-                    policy_loss.append(-log_prob * R)
+                    policy_loss.append(-log_prob * advantage)
+                    value_loss.append(
+                        F.smooth_l1_loss(value.squeeze(0), torch.tensor([R]))
+                    )
 
-                assert len(returns) == len(policy_loss)
+                assert len(returns) == len(policy_loss) == len(value_loss)
 
                 policy_loss = torch.cat(
                     [loss.unsqueeze(0) for loss in policy_loss]
                 ).sum()
-                print(f"train policy loss {key}: {policy_loss}")
+                value_loss = torch.cat([loss.unsqueeze(0) for loss in value_loss]).sum()
+
+                loss_sum = policy_loss + value_loss
+                print(f"train loss {key}: {loss_sum}")
 
                 self.writer.add_scalar(
                     tag=f"train_policy_loss_{key}",
@@ -433,10 +446,8 @@ class Trainer:
 
                 print("backprop ...\n")
                 self.optimizer.zero_grad()
-                policy_loss.backward()
+                value_loss.backward()
                 self.optimizer.step()
-
-                del policy_net.saved_log_probs[:]
 
             print(f"Episode: {num_episode}\tvalidation starts ...")
             ep_reward, acc = self.run_episode(train_mode=False)

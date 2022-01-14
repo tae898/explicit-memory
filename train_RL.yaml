@@ -5,7 +5,7 @@ training_params:
   device: cpu
   precision: 32
   num_processes: 16
-  gamma: 0.00001
+  gamma: 0
   learning_rate: 0.01
   batch_size: 1
   callbacks:

@@ -394,10 +394,11 @@ class MLP(nn.Module):
         out_features = num_actions
         self.fc1 = nn.Linear(in_features, in_features)
         self.fc2 = nn.Linear(in_features, out_features)
+        self.fc3 = nn.Linear(in_features, 1)
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(dropout)
 
-        self.saved_log_probs = []
+        self.saved_actions = []
 
     def set_device(self, device: str = "cpu") -> None:
         """Send the model to CPU or GPU memory.
@@ -427,28 +428,34 @@ class MLP(nn.Module):
         x = x.flatten()
         x = x.unsqueeze(0)
 
-        x = self.fc1(x)
-        x = self.dropout(x)
-        x = self.relu(x)
+        x1 = self.fc1(x)
+        x1 = self.dropout(x1)
+        x1 = self.relu(x1)
 
-        x = self.fc1(x)
-        x = self.dropout(x)
-        x = self.relu(x)
+        x1 = self.fc1(x1)
+        x1 = self.dropout(x1)
+        x1 = self.relu(x1)
 
-        x = self.fc1(x)
-        x = self.dropout(x)
-        x = self.relu(x)
+        x1 = self.fc2(x1)
+        x1 = F.softmax(x1, dim=1)
 
-        x = self.fc1(x)
-        x = self.dropout(x)
-        x = self.relu(x)
+        x2 = self.fc1(x)
+        x2 = self.dropout(x2)
+        x2 = self.relu(x2)
 
-        x = self.fc2(x)
+        x2 = self.fc1(x2)
+        x2 = self.dropout(x2)
+        x2 = self.relu(x2)
 
-        to_return = F.softmax(x, dim=1)
-        foo = to_return.squeeze()
-        print(foo.argmax(), foo.max())
-        return to_return
+        x2 = self.fc3(x2)
+
+        print(
+            f"index to remove: {x1.squeeze().argmax().item()}\t "
+            f"prob: {round(x1.squeeze().max().item(), 4)}\t "
+            f"state value: {round(x2.squeeze().item(), 4)}"
+        )
+
+        return x1, x2
 
 
 def create_policy_net(

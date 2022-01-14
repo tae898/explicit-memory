@@ -60,6 +60,7 @@ class OQAGenerator:
 
         if set(list(self.limits.values())) != {None}:
             logging.warning(f"The obserations will be limited by {self.limits}")
+
         (
             self.semantic_knowledge,
             self.heads,
@@ -388,9 +389,7 @@ class OQAGenerator:
         if recent_more_likely:
             # The recent observations are more likely to be questions
             question_answer = random.choices(
-                # questions, weights=[math.exp(i + 1) for i in range(len(questions))], k=1
                 questions, weights=[(i + 1) for i in range(len(questions))], k=1
-
             )[0]
         else:
             question_answer = random.choice(questions)

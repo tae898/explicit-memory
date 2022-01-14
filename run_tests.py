@@ -134,4 +134,29 @@ M_s.add(M_s.ob2sem(["Tae's laptop", "AtLocation", "Tae's desk", 2]))
 
 assert M_s.size == 1
 assert M_s.entries[0][3] == 2
+
+
+gen_params = {
+    "max_history": 1024,
+    "semantic_knowledge_path": "./data/semantic-knowledge.json",
+    "names_path": "./data/top-human-names",
+    "weighting_mode": "weighted",
+    "commonsense_prob": 0.5,
+    "time_start_at": 0,
+    "limits": {
+        "heads": None,
+        "tails": None,
+        "names": None,
+        "allow_spaces": True,
+    },
+    "disjoint_entities": True,
+}
+
+oqag = OQAGenerator(**gen_params)
+
+
+assert len(oqag.heads) == 66
+assert len(oqag.tails) == 485
+assert len(oqag.names) == 20
+
 print("ALL TESTS SUCCESSFULLY PASSED")

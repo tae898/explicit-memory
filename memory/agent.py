@@ -144,17 +144,20 @@ class Agent:
             self.policy_nets["emmp"] = emmp
 
             def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                probs = self.policy_nets["emmp"](M_e=M_e, M_s=None, question=None)
+                probs, state_value = self.policy_nets["emmp"](M_e=M_e, M_s=None, question=None)
                 probs = probs.squeeze()
                 if train_mode:
                     m = Categorical(probs)
                     action = m.sample()
-                    self.policy_nets["emmp"].saved_log_probs.append(
-                        {"num_step": num_step, "log_prob": m.log_prob(action)}
+                    self.policy_nets["emmp"].saved_actions.append(
+                        {
+                            "num_step": num_step,
+                            "log_prob": m.log_prob(action),
+                            "state_value": state_value,
+                        }
                     )
                 else:
                     action = probs.argmax()
-
 
                 index_to_forget = action.item()
                 mem_to_forget = M_e.entries[index_to_forget]
@@ -217,7 +220,6 @@ class Agent:
                 else:
                     action = probs.argmax()
 
-
                 index_to_answer = action.item()
                 if index_to_answer >= M_e.size:
                     index_to_answer = torch.randint(0, M_e.size, (1,))
@@ -276,7 +278,6 @@ class Agent:
                     )
                 else:
                     action = probs.argmax()
-
 
                 index_to_forget = action.item()
                 mem_to_forget = M_s.entries[index_to_forget]
@@ -338,7 +339,6 @@ class Agent:
                     )
                 else:
                     action = probs.argmax()
-
 
                 index_to_answer = action.item()
                 if index_to_answer >= M_s.size:
@@ -456,7 +456,6 @@ class Agent:
                     )
                 else:
                     action = probs.argmax()
-
 
                 index_to_answer = action.item()
                 if index_to_answer >= M_e.capacity:
