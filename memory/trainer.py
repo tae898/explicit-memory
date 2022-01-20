@@ -1,30 +1,25 @@
-import logging
-
-from torch.utils.tensorboard.summary import scalar
-
-logger = logging.getLogger()
-logger.disabled = True
-
-import argparse
-from typing import Tuple
-
-
-from memory.utils import read_json, read_yaml
-from datetime import datetime
 import os
+import logging
+from typing import Tuple, List
 from glob import glob
-import shutil
-from pprint import pformat, pprint
-
-from memory.environment.gym import MemoryEnv
-from memory.utils import write_json, seed_everything
-from memory.agent import Agent
-from memory.model import eps
 
 import torch
 import torch.optim as optim
 import torch.nn.functional as F
+
 from torch.utils.tensorboard import SummaryWriter
+
+
+from .agent import Agent
+from .environment.gym import MemoryEnv
+from .utils import write_json, seed_everything, read_json, read_yaml
+from .model import eps
+
+logging.basicConfig(
+    level=os.environ.get("LOGLEVEL", "INFO").upper(),
+    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 class Trainer:
@@ -321,9 +316,11 @@ class Trainer:
         else:
             raise ValueError
 
-    def test(self):
+    def test(self, seed: int = None):
         """Start testing."""
         print("Test starts ...")
+        if seed is not None:
+            seed_everything(seed)
 
         self.agent.load_policy_nets(self.save_dir, load_best=True)
         device = self.training_params["device"]
@@ -348,7 +345,7 @@ class Trainer:
             scalar_value=ep_reward,
         )
 
-        write_json(metrics_all, os.path.join(save_dir, "results.json"))
+        write_json(metrics_all, os.path.join(self.save_dir, "results.json"))
 
     def train_policy_gradients(
         self,
@@ -476,52 +473,3 @@ class Trainer:
                 break
 
         write_json(metrics_all, os.path.join(save_dir, "results.json"))
-
-
-def main(**kwargs) -> None:
-    """Call trainer and start training."""
-
-    trainer = Trainer(**kwargs)
-    trainer.train()
-    trainer.test()
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="train RL with arguments.")
-    parser.add_argument(
-        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
-    )
-    parser.add_argument(
-        "--save_dir",
-        type=str,
-        default="training-results",
-        help="log and ckpt save dir",
-    )
-    args = parser.parse_args()
-    config = read_yaml(args.config)
-
-    model_summary = "-".join(
-        [
-            str(value)
-            if not isinstance(value, dict)
-            else "-".join(str(foo) for foo in list(value.values()))
-            for value in config["strategies"].values()
-        ]
-    )
-
-    current_time = "_".join(str(datetime.now()).split())
-
-    save_dir = os.path.join(args.save_dir, model_summary, current_time)
-    config_copy_dst = os.path.join(save_dir, "train_RL.yaml")
-    os.makedirs(save_dir, exist_ok=True)
-    shutil.copy(
-        args.config,
-        config_copy_dst,
-    )
-
-    print(f"\nArguments\n---------\n{pformat(config,indent=4, width=1)}\n")
-
-    main(
-        **config,
-        save_dir=save_dir,
-    )

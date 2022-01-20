@@ -664,7 +664,7 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="train rl with arguments.")
     parser.add_argument(
-        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
+        "--config", type=str, default="./train.yaml", help="path to the config file."
     )
     parser.add_argument(
         "--save_dir",

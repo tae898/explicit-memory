@@ -16,28 +16,32 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
-
 config_base = {
-    "seed": None,
+    "seed": 0,
     "training_params": {
-        "device": "cuda",
+        "algorithm": "policy_gradients",
+        "device": "cpu",
         "precision": 32,
         "num_processes": 16,
-        "gamma": 0.99,
-        "learning_rate": 0.0001,
+        "gamma": 1e-05,
+        "learning_rate": 0.01,
         "batch_size": 1,
-        "callbacks": None,
+        "callbacks": {
+            "monitor": {"metric": "val_accuracy", "max_or_min": "max"},
+            "early_stop": {"patience": 5},
+            "lr_decay": {"patience": 3},
+        },
     },
     "strategies": {
-        "episodic_memory_manage": "oldest",
+        "episodic_memory_manage": "train",
         "episodic_question_answer": "latest",
         "semantic_memory_manage": "weakest",
         "semantic_question_answer": "strongest",
         "episodic_to_semantic": "find_common",
         "episodic_semantic_question_answer": "episodic_first",
-        "pretrain_semantic": True,
-        "capacity": {"episodic": 0, "semantic": 16},
-        "policy_params": {"function_type": "mlp"},
+        "pretrain_semantic": False,
+        "capacity": {"episodic": 128, "semantic": 0},
+        "policy_params": {"function_type": "mlp", "embedding_dim": 4},
     },
     "generator_params": {
         "max_history": 1024,
@@ -60,8 +64,8 @@ def generate_all_configs():
 
     # episodic only
     for capacity in capacities:
-        for episodic_memory_manage in ["oldest", "random"]:
-            for episodic_question_answer in ["latest", "random"]:
+        for episodic_memory_manage in ["oldest", "random", "train"]:
+            for episodic_question_answer in ["latest"]:
                 for seed in seeds:
                     config = deepcopy(config_base)
 
@@ -76,53 +80,6 @@ def generate_all_configs():
                     config["seed"] = seed
 
                     configs.append(config)
-
-    # semantic only
-    for capacity in capacities:
-        for semantic_memory_manage in ["weakest", "random"]:
-            for semantic_question_answer in ["strongest", "random"]:
-                for pretrain_semantic in [True, False]:
-                    for seed in seeds:
-                        config = deepcopy(config_base)
-
-                        config["strategies"]["capacity"]["semantic"] = capacity * 2
-                        config["strategies"]["capacity"]["episodic"] = 0
-                        config["strategies"][
-                            "semantic_memory_manage"
-                        ] = semantic_memory_manage
-                        config["strategies"][
-                            "semantic_question_answer"
-                        ] = semantic_question_answer
-                        config["strategies"]["pretrain_semantic"] = pretrain_semantic
-                        config["seed"] = seed
-
-                        configs.append(config)
-
-    # both episodic and semantic
-    for capacity in capacities:
-        for episodic_to_semantic in ["find_common", "noop"]:
-            for episodic_semantic_question_answer in [
-                "episodic_first",
-                "random",
-            ]:
-                for pretrain_semantic in [True, False]:
-                    for seed in seeds:
-                        config = deepcopy(config_base)
-
-                        config["strategies"]["capacity"]["episodic"] = capacity
-                        config["strategies"]["capacity"]["semantic"] = capacity
-
-                        config["strategies"][
-                            "episodic_to_semantic"
-                        ] = episodic_to_semantic
-                        config["strategies"][
-                            "episodic_semantic_question_answer"
-                        ] = episodic_semantic_question_answer
-                        config["strategies"]["pretrain_semantic"] = pretrain_semantic
-
-                        config["seed"] = seed
-
-                        configs.append(config)
 
     logging.info(f"In total of {len(configs)} configs generated!")
     return configs
@@ -155,13 +112,13 @@ if __name__ == "__main__":
         for config in configs_batch:
             os.makedirs("tmp", exist_ok=True)
 
-            config_path = f"tmp/{str(uuid.uuid4())}-train_RL.yaml"
+            config_path = f"tmp/{str(uuid.uuid4())}-train.yaml"
             logging.debug(f"Writing a config path at {config_path} ...")
             configs_batch_paths.append(config_path)
             write_yaml(config, config_path)
 
         commands = [
-            f"nohup python train_RL.py --config {cp} > {cp.replace('yaml','log')}"
+            f"nohup python train.py --config {cp} > {cp.replace('yaml','log')}"
             for cp in configs_batch_paths
         ]
 

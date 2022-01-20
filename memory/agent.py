@@ -11,7 +11,7 @@ from .memory import EpisodicMemory, SemanticMemory
 import torch
 from torch.distributions import Categorical
 
-from .model import Embeddings, create_policy_net
+from .model import create_policy_net
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
@@ -37,7 +37,7 @@ class Agent:
         episodic_to_semantic: str = "find_common",
         episodic_semantic_question_answer: str = "episodic_first",
         pretrain_semantic: bool = False,
-        capacity: dict = {"episodic": 128, "semantic": 128},
+        capacity: dict = {"episodic": None, "semantic": None},
         policy_params: dict = None,
         generator_params: dict = None,
     ) -> None:

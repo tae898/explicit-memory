@@ -1,7 +1,7 @@
 seed: 0
 
 training_params:
-  algorithm: policy_gradients
+  algorithm: dqn
   device: cpu
   precision: 32
   num_processes: 16
@@ -16,6 +16,11 @@ training_params:
       patience: 5
     lr_decay:
       patience: 3
+  eps_start: 0.9
+  eps_end: 0.05
+  eps_decay: 200
+  target_update: 10
+  replay_experience_size: 10000
 
 strategies:
   episodic_memory_manage: train

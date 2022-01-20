@@ -15,7 +15,7 @@ import numpy as np
 def create_sinusoidal_embeddings(n_pos: int, dim: int, out: torch.Tensor):
     """Create sinusoidal embeddings, as in "Attention is All You Need".
 
-    Copied fromhttps://github.com/huggingface/transformers/blob/
+    Copied from https://github.com/huggingface/transformers/blob/
     455c6390938a5c737fa63e78396cedae41e4e87e/src/transformers/modeling_distilbert.py#L53
 
     """
@@ -391,14 +391,11 @@ class MLP(nn.Module):
         self.embeddings = Embeddings(**embeddings_params)
 
         in_features = num_rows * num_cols
-        out_features = num_actions
+        self.out_features = num_actions
         self.fc1 = nn.Linear(in_features, in_features)
-        self.fc2 = nn.Linear(in_features, out_features)
-        self.fc3 = nn.Linear(in_features, 1)
+        self.fc2 = nn.Linear(in_features, self.out_features)
         self.relu = nn.ReLU()
         self.dropout = nn.Dropout(dropout)
-
-        self.saved_actions = []
 
     def set_device(self, device: str = "cpu") -> None:
         """Send the model to CPU or GPU memory.
@@ -412,7 +409,7 @@ class MLP(nn.Module):
         self.embeddings.device = device
         self.to(device)
 
-    def forward(
+    def make_state(
         self, M_e: EpisodicMemory, M_s: SemanticMemory, question: list
     ) -> torch.Tensor:
         """One forward pass.
@@ -428,7 +425,16 @@ class MLP(nn.Module):
         x = x.flatten()
         x = x.unsqueeze(0)
 
-        x1 = self.fc1(x)
+        return x
+
+    def forward(self, state: torch.Tensor) -> torch.Tensor:
+        """One forward pass.
+
+        Args
+        ----
+
+        """
+        x1 = self.fc1(state)
         x1 = self.dropout(x1)
         x1 = self.relu(x1)
 
@@ -437,25 +443,16 @@ class MLP(nn.Module):
         x1 = self.relu(x1)
 
         x1 = self.fc2(x1)
-        x1 = F.softmax(x1, dim=1)
 
-        x2 = self.fc1(x)
-        x2 = self.dropout(x2)
-        x2 = self.relu(x2)
+        # import pdb; pdb.set_trace()
 
-        x2 = self.fc1(x2)
-        x2 = self.dropout(x2)
-        x2 = self.relu(x2)
+        for sample in x1:
+            print(
+                f"index to remove: {sample.squeeze().argmax().item()}\t "
+                f"state-action value: {round(sample.squeeze().max().item(), 4)}\t "
+            )
 
-        x2 = self.fc3(x2)
-
-        print(
-            f"index to remove: {x1.squeeze().argmax().item()}\t "
-            f"prob: {round(x1.squeeze().max().item(), 4)}\t "
-            f"state value: {round(x2.squeeze().item(), 4)}"
-        )
-
-        return x1, x2
+        return x1
 
 
 def create_policy_net(
