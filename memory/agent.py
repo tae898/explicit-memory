@@ -144,7 +144,9 @@ class Agent:
             self.policy_nets["emmp"] = emmp
 
             def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                probs, state_value = self.policy_nets["emmp"](M_e=M_e, M_s=None, question=None)
+                probs, state_value = self.policy_nets["emmp"](
+                    M_e=M_e, M_s=None, question=None
+                )
                 probs = probs.squeeze()
                 if train_mode:
                     m = Categorical(probs)
