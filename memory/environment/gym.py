@@ -85,7 +85,7 @@ class MemoryEnv(gym.Env):
         """
         self.oqag.reset()
         self.step_counter = 0
-
+        
         ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
         question = qa_epi[:2]
         self.answer = qa_epi[2]

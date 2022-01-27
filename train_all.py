@@ -19,7 +19,7 @@ logging.basicConfig(
 config_base = {
     "seed": 0,
     "training_params": {
-        "algorithm": "policy_gradients",
+        "algorithm": "actor_critic",
         "device": "cpu",
         "precision": 32,
         "num_processes": 16,

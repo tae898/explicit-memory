@@ -10,13 +10,14 @@ import os
 import shutil
 from pprint import pformat
 
-from memory.utils import read_yaml
+from memory.utils import read_yaml, seed_everything
 from memory.trainer import Trainer
 
 
 def main(**kwargs) -> None:
     """Instantiate Trainer and start training / testing."""
 
+    seed_everything(kwargs["seed"])
     trainer = Trainer(**kwargs)
     trainer.train()
     trainer.test()

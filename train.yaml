@@ -1,26 +1,21 @@
-seed: 0
+seed: 42
 
 training_params:
-  algorithm: dqn
+  algorithm: actor_critic
   device: cpu
   precision: 32
   num_processes: 16
   gamma: 0
-  learning_rate: 0.01
+  learning_rate: 0.001
   batch_size: 1
   callbacks:
     monitor:
       metric: val_accuracy
       max_or_min: max
     early_stop:
-      patience: 5
+      patience: 10
     lr_decay:
       patience: 3
-  eps_start: 0.9
-  eps_end: 0.05
-  eps_decay: 200
-  target_update: 10
-  replay_experience_size: 10000
 
 strategies:
   episodic_memory_manage: train
@@ -31,22 +26,22 @@ strategies:
   episodic_semantic_question_answer: episodic_first
   pretrain_semantic: false
   capacity:
-    episodic: 128
+    episodic: 1
     semantic: 0
   policy_params:
     function_type: mlp
     embedding_dim: 4
 
 generator_params:
-  max_history: 1024
+  max_history: 128
   semantic_knowledge_path: ./data/semantic-knowledge.json
   names_path: ./data/top-human-names
   weighting_mode: highest
-  commonsense_prob: 0.5
+  commonsense_prob: 0
   time_start_at: 0
   limits:
-    heads: 40
+    heads: 2
     tails: 1
-    names: 20
+    names: 1
     allow_spaces: false
   disjoint_entities: true

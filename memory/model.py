@@ -42,10 +42,10 @@ def create_sinusoidal_embeddings(n_pos: int, dim: int, out: torch.Tensor) -> Non
             for pos in range(n_pos)
         ]
     )
-    out.requires_grad = False 
+    out.requires_grad = False
     out[:, 0::2] = torch.FloatTensor(np.sin(position_enc[:, 0::2]))
     out[:, 1::2] = torch.FloatTensor(np.cos(position_enc[:, 1::2]))
-    # out.detach_()  # I don't think this is necessary?
+    out.detach_()  # I don't think this is necessary?
     logging.info(f"Sinusodial embeddings are used {n_pos} * {dim}.")
 
 
@@ -328,7 +328,7 @@ class MLP(nn.Module):
         policy_type: str,
         embedding_dim: int,
         generator_params: dict,
-        dropout: float = 0.5,
+        dropout: float = 0.0,
     ) -> None:
         """Initialize an MLP object.
 
@@ -382,13 +382,24 @@ class MLP(nn.Module):
         in_features = num_rows * num_cols
         self.in_features = in_features
         self.out_features = num_actions
-        self.fc1 = nn.Linear(self.in_features, self.in_features)
-        self.fc2 = nn.Linear(self.in_features, self.out_features)
-        self.relu = nn.ReLU()
+        self.hidden_features = in_features
+
+        # self.fc1 = nn.Linear(self.in_features, self.in_features)
+        # self.fc2 = nn.Linear(self.in_features, self.out_features)
+        # self.fc3 = nn.Linear(self.in_features, 1)
+
+        self.affine1 = nn.Linear(self.in_features, self.hidden_features)
+
+        # actor's layer
+        self.action_head = nn.Linear(self.hidden_features, self.out_features)
+
+        # critic's layer
+        self.value_head = nn.Linear(self.hidden_features, 1)
+
         self.dropout = nn.Dropout(dropout)
 
         # things to cache for some RL algorithms.
-        self.saved = []
+        self.saved_actions = []
 
     def set_device(self, device: str = "cpu") -> None:
         """Send the model to CPU or GPU memory.
@@ -402,31 +413,9 @@ class MLP(nn.Module):
         self.embeddings.device = device
         self.to(device)
 
-    def make_state(
+    def forward(
         self, M_e: EpisodicMemory, M_s: SemanticMemory, question: list
     ) -> torch.Tensor:
-        """Make a numeric state given the memory objects and question.
-
-        This is necessary to have batch_size > 1
-
-        Args
-        ----
-        M_e: EpisodicMemory object.
-        M_s: SemanticMemory object.
-        question: [head, relation]. E.g., [Tae's laptop, AtLocation]
-
-        Returns
-        -------
-        x whose shape is (1, in_features)
-
-        """
-        x = self.embeddings(M_e, M_s, question, self.policy_type)
-        x = x.flatten()
-        x = x.unsqueeze(0)
-
-        return x
-
-    def forward(self, state: torch.Tensor) -> torch.Tensor:
         """One forward pass.
 
         Args
@@ -434,25 +423,23 @@ class MLP(nn.Module):
         state: a numeric state whose shape is (1, in_features)
 
         """
-        x1 = self.fc1(state)
-        x1 = self.dropout(x1)
-        x1 = self.relu(x1)
+        state = self.embeddings(M_e, M_s, question, self.policy_type)
+        state = state.flatten()
+        state = state.unsqueeze(0)
 
-        x1 = self.fc1(x1)
-        x1 = self.dropout(x1)
-        x1 = self.relu(x1)
+        x = F.relu(self.affine1(F.relu(self.affine1(state))))
 
-        x1 = self.fc2(x1)
+        # actor: choses action to take from state s_t
+        # by returning probability of each action
+        action_prob = F.softmax(self.action_head(x), dim=-1)
 
-        # import pdb; pdb.set_trace()
+        # critic: evaluates being in the state s_t
+        state_values = self.value_head(x)
 
-        for sample in x1:
-            print(
-                f"index to remove: {sample.squeeze().argmax().item()}\t "
-                f"state-action value: {round(sample.squeeze().max().item(), 4)}\t "
-            )
-
-        return x1
+        # return values for both actor and critic as a tuple of 2 values:
+        # 1. a list with the probability of each action over the action space
+        # 2. the value from state s_t
+        return action_prob, state_values
 
 
 def create_policy_net(

@@ -88,12 +88,23 @@ eps = np.finfo(np.float32).eps.item()
 def select_action(state):
     state = torch.from_numpy(state).float().unsqueeze(0)
     probs, state_value = model(state)
+    probs = probs.squeeze()
 
     # create a categorical distribution over the list of probabilities of actions
     m = Categorical(probs)
 
     # and sample an action using the distribution
     action = m.sample()
+
+    index_action = action.item()
+    index_prob = round(probs[action.item()].cpu().detach().item(), 4)
+    sv = round(state_value.cpu().detach().item(), 4)
+
+    print(
+        f"index to forget: {index_action}\t"
+        f"and its prob: {index_prob}\t"
+        f"and its state-value: {sv}\t"
+    )
 
     # save to action buffer
     model.saved_actions.append(SavedAction(m.log_prob(action), state_value))

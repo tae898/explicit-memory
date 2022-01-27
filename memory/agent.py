@@ -1,7 +1,7 @@
 import logging
 from typing import Tuple, List
 import random
-
+import numpy as np
 import os
 import random
 from glob import glob
@@ -162,7 +162,16 @@ class Agent:
                     action = probs.argmax()
 
                 index_to_forget = action.item()
+                index_prob = round(probs[action.item()].cpu().detach().item(), 4)
+                sv = round(state_value.cpu().detach().item(), 4)
                 mem_to_forget = M_e.entries[index_to_forget]
+
+                print(
+                    f"index to forget: {index_to_forget}\t"
+                    f"and its prob: {index_prob}\t"
+                    f"and its state-value: {sv}\t"
+                )
+
                 M_e.forget(mem_to_forget)
 
             return func

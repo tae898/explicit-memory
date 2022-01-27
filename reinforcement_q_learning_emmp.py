@@ -55,7 +55,7 @@ config = {
         "episodic_to_semantic": "find_common",
         "episodic_semantic_question_answer": "episodic_first",
         "pretrain_semantic": False,
-        "capacity": {"episodic": 128, "semantic": 0},
+        "capacity": {"episodic": 1, "semantic": 0},
         "policy_params": {"function_type": "mlp", "embedding_dim": 4},
     },
     "generator_params": {
@@ -63,9 +63,9 @@ config = {
         "semantic_knowledge_path": "./data/semantic-knowledge.json",
         "names_path": "./data/top-human-names",
         "weighting_mode": "highest",
-        "commonsense_prob": 0.5,
+        "commonsense_prob": 0,
         "time_start_at": 0,
-        "limits": {"heads": 40, "tails": 1, "names": 20, "allow_spaces": False},
+        "limits": {"heads": 2, "tails": 1, "names": 1, "allow_spaces": False},
         "disjoint_entities": True,
     },
 }
@@ -217,9 +217,13 @@ for i_episode in range(config["training_params"]["num_episodes"]):
     state = policy_net.make_state(
         **{"M_e": M_e, "M_s": M_s, "question": partial_state["question"]}
     )
+    rewards = 0
     for t in count():
         # Select and perform an action
         action = select_action(state)
+        import pdb
+
+        pdb.set_trace()
         mem = M_e.entries[int(action.item())]
         assert M_e.is_kinda_full
         M_e.forget(mem)

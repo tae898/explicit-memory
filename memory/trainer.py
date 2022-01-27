@@ -39,7 +39,7 @@ class Trainer:
         ----
         seed: seed number, e.g., 42
         training_params: training parameters
-            algorithm: policy_gradients
+            algorithm: actor_critic
             device: "cuda" or "cpu"
             precision: 32
             num_processes: 16
@@ -306,11 +306,10 @@ class Trainer:
 
     def train(self):
         """Start training."""
-        seed_everything(self.seed)
         algo = self.training_params.pop("algorithm").lower()
         trainer_params = {**self.training_params, "save_dir": self.save_dir}
-        if algo == "policy_gradients":
-            self.train_policy_gradients(**trainer_params)
+        if algo == "actor_critic":
+            self.train_actor_critic(**trainer_params)
         elif algo == "dqn":
             raise NotImplementedError
         else:
@@ -347,7 +346,7 @@ class Trainer:
 
         write_json(metrics_all, os.path.join(self.save_dir, "results.json"))
 
-    def train_policy_gradients(
+    def train_actor_critic(
         self,
         device: str,
         precision: int,
@@ -410,7 +409,9 @@ class Trainer:
                         R = reward + gamma * R
                         returns.insert(0, R)
 
-                returns = torch.tensor(returns, dtype=torch.float32)
+                returns = torch.tensor(
+                    returns, dtype=torch.float32, device=self.training_params["device"]
+                )
                 returns = (returns - returns.mean()) / (returns.std() + eps)
 
                 assert len(policy_net.saved_actions) == len(returns)
@@ -422,7 +423,10 @@ class Trainer:
 
                     policy_loss.append(-log_prob * advantage)
                     value_loss.append(
-                        F.smooth_l1_loss(value.squeeze(0), torch.tensor([R]))
+                        F.smooth_l1_loss(
+                            value.squeeze(0),
+                            torch.tensor([R], device=self.training_params["device"]),
+                        )
                     )
 
                 assert len(returns) == len(policy_loss) == len(value_loss)
@@ -431,7 +435,6 @@ class Trainer:
                     [loss.unsqueeze(0) for loss in policy_loss]
                 ).sum()
                 value_loss = torch.cat([loss.unsqueeze(0) for loss in value_loss]).sum()
-
                 loss_sum = policy_loss + value_loss
                 print(f"train loss {key}: {loss_sum}")
 
