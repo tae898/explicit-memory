@@ -1,13 +1,11 @@
 seed: 42
 
 training_params:
-  algorithm: actor_critic
-  device: cpu
+  device: cuda
   precision: 32
   num_processes: 16
-  gamma: 0
+  batch_size: 128
   learning_rate: 0.001
-  batch_size: 1
   callbacks:
     monitor:
       metric: val_accuracy
@@ -16,6 +14,19 @@ training_params:
       patience: 10
     lr_decay:
       patience: 3
+
+dqn_params:
+  gamma: 0
+  eps_start: 0.9
+  eps_end: 0.05
+  eps_decay: 200
+  target_update: 10
+  replay_capacity: 10000
+
+model_params:
+  function_type: mlp
+  embedding_dim: 4
+  hidden_neurons: 8
 
 strategies:
   episodic_memory_manage: train
@@ -28,9 +39,6 @@ strategies:
   capacity:
     episodic: 1
     semantic: 0
-  policy_params:
-    function_type: mlp
-    embedding_dim: 4
 
 generator_params:
   max_history: 128

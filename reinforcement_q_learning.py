@@ -62,9 +62,9 @@ class MyEnv(gym.Env):
 
     metadata = {"render.modes": ["console"]}
 
-    def __init__(self, num_actions: int, ends_at: int, embedding_dim: int):
+    def __init__(self, num_actions: int, step_max: int, embedding_dim: int):
         super().__init__()
-        self.ends_at = ends_at
+        self.step_max = step_max
         self.step_counter = 0
         self.population = [i for i in range(0, num_actions)]
         self.weights = [i + 1 for i in range(0, num_actions)]
@@ -83,6 +83,7 @@ class MyEnv(gym.Env):
         return random.choices(population=self.population, weights=self.weights, k=1)[0]
 
     def reset(self):
+        self.step_counter = 0
         return self.state
 
     def step(self, action):
@@ -94,7 +95,7 @@ class MyEnv(gym.Env):
 
         self.step_counter += 1
 
-        if self.step_counter >= self.ends_at:
+        if self.step_counter >= self.step_max:
             done = True
         else:
             done = False
@@ -182,24 +183,24 @@ class MyDQN(nn.Module):
 
 
 seed_everything(1)
-num_memories = 8
+num_memories = 64
 embedding_dim = 8
-factor = 8
-ends_at = 1000
-BATCH_SIZE = 128
+factor = 4
+step_max = 256
+num_episodes = 100
+BATCH_SIZE = 64
 GAMMA = 0
 EPS_START = 0.9
 EPS_END = 0.05
-EPS_DECAY = 200
+EPS_DECAY = 10000
 TARGET_UPDATE = 10
-replay_capacity = 10000
-num_episodes = 5000
+replay_capacity = num_episodes*step_max
 n_actions = num_memories
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
-env = MyEnv(num_actions=num_memories, ends_at=ends_at, embedding_dim=embedding_dim)
+env = MyEnv(num_actions=num_memories, step_max=step_max, embedding_dim=embedding_dim)
 env.reset()
 
 policy_net = MyDQN(
@@ -282,11 +283,13 @@ for i_episode in range(num_episodes):
     # state = current_screen - last_screen
     state = env.reset()
     state = torch.tensor([state])
+    rewards_episode = 0
     for t in count():
         # Select and perform an action
         action = select_action(state)
         # _, reward, done, _ = env.step(action.item())
         next_state, reward, done, _ = env.step(action.item())
+        rewards_episode += reward
         next_state = torch.tensor([next_state])
 
         reward = torch.tensor([reward], device=device)
@@ -302,6 +305,7 @@ for i_episode in range(num_episodes):
 
         # Store the transition in memory
         memory.push(state, action, next_state, reward)
+        # print(f"length of memory {len(memory)}")
 
         # Move to the next state
         state = next_state
@@ -309,12 +313,15 @@ for i_episode in range(num_episodes):
         # Perform one step of the optimization (on the policy network)
         optimize_model()
         if done:
+            # print(f"done!")
             episode_durations.append(t + 1)
             # plot_durations()
             break
+        # print(f"step {t} rewards: {rewards_episode}")
     # Update the target network, copying all weights and biases in DQN
     if i_episode % TARGET_UPDATE == 0:
         target_net.load_state_dict(policy_net.state_dict())
+    print(f"episode {i_episode} rewards_episode: {rewards_episode}")
 
 print("Complete")
 env.render()

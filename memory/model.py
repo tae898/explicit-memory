@@ -445,9 +445,8 @@ class MLP(nn.Module):
 def create_policy_net(
     capacity: dict,
     policy_type: str,
-    function_type: str,
-    embedding_dim: int,
     generator_params: dict,
+    model_params: dict
 ) -> nn.Module:
     """Create policy neural networks.
 
@@ -461,23 +460,17 @@ def create_policy_net(
         semantic_question_answer
         episodic_to_semantic
         episodic_semantic_question_answer
-    function_type: E.g., "MLP"
-    embedding_dim: int,
     generator_params: dict,
+    model_params: dict
 
     Returns
     -------
     An instantiated nn.Module object.
 
     """
+    function_type = model_params.pop('function_type')
     if function_type.lower() == "mlp":
-        mlp_params = {
-            "capacity": capacity,
-            "policy_type": policy_type,
-            "embedding_dim": embedding_dim,
-            "generator_params": generator_params,
-        }
-        model = MLP(**mlp_params)
+        model = MLP(**model_params)
 
         return model
 

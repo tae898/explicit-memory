@@ -29,104 +29,28 @@ class Trainer:
         self,
         seed: int,
         training_params: dict,
+        dqn_params: dict,
+        model_params: dict,
         strategies: dict,
         generator_params: dict,
         save_dir: str,
     ) -> None:
-        """Instantiate a Trainer class object.
-
-        Args
-        ----
-        seed: seed number, e.g., 42
-        training_params: training parameters
-            algorithm: actor_critic
-            device: "cuda" or "cpu"
-            precision: 32
-            num_processes: 16
-            gamma: 0.99
-            learning_rate: 0.0001
-            batch_size: 1
-            callbacks:
-        strategies:
-            episodic_memory_manage:
-                oldest, random, train, or trained
-            episodic_question_answer:
-                latest, random, train, or trained
-            semantic_memory_manage:
-                weakest, random, train, or trained
-            semantic_question_answer:
-                strongest, random, train, or trained
-            episodic_to_semantic:
-                find_common, random, train, or trained
-            episodic_semantic_question_answer:
-                episodic_first, random, train, or trained
-            capacity: e.g., {"episodic": 128, "semantic": 128},
-        generator_params: OQAGenerator parameters
-        save_dir: str
-
-        """
+        """Instantiate a Trainer class object."""
         self.seed = seed
-
+        seed_everything(seed)
         self.training_params = training_params
+        self.dqn_params = dqn_params
+        self.model_params = model_params
         self.strategies = strategies
         self.generator_params = generator_params
         self.save_dir = save_dir
 
-        self.agent = Agent(**strategies, generator_params=generator_params)
+        self.agent = Agent(
+            **strategies, model_params=model_params, generator_params=generator_params
+        )
         self.env = MemoryEnv(**generator_params)
 
         self.writer = SummaryWriter(log_dir=save_dir)
-
-    def run_episode(self, train_mode: bool) -> Tuple[float, float]:
-        """Run one epsiode.
-
-        Currently batch size is always one.
-
-        Args
-        ----
-        train_mode: True if train, False if eval
-
-        Returns
-        -------
-        ep_reward: total episode rewards
-        acc: accuracy for one episode
-
-        """
-        for key, policy_net in self.agent.policy_nets.items():
-            del policy_net.saved_actions[:]
-        del self.agent.rewards[:]
-
-        self.agent.reset()
-        state = self.env.reset()
-        ep_reward = 0
-        acc = 0
-        num_step = 0
-
-        if train_mode:
-            self.agent.set_train_mode()
-        else:
-            self.agent.set_eval_mode()
-
-        print("Agent interacting with the environment until it's done...")
-        while True:
-            if train_mode:
-                action = self.agent(state, num_step, train_mode)
-            else:
-                with torch.no_grad():
-                    action = self.agent(state, num_step, train_mode)
-
-            state, reward, done, _ = self.env.step(action)
-            if train_mode:
-                self.agent.rewards.append({"num_step": num_step, "reward": reward})
-            ep_reward += reward
-
-            num_step += 1
-            acc = round(ep_reward / num_step, 4)
-
-            if done:
-                break
-
-        return ep_reward, acc
 
     def run_callbacks(
         self,
@@ -304,65 +228,42 @@ class Trainer:
 
         return best_index
 
+    def run_episode(self, train_mode: bool) -> Tuple[float, float]:
+        """Run one epsiode."""
+        self.agent.reset()
+        state = self.env.reset()
+        ep_reward = 0
+        acc = 0
+        num_step = 0
+
+        if train_mode:
+            self.agent.set_train_mode()
+        else:
+            self.agent.set_eval_mode()
+
+        print("Agent interacting with the environment until it's done...")
+        while True:
+            if train_mode:
+                action = self.agent(state, num_step, train_mode)
+            else:
+                with torch.no_grad():
+                    action = self.agent(state, num_step, train_mode)
+
+            state, reward, done, _ = self.env.step(action)
+            if train_mode:
+                self.agent.rewards.append({"num_step": num_step, "reward": reward})
+            ep_reward += reward
+
+            num_step += 1
+            acc = round(ep_reward / num_step, 4)
+
+            if done:
+                break
+
+        return ep_reward, acc
+
     def train(self):
         """Start training."""
-        algo = self.training_params.pop("algorithm").lower()
-        trainer_params = {**self.training_params, "save_dir": self.save_dir}
-        if algo == "actor_critic":
-            self.train_actor_critic(**trainer_params)
-        elif algo == "dqn":
-            raise NotImplementedError
-        else:
-            raise ValueError
-
-    def test(self, seed: int = None):
-        """Start testing."""
-        print("Test starts ...")
-        if seed is not None:
-            seed_everything(seed)
-
-        self.agent.load_policy_nets(self.save_dir, load_best=True)
-        device = self.training_params["device"]
-        self.agent.set_device(device)
-
-        ep_reward, acc = self.run_episode(train_mode=False)
-        print(f"test episode rewards: {ep_reward}\ttest accuracy: {acc}\n")
-        metric = {}
-        metric["test_episode_rewards"] = ep_reward
-        metric["test_accuracy"] = acc
-
-        results_path = os.path.join(self.save_dir, "results.json")
-        if os.path.isfile(results_path):
-            metrics_all = read_json(results_path)
-        else:
-            metrics_all = []
-
-        metrics_all.append(metric)
-        self.writer.add_scalar(tag="test_accuracy", scalar_value=acc)
-        self.writer.add_scalar(
-            tag="test_episode_rewards",
-            scalar_value=ep_reward,
-        )
-
-        write_json(metrics_all, os.path.join(self.save_dir, "results.json"))
-
-    def train_actor_critic(
-        self,
-        device: str,
-        precision: int,
-        num_processes: int,
-        gamma: float,
-        learning_rate: float,
-        batch_size: int,
-        callbacks: dict,
-        save_dir: str,
-    ) -> None:
-        """Train with policy gradients algorithm.
-
-        Args
-        ----
-
-        """
         # Agent might have multiple policy nets to optimize.
         if len(self.agent.policy_nets) > 0:
             self.optimizer = optim.Adam(
@@ -370,15 +271,20 @@ class Trainer:
                     {"params": val.parameters()}
                     for key, val in self.agent.policy_nets.items()
                 ],
-                lr=learning_rate,
+                lr=self.training_params["learning_rate"],
             )
-        self.agent.set_device(device)
+        self.agent.set_device(self.training_params["device"])
 
         metrics_all = []
         num_episode = 0
+        rewards = 0
+
         while True:
+            state = self.env.reset()
+            self.agent.reset()
             metric = {}
             print(f"Episode: {num_episode}\ttraining starts ...")
+
             ep_reward, acc = self.run_episode(train_mode=True)
             print(f"train episode rewards: {ep_reward}\ttrain accuracy: {acc}")
             metric["train_episode_rewards"] = ep_reward

@@ -38,7 +38,7 @@ class Agent:
         episodic_semantic_question_answer: str = "episodic_first",
         pretrain_semantic: bool = False,
         capacity: dict = {"episodic": None, "semantic": None},
-        policy_params: dict = None,
+        model_params: dict = None,
         generator_params: dict = None,
     ) -> None:
         """Instantiate with parameters.
@@ -53,7 +53,7 @@ class Agent:
         episodic_semantic_question_answer: str = "episodic_first",
         pretrain_semantic: bool = False,
         capacity: dict = {"episodic": 128, "semantic": 128},
-        policy_params: dict = None,
+        model_params: dict = None,
             function_type: mlp
             embedding_dim: 1
         generator_params: dict = None,
@@ -80,7 +80,7 @@ class Agent:
         self.episodic_semantic_question_answer = episodic_semantic_question_answer
         self.pretrain_semantic = pretrain_semantic
         self.capacity = capacity
-        self.policy_params = policy_params
+        self.model_params = model_params
         self.generator_params = generator_params
 
         self.M_e = EpisodicMemory(self.capacity["episodic"])
@@ -92,8 +92,6 @@ class Agent:
             assert (self.M_e.capacity + self.M_s.capacity) == (
                 capacity["episodic"] + capacity["semantic"]
             )
-        self.rewards = []
-        self.policy_nets = {}
 
         self.episodic_memory_manage_policy = self.create_episodic_memory_manage_policy()
         self.episodic_question_answer_policy = (
@@ -135,49 +133,12 @@ class Agent:
 
         elif self.episodic_memory_manage == "train":
 
-            emmp = create_policy_net(
-                capacity=self.capacity,
-                policy_type="episodic_memory_manage",
-                generator_params=self.generator_params,
-                **self.policy_params,
-            )
-            self.policy_nets["emmp"] = emmp
-
-            def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                probs, state_value = self.policy_nets["emmp"](
-                    M_e=M_e, M_s=None, question=None
-                )
-                probs = probs.squeeze()
-                if train_mode:
-                    m = Categorical(probs)
-                    action = m.sample()
-                    self.policy_nets["emmp"].saved_actions.append(
-                        {
-                            "num_step": num_step,
-                            "log_prob": m.log_prob(action),
-                            "state_value": state_value,
-                        }
-                    )
-                else:
-                    action = probs.argmax()
-
-                index_to_forget = action.item()
-                index_prob = round(probs[action.item()].cpu().detach().item(), 4)
-                sv = round(state_value.cpu().detach().item(), 4)
-                mem_to_forget = M_e.entries[index_to_forget]
-
-                print(
-                    f"index to forget: {index_to_forget}\t"
-                    f"and its prob: {index_prob}\t"
-                    f"and its state-value: {sv}\t"
-                )
-
-                M_e.forget(mem_to_forget)
-
-            return func
+            raise NotImplementedError
 
         elif self.episodic_memory_manage == "trained":
+
             raise NotImplementedError
+
         else:
             raise TypeError
 
@@ -211,38 +172,10 @@ class Agent:
 
         elif self.episodic_question_answer == "train":
 
-            eqap = create_policy_net(
-                capacity=self.capacity,
-                policy_type="episodic_question_answer",
-                generator_params=self.generator_params,
-                **self.policy_params,
-            )
-            self.policy_nets["eqap"] = eqap
-
-            def func(M_e: EpisodicMemory, question, num_step: int, train_mode: bool):
-                probs = self.policy_nets["eqap"](M_e=M_e, M_s=None, question=question)
-                probs = probs.squeeze()
-                if train_mode:
-                    m = Categorical(probs)
-                    action = m.sample()
-                    self.policy_nets["eqap"].saved_log_probs.append(
-                        {"num_step": num_step, "log_prob": m.log_prob(action)}
-                    )
-                else:
-                    action = probs.argmax()
-
-                index_to_answer = action.item()
-                if index_to_answer >= M_e.size:
-                    index_to_answer = torch.randint(0, M_e.size, (1,))
-                mem_selected = M_e.entries[index_to_answer]
-                tail = mem_selected[2]
-                tail = EpisodicMemory.remove_name(tail)
-
-                return tail
-
-            return func
+            raise NotImplementedError
 
         elif self.episodic_question_answer == "trained":
+
             raise NotImplementedError
 
         else:
@@ -270,32 +203,10 @@ class Agent:
 
         elif self.semantic_memory_manage == "train":
 
-            smmp = create_policy_net(
-                capacity=self.capacity,
-                policy_type="semantic_memory_manage",
-                generator_params=self.generator_params,
-                **self.policy_params,
-            )
-            self.policy_nets["smmp"] = smmp
+            raise NotImplementedError
 
-            def func(M_s: SemanticMemory, num_step: int, train_mode: bool):
-                probs = self.policy_nets["smmp"](M_e=None, M_s=M_s, question=None)
-                probs = probs.squeeze()
-                if train_mode:
-                    m = Categorical(probs)
-                    action = m.sample()
-                    self.policy_nets["smmp"].saved_log_probs.append(
-                        {"num_step": num_step, "log_prob": m.log_prob(action)}
-                    )
-                else:
-                    action = probs.argmax()
-
-                index_to_forget = action.item()
-                mem_to_forget = M_s.entries[index_to_forget]
-                M_s.forget(mem_to_forget)
-
-            return func
         elif self.semantic_memory_manage == "trained":
+
             raise NotImplementedError
 
         else:
@@ -331,36 +242,10 @@ class Agent:
 
         elif self.semantic_question_answer == "train":
 
-            sqap = create_policy_net(
-                capacity=self.capacity,
-                policy_type="semantic_question_answer",
-                generator_params=self.generator_params,
-                **self.policy_params,
-            )
-            self.policy_nets["sqap"] = sqap
+            raise NotImplementedError
 
-            def func(M_s: SemanticMemory, question, num_step: int, train_mode: bool):
-                probs = self.policy_nets["sqap"](M_e=None, M_s=M_s, question=question)
-                probs = probs.squeeze()
-                if train_mode:
-                    m = Categorical(probs)
-                    action = m.sample()
-                    self.policy_nets["sqap"].saved_log_probs.append(
-                        {"num_step": num_step, "log_prob": m.log_prob(action)}
-                    )
-                else:
-                    action = probs.argmax()
-
-                index_to_answer = action.item()
-                if index_to_answer >= M_s.size:
-                    index_to_answer = torch.randint(0, M_s.size, (1,))
-                mem_selected = M_s.entries[index_to_answer]
-                tail = mem_selected[2]
-
-                return tail
-
-            return func
         elif self.semantic_question_answer == "trained":
+
             raise NotImplementedError
 
         else:
@@ -391,9 +276,11 @@ class Agent:
             return func
 
         elif self.episodic_to_semantic == "train":
+
             raise NotImplementedError
 
         elif self.episodic_to_semantic == "trained":
+
             raise NotImplementedError
 
         else:
@@ -442,59 +329,10 @@ class Agent:
 
         elif self.episodic_semantic_question_answer == "train":
 
-            esqap = create_policy_net(
-                capacity=self.capacity,
-                policy_type="episodic_semantic_question_answer",
-                generator_params=self.generator_params,
-                **self.policy_params,
-            )
-            self.policy_nets["esqap"] = esqap
+            raise NotImplementedError
 
-            def func(
-                M_e: EpisodicMemory,
-                M_s: SemanticMemory,
-                question: list,
-                num_step: int,
-                train_mode: bool,
-            ):
-                probs = self.policy_nets["esqap"](M_e=M_e, M_s=M_s, question=question)
-                probs = probs.squeeze()
-                if train_mode:
-                    m = Categorical(probs)
-                    action = m.sample()
-                    self.policy_nets["esqap"].saved_log_probs.append(
-                        {"num_step": num_step, "log_prob": m.log_prob(action)}
-                    )
-                else:
-                    action = probs.argmax()
-
-                index_to_answer = action.item()
-                if index_to_answer >= M_e.capacity:
-
-                    if M_s.is_empty:
-                        return None
-
-                    index_to_answer = index_to_answer - M_e.capacity
-                    if index_to_answer >= M_s.size:
-                        index_to_answer = torch.randint(0, M_s.size, (1,))
-                    mem_selected = M_s.entries[index_to_answer]
-
-                else:
-
-                    if M_e.is_empty:
-                        return None
-
-                    if index_to_answer >= M_e.size:
-                        index_to_answer = torch.randint(0, M_e.size, (1,))
-                    mem_selected = M_e.entries[index_to_answer]
-
-                tail = mem_selected[2]
-                tail = EpisodicMemory.remove_name(tail)
-
-                return tail
-
-            return func
         elif self.episodic_semantic_question_answer == "trained":
+
             raise NotImplementedError
 
         else:

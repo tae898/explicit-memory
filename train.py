@@ -20,7 +20,6 @@ def main(**kwargs) -> None:
     seed_everything(kwargs["seed"])
     trainer = Trainer(**kwargs)
     trainer.train()
-    trainer.test()
 
 
 if __name__ == "__main__":
