@@ -546,6 +546,8 @@ class EpisodicMemory(Memory):
             (x, duplicates(semantic_possibles, x)) for x in set(semantic_possibles)
         )
 
+        import pdb; pdb.set_trace()
+
         if len(semantic_possibles) == len(entries):
             logging.info("no episodic memories found to be compressible.")
             return None, None
@@ -584,19 +586,7 @@ class SemanticMemory(Memory):
 
     def pretrain_semantic(
         self,
-        max_history: int = 1024,
-        semantic_knowledge_path: str = "./data/semantic-knowledge.json",
-        names_path: str = "./data/top-human-names",
-        weighting_mode: str = "highest",
-        commonsense_prob: float = 0.5,
-        time_start_at: int = 0,
-        limits: dict = {
-            "heads": None,
-            "tails": None,
-            "names": None,
-            "allow_spaces": False,
-        },
-        disjoint_entities: bool = True,
+        generator_params: dict,
     ) -> int:
         """Pretrain the semantic memory system from ConceptNet.
 
@@ -608,39 +598,30 @@ class SemanticMemory(Memory):
         """
         from .environment.generator import OQAGenerator
 
-        oqag = OQAGenerator(
-            max_history=max_history,
-            semantic_knowledge_path=semantic_knowledge_path,
-            names_path=names_path,
-            weighting_mode=weighting_mode,
-            commonsense_prob=commonsense_prob,
-            time_start_at=time_start_at,
-            limits=limits,
-            disjoint_entities=disjoint_entities,
-        )
+        oqag = OQAGenerator(**generator_params)
 
         for head, relation_tails in oqag.semantic_knowledge.items():
             if self.is_full:
                 break
 
-            if weighting_mode == "weighted":
+            if generator_params["weighting_mode"] == "weighted":
                 for relation, tails in relation_tails.items():
                     for tail in tails:
                         mem = [head, relation, tail["tail"], tail["weight"]]
 
                         logging.debug(
-                            f"weighting mode: {weighting_mode}: adding {mem} to the "
+                            f"weighting mode: {generator_params['weighting_mode']}: adding {mem} to the "
                             "semantic memory system ..."
                         )
                         self.add(mem)
 
-            elif weighting_mode == "highest":
+            elif generator_params["weighting_mode"] == "highest":
                 for relation, tails in relation_tails.items():
                     tail = sorted(tails, key=lambda x: x["weight"])[-1]
                     mem = [head, relation, tail["tail"], tail["weight"]]
 
                     logging.debug(
-                        f"weighting mode: {weighting_mode}: adding {mem} to the "
+                        f"weighting mode: {generator_params['weighting_mode']}: adding {mem} to the "
                         "semantic memory system ..."
                     )
                     self.add(mem)

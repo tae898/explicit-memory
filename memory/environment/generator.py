@@ -19,10 +19,10 @@ class OQAGenerator:
 
     def __init__(
         self,
-        max_history: int = 1024,
+        max_history: int = 128,
         semantic_knowledge_path: str = "./data/semantic-knowledge.json",
         names_path: str = "./data/top-human-names",
-        weighting_mode: str = "highest",
+        weighting_mode: str = "weighted",
         commonsense_prob: float = 0.5,
         time_start_at: int = 0,
         limits: dict = {
@@ -408,6 +408,12 @@ class OQAGenerator:
         ob: observation `[head, relation, tail, timestamp]`
 
         """
+        if self.is_full:
+            logging.info(
+                "history is full, the oldest observation will be removed to add a new one."
+            )
+            self.history.pop(0)
+
         logging.debug(
             f"Adding observation {ob} to history ... This is needed to "
             "generate a question later."
@@ -439,13 +445,6 @@ class OQAGenerator:
 
         """
         ob = self.generate_observation()
-
-        if self.is_full:
-            logging.info(
-                "history is full, the oldest observation will be removed to add a new one."
-            )
-            self.history.pop(0)
-
         self.add_observation_to_history(ob)
         logging.info("The new observation is added to the history.")
         if generate_qa:

@@ -384,22 +384,11 @@ class MLP(nn.Module):
         self.out_features = num_actions
         self.hidden_features = in_features
 
-        # self.fc1 = nn.Linear(self.in_features, self.in_features)
-        # self.fc2 = nn.Linear(self.in_features, self.out_features)
-        # self.fc3 = nn.Linear(self.in_features, 1)
-
-        self.affine1 = nn.Linear(self.in_features, self.hidden_features)
-
-        # actor's layer
-        self.action_head = nn.Linear(self.hidden_features, self.out_features)
-
-        # critic's layer
-        self.value_head = nn.Linear(self.hidden_features, 1)
+        self.fc1 = nn.Linear(self.in_features, self.hidden_features)
+        self.fc2 = nn.Linear(self.in_features, self.hidden_features)
+        self.fc3 = nn.Linear(self.hidden_features, self.out_features)
 
         self.dropout = nn.Dropout(dropout)
-
-        # things to cache for some RL algorithms.
-        self.saved_actions = []
 
     def set_device(self, device: str = "cpu") -> None:
         """Send the model to CPU or GPU memory.
@@ -413,41 +402,31 @@ class MLP(nn.Module):
         self.embeddings.device = device
         self.to(device)
 
-    def forward(
-        self, M_e: EpisodicMemory, M_s: SemanticMemory, question: list
-    ) -> torch.Tensor:
-        """One forward pass.
+    def forward(self, state) -> torch.Tensor:
+        """One forward pass."""
 
-        Args
-        ----
-        state: a numeric state whose shape is (1, in_features)
+        state = torch.stack(
+            [
+                self.embeddings(**{**state_, "policy_type": self.policy_type}).flatten()
+                for state_ in state
+            ]
+        )
 
-        """
-        state = self.embeddings(M_e, M_s, question, self.policy_type)
-        state = state.flatten()
-        state = state.unsqueeze(0)
+        x = F.relu(self.fc1(state))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc2(x))
+        x = self.fc3(x)
 
-        x = F.relu(self.affine1(F.relu(self.affine1(state))))
+        print(x.cpu().detach().numpy().mean(axis=0).round(3))
 
-        # actor: choses action to take from state s_t
-        # by returning probability of each action
-        action_prob = F.softmax(self.action_head(x), dim=-1)
-
-        # critic: evaluates being in the state s_t
-        state_values = self.value_head(x)
-
-        # return values for both actor and critic as a tuple of 2 values:
-        # 1. a list with the probability of each action over the action space
-        # 2. the value from state s_t
-        return action_prob, state_values
+        return x
 
 
-def create_policy_net(
-    capacity: dict,
-    policy_type: str,
-    generator_params: dict,
-    model_params: dict
-) -> nn.Module:
+def create_policy_net(model_params: dict) -> nn.Module:
     """Create policy neural networks.
 
     Args
@@ -468,9 +447,9 @@ def create_policy_net(
     An instantiated nn.Module object.
 
     """
-    function_type = model_params.pop('function_type')
+    function_type = model_params.pop("function_type")
     if function_type.lower() == "mlp":
-        model = MLP(**model_params)
+        model = MLP(**model_params, )
 
         return model
 
