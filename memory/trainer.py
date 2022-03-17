@@ -48,7 +48,7 @@ class Trainer:
         self.agent = Agent(
             **strategies, model_params=model_params, generator_params=generator_params
         )
-        self.env = MemoryEnv(**generator_params)
+        self.env = MemoryEnv(generator_params=generator_params)
 
         self.writer = SummaryWriter(log_dir=save_dir)
 

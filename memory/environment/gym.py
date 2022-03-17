@@ -26,11 +26,10 @@ class MemoryEnv(gym.Env):
 
     def __init__(
         self,
-        max_step: int = 1000,
         generator_params: dict = {
-            "max_history": 128,
-            "semantic_knowledge_path": "./data/semantic-knowledge.json",
-            "names_path": "./data/top-human-names",
+            "max_history": 1000,
+            "semantic_knowledge_path": "./data/semantic-knowledge-small.json",
+            "names_path": "./data/top-human-names-small",
             "weighting_mode": "weighted",
             "commonsense_prob": 0.5,
             "time_start_at": 0,
@@ -51,7 +50,7 @@ class MemoryEnv(gym.Env):
         generator_params: generator_params
         """
         super().__init__()
-        self.max_step = max_step
+        self.max_step = generator_params["max_history"]
         self.generator_params = generator_params
         self.oqag = OQAGenerator(**generator_params)
 
@@ -66,58 +65,42 @@ class MemoryEnv(gym.Env):
         self.oqag.reset()
         self.step_counter = 0
 
+        ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+        question = qa_epi[:2]
+        self.answer = qa_epi[2]
+
         logging.info("MemoryEnv has been successfully reset")
 
-    def step(self, mode: str, action: str = None):
+        return ob, question
 
-        if mode == "observation":
-            ob, _ = self.oqag.generate_with_history(generate_qa=False)
-            self.answer = None
+    def step(self, action: str):
 
-            state = ob
-            reward = None
-            done = False
-            info = {}
-
-        elif mode == "question":
-            qa = self.oqag.generate_question_answer()
-            question = qa[:2]
-            self.answer = qa[2]
-
-            state = question
-            reward = None
-            done = False
-            info = {}
-
-        elif mode == "answer":
-            assert self.answer is not None
-
-            if str(action).lower() == self.answer.lower():
-                logging.info(
-                    f"The prediction ({action}) matches the answer ({self.answer})!"
-                )
-                reward = CORRECT
-
-            else:
-                logging.info(
-                    f"The prediction ({action}) does NOT match the answer ({self.answer})!"
-                )
-                reward = WRONG
-
-            self.step_counter += 1
-
-            if self.step_counter >= self.max_step:
-                done = True
-            else:
-                done = False
-
-            state = None
-            info = {}
+        if str(action).lower() == self.answer.lower():
+            logging.info(
+                f"The prediction ({action}) matches the answer ({self.answer})!"
+            )
+            reward = CORRECT
 
         else:
-            raise ValueError
+            logging.info(
+                f"The prediction ({action}) does NOT match the answer ({self.answer})!"
+            )
+            reward = WRONG
 
-        return state, reward, done, info
+        ob, qa_epi = self.oqag.generate_with_history(generate_qa=True)
+        question = qa_epi[:2]
+        self.answer = qa_epi[2]
+
+        self.step_counter += 1
+
+        if self.step_counter >= self.max_step:
+            done = True
+        else:
+            done = False
+
+        info = {}
+
+        return (ob, question), reward, done, info
 
     def render(self, mode="console"):
         if mode != "console":

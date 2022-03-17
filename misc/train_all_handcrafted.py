@@ -16,32 +16,28 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 
+
 config_base = {
-    "seed": 0,
+    "seed": None,
     "training_params": {
-        "algorithm": "actor_critic",
-        "device": "cpu",
+        "device": "cuda",
         "precision": 32,
         "num_processes": 16,
-        "gamma": 1e-05,
-        "learning_rate": 0.01,
+        "gamma": 0.99,
+        "learning_rate": 0.0001,
         "batch_size": 1,
-        "callbacks": {
-            "monitor": {"metric": "val_accuracy", "max_or_min": "max"},
-            "early_stop": {"patience": 5},
-            "lr_decay": {"patience": 3},
-        },
+        "callbacks": None,
     },
     "strategies": {
-        "episodic_memory_manage": "train",
+        "episodic_memory_manage": "oldest",
         "episodic_question_answer": "latest",
         "semantic_memory_manage": "weakest",
         "semantic_question_answer": "strongest",
-        "episodic_to_semantic": "find_common",
-        "episodic_semantic_question_answer": "episodic_first",
-        "pretrain_semantic": False,
-        "capacity": {"episodic": 128, "semantic": 0},
-        "policy_params": {"function_type": "mlp", "embedding_dim": 4},
+        "episodic_to_semantic": "generalize",
+        "episodic_semantic_question_answer": "episem",
+        "pretrain_semantic": True,
+        "capacity": {"episodic": 0, "semantic": 16},
+        "policy_params": {"function_type": "mlp"},
     },
     "generator_params": {
         "max_history": 1024,
@@ -64,8 +60,8 @@ def generate_all_configs():
 
     # episodic only
     for capacity in capacities:
-        for episodic_memory_manage in ["oldest", "random", "train"]:
-            for episodic_question_answer in ["latest"]:
+        for episodic_memory_manage in ["oldest", "random"]:
+            for episodic_question_answer in ["latest", "random"]:
                 for seed in seeds:
                     config = deepcopy(config_base)
 
@@ -80,6 +76,53 @@ def generate_all_configs():
                     config["seed"] = seed
 
                     configs.append(config)
+
+    # semantic only
+    for capacity in capacities:
+        for semantic_memory_manage in ["weakest", "random"]:
+            for semantic_question_answer in ["strongest", "random"]:
+                for pretrain_semantic in [True, False]:
+                    for seed in seeds:
+                        config = deepcopy(config_base)
+
+                        config["strategies"]["capacity"]["semantic"] = capacity * 2
+                        config["strategies"]["capacity"]["episodic"] = 0
+                        config["strategies"][
+                            "semantic_memory_manage"
+                        ] = semantic_memory_manage
+                        config["strategies"][
+                            "semantic_question_answer"
+                        ] = semantic_question_answer
+                        config["strategies"]["pretrain_semantic"] = pretrain_semantic
+                        config["seed"] = seed
+
+                        configs.append(config)
+
+    # both episodic and semantic
+    for capacity in capacities:
+        for episodic_to_semantic in ["generalize", "noop"]:
+            for episodic_semantic_question_answer in [
+                "episem",
+                "random",
+            ]:
+                for pretrain_semantic in [True, False]:
+                    for seed in seeds:
+                        config = deepcopy(config_base)
+
+                        config["strategies"]["capacity"]["episodic"] = capacity
+                        config["strategies"]["capacity"]["semantic"] = capacity
+
+                        config["strategies"][
+                            "episodic_to_semantic"
+                        ] = episodic_to_semantic
+                        config["strategies"][
+                            "episodic_semantic_question_answer"
+                        ] = episodic_semantic_question_answer
+                        config["strategies"]["pretrain_semantic"] = pretrain_semantic
+
+                        config["seed"] = seed
+
+                        configs.append(config)
 
     logging.info(f"In total of {len(configs)} configs generated!")
     return configs

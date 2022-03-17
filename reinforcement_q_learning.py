@@ -183,10 +183,10 @@ class MyDQN(nn.Module):
 
 
 seed_everything(1)
-num_memories = 64
+num_memories = 20
 embedding_dim = 8
 factor = 4
-step_max = 256
+step_max = 1000
 num_episodes = 100
 BATCH_SIZE = 64
 GAMMA = 0
@@ -194,7 +194,7 @@ EPS_START = 0.9
 EPS_END = 0.05
 EPS_DECAY = 10000
 TARGET_UPDATE = 10
-replay_capacity = num_episodes*step_max
+replay_capacity = num_episodes * step_max
 n_actions = num_memories
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

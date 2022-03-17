@@ -34,8 +34,8 @@ class Agent:
         episodic_question_answer: str = "latest",
         semantic_memory_manage: str = "weakest",
         semantic_question_answer: str = "strongest",
-        episodic_to_semantic: str = "find_common",
-        episodic_semantic_question_answer: str = "episodic_first",
+        episodic_to_semantic: str = "generalize",
+        episodic_semantic_question_answer: str = "episem",
         pretrain_semantic: bool = False,
         capacity: dict = {"episodic": None, "semantic": None},
         model_params: dict = None,
@@ -49,8 +49,8 @@ class Agent:
         episodic_question_answer: str = "latest",
         semantic_memory_manage: str = "weakest",
         semantic_question_answer: str = "strongest",
-        episodic_to_semantic: str = "find_common",
-        episodic_semantic_question_answer: str = "episodic_first",
+        episodic_to_semantic: str = "generalize",
+        episodic_semantic_question_answer: str = "episem",
         pretrain_semantic: bool = False,
         capacity: dict = {"episodic": 128, "semantic": 128},
         model_params: dict = None,
@@ -254,10 +254,10 @@ class Agent:
     def create_episodic_to_semantic_policy(self):
         """Create episodic to semantic policy.
 
-        "find_common", "noop", "train", or "trained"
+        "generalize", "noop", "train", or "trained"
 
         """
-        if self.episodic_to_semantic == "find_common":
+        if self.episodic_to_semantic == "generalize":
 
             def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
                 mem_epis, mem_sem = M_e.get_similar()
@@ -289,10 +289,10 @@ class Agent:
     def create_episodic_semantic_question_answer_policy(self):
         """Create episodic and semantic question answer policy.
 
-        "episodic_first", "random", "train", or "trained"
+        "episem", "random", "train", or "trained"
 
         """
-        if self.episodic_semantic_question_answer == "episodic_first":
+        if self.episodic_semantic_question_answer == "episem":
 
             def func(
                 M_e: EpisodicMemory,

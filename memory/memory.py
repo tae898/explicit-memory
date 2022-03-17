@@ -305,7 +305,7 @@ class Memory:
 
     def sort_memories_ascending(self) -> None:
         """Sort the memories in an ascending order with respect to the 4th element."""
-        self.entries.sort(key=lambda x: x[3])
+        self.entries.sort(key=lambda x: x[-1])
         logging.info("memories have been sorted!")
 
     def increase_capacity(self, increase):
@@ -368,7 +368,10 @@ class EpisodicMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of a memory is timestamp
-        mem = sorted(entries, key=lambda x: x[-1])[0]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
+        mem = random.choice(
+            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
+        )
         assert len(mem) == 4
         logging.info(f"{mem} is the oldest memory in the entries.")
 
@@ -390,7 +393,10 @@ class EpisodicMemory(Memory):
             logging.debug("No entries were specified. We'll use the memory system.")
             entries = self.entries
 
-        mem = sorted(entries, key=lambda x: x[-1])[-1]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
+        mem = random.choice(
+            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
+        )
         assert len(mem) == 4
         logging.info(f"{mem} is the latest memory in the entries.")
 
@@ -546,8 +552,6 @@ class EpisodicMemory(Memory):
             (x, duplicates(semantic_possibles, x)) for x in set(semantic_possibles)
         )
 
-        import pdb; pdb.set_trace()
-
         if len(semantic_possibles) == len(entries):
             logging.info("no episodic memories found to be compressible.")
             return None, None
@@ -576,6 +580,39 @@ class EpisodicMemory(Memory):
             return episodic_memories, semantic_memory
         else:
             raise ValueError
+
+    def find_mem_for_semantic(self, entries: list = None):
+        if entries is None:
+            logging.debug("No entries were specified. We'll use the memory system.")
+            entries = self.entries
+
+        best_semantic_possibles = []
+        for mem in self.entries:
+            head = mem[0]
+            head = self.remove_name(head)
+            relation = mem[1]
+            tail = mem[2]
+            tail = self.remove_name(tail)
+
+            best_semantic_possibles.append([head, relation, tail])
+
+        best_semantic_possibles = [
+            (i, elem, best_semantic_possibles.count(elem))
+            for i, elem in enumerate(best_semantic_possibles)
+        ]
+
+        highest_freq = max([elem[2] for elem in best_semantic_possibles])
+
+        best_semantic_possibles = [
+            elem for elem in best_semantic_possibles if elem[2] == highest_freq
+        ]
+
+        mem_sem = random.choice(best_semantic_possibles)
+        idx = mem_sem[0]
+
+        mem_selected = self.entries[idx]
+
+        return mem_selected
 
 
 class SemanticMemory(Memory):
@@ -658,7 +695,10 @@ class SemanticMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of memory is num_generalized_memories.
-        mem = sorted(entries, key=lambda x: x[-1])[0]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
+        mem = random.choice(
+            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
+        )
         logging.info(f"{mem} is the weakest memory in the entries.")
 
         return mem
@@ -681,7 +721,10 @@ class SemanticMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of memory is num_generalized_memories.
-        mem = sorted(entries, key=lambda x: x[-1])[-1]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
+        mem = random.choice(
+            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
+        )        
         logging.info(f"{mem} is the strongest memory in the entries.")
 
         return mem

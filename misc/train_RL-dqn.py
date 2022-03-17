@@ -47,8 +47,8 @@ class ValueAgent:
             "episodic_question_answer": "latest",
             "semantic_memory_manage": "weakest",
             "semantic_question_answer": "strongest",
-            "episodic_to_semantic": "find_common",
-            "episodic_semantic_question_answer": "episodic_first",
+            "episodic_to_semantic": "generalize",
+            "episodic_semantic_question_answer": "episem",
             "capacity": {"episodic": 128, "semantic": 128},
         },
     ):
@@ -211,8 +211,8 @@ class DQN(LightningModule):
             "episodic_question_answer": "latest", "random", "train", or "trained"
             "semantic_memory_manage": "weakest", "random", "train", or "trained"
             "semantic_question_answer": "strongest", "random", "train", or "trained"
-            "episodic_to_semantic": "find_common", "random", "train", or "trained"
-            "episodic_semantic_question_answer": "episodic_first","random", "train",
+            "episodic_to_semantic": "generalize", "random", "train", or "trained"
+            "episodic_semantic_question_answer": "episem","random", "train",
                 or "trained"
             capacity: memory capacity
                 e.g., {'episodic': 42, 'semantic: 0}
@@ -629,9 +629,9 @@ def main(
         semantic_question_answer:
             strongest, random, train, or trained
         episodic_to_semantic:
-            find_common, random, train, or trained
+            generalize, random, train, or trained
         episodic_semantic_question_answer:
-            episodic_first, random, train, or trained
+            episem, random, train, or trained
         capacity: e.g., {"episodic": 128, "semantic": 128},            
     generator_params: environment parameters
     callback_params: callback function parameters

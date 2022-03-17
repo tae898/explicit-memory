@@ -1,0 +1,82 @@
+{
+    "person": {
+        "AtLocation": [
+            {
+                "tail": "building",
+                "weight": 1
+            }
+        ]
+    },
+    "bicycle": {
+        "AtLocation": [
+            {
+                "tail": "garage",
+                "weight": 1
+            }
+        ]
+    },
+    "car": {
+        "AtLocation": [
+            {
+                "tail": "city",
+                "weight": 1
+            }
+        ]
+    },
+    "laptop": {
+        "AtLocation": [
+            {
+                "tail": "desk",
+                "weight": 1
+            }
+        ]
+    },
+    "dog": {
+        "AtLocation": [
+            {
+                "tail": "park",
+                "weight": 1
+            }
+        ]
+    },
+    "cat": {
+        "AtLocation": [
+            {
+                "tail": "lap",
+                "weight": 10
+            }
+        ]
+    },
+    "couch": {
+        "AtLocation": [
+            {
+                "tail": "house",
+                "weight": 5
+            }
+        ]
+    },
+    "bird": {
+        "AtLocation": [
+            {
+                "tail": "tree",
+                "weight": 4
+            }
+        ]
+    },
+    "cup": {
+        "AtLocation": [
+            {
+                "tail": "table",
+                "weight": 4
+            }
+        ]
+    },
+    "chair": {
+        "AtLocation": [
+            {
+                "tail": "office",
+                "weight": 8
+            }
+        ]
+    }
+}

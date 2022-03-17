@@ -21,35 +21,29 @@ dqn_params:
   eps_end: 0.05
   eps_decay: 200
   target_update: 10
-  replay_capacity: 10000
+  replay_capacity: 1000
 
 model_params:
   function_type: mlp
   embedding_dim: 4
   hidden_neurons: 8
 
-strategies:
-  episodic_memory_manage: train
-  episodic_question_answer: latest
-  semantic_memory_manage: weakest
-  semantic_question_answer: strongest
-  episodic_to_semantic: find_common
-  episodic_semantic_question_answer: episodic_first
-  pretrain_semantic: false
-  capacity:
-    episodic: 1
-    semantic: 0
+memory_capacity:
+  episodic: 1
+  semantic: 0
+
+memory_type: episodic # should be episodic, semantic, both, both-presem
 
 generator_params:
-  max_history: 128
-  semantic_knowledge_path: ./data/semantic-knowledge.json
-  names_path: ./data/top-human-names
+  max_history: 1000
+  semantic_knowledge_path: ./data/semantic-knowledge-small.json
+  names_path: ./data/top-human-names-small
   weighting_mode: highest
-  commonsense_prob: 0
+  commonsense_prob: 0.5
   time_start_at: 0
   limits:
-    heads: 2
-    tails: 1
-    names: 1
+    heads: None
+    tails: None
+    names: None
     allow_spaces: false
   disjoint_entities: true
