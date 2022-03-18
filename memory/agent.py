@@ -1,16 +1,14 @@
 import logging
-from typing import Tuple, List
-import random
-import numpy as np
 import os
 import random
 from glob import glob
+from typing import List, Tuple
 
-from .memory import EpisodicMemory, SemanticMemory
-
+import numpy as np
 import torch
 from torch.distributions import Categorical
 
+from .memory import EpisodicMemory, SemanticMemory
 from .model import create_policy_net
 
 logging.basicConfig(

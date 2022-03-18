@@ -4,33 +4,28 @@ import logging
 logger = logging.getLogger()
 logger.disabled = True
 
-import gym
 import math
+import os
 import random
-import numpy as np
+from collections import deque, namedtuple
+from copy import deepcopy
+from itertools import count
+
+import gym
 import matplotlib
 import matplotlib.pyplot as plt
-from collections import namedtuple, deque
-from itertools import count
-from PIL import Image
-from copy import deepcopy
-
+import numpy as np
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
+import torch.optim as optim
 import torchvision.transforms as T
+from PIL import Image
 
-import gym
-import numpy as np
-import random
-import os
-
-from memory.environment.gym import EpisodicMemoryManageEnv
-from memory.model import create_policy_net
-from memory.utils import 
 from memory import EpisodicMemory
 from memory.environment.generator import OQAGenerator
+from memory.environment.gym import EpisodicMemoryManageEnv
+from memory.model import create_policy_net
 
 
 def seed_everything(seed: int):
@@ -119,7 +114,7 @@ model_params = {
 }
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-device = 'cpu'
+device = "cpu"
 
 Transition = namedtuple("Transition", ("state", "action", "next_state", "reward"))
 M_e = EpisodicMemory(num_memories)
@@ -156,7 +151,7 @@ def optimize_model():
         device=device,
         dtype=torch.bool,
     )
-    
+
     non_final_next_states = [s for s in batch.next_state if s is not None]
     state_batch = batch.state
     action_batch = torch.cat(batch.action)

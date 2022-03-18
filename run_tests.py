@@ -1,10 +1,10 @@
 import random
+
 from tqdm import tqdm
 
-from memory.environment.gym import MemoryEnv
+from memory import EpisodicMemory, Memory, SemanticMemory
 from memory.environment.generator import OQAGenerator
-from memory import Memory, EpisodicMemory, SemanticMemory
-
+from memory.environment.gym import MemoryEnv
 
 print("testing the generator ...")
 

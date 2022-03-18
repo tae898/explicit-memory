@@ -1,19 +1,17 @@
-import os
 import logging
-from typing import Tuple, List
+import os
 from glob import glob
+from typing import List, Tuple
 
 import torch
-import torch.optim as optim
 import torch.nn.functional as F
-
+import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
-
 
 from .agent import Agent
 from .environment.gym import MemoryEnv
-from .utils import write_json, seed_everything, read_json, read_yaml
 from .model import eps
+from .utils import read_json, read_yaml, seed_everything, write_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

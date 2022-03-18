@@ -7,14 +7,10 @@ from datetime import datetime
 from pprint import pformat
 from typing import Dict, List, Optional, Tuple
 
-from typing import List
-
 import numpy as np
 import torch
-from torch import Tensor, nn
-from torch.nn import functional as F
-
-from pl_bolts.datamodules.experience_source import Experience, ExperienceSourceDataset
+from pl_bolts.datamodules.experience_source import (Experience,
+                                                    ExperienceSourceDataset)
 from pl_bolts.losses.rl import dqn_loss
 from pl_bolts.models.rl.common.memory import MultiStepBuffer
 from pl_bolts.utils import _GYM_AVAILABLE
@@ -23,13 +19,14 @@ from pytorch_lightning import LightningModule, Trainer, seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
-from torch import Tensor, optim
+from torch import Tensor, nn, optim
 from torch._C import Value
+from torch.nn import functional as F
 from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
 
-from memory.utils import read_yaml
 from memory.environment.gym import MemoryEnv
+from memory.utils import read_yaml
 
 
 class ValueAgent:
@@ -68,7 +65,7 @@ class ValueAgent:
         ----
         state: {"observation": observation, "question": question}
             observation `[head, relation, tail, timestamp]`
-            question: [head, relation]. `head` and `relation` together make a question. 
+            question: [head, relation]. `head` and `relation` together make a question.
             The answer is the location (tail).
         device: the device used for the current batch
 
@@ -632,7 +629,7 @@ def main(
             generalize, random, train, or trained
         episodic_semantic_question_answer:
             episem, random, train, or trained
-        capacity: e.g., {"episodic": 128, "semantic": 128},            
+        capacity: e.g., {"episodic": 128, "semantic": 128},
     generator_params: environment parameters
     callback_params: callback function parameters
     trainer_params: trainer parameters

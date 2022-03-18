@@ -2,13 +2,14 @@ import argparse
 import logging
 import os
 import time
+import uuid
 from copy import deepcopy
 from datetime import datetime
 from subprocess import Popen
-import uuid
+
 from tqdm import tqdm
 
-from memory.utils import write_json, write_yaml, read_yaml
+from memory.utils import read_yaml, write_json, write_yaml
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

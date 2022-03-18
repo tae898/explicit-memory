@@ -1,14 +1,13 @@
 import argparse
-import gym
-import numpy as np
 from itertools import count
 
+import gym
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
 from torch.distributions import Categorical
-
 
 parser = argparse.ArgumentParser(description="PyTorch REINFORCE example")
 parser.add_argument(
@@ -52,7 +51,7 @@ class Policy(nn.Module):
         x = self.dropout(x)
         x = F.relu(x)
         action_scores = self.affine2(x)
-        
+
         return F.softmax(action_scores, dim=1)
 
 

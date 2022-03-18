@@ -2,10 +2,9 @@ import logging
 import os
 import random
 from typing import List, Tuple
-import math
 
-from ..utils import read_json
 from ..memory import EpisodicMemory
+from ..utils import read_json
 
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),

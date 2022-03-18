@@ -5,13 +5,13 @@ logger = logging.getLogger()
 logger.disabled = True
 
 import argparse
-from datetime import datetime
 import os
 import shutil
+from datetime import datetime
 from pprint import pformat
 
-from memory.utils import read_yaml, seed_everything
 from memory.trainer import Trainer
+from memory.utils import read_yaml, seed_everything
 
 
 def main(**kwargs) -> None:

@@ -1,16 +1,14 @@
 import logging
-from typing import Tuple, List
-
 import os
+from typing import List, Tuple
 
-from .memory import EpisodicMemory, SemanticMemory
-from .environment.generator import OQAGenerator
-
+import numpy as np
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import numpy as np
 
+from .environment.generator import OQAGenerator
+from .memory import EpisodicMemory, SemanticMemory
 
 eps = np.finfo(np.float32).eps.item()
 
@@ -449,7 +447,9 @@ def create_policy_net(model_params: dict) -> nn.Module:
     """
     function_type = model_params.pop("function_type")
     if function_type.lower() == "mlp":
-        model = MLP(**model_params, )
+        model = MLP(
+            **model_params,
+        )
 
         return model
 

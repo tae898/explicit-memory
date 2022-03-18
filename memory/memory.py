@@ -4,7 +4,6 @@ import random
 from pprint import pformat
 from typing import List, Tuple
 
-
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
     format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
@@ -136,16 +135,7 @@ class Memory:
     @property
     def is_full(self) -> bool:
         """Return true if full."""
-        assert len(self.entries) <= self.capacity + 1
-
         return len(self.entries) == self.capacity
-
-    @property
-    def is_kinda_full(self) -> bool:
-        """Return if one is dangling."""
-        assert len(self.entries) <= self.capacity + 1
-
-        return len(self.entries) == self.capacity + 1
 
     @property
     def is_frozen(self) -> bool:
@@ -288,12 +278,7 @@ class Memory:
             logging.error(error_msg)
             raise ValueError(error_msg)
 
-        # +1 is to account for the incoming observation which can possibly be a
-        # memory
-        if len(self.entries) >= self.capacity + 1:
-            error_msg = "memory is kinda full! can't add more."
-            logging.error(error_msg)
-            raise ValueError(error_msg)
+        assert not self.is_full
 
         logging.debug(f"Adding a new memory entry {mem} ...")
         self.entries.append(mem)
@@ -369,9 +354,7 @@ class EpisodicMemory(Memory):
 
         # The last element [-1] of a memory is timestamp
         mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
-        mem = random.choice(
-            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
-        )
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         assert len(mem) == 4
         logging.info(f"{mem} is the oldest memory in the entries.")
 
@@ -394,9 +377,7 @@ class EpisodicMemory(Memory):
             entries = self.entries
 
         mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
-        mem = random.choice(
-            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
-        )
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         assert len(mem) == 4
         logging.info(f"{mem} is the latest memory in the entries.")
 
@@ -623,42 +604,42 @@ class SemanticMemory(Memory):
 
     def pretrain_semantic(
         self,
-        generator_params: dict,
+        env_params: dict,
     ) -> int:
         """Pretrain the semantic memory system from ConceptNet.
 
         Returns
         -------
-        free_space: free space that was not used, if any,  so that it can be added to
+        free_space: free space that was not used, if any, so that it can be added to
             the episodic memory system.
 
         """
-        from .environment.generator import OQAGenerator
+        from .environment import RoomEnv
 
-        oqag = OQAGenerator(**generator_params)
+        env = RoomEnv(**env_params)
 
-        for head, relation_tails in oqag.semantic_knowledge.items():
+        for head, relation_tails in env.semantic_knowledge.items():
             if self.is_full:
                 break
 
-            if generator_params["weighting_mode"] == "weighted":
+            if env.weighting_mode == "weighted":
                 for relation, tails in relation_tails.items():
                     for tail in tails:
                         mem = [head, relation, tail["tail"], tail["weight"]]
 
                         logging.debug(
-                            f"weighting mode: {generator_params['weighting_mode']}: adding {mem} to the "
+                            f"weighting mode: {env.weighting_mode}: adding {mem} to the "
                             "semantic memory system ..."
                         )
                         self.add(mem)
 
-            elif generator_params["weighting_mode"] == "highest":
+            elif env.weighting_mode == "highest":
                 for relation, tails in relation_tails.items():
                     tail = sorted(tails, key=lambda x: x["weight"])[-1]
                     mem = [head, relation, tail["tail"], tail["weight"]]
 
                     logging.debug(
-                        f"weighting mode: {generator_params['weighting_mode']}: adding {mem} to the "
+                        f"weighting mode: {env.weighting_mode}: adding {mem} to the "
                         "semantic memory system ..."
                     )
                     self.add(mem)
@@ -696,9 +677,7 @@ class SemanticMemory(Memory):
 
         # The last element [-1] of memory is num_generalized_memories.
         mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
-        mem = random.choice(
-            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
-        )
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         logging.info(f"{mem} is the weakest memory in the entries.")
 
         return mem
@@ -722,9 +701,7 @@ class SemanticMemory(Memory):
 
         # The last element [-1] of memory is num_generalized_memories.
         mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
-        mem = random.choice(
-            [mem for mem in entries if mem_candidate[-1] == mem[-1]]
-        )        
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         logging.info(f"{mem} is the strongest memory in the entries.")
 
         return mem

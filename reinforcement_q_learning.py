@@ -1,23 +1,19 @@
-import gym
 import math
+import os
 import random
-import numpy as np
+from collections import deque, namedtuple
+from itertools import count
+
+import gym
 import matplotlib
 import matplotlib.pyplot as plt
-from collections import namedtuple, deque
-from itertools import count
-from PIL import Image
-
+import numpy as np
 import torch
 import torch.nn as nn
-import torch.optim as optim
 import torch.nn.functional as F
+import torch.optim as optim
 import torchvision.transforms as T
-
-import gym
-import numpy as np
-import random
-import os
+from PIL import Image
 
 
 def seed_everything(seed: int):
