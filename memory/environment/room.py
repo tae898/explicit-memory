@@ -2,6 +2,7 @@ import logging
 import os
 import random
 from copy import deepcopy
+from itertools import cycle
 from typing import List, Tuple
 
 import gym
@@ -28,8 +29,12 @@ class RoomEnv(gym.Env):
         semantic_knowledge_path: str = "./data/semantic-knowledge.json",
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "weighted",
-        probs: dict = {"commonsense": 0.5, "new_location": 0.5, "new_object": 0.5},
-        renew_steps: int = 5,
+        probs: dict = {
+            "commonsense": 0.5,
+            "new_location": 0.5,
+            "new_object": 0.5,
+            "switch_person": 0.5,
+        },
         limits: dict = {
             "heads": None,
             "tails": None,
@@ -38,6 +43,7 @@ class RoomEnv(gym.Env):
         },
         max_step: int = 1000,
         disjoint_entities: bool = True,
+        num_agents: int = 1,
     ) -> None:
         """"""
         super().__init__()
@@ -81,8 +87,8 @@ class RoomEnv(gym.Env):
 
         self.weighting_mode = weighting_mode
         self.probs = probs
-        self.renew_steps = renew_steps
         self.max_step = max_step
+        self.num_agents = num_agents
 
     def reset(self) -> None:
         """Reset the environment."""
@@ -96,13 +102,48 @@ class RoomEnv(gym.Env):
             tail = self.generate_tail(head, relation)
             self.room.append([f"{name}'s {head}", relation, f"{name}'s {tail}"])
 
-        observed = deepcopy(random.choice(self.room))
-        observed.append(self.step_counter)
-        question = random.choice(self.room)
-        self.answer = EpisodicMemory.remove_name(question[-1])
-        question = question[:2]
+        navigate = [[i for i in range(len(self.room))] for _ in range(self.num_agents)]
+        for navigate_ in navigate:
+            random.shuffle(navigate_)
 
-        return (observed, question)
+        self.navigate = [cycle(navigate_) for navigate_ in navigate]
+
+        observations = self.generate_observations()
+        question, self.answer = self.generate_qa()
+
+        return (observations, question)
+
+    def generate_observations(self) -> list:
+        """Generate a random obseration.
+
+        Returns
+        -------
+        observations: e.g., ["Tae's laptop, "AtLocation", "Tae's desk", 10]
+
+        The last element in the list accounts for the timestamp.
+
+        """
+        observations = {
+            i: deepcopy([*self.room[next(navigate_)], self.step_counter])
+            for i, navigate_ in enumerate(self.navigate)
+        }
+
+        return observations
+
+    def generate_qa(self) -> Tuple[list, str]:
+        """Generate a question and the answer.
+
+        Returns
+        -------
+        question: e.g., ["Tae's laptop", "AtLocation"]
+        answer: e.g., "Tae's desk"
+
+        """
+        random_choice = random.choice(self.room)
+        question = random_choice[:2]
+        answer = EpisodicMemory.remove_name(random_choice[-1])
+
+        return question, answer
 
     def generate_tail(self, head: str, relation: str) -> str:
         """head shouldn't include a human name."""
@@ -135,6 +176,11 @@ class RoomEnv(gym.Env):
     def renew(self):
         """Renew the room.
 
+        This is done every time when the agent takes a step. This is doen to simulate
+        that the room changes. People move. They place their objects in different
+        locations. They also change their objects. All of these are done in a random
+        manner. The randomness can be adjusted from the argument `probs`.
+
         With the chance of probs["new_location"], an object will be placed at a new
         location.
 
@@ -144,13 +190,15 @@ class RoomEnv(gym.Env):
         With the chance of probs["new_object"], the person with the object will have
         a new random object.
 
+        With the chance of probs["switch_person"], two persons switch their spots.
+
         """
         room = []
         for head, relation, tail in self.room:
             name1, head = EpisodicMemory.split_name_entity(head)
             name2, tail = EpisodicMemory.split_name_entity(tail)
 
-            assert name1 == name2
+            assert name1 == name2, "we don't do name mixing at this moment."
 
             if random.random() < self.probs["new_object"]:
                 while True:
@@ -174,6 +222,11 @@ class RoomEnv(gym.Env):
                     f"{name2}'s {deepcopy(tail)}",
                 ],
             )
+
+        if random.random() < self.probs["switch_person"]:
+            i, j = random.sample(range(0, len(self.room,)), 2)
+            room[i], room[j] = room[j], room[i]
+
         self.room = deepcopy(room)
 
     def step(self, action: str):
@@ -192,16 +245,11 @@ class RoomEnv(gym.Env):
 
         self.step_counter += 1
 
-        if self.step_counter % self.renew_steps == 0:
-            logging.debug("renewing the room ...")
-            self.renew()
+        # Things will change in the room!
+        self.renew()
 
-        observed = deepcopy(random.choice(self.room))
-        observed.append(self.step_counter)
-        question = random.choice(self.room)
-
-        self.answer = EpisodicMemory.remove_name(question[-1])
-        question = question[:2]
+        observations = self.generate_observations()
+        question, self.answer = self.generate_qa()
 
         info = {}
 
@@ -210,7 +258,7 @@ class RoomEnv(gym.Env):
         else:
             done = False
 
-        return (observed, question), reward, done, info
+        return (observations, question), reward, done, info
 
     def render(self, mode="console"):
         if mode != "console":
