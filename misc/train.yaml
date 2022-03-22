@@ -1,0 +1,49 @@
+seed: 42
+
+training_params:
+  device: cuda
+  precision: 32
+  num_processes: 16
+  batch_size: 128
+  learning_rate: 0.001
+  callbacks:
+    monitor:
+      metric: val_accuracy
+      max_or_min: max
+    early_stop:
+      patience: 10
+    lr_decay:
+      patience: 3
+
+dqn_params:
+  gamma: 0
+  eps_start: 0.9
+  eps_end: 0.05
+  eps_decay: 200
+  target_update: 10
+  replay_capacity: 1000
+
+model_params:
+  function_type: mlp
+  embedding_dim: 4
+  hidden_neurons: 8
+
+memory_capacity:
+  episodic: 1
+  semantic: 0
+
+memory_type: episodic # should be episodic, semantic, both, both-presem
+
+generator_params:
+  max_history: 1000
+  semantic_knowledge_path: ./data/semantic-knowledge-small.json
+  names_path: ./data/top-human-names-small
+  weighting_mode: highest
+  commonsense_prob: 0.5
+  time_start_at: 0
+  limits:
+    heads: None
+    tails: None
+    names: None
+    allow_spaces: false
+  disjoint_entities: true

@@ -12,7 +12,6 @@ import torch
 from pl_bolts.datamodules.experience_source import (Experience,
                                                     ExperienceSourceDataset)
 from pl_bolts.losses.rl import dqn_loss
-from pl_bolts.models.rl.common.agents import ValueAgent
 from pl_bolts.models.rl.common.memory import MultiStepBuffer
 from pl_bolts.utils import _GYM_AVAILABLE
 from pl_bolts.utils.warnings import warn_missing_pkg
@@ -20,18 +19,110 @@ from pytorch_lightning import LightningModule, Trainer, seed_everything
 from pytorch_lightning.callbacks import ModelCheckpoint
 from pytorch_lightning.loggers import TensorBoardLogger
 from pytorch_lightning.plugins import DataParallelPlugin, DDP2Plugin
-from torch import Tensor, optim
+from torch import Tensor, nn, optim
 from torch._C import Value
+from torch.nn import functional as F
 from torch.optim.optimizer import Optimizer
 from torch.utils.data import DataLoader
 
+from memory.environment.gym import MemoryEnv
 from memory.utils import read_yaml
 
-if _GYM_AVAILABLE:
-    from gym import Env
-else:  # pragma: no cover
-    warn_missing_pkg("gym")
-    Env = object
+
+class ValueAgent:
+    """Value based agent that returns an action based on the Q values from the network."""
+
+    def __init__(
+        self,
+        net: nn.Module,
+        action_space: int,
+        eps_start: float = 1.0,
+        eps_end: float = 0.2,
+        eps_frames: float = 1000,
+        strategies: dict = {
+            "episodic_memory_manage": "oldest",
+            "episodic_question_answer": "latest",
+            "semantic_memory_manage": "weakest",
+            "semantic_question_answer": "strongest",
+            "episodic_to_semantic": "generalize",
+            "episodic_semantic_question_answer": "episem",
+            "capacity": {"episodic": 128, "semantic": 128},
+        },
+    ):
+        self.net = net
+        self.action_space = action_space
+        self.eps_start = eps_start
+        self.epsilon = eps_start
+        self.eps_end = eps_end
+        self.eps_frames = eps_frames
+        self.strategies = strategies
+
+    @torch.no_grad()
+    def __call__(self, state: dict, device: str) -> List[int]:
+        """Takes in the current state and returns the action based on the agents policy.
+
+        Args
+        ----
+        state: {"observation": observation, "question": question}
+            observation `[head, relation, tail, timestamp]`
+            question: [head, relation]. `head` and `relation` together make a question.
+            The answer is the location (tail).
+        device: the device used for the current batch
+
+        Returns
+        -------
+        action defined by policy
+
+        """
+        if not isinstance(state, list):
+            state = [state]
+
+        if np.random.random() < self.epsilon:
+            action = self.get_random_action(state)
+        else:
+            action = self.get_action(state, device)
+
+        return action
+
+    def get_random_action(self, state: Tensor) -> int:
+        """returns a random action."""
+        actions = []
+
+        for i in range(len(state)):
+            action = np.random.randint(0, self.action_space)
+            actions.append(action)
+
+        return actions
+
+    def get_action(self, state: Tensor, device: torch.device):
+        """Returns the best action based on the Q values of the network.
+
+        Args
+        ----
+        state: current state of the environment
+        device: the device used for the current batch
+
+        Returns
+        -------
+        action defined by Q values
+
+        """
+        if not isinstance(state, Tensor):
+            state = torch.tensor(state, device=device)
+
+        q_values = self.net(state)
+        _, actions = torch.max(q_values, dim=1)
+        return actions.detach().cpu().numpy()
+
+    def update_epsilon(self, step: int) -> None:
+        """Updates the epsilon value based on the current step.
+
+        Args
+        ----
+        step: current global step
+
+        """
+        self.epsilon = max(self.eps_end, self.eps_start - (step + 1) / self.eps_frames)
 
 
 class DQN(LightningModule):
@@ -71,13 +162,13 @@ class DQN(LightningModule):
         batches_per_epoch: int = 1000,
         batches_per_epoch_eval: int = 1000,
         n_steps: int = 1,
-        env_params: dict = None,
-        **kwargs,
+        generator_params: dict = None,
+        model_params: dict = None,
+        strategies: dict = None,
     ):
         """
         Args
         ----
-        env_name: gym environment tag
         eps_start: starting value of epsilon for the epsilon-greedy exploration
         eps_end: final value of epsilon for the epsilon-greedy exploration
         eps_last_frame: the final frame in for the decrease of epsilon. At this frame
@@ -98,9 +189,7 @@ class DQN(LightningModule):
         batches_per_epoch_eval: number of batches per epoch for validation and test.
             This is basically number of episodes for eval.
         n_steps: size of n step look ahead
-        env_params:
-            capacity: memory capacity
-                e.g., {'episodic': 42, 'semantic: 0}
+        generator_params:
             max_history: maximum history of observations.
             semantic_knowledge_path: path to the semantic knowledge generated from
                 `collect_data.py`
@@ -110,25 +199,35 @@ class DQN(LightningModule):
                 without weighting.
             commonsense_prob: the probability of an observation being covered by a
                 commonsense
-            memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
-                this point `memory_manage` and `question_answer` can't be "RL" at the same
-                time.
-            question_answer: either "random", "latest", "RL_trained". Note that at
-                this point `memory_manage` and `question_answer` can't be "RL" at the same
-                time.
             limits: Limit the heads, tails per head, and the number of names. For example,
                 this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
+        model_params:
+            dqn: e.g., mlp
+        strategies:
+            "episodic_memory_manage": "oldest", "random", "train", or "trained"
+            "episodic_question_answer": "latest", "random", "train", or "trained"
+            "semantic_memory_manage": "weakest", "random", "train", or "trained"
+            "semantic_question_answer": "strongest", "random", "train", or "trained"
+            "episodic_to_semantic": "generalize", "random", "train", or "trained"
+            "episodic_semantic_question_answer": "episem","random", "train",
+                or "trained"
+            capacity: memory capacity
+                e.g., {'episodic': 42, 'semantic: 0}
 
         """
         super().__init__()
 
         # Environment
         self.exp = None
-        self.make_environments(**env_params)
+        self.make_environments(**generator_params)
+
+        self.build_networks(**model_params)
 
         # Model Attributes
         self.buffer = None
         self.dataset = None
+
+        self.strategies = strategies
 
         self.agent = ValueAgent(
             self.net,
@@ -136,6 +235,7 @@ class DQN(LightningModule):
             eps_start=eps_start,
             eps_end=eps_end,
             eps_frames=eps_last_frame,
+            strategies=self.strategies,
         )
 
         # Hyperparameters
@@ -425,37 +525,29 @@ class DQN(LightningModule):
             raise NotImplementedError
 
         self.obs_shape = self.env.observation_space.shape
-        self.n_actions = self.env.action_space.n
+        self.n_actions = self.env.action_space.n_actions
 
         self.net = NeuralNetwork(self.obs_shape, self.n_actions)
         self.target_net = NeuralNetwork(self.obs_shape, self.n_actions)
 
     def make_environments(
         self,
-        env_name: str,
-        capacity: dict,
         max_history: int = 1024,
         semantic_knowledge_path: str = "./data/semantic-knowledge.json",
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "highest",
         commonsense_prob: float = 0.5,
-        memory_manage: str = "RL_train",
-        question_answer: str = "latest",
         limits: dict = {
             "heads": None,
             "tails": None,
             "names": None,
             "allow_spaces": True,
         },
-        dqn: str = "mlp",
-    ) -> Env:
+    ) -> None:
         """Initialise gym  environment.
 
         Args
         ----
-        env_name: environment name or tag
-        capacity: memory capacity
-            e.g., {'episodic': 42, 'semantic: 0}
         max_history: maximum history of observations.
         semantic_knowledge_path: path to the semantic knowledge generated from
             `collect_data.py`
@@ -465,66 +557,38 @@ class DQN(LightningModule):
             without weighting.
         commonsense_prob: the probability of an observation being covered by a
             commonsense
-        memory_manage: either "random", "oldest", "RL_train", or "RL_trained". Note that at
-            this point `memory_manage` and `question_answer` can't be "RL" at the same
-            time.
-        question_answer: either "random", "latest", "RL_trained". Note that at
-            this point `memory_manage` and `question_answer` can't be "RL" at the same
-            time.
         limits: Limit the heads, tails per head, and the number of names. For example,
             this can be {"heads": 10, "tails": 1, "names" 10, "allow_spaces": True}
-        dqn: DQN model. E.g., MLP
 
         Returns
         -------
         gym environment
 
         """
-        if env_name.lower() == "episodicmemorymanageenv":
-            from memory.environment.gym import EpisodicMemoryManageEnv as Env
-        elif env_name.lower() == "episodicquestionanswerenv":
-            from memory.environment.gym import EpisodicQuestionAnswer as Env
-        elif env_name.lower() == "semanticmemorymanageenv":
-            from memory.environment.gym import SemanticMemoryManageEnv as Env
-        elif env_name.lower() == "semanticquestionanswerenv":
-            from memory.environment.gym import SemanticQuestionAnswerEnv as Env
-        else:
-            raise NotImplementedError
-
-        self.env = Env(
-            capacity=capacity,
+        self.env = MemoryEnv(
             max_history=max_history,
             semantic_knowledge_path=semantic_knowledge_path,
             names_path=names_path,
             weighting_mode=weighting_mode,
             commonsense_prob=commonsense_prob,
-            memory_manage=memory_manage,
-            question_answer=question_answer,
             limits=limits,
         )
-        self.val_env = Env(
-            capacity=capacity,
+        self.val_env = MemoryEnv(
             max_history=max_history,
             semantic_knowledge_path=semantic_knowledge_path,
             names_path=names_path,
             weighting_mode=weighting_mode,
             commonsense_prob=commonsense_prob,
-            memory_manage=memory_manage,
-            question_answer=question_answer,
             limits=limits,
         )
-        self.test_env = Env(
-            capacity=capacity,
+        self.test_env = MemoryEnv(
             max_history=max_history,
             semantic_knowledge_path=semantic_knowledge_path,
             names_path=names_path,
             weighting_mode=weighting_mode,
             commonsense_prob=commonsense_prob,
-            memory_manage=memory_manage,
-            question_answer=question_answer,
             limits=limits,
         )
-        self.build_networks(dqn)
 
     @staticmethod
     def _use_dp_or_ddp2(trainer: Trainer) -> bool:
@@ -536,7 +600,9 @@ class DQN(LightningModule):
 def main(
     seed: int,
     dqn_params: dict,
-    env_params: dict,
+    model_params: dict,
+    strategies: dict,
+    generator_params: dict,
     callback_params: dict,
     trainer_params: dict,
     save_dir: str,
@@ -549,7 +615,22 @@ def main(
     ----
     seed: global seed
     dqn_parms: DQN parameters
-    env_params: environment parameters
+    model_params: model parameters
+    strategies:
+        episodic_memory_manage:
+            oldest, random, train, or trained
+        episodic_question_answer:
+            latest, random, train, or trained
+        semantic_memory_manage:
+            weakest, random, train, or trained
+        semantic_question_answer:
+            strongest, random, train, or trained
+        episodic_to_semantic:
+            generalize, random, train, or trained
+        episodic_semantic_question_answer:
+            episem, random, train, or trained
+        capacity: e.g., {"episodic": 128, "semantic": 128},
+    generator_params: environment parameters
     callback_params: callback function parameters
     trainer_params: trainer parameters
     model_summary: model summary so that you remember what it is.
@@ -561,7 +642,9 @@ def main(
 
     model = DQN(
         **dqn_params,
-        env_params=env_params,
+        generator_params=generator_params,
+        model_params=model_params,
+        strategies=strategies,
     )
 
     logger = TensorBoardLogger(
@@ -578,7 +661,7 @@ def main(
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="train rl with arguments.")
     parser.add_argument(
-        "--config", type=str, default="./train_RL.yaml", help="path to the config file."
+        "--config", type=str, default="./train.yaml", help="path to the config file."
     )
     parser.add_argument(
         "--save_dir",

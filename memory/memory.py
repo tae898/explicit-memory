@@ -4,9 +4,6 @@ import random
 from pprint import pformat
 from typing import List, Tuple
 
-from .constants import CORRECT, WRONG
-from .utils import read_json
-
 logging.basicConfig(
     level=os.environ.get("LOGLEVEL", "INFO").upper(),
     format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
@@ -40,7 +37,7 @@ class Memory:
 
     def __eq__(self, other) -> bool:
         eps = 0.01
-        if self.memory_type != other.memory_type:
+        if self.type != other.type:
             return False
         if self.capacity != other.capacity:
             return False
@@ -122,8 +119,13 @@ class Memory:
 
     def forget_all(self) -> None:
         """Forget everything in the memory system!"""
-        logging.warning("EVERYTHING IN THE MEMORY SYSTEM WILL BE FORGOTTEN!")
-        self.entries = []
+        if self.is_frozen:
+            logging.warning(
+                "The memory system is frozen. Can't forget all. Unfreeze first."
+            )
+        else:
+            logging.warning("EVERYTHING IN THE MEMORY SYSTEM WILL BE FORGOTTEN!")
+            self.entries = []
 
     @property
     def is_empty(self) -> bool:
@@ -133,16 +135,7 @@ class Memory:
     @property
     def is_full(self) -> bool:
         """Return true if full."""
-        assert len(self.entries) <= self.capacity + 1
-
         return len(self.entries) == self.capacity
-
-    @property
-    def is_kinda_full(self) -> bool:
-        """Return if one is dangling."""
-        assert len(self.entries) <= self.capacity + 1
-
-        return len(self.entries) == self.capacity + 1
 
     @property
     def is_frozen(self) -> bool:
@@ -213,6 +206,10 @@ class Memory:
         ----
         entity: e.g., Tae's laptop
 
+        Returns
+        -------
+        e.g., laptop
+
         """
         return entity.split()[-1]
 
@@ -222,33 +219,32 @@ class Memory:
 
         Args
         ----
-        question: a triple (i.e., (head, relation, tail))
+        question: a double (i.e., (head, relation))
 
         Returns
         -------
-        valid: True or not.
+        valid: True or False.
 
         """
         logging.debug(f"Checking if the question {question} is valid ..")
-        if len(question) == 3:
+        if len(question) == 2:
             logging.info(f"{question} is a valid question.")
             return True
         else:
             logging.info(f"{question} is NOT a valid question.")
             return False
 
-    def answer_random(self, question: list) -> int:
+    def answer_random(self, question: list) -> Tuple[str, int]:
         """Answer the question with a uniform-randomly chosen memory.
 
         Args
         ----
-        question: a triple (i.e., (head, relation, tail))
+        question: a couple (i.e., (head, relation))
 
         Returns
         -------
-        reward: CORRECT or WRONG
         pred: prediction
-        answer: correct answer
+        num: this is either timestamp or num_generalized
 
         """
         if not self.is_question_valid(question):
@@ -256,24 +252,20 @@ class Memory:
         logging.debug(
             "answering the question with a uniform-randomly retrieved memory ..."
         )
-        correct_answer = self.remove_name(question[2])
 
         if self.is_empty:
+            logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
-            return WRONG, pred, correct_answer
+            num = None
 
-        pred = self.remove_name(random.choice(self.entries)[2])
-
-        if pred == correct_answer:
-            reward = CORRECT
         else:
-            reward = WRONG
+            mem = random.choice(self.entries)
+            pred = self.remove_name(mem[2])
+            num = mem[3]
 
-        logging.info(
-            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
-        )
+        logging.info(f"pred: {pred}, timestamp or num_generalized: {num}")
 
-        return reward, pred, correct_answer
+        return pred, num
 
     def add(self, mem: list) -> None:
         """Append a memory to the memory system.
@@ -290,12 +282,7 @@ class Memory:
             logging.error(error_msg)
             raise ValueError(error_msg)
 
-        # +1 is to account for the incoming observation which can possibly be a
-        # memory
-        if len(self.entries) >= self.capacity + 1:
-            error_msg = "memory is full! can't add more."
-            logging.error(error_msg)
-            raise ValueError(error_msg)
+        assert not self.is_full
 
         logging.debug(f"Adding a new memory entry {mem} ...")
         self.entries.append(mem)
@@ -307,7 +294,7 @@ class Memory:
 
     def sort_memories_ascending(self) -> None:
         """Sort the memories in an ascending order with respect to the 4th element."""
-        self.entries.sort(key=lambda x: x[3])
+        self.entries.sort(key=lambda x: x[-1])
         logging.info("memories have been sorted!")
 
     def increase_capacity(self, increase):
@@ -370,7 +357,8 @@ class EpisodicMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of a memory is timestamp
-        mem = sorted(entries, key=lambda x: x[-1])[0]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         assert len(mem) == 4
         logging.info(f"{mem} is the oldest memory in the entries.")
 
@@ -392,7 +380,8 @@ class EpisodicMemory(Memory):
             logging.debug("No entries were specified. We'll use the memory system.")
             entries = self.entries
 
-        mem = sorted(entries, key=lambda x: x[-1])[-1]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         assert len(mem) == 4
         logging.info(f"{mem} is the latest memory in the entries.")
 
@@ -410,7 +399,7 @@ class EpisodicMemory(Memory):
         mem = self.get_oldest_memory()
         self.forget(mem)
 
-    def answer_latest(self, question: list) -> Tuple[int, str, str]:
+    def answer_latest(self, question: list) -> Tuple[str, int]:
         """Answer the question with the latest relevant memory.
 
         If object X was found at Y and then later on found Z, then this strategy answers
@@ -418,49 +407,42 @@ class EpisodicMemory(Memory):
 
         Args
         ----
-        question: a triple (i.e., (head, relation, tail))
+        question: a double (i.e., (head, relation))
 
         Returns
         -------
-        reward: CORRECT or WRONG
         pred: prediction
-        answer: correct answer
+        timestamp: timestamp
 
         """
         if not self.is_question_valid(question):
             raise ValueError
         logging.debug("answering a question with the answer_latest policy ...")
-        correct_answer = self.remove_name(question[2])
 
         if self.is_empty:
+            logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
-            return WRONG, pred, correct_answer
-
-        query_head = question[0]
-        duplicates = self.get_duplicate_heads(query_head, self.entries)
-        if duplicates is None:
-            logging.info("no relevant memories found.")
-            pred = None
-
-            reward = WRONG
+            timestamp = None
 
         else:
-            logging.info(
-                f"{len(duplicates)} relevant memories were found in the entries!"
-            )
-            mem = self.get_latest_memory(duplicates)
-            pred = self.remove_name(mem[2])
+            query_head = question[0]
+            duplicates = self.get_duplicate_heads(query_head, self.entries)
+            if duplicates is None:
+                logging.info("no relevant memories found.")
+                pred = None
+                timestamp = None
 
-            if pred == correct_answer:
-                reward = CORRECT
             else:
-                reward = WRONG
+                logging.info(
+                    f"{len(duplicates)} relevant memories were found in the entries!"
+                )
+                mem = self.get_latest_memory(duplicates)
+                pred = self.remove_name(mem[2])
+                timestamp = mem[3]
 
-        logging.info(
-            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
-        )
+        logging.info(f"pred: {pred}")
 
-        return reward, pred, correct_answer
+        return pred, timestamp
 
     @staticmethod
     def ob2epi(ob: list):
@@ -588,6 +570,39 @@ class EpisodicMemory(Memory):
         else:
             raise ValueError
 
+    def find_mem_for_semantic(self, entries: list = None):
+        if entries is None:
+            logging.debug("No entries were specified. We'll use the memory system.")
+            entries = self.entries
+
+        best_semantic_possibles = []
+        for mem in self.entries:
+            head = mem[0]
+            head = self.remove_name(head)
+            relation = mem[1]
+            tail = mem[2]
+            tail = self.remove_name(tail)
+
+            best_semantic_possibles.append([head, relation, tail])
+
+        best_semantic_possibles = [
+            (i, elem, best_semantic_possibles.count(elem))
+            for i, elem in enumerate(best_semantic_possibles)
+        ]
+
+        highest_freq = max([elem[2] for elem in best_semantic_possibles])
+
+        best_semantic_possibles = [
+            elem for elem in best_semantic_possibles if elem[2] == highest_freq
+        ]
+
+        mem_sem = random.choice(best_semantic_possibles)
+        idx = mem_sem[0]
+
+        mem_selected = self.entries[idx]
+
+        return mem_selected
+
 
 class SemanticMemory(Memory):
     """Semantic memory class."""
@@ -596,53 +611,40 @@ class SemanticMemory(Memory):
         super().__init__("semantic", capacity)
 
     def pretrain_semantic(
-        self, semantic_knowledge_path: str, weighting_mode: str
+        self,
+        env,
     ) -> int:
         """Pretrain the semantic memory system from ConceptNet.
 
-        Args
-        ----
-        semantic_knowledge_path: the path to the pretrained semantic memory.
-        weighting_mode: "highest" chooses the one with the highest weight, "weighted"
-            chooses all of them by weight, and None chooses every single one of them
-            without weighting.
-
         Returns
         -------
-        free_space: free space that was not used, if any,  so that it can be added to
+        free_space: free space that was not used, if any, so that it can be added to
             the episodic memory system.
 
         """
-        logging.debug(
-            f"loading the semantic knowledge from {semantic_knowledge_path}..."
-        )
-        semantic_knowledge = read_json(semantic_knowledge_path)
-        logging.info(
-            f"semantic knowledge successfully loaded from {semantic_knowledge_path}!"
-        )
 
-        for head, relation_tails in semantic_knowledge.items():
+        for head, relation_tails in env.semantic_knowledge.items():
             if self.is_full:
                 break
 
-            if weighting_mode == "weighted":
+            if env.weighting_mode == "weighted":
                 for relation, tails in relation_tails.items():
                     for tail in tails:
                         mem = [head, relation, tail["tail"], tail["weight"]]
 
                         logging.debug(
-                            f"weighting mode: {weighting_mode}: adding {mem} to the "
+                            f"weighting mode: {env.weighting_mode}: adding {mem} to the "
                             "semantic memory system ..."
                         )
                         self.add(mem)
 
-            elif weighting_mode == "highest":
+            elif env.weighting_mode == "highest":
                 for relation, tails in relation_tails.items():
                     tail = sorted(tails, key=lambda x: x["weight"])[-1]
                     mem = [head, relation, tail["tail"], tail["weight"]]
 
                     logging.debug(
-                        f"weighting mode: {weighting_mode}: adding {mem} to the "
+                        f"weighting mode: {env.weighting_mode}: adding {mem} to the "
                         "semantic memory system ..."
                     )
                     self.add(mem)
@@ -679,7 +681,8 @@ class SemanticMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of memory is num_generalized_memories.
-        mem = sorted(entries, key=lambda x: x[-1])[0]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[0]
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         logging.info(f"{mem} is the weakest memory in the entries.")
 
         return mem
@@ -702,7 +705,8 @@ class SemanticMemory(Memory):
             entries = self.entries
 
         # The last element [-1] of memory is num_generalized_memories.
-        mem = sorted(entries, key=lambda x: x[-1])[-1]
+        mem_candidate = sorted(entries, key=lambda x: x[-1])[-1]
+        mem = random.choice([mem for mem in entries if mem_candidate[-1] == mem[-1]])
         logging.info(f"{mem} is the strongest memory in the entries.")
 
         return mem
@@ -720,55 +724,48 @@ class SemanticMemory(Memory):
         self.forget(mem)
         logging.info(f"{mem} is forgotten!")
 
-    def answer_strongest(self, question: list) -> Tuple[int, str, str]:
+    def answer_strongest(self, question: list) -> Tuple[str, int]:
         """Answer the question (Find the head that matches the question, and choose the
         strongest one among them).
 
         Args
         ----
-        question: a triple (i.e., (head, relation, tail))
+        question: a double (i.e., (head, relation))
 
         Returns
         -------
-        reward: CORRECT or WRONG
         pred: prediction
-        answer: correct answer
+        num_generalized: number of generalized samples.
 
         """
         if not self.is_question_valid(question):
             raise ValueError
         logging.debug("answering a question with the answer_strongest policy ...")
-        correct_answer = self.remove_name(question[2])
 
         if self.is_empty:
+            logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
-            return WRONG, pred, correct_answer
-
-        query_head = self.remove_name(question[0])
-        duplicates = self.get_duplicate_heads(query_head, self.entries)
-        if duplicates is None:
-            logging.info("no relevant memories found.")
-            pred = None
-
-            reward = WRONG
+            num_generalized = None
 
         else:
-            logging.info(
-                f"{len(duplicates)} relevant memories were found in the entries!"
-            )
-            mem = self.get_strongest_memory(duplicates)
-            pred = self.remove_name(mem[2])
+            query_head = self.remove_name(question[0])
+            duplicates = self.get_duplicate_heads(query_head, self.entries)
+            if duplicates is None:
+                logging.info("no relevant memories found.")
+                pred = None
+                num_generalized = None
 
-            if pred == correct_answer:
-                reward = CORRECT
             else:
-                reward = WRONG
+                logging.info(
+                    f"{len(duplicates)} relevant memories were found in the entries!"
+                )
+                mem = self.get_strongest_memory(duplicates)
+                pred = self.remove_name(mem[2])
+                num_generalized = mem[3]
 
-        logging.info(
-            f"pred: {pred}, correct answer: {correct_answer}. Reward: {reward}"
-        )
+        logging.info(f"pred: {pred}, num_generalized: {num_generalized}")
 
-        return reward, pred, correct_answer
+        return pred, num_generalized
 
     @staticmethod
     def ob2sem(ob: list) -> list:
@@ -805,7 +802,12 @@ class SemanticMemory(Memory):
 
         Args
         ----
-        question: An episodic question in a quadruple format
+        question: An episodic question in a triple format
+            (i.e., (head, relation, tail))
+
+        Returns
+        -------
+        semantic_question: A semantic question in a triple format, without names.
             (i.e., (head, relation, tail))
 
         """
