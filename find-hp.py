@@ -4,13 +4,15 @@ logger = logging.getLogger()
 logger.disabled = True
 
 import argparse
-from memory.environment import RoomEnv
-from memory import EpisodicMemory, SemanticMemory
-from memory.utils import seed_everything, write_json
-from itertools import count
-import numpy as np
 import random
+from itertools import count
+
+import numpy as np
 from tqdm import tqdm
+
+from memory import EpisodicMemory, SemanticMemory
+from memory.environment import RoomEnv
+from memory.utils import seed_everything, write_json
 
 
 def episodic(env_params, caps, seed):
@@ -39,9 +41,9 @@ def episodic(env_params, caps, seed):
                             M_e.forget_oldest()
 
                     if answer_policy == "latest":
-                        pred = M_e.answer_latest(question)
+                        pred, _ = M_e.answer_latest(question)
                     else:
-                        pred = M_e.answer_random(question)
+                        pred, _ = M_e.answer_random(question)
 
                     (ob, question), reward, done, info = env.step(pred)
                     ob = ob[0]
@@ -85,9 +87,9 @@ def semantic(env_params, caps, seed):
                             raise ValueError
 
                     if answer_policy == "strongest":
-                        pred = M_s.answer_strongest(question)
+                        pred, _ = M_s.answer_strongest(question)
                     else:
-                        pred = M_s.answer_random(question)
+                        pred, _ = M_s.answer_random(question)
 
                     (ob, question), reward, done, info = env.step(pred)
                     ob = ob[0]
@@ -154,9 +156,9 @@ def episodic_semantic(env_params, caps, seed):
 
                     if answer_policy == "episem":
                         if M_e.is_answerable(question):
-                            pred = M_e.answer_latest(question)
+                            pred, _ = M_e.answer_latest(question)
                         else:
-                            pred = M_s.answer_strongest(question)
+                            pred, _ = M_s.answer_strongest(question)
                     else:
                         pred = random.choice(
                             [M_e.answer_random(question), M_s.answer_random]
@@ -199,7 +201,7 @@ def episodic_semantic_pretrain(env_params, caps, seed):
                 M_e = EpisodicMemory(capacity // 2)
                 M_s = SemanticMemory(capacity // 2)
 
-                free_space = M_s.pretrain_semantic(env_params)
+                free_space = M_s.pretrain_semantic(env)
                 M_e.increase_capacity(free_space)
                 assert M_e.capacity + M_s.capacity == capacity
 
@@ -220,9 +222,9 @@ def episodic_semantic_pretrain(env_params, caps, seed):
 
                     if answer_policy == "episem":
                         if M_e.is_answerable(question):
-                            pred = M_e.answer_latest(question)
+                            pred, _ = M_e.answer_latest(question)
                         else:
-                            pred = M_s.answer_strongest(question)
+                            pred, _ = M_s.answer_strongest(question)
                     else:
                         pred = random.choice(
                             [M_e.answer_random(question), M_s.answer_random]
@@ -251,10 +253,10 @@ if __name__ == "__main__":
 
     caps = [args.caps]
     to_dump = {}
-    for common_sense in tqdm([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]):
-        for new_location in tqdm([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]):
-            for new_object in tqdm([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]):
-                for switch_person in tqdm([0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7]):
+    for common_sense in tqdm([0.1, 0.3, 0.5, 0.7]):
+        for new_location in [0.1, 0.3, 0.5, 0.7]:
+            for new_object in [0.1, 0.3, 0.5, 0.7]:
+                for switch_person in [0.1, 0.3, 0.5, 0.7]:
                     env_params = {
                         "semantic_knowledge_path": "./data/semantic-knowledge-small.json",
                         "names_path": "./data/top-human-names-small",
@@ -271,7 +273,7 @@ if __name__ == "__main__":
                             "names": None,
                             "allow_spaces": False,
                         },
-                        "max_step": 1000,
+                        "max_step": 100,
                         "disjoint_entities": True,
                         "num_agents": 1,
                     }

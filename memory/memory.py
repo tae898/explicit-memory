@@ -234,7 +234,7 @@ class Memory:
             logging.info(f"{question} is NOT a valid question.")
             return False
 
-    def answer_random(self, question: list) -> str:
+    def answer_random(self, question: list) -> Tuple[str, int]:
         """Answer the question with a uniform-randomly chosen memory.
 
         Args
@@ -244,6 +244,7 @@ class Memory:
         Returns
         -------
         pred: prediction
+        num: this is either timestamp or num_generalized
 
         """
         if not self.is_question_valid(question):
@@ -255,13 +256,16 @@ class Memory:
         if self.is_empty:
             logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
+            num = None
 
         else:
-            pred = self.remove_name(random.choice(self.entries)[2])
+            mem = random.choice(self.entries)
+            pred = self.remove_name(mem[2])
+            num = mem[3]
 
-        logging.info(f"pred: {pred}")
+        logging.info(f"pred: {pred}, timestamp or num_generalized: {num}")
 
-        return pred
+        return pred, num
 
     def add(self, mem: list) -> None:
         """Append a memory to the memory system.
@@ -395,7 +399,7 @@ class EpisodicMemory(Memory):
         mem = self.get_oldest_memory()
         self.forget(mem)
 
-    def answer_latest(self, question: list) -> str:
+    def answer_latest(self, question: list) -> Tuple[str, int]:
         """Answer the question with the latest relevant memory.
 
         If object X was found at Y and then later on found Z, then this strategy answers
@@ -408,6 +412,7 @@ class EpisodicMemory(Memory):
         Returns
         -------
         pred: prediction
+        timestamp: timestamp
 
         """
         if not self.is_question_valid(question):
@@ -417,6 +422,7 @@ class EpisodicMemory(Memory):
         if self.is_empty:
             logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
+            timestamp = None
 
         else:
             query_head = question[0]
@@ -424,6 +430,7 @@ class EpisodicMemory(Memory):
             if duplicates is None:
                 logging.info("no relevant memories found.")
                 pred = None
+                timestamp = None
 
             else:
                 logging.info(
@@ -431,10 +438,11 @@ class EpisodicMemory(Memory):
                 )
                 mem = self.get_latest_memory(duplicates)
                 pred = self.remove_name(mem[2])
+                timestamp = mem[3]
 
         logging.info(f"pred: {pred}")
 
-        return pred
+        return pred, timestamp
 
     @staticmethod
     def ob2epi(ob: list):
@@ -604,7 +612,7 @@ class SemanticMemory(Memory):
 
     def pretrain_semantic(
         self,
-        env_params: dict,
+        env,
     ) -> int:
         """Pretrain the semantic memory system from ConceptNet.
 
@@ -614,9 +622,6 @@ class SemanticMemory(Memory):
             the episodic memory system.
 
         """
-        from .environment import RoomEnv
-
-        env = RoomEnv(**env_params)
 
         for head, relation_tails in env.semantic_knowledge.items():
             if self.is_full:
@@ -719,7 +724,7 @@ class SemanticMemory(Memory):
         self.forget(mem)
         logging.info(f"{mem} is forgotten!")
 
-    def answer_strongest(self, question: list) -> str:
+    def answer_strongest(self, question: list) -> Tuple[str, int]:
         """Answer the question (Find the head that matches the question, and choose the
         strongest one among them).
 
@@ -730,6 +735,7 @@ class SemanticMemory(Memory):
         Returns
         -------
         pred: prediction
+        num_generalized: number of generalized samples.
 
         """
         if not self.is_question_valid(question):
@@ -739,6 +745,7 @@ class SemanticMemory(Memory):
         if self.is_empty:
             logging.warning("Memory is empty. I can't answer any questions!")
             pred = None
+            num_generalized = None
 
         else:
             query_head = self.remove_name(question[0])
@@ -746,6 +753,7 @@ class SemanticMemory(Memory):
             if duplicates is None:
                 logging.info("no relevant memories found.")
                 pred = None
+                num_generalized = None
 
             else:
                 logging.info(
@@ -753,10 +761,11 @@ class SemanticMemory(Memory):
                 )
                 mem = self.get_strongest_memory(duplicates)
                 pred = self.remove_name(mem[2])
+                num_generalized = mem[3]
 
-        logging.info(f"pred: {pred}")
+        logging.info(f"pred: {pred}, num_generalized: {num_generalized}")
 
-        return pred
+        return pred, num_generalized
 
     @staticmethod
     def ob2sem(ob: list) -> list:

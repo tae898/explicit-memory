@@ -1,3 +1,4 @@
+"""Room environment compatible with gym."""
 import logging
 import os
 import random
@@ -21,6 +22,29 @@ logging.basicConfig(
 
 
 class RoomEnv(gym.Env):
+    """Room env.
+
+    In this big room, N_{agents} move around and observe N_{humans} placing objects.
+    Every time the agents move around (i.e., take a step), they observe one human_{i}
+    placing an object somewhere. Each agent can only observe one human at a time.
+    Every time the agents takes a step, the environment also asks them where an object
+    is. +1 reward is given when it gets right and 0 when it gets wrong.
+
+    This environment is challenging in two ways:
+
+    (1) An agent can't observe the entire room. It can only observe one human at a time.
+    This means that the environment is only partially observable. This constraint means
+    that it's more beneficial if more than one agent can collaborate. This constraint
+    also means that the agents should have a memory system to remember the past
+    observations.
+
+    (2) The room environment changes every time. The humans can switch their locations,
+    change their objects, and place them at different locations. These changes are
+    not completely random. A decent portion of them come from commmon-sense knowledge.
+    This means that an agent with both episodic and semantic memory systems will perform
+    better than an agent with only one memory system.
+
+    """
 
     metadata = {"render.modes": ["console"]}
 
@@ -30,10 +54,10 @@ class RoomEnv(gym.Env):
         names_path: str = "./data/top-human-names",
         weighting_mode: str = "weighted",
         probs: dict = {
-            "commonsense": 0.5,
-            "new_location": 0.5,
-            "new_object": 0.5,
-            "switch_person": 0.5,
+            "commonsense": 0.6,
+            "new_location": 0.1,
+            "new_object": 0.2,
+            "switch_person": 0.3,
         },
         limits: dict = {
             "heads": None,
@@ -45,7 +69,21 @@ class RoomEnv(gym.Env):
         disjoint_entities: bool = True,
         num_agents: int = 1,
     ) -> None:
-        """"""
+        """Initialize the environment.
+
+        Args
+        ----
+        semantic_knowledge_path: path to the ConceptNet semantic knowledge.
+        names_path: path to the list of human names.
+        weighting_mode: Either "weighted" or "highest"
+        probs: the probabilities that govern the room environment changes.
+        limits: Limitation on the triples.
+        max_step: maximum step an agent can take. The environment will terminate when
+            the number reaches this value.
+        disjoint_entities: Assure that the heads and the tails don't overlap.
+        num_agents: number of agents in the room.
+
+        """
         super().__init__()
         logging.debug("Creating an Observation-Question-Answer generator object ...")
         self.limits = limits
@@ -91,7 +129,12 @@ class RoomEnv(gym.Env):
         self.num_agents = num_agents
 
     def reset(self) -> None:
-        """Reset the environment."""
+        """Reset the environment.
+
+        This will place N_{humans} humans in the room. Each human only has one object,
+        which will be placed by the human in a random location.
+
+        """
         self.step_counter = 0
         random.shuffle(self.names)
         random.shuffle(self.heads)
@@ -146,8 +189,11 @@ class RoomEnv(gym.Env):
         return question, answer
 
     def generate_tail(self, head: str, relation: str) -> str:
-        """head shouldn't include a human name."""
+        """This simulates humans placing their objects in their desired locations.
 
+        Note that "head" shouldn't include a human name.
+
+        """
         if random.random() < self.probs["commonsense"]:
             logging.debug(f"Generating a common location for {head} ...")
             tails = self.semantic_knowledge[head][relation]
@@ -173,7 +219,7 @@ class RoomEnv(gym.Env):
 
         return tail
 
-    def renew(self):
+    def renew(self) -> None:
         """Renew the room.
 
         This is done every time when the agent takes a step. This is doen to simulate
@@ -224,13 +270,27 @@ class RoomEnv(gym.Env):
             )
 
         if random.random() < self.probs["switch_person"]:
-            i, j = random.sample(range(0, len(self.room,)), 2)
+            i, j = random.sample(
+                range(
+                    0,
+                    len(
+                        self.room,
+                    ),
+                ),
+                2,
+            )
             room[i], room[j] = room[j], room[i]
 
-        self.room = deepcopy(room)
+        self.room = room
 
-    def step(self, action: str):
+    def step(self, action: str) -> Tuple[Tuple[dict, list], int, bool, dict]:
+        """An agent takes an action.
 
+        Args
+        ----
+        action: This is the agent's answer to the previous question.
+
+        """
         if str(action).lower() == self.answer.lower():
             logging.info(
                 f"The prediction ({action}) matches the answer ({self.answer})!"

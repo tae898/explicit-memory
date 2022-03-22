@@ -105,35 +105,6 @@ def load_questions(path: str) -> dict:
     return questions
 
 
-# def is_clean(self, edge: dict) -> None:
-#     """See if conceptnet query is clean or not.
-
-#     I really tried to accept as much noise as possible, since I didn't want
-#     to manually clean the data, but some are really dirty. I gotta clean them.
-
-#     Args
-#     ----
-#     edge: edge from the ConceptNet query output.
-
-#     """
-#     logging.debug(f"Checking if {edge} is clean or not ...")
-#     if edge["end"]["@id"].split("/")[-1] in self.dirty_tails:
-#         return False
-#     else:
-#         return True
-
-# def read_dirty_tails(self, path: str = "./data/dirty_tails") -> None:
-#     """Read dirty tails.
-
-#     Args
-#     ----
-#     path: The path to the dirty tail list.
-
-#     """
-#     logging.debug(f"Reading {path} ...")
-#     with open(path, "r") as stream:
-#         self.dirty_tails = stream.readlines()
-#     self.dirty_tails = [line.strip() for line in self.dirty_tails]
-#     logging.info(
-#         f"Reading {path} complete! There are {len(self.dirty_tails)} dirty tails!"
-#     )
+def argmax(iterable):
+    """argmax"""
+    return max(enumerate(iterable), key=lambda x: x[1])[0]

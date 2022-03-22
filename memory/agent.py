@@ -1,483 +1,407 @@
-import logging
-import os
 import random
-from glob import glob
-from typing import List, Tuple
+from itertools import count
 
-import numpy as np
-import torch
-from torch.distributions import Categorical
-
+from .environment import RoomEnv
 from .memory import EpisodicMemory, SemanticMemory
-from .model import create_policy_net
-
-logging.basicConfig(
-    level=os.environ.get("LOGLEVEL", "INFO").upper(),
-    format="%(asctime)s.%(msecs)03d %(levelname)s %(module)s - %(funcName)s: %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
+from .utils import argmax, seed_everything
 
 
-class Agent:
+class HandcraftedAgent:
+    """The handcrafted agent class.
 
-    """Agent with episodic and semantic memory systems.
-
-    Since MemoryEnv is POMDP, this agent constructs the states itself using memories.
+    This can be more than one (colaborative) agent.
 
     """
 
     def __init__(
         self,
-        episodic_memory_manage: str = "oldest",
-        episodic_question_answer: str = "latest",
-        semantic_memory_manage: str = "weakest",
-        semantic_question_answer: str = "strongest",
-        episodic_to_semantic: str = "generalize",
-        episodic_semantic_question_answer: str = "episem",
-        pretrain_semantic: bool = False,
-        capacity: dict = {"episodic": None, "semantic": None},
-        model_params: dict = None,
-        generator_params: dict = None,
+        seed: int,
+        agent_type: str,
+        forget_policy: str,
+        answer_policy: str,
+        episodic_capacity: int,
+        semantic_capacity: int,
+        env: RoomEnv,
     ) -> None:
-        """Instantiate with parameters.
+        """Initialize the agent class.
 
         Args
         ----
-        episodic_memory_manage: str = "oldest",
-        episodic_question_answer: str = "latest",
-        semantic_memory_manage: str = "weakest",
-        semantic_question_answer: str = "strongest",
-        episodic_to_semantic: str = "generalize",
-        episodic_semantic_question_answer: str = "episem",
-        pretrain_semantic: bool = False,
-        capacity: dict = {"episodic": 128, "semantic": 128},
-        model_params: dict = None,
-            function_type: mlp
-            embedding_dim: 1
-        generator_params: dict = None,
-            max_history: int = 1024,
-            semantic_knowledge_path: str = "./data/semantic-knowledge.json",
-            names_path: str = "./data/top-human-names",
-            weighting_mode: str = "highest",
-            commonsense_prob: float = 0.5,
-            time_start_at: int = 0,
-            limits: dict = {
-                "heads": None,
-                "tails": None,
-                "names": None,
-                "allow_spaces": False,
-            },
-            disjoint_entities: bool = True,
+        seed: random seed
+        agent_type: episodic, semantic, episodic_semantic, or episodic_semantic_pretrain
+        forget_policy: see the code
+        answer_policy: see the code
+        episodic_capacity: number of memories the episodic memory system can have.
+        semantic_capacity: number of memories the semantic memory system can have.
 
         """
-        self.episodic_memory_manage = episodic_memory_manage
-        self.episodic_question_answer = episodic_question_answer
-        self.semantic_memory_manage = semantic_memory_manage
-        self.semantic_question_answer = semantic_question_answer
-        self.episodic_to_semantic = episodic_to_semantic
-        self.episodic_semantic_question_answer = episodic_semantic_question_answer
-        self.pretrain_semantic = pretrain_semantic
-        self.capacity = capacity
-        self.model_params = model_params
-        self.generator_params = generator_params
-
-        self.M_e = EpisodicMemory(self.capacity["episodic"])
-        self.M_s = SemanticMemory(self.capacity["semantic"])
-
-        if self.pretrain_semantic:
-            free_space = self.M_s.pretrain_semantic(**generator_params)
-            self.M_e.increase_capacity(free_space)
-            assert (self.M_e.capacity + self.M_s.capacity) == (
-                capacity["episodic"] + capacity["semantic"]
-            )
-
-        self.episodic_memory_manage_policy = self.create_episodic_memory_manage_policy()
-        self.episodic_question_answer_policy = (
-            self.create_episodic_question_answer_policy()
-        )
-        self.semantic_memory_manage_policy = self.create_semantic_memory_manage_policy()
-        self.semantic_question_answer_policy = (
-            self.create_semantic_question_answer_policy()
-        )
-        self.episodic_to_semantic_policy = self.create_episodic_to_semantic_policy()
-        self.episodic_semantic_question_answer_policy = (
-            self.create_episodic_semantic_question_answer_policy()
-        )
-
-    def set_device(self, device: str = "cpu") -> None:
-        """Set device to either cpu or cuda."""
-        for key, val in self.policy_nets.items():
-            val.set_device(device)
-
-    def create_episodic_memory_manage_policy(self):
-        """Create episodic memory manage policy.
-
-        "oldest", "random", "train", or "trained"
-
-        """
-        if self.episodic_memory_manage == "oldest":
-
-            def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                M_e.forget_oldest()
-
-            return func
-
-        elif self.episodic_memory_manage == "random":
-
-            def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                M_e.forget_random()
-
-            return func
-
-        elif self.episodic_memory_manage == "train":
-
-            raise NotImplementedError
-
-        elif self.episodic_memory_manage == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def create_episodic_question_answer_policy(self):
-        """Create episodic question answer policy.
-
-        "latest", "random", "train", or "trained"
-
-        """
-        if self.episodic_question_answer == "latest":
-
-            def func(
-                M_e: EpisodicMemory, question: list, num_step: int, train_mode: bool
-            ):
-                pred = M_e.answer_latest(question)
-
-                return pred
-
-            return func
-
-        elif self.episodic_question_answer == "random":
-
-            def func(
-                M_e: EpisodicMemory, question: list, num_step: int, train_mode: bool
-            ):
-                pred = M_e.answer_random(question)
-
-                return pred
-
-            return func
-
-        elif self.episodic_question_answer == "train":
-
-            raise NotImplementedError
-
-        elif self.episodic_question_answer == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def create_semantic_memory_manage_policy(self):
-        """Create semantic memory manage policy.
-
-        "weakest", "random", "train", or "trained"
-
-        """
-        if self.semantic_memory_manage == "weakest":
-
-            def func(M_s: SemanticMemory, num_step: int, train_mode: bool):
-                M_s.forget_weakest()
-
-            return func
-
-        elif self.semantic_memory_manage == "random":
-
-            def func(M_s: SemanticMemory, num_step: int, train_mode: bool):
-                M_s.forget_random()
-
-            return func
-
-        elif self.semantic_memory_manage == "train":
-
-            raise NotImplementedError
-
-        elif self.semantic_memory_manage == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def create_semantic_question_answer_policy(self):
-        """Create semantic question answer policy.
-
-        "strongest", "random", "train", or "trained"
-
-        """
-        if self.semantic_question_answer == "strongest":
-
-            def func(
-                M_s: SemanticMemory, question: list, num_step: int, train_mode: bool
-            ):
-                pred = M_s.answer_strongest(question)
-
-                return pred
-
-            return func
-
-        elif self.semantic_question_answer == "random":
-
-            def func(
-                M_s: SemanticMemory, question: list, num_step: int, train_mode: bool
-            ):
-                pred = M_s.answer_random(question)
-
-                return pred
-
-            return func
-
-        elif self.semantic_question_answer == "train":
-
-            raise NotImplementedError
-
-        elif self.semantic_question_answer == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def create_episodic_to_semantic_policy(self):
-        """Create episodic to semantic policy.
-
-        "generalize", "noop", "train", or "trained"
-
-        """
-        if self.episodic_to_semantic == "generalize":
-
-            def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                mem_epis, mem_sem = M_e.get_similar()
-
-                return mem_epis, mem_sem
-
-            return func
-
-        elif self.episodic_to_semantic == "noop":
-
-            def func(M_e: EpisodicMemory, num_step: int, train_mode: bool):
-                mem_epis, mem_sem = None, None
-
-                return mem_epis, mem_sem
-
-            return func
-
-        elif self.episodic_to_semantic == "train":
-
-            raise NotImplementedError
-
-        elif self.episodic_to_semantic == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def create_episodic_semantic_question_answer_policy(self):
-        """Create episodic and semantic question answer policy.
-
-        "episem", "random", "train", or "trained"
-
-        """
-        if self.episodic_semantic_question_answer == "episem":
-
-            def func(
-                M_e: EpisodicMemory,
-                M_s: SemanticMemory,
-                question: list,
-                num_step: int,
-                train_mode: bool,
-            ):
-                if M_e.is_answerable(question):
-                    pred = M_e.answer_latest(question)
-                else:
-                    pred = M_s.answer_strongest(question)
-                return pred
-
-            return func
-
-        elif self.episodic_semantic_question_answer == "random":
-
-            def func(
-                M_e: EpisodicMemory,
-                M_s: SemanticMemory,
-                question: list,
-                num_step: int,
-                train_mode: bool,
-            ):
-                pred0 = M_e.answer_random(question)
-                pred1 = M_s.answer_random(question)
-
-                pred = random.choice([pred0, pred1])
-
-                return pred
-
-            return func
-
-        elif self.episodic_semantic_question_answer == "train":
-
-            raise NotImplementedError
-
-        elif self.episodic_semantic_question_answer == "trained":
-
-            raise NotImplementedError
-
-        else:
-            raise TypeError
-
-    def reset(self) -> None:
-        """Reset the agent. Forget all of the memories in both memory systems."""
-        self.M_e.forget_all()
-        self.M_s.forget_all()
-
-    def set_eval_mode(self) -> None:
-        """Set all policy nets to eval mode."""
-        for key, model in self.policy_nets.items():
-            model.eval()
-
-    def set_train_mode(self) -> None:
-        """Set all policy nets to train mode."""
-        for key, model in self.policy_nets.items():
-            model.train()
-
-    def save_models(self, save_dir: str, postfix: str = "") -> None:
-        """Save models to disk.
-
-        Args
-        ----
-        save_dir: save directory
-        postfix: a string value to add at the end of a file name.
-
-        """
-        for key, model in self.policy_nets.items():
-            model_dir = os.path.join(save_dir, key)
-            os.makedirs(model_dir, exist_ok=True)
-            model_path = os.path.join(model_dir, f"{key}-{postfix}.pth")
-            torch.save(model, model_path)
-
-    def delete_policy_nets(self) -> None:
-        """Remove the loaded policy nets from memory."""
-        for key, val in self.policy_nets.items():
-            del val
-        self.policy_nets = {}
-
-    def load_policy_nets(self, load_dir: str, load_best: bool = True) -> None:
-        """Load policy nets from disk.
-
-        Args
-        ----
-        load_dir: load directory
-        load_best: whether to load the best checkpoint.
-
-        """
-        self.delete_policy_nets()
-
-        model_dirs = list(
-            set(
-                [
-                    os.path.dirname(path)
-                    for path in glob(os.path.join(load_dir, "*", "*.pth"))
-                ]
-            )
-        )
-        for model_dir in model_dirs:
-            if load_best:
-                model_path = glob(os.path.join(model_dir, "*best*.pth"))
-                assert len(model_path) == 1
-                model_path = model_path[0]
-            model = torch.load(model_path)
-            model.eval()
-            policy_type = model_dir.split("/")[-1]
-
-            self.policy_nets[policy_type] = model
-
-    def __call__(self, partial_state: dict, num_step: int, train_mode: bool) -> str:
-        """Takes in the partial state given by the environment and take an action.
-
-        Args
-        ----
-        partial_state: {"observation": ob, "question": question}
-        num_step: step number in episode
-        train_mode: True or False
-
-        Returns
-        -------
-        pred: prediction to the question.
-
-        """
-        ob = partial_state["observation"]
-        question = partial_state["question"]
-
-        if self.capacity["episodic"] > 0 and self.capacity["semantic"] == 0:
-            mem_epi = self.M_e.ob2epi(ob)
-            self.M_e.add(mem_epi)
-
-            if self.M_e.is_kinda_full:
-                self.episodic_memory_manage_policy(self.M_e, num_step, train_mode)
-                assert self.M_e.is_full
-
-            pred = self.episodic_question_answer_policy(
-                self.M_e, question, num_step, train_mode
-            )
-
-        elif self.capacity["episodic"] == 0 and self.capacity["semantic"] > 0:
-            if not self.M_s.is_frozen:
-                mem_sem = self.M_s.ob2sem(ob)
-                self.M_s.add(mem_sem)
-
-                if self.M_s.is_kinda_full:
-                    self.semantic_memory_manage_policy(self.M_s, num_step, train_mode)
-                    assert self.M_s.is_full
-
-            pred = self.semantic_question_answer_policy(
-                self.M_s, question, num_step, train_mode
-            )
-
-        elif self.capacity["episodic"] > 0 and self.capacity["semantic"] > 0:
-            mem_epi = self.M_e.ob2epi(ob)
-            self.M_e.add(mem_epi)
-
-            if self.M_s.is_frozen:
-                if self.M_e.is_kinda_full:
-                    self.episodic_memory_manage_policy(self.M_e, num_step, train_mode)
-                    assert self.M_e.is_full
-            else:
-                if self.M_e.is_kinda_full:
-
-                    mem_epis, mem_sem = self.episodic_to_semantic_policy(
-                        self.M_e, num_step
-                    )
-
-                    if mem_epis is not None:
-                        self.M_s.add(mem_sem)
-                        if self.M_s.is_kinda_full:
-                            self.semantic_memory_manage_policy(
-                                self.M_s, num_step, train_mode
-                            )
-                            assert self.M_s.is_full
-
-                        for mem_epi_ in mem_epis:
-                            self.M_e.forget(mem_epi_)
-                    else:
-                        self.episodic_memory_manage_policy(
-                            self.M_e, num_step, train_mode
-                        )
-                        assert self.M_e.is_full
-            pred = self.episodic_semantic_question_answer_policy(
-                self.M_e, self.M_s, question, num_step, train_mode
-            )
+        self.seed = seed
+        seed_everything(self.seed)
+        self.agent_type = agent_type
+        self.forget_policy = forget_policy
+        self.answer_policy = answer_policy
+        self.episodic_capacity = episodic_capacity
+        self.semantic_capacity = semantic_capacity
+        self.env = env
+
+        self._check_attributes()
+        self._init_memory_systems()
+
+    def _check_attributes(self):
+        """Run sanity check."""
+        if self.agent_type == "episodic":
+            assert self.forget_policy in ["oldest", "random"]
+            assert self.answer_policy in ["latest", "random"]
+            assert self.episodic_capacity > 0
+            assert self.semantic_capacity == 0
+        elif self.agent_type == "semantic":
+            assert self.forget_policy in ["weakest", "random"]
+            assert self.answer_policy in ["strongest", "random"]
+            assert self.episodic_capacity == 0
+            assert self.semantic_capacity > 0
+        elif self.agent_type == "episodic_semantic":
+            assert self.forget_policy in ["generalize", "random"]
+            assert self.answer_policy in ["episem", "random"]
+            assert self.episodic_capacity > 0
+            assert self.semantic_capacity > 0
+        elif self.agent_type == "episodic_semantic_pretrain":
+            assert self.forget_policy in ["oldest", "random"]
+            assert self.answer_policy in ["episem", "random"]
+            assert self.episodic_capacity > 0
+            assert self.semantic_capacity > 0
         else:
             raise ValueError
 
-        return pred
+    def _init_memory_systems(self):
+        """Initialize the memory systems."""
+        if self.agent_type == "episodic":
+            self.M_e = [
+                EpisodicMemory(capacity=self.episodic_capacity)
+                for _ in range(self.env.num_agents)
+            ]
+        elif self.agent_type == "semantic":
+            self.M_s = [
+                SemanticMemory(capacity=self.semantic_capacity)
+                for _ in range(self.env.num_agents)
+            ]
+        elif self.agent_type == "episodic_semantic":
+            self.M_e = [
+                EpisodicMemory(capacity=self.episodic_capacity)
+                for _ in range(self.env.num_agents)
+            ]
+            self.M_s = [
+                SemanticMemory(capacity=self.semantic_capacity)
+                for _ in range(self.env.num_agents)
+            ]
+        else:
+            self.M_e = []
+            self.M_s = []
+            for _ in range(self.env.num_agents):
+                me = EpisodicMemory(capacity=self.episodic_capacity)
+                ms = SemanticMemory(capacity=self.semantic_capacity)
+                free_space = ms.pretrain_semantic(self.env)
+                me.increase_capacity(free_space)
+
+                assert (
+                    me.capacity + ms.capacity
+                    == self.episodic_capacity + self.semantic_capacity
+                )
+
+                self.M_e.append(me)
+                self.M_s.append(ms)
+
+    def run(self):
+        """RUN!"""
+        if self.agent_type == "episodic":
+            self.run_episodic()
+        elif self.agent_type == "semantic":
+            self.run_semantic()
+        elif self.agent_type == "episodic_semantic":
+            self.run_episodic_semantic()
+        else:
+            self.run_episodic_semantic_pretrain()
+
+    def run_episodic(self):
+        """Run an agent only with the episodic memory system."""
+        self.rewards = 0
+        ob, question = self.env.reset()
+        for i in range(self.env.num_agents):
+            self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+        for t in count():
+            for i in range(self.env.num_agents):
+                if self.M_e[i].is_full:
+                    if self.forget_policy == "oldest":
+                        self.M_e[i].forget_oldest()
+                    elif self.forget_policy == "random":
+                        self.M_e[i].forget_random()
+                    else:
+                        raise ValueError
+
+            if self.answer_policy == "latest":
+                preds = []
+                timestamps = []
+                for i in range(self.env.num_agents):
+                    pred, timestamp = self.M_e[i].answer_latest(question)
+                    if (pred is not None) and (timestamp is not None):
+                        preds.append(pred)
+                        timestamps.append(timestamp)
+
+                if len(preds) > 0 and len(timestamps) > 0:
+                    idx = argmax(timestamps)
+                    pred = preds[idx]
+                else:
+                    pred = None
+
+            elif self.answer_policy == "random":
+                preds = []
+                timestamps = []
+                for i in range(self.env.num_agents):
+                    pred, timestamp = self.M_e[i].answer_random(question)
+                    if (pred is not None) and (timestamp is not None):
+                        preds.append(pred)
+                        timestamps.append(timestamp)
+
+                if len(preds) > 0 and len(timestamps) > 0:
+                    pred = random.choice(preds)
+                else:
+                    pred = None
+            else:
+                raise ValueError
+
+            (ob, question), reward, done, info = self.env.step(pred)
+
+            for i in range(self.env.num_agents):
+                self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+            self.rewards += reward
+
+            if done:
+                break
+
+    def run_semantic(self):
+        """Run an agent only with the semantic memory system."""
+        self.rewards = 0
+        ob, question = self.env.reset()
+        for i in range(self.env.num_agents):
+            self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
+
+        for t in count():
+            for i in range(self.env.num_agents):
+                if self.M_s[i].is_full:
+                    if self.forget_policy == "weakest":
+                        self.M_s[i].forget_weakest()
+                    elif self.forget_policy == "random":
+                        self.M_s[i].forget_random()
+                    else:
+                        raise ValueError
+
+            if self.answer_policy == "strongest":
+                preds = []
+                num_gens = []
+                for i in range(self.env.num_agents):
+                    pred, num_gen = self.M_s[i].answer_strongest(question)
+                    if (pred is not None) and (num_gen is not None):
+                        preds.append(pred)
+                        num_gens.append(num_gen)
+
+                if len(preds) > 0 and len(num_gens) > 0:
+                    idx = argmax(num_gens)
+                    pred = preds[idx]
+                else:
+                    pred = None
+
+            elif self.answer_policy == "random":
+                preds = []
+                num_gens = []
+                for i in range(self.env.num_agents):
+                    pred, num_gen = self.M_s[i].answer_random(question)
+                    if (pred is not None) and (num_gen is not None):
+                        preds.append(pred)
+                        num_gens.append(num_gen)
+
+                if len(preds) > 0 and len(num_gens) > 0:
+                    pred = random.choice(preds)
+                else:
+                    pred = None
+            else:
+                raise ValueError
+
+            (ob, question), reward, done, info = self.env.step(pred)
+
+            for i in range(self.env.num_agents):
+                self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
+
+            self.rewards += reward
+
+            if done:
+                break
+
+    def run_episodic_semantic(self):
+        """Run an agent both with the episodic and semantic memory system."""
+        self.rewards = 0
+        ob, question = self.env.reset()
+
+        if self.forget_policy == "generalize":
+            for i in range(self.env.num_agents):
+                self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+        elif self.forget_policy == "random":
+            for i in range(self.env.num_agents):
+                if random.random() < 0.5:
+                    self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+                else:
+                    self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
+        else:
+            raise ValueError
+
+        for t in count():
+            for i in range(self.env.num_agents):
+                if self.M_e[i].is_full:
+                    if self.forget_policy == "generalize":
+
+                        mem_epi = self.M_e[i].find_mem_for_semantic()
+                        self.M_e[i].forget(mem_epi)
+                        mem_sem = SemanticMemory.ob2sem(mem_epi)
+                        self.M_s[i].add(mem_sem)
+
+                        if self.M_s[i].is_full:
+                            self.M_s[i].forget_weakest()
+
+                    elif self.forget_policy == "random":
+                        self.M_e[i].forget_random()
+
+                    else:
+                        raise ValueError
+
+                if self.M_s[i].is_full:
+                    assert self.forget_policy == "random"
+                    self.M_s[i].forget_weakest()
+
+            if self.answer_policy == "episem":
+                preds = []
+                timestamps = []
+                preds_ = []
+                num_gens = []
+                for i in range(self.env.num_agents):
+                    if self.M_e[i].is_answerable(question):
+                        pred, timestamp = self.M_e[i].answer_latest(question)
+                        if pred is not None and timestamp is not None:
+                            preds.append(pred)
+                            timestamps.append(timestamp)
+                    else:
+                        pred, num_gen = self.M_s[i].answer_strongest(question)
+                        if pred is not None and num_gen is not None:
+                            preds_.append(pred)
+                            num_gens.append(num_gen)
+
+                if len(preds) > 0 and len(timestamps) > 0:
+                    idx = argmax(timestamps)
+                    pred = preds[idx]
+
+                else:
+                    if len(preds_) > 0 and len(num_gens) > 0:
+                        idx = argmax(num_gens)
+                        pred = preds_[idx]
+                    else:
+                        pred = None
+
+            elif self.answer_policy == "random":
+                preds = []
+                for i in range(self.env.num_agents):
+                    pred, _ = self.M_e[i].answer_random(question)
+                    preds.append(pred)
+                    pred, _ = self.M_s[i].answer_random(question)
+                    preds.append(pred)
+                pred = random.choice(preds)
+            else:
+                raise ValueError
+
+            (ob, question), reward, done, info = self.env.step(pred)
+
+            if self.forget_policy == "generalize":
+                for i in range(self.env.num_agents):
+                    self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+            elif self.forget_policy == "random":
+                for i in range(self.env.num_agents):
+                    if random.random() < 0.5:
+                        self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+                    else:
+                        self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
+            else:
+                raise ValueError
+
+            self.rewards += reward
+
+            if done:
+                break
+
+    def run_episodic_semantic_pretrain(self):
+        """Run an agent both with the episodic and pretrained semantic memory system."""
+        self.rewards = 0
+        ob, question = self.env.reset()
+
+        for i in range(self.env.num_agents):
+            self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+        for t in count():
+            for i in range(self.env.num_agents):
+                if self.M_e[i].is_full:
+                    if self.forget_policy == "oldest":
+                        self.M_e[i].forget_oldest()
+
+                    elif self.forget_policy == "random":
+                        self.M_e[i].forget_random()
+
+                    else:
+                        raise ValueError
+
+            if self.answer_policy == "episem":
+                preds = []
+                timestamps = []
+                preds_ = []
+                num_gens = []
+                for i in range(self.env.num_agents):
+                    if self.M_e[i].is_answerable(question):
+                        pred, timestamp = self.M_e[i].answer_latest(question)
+                        if pred is not None and timestamp is not None:
+                            preds.append(pred)
+                            timestamps.append(timestamp)
+                    else:
+                        pred, num_gen = self.M_s[i].answer_strongest(question)
+                        if pred is not None and num_gen is not None:
+                            preds_.append(pred)
+                            num_gens.append(num_gen)
+
+                if len(preds) > 0 and len(timestamps) > 0:
+                    idx = argmax(timestamps)
+                    pred = preds[idx]
+
+                else:
+                    if len(preds_) > 0 and len(num_gens) > 0:
+                        idx = argmax(num_gens)
+                        pred = preds_[idx]
+                    else:
+                        pred = None
+
+            elif self.answer_policy == "random":
+                preds = []
+                for i in range(self.env.num_agents):
+                    pred, _ = self.M_e[i].answer_random(question)
+                    preds.append(pred)
+                    pred, _ = self.M_s[i].answer_random(question)
+                    preds.append(pred)
+                pred = random.choice(preds)
+            else:
+                raise ValueError
+
+            (ob, question), reward, done, info = self.env.step(pred)
+
+            for i in range(self.env.num_agents):
+                self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
+
+            self.rewards += reward
+
+            if done:
+                break
