@@ -1,4 +1,4 @@
-.PHONY: quality style
+.PHONY: quality style test
 
 check_dirs := ./
 
@@ -16,3 +16,6 @@ style:
 	isort $(check_dirs)
 	mdformat $(check_dirs)
 
+# Run python unittests
+test:
+	python -m unittest discover test
