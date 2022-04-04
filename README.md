@@ -1,7 +1,7 @@
 # explicit-memory
 
 This repo is to train an agent that has human-like memory systems. We explictly model it
-with an explicit (i.e., semantic and episodic) memory system.
+with an explicit (i.e., semantic and episodic) memory system. If this README is not enough, take a look at the paper.
 
 ## Prerequisites
 
@@ -16,7 +16,9 @@ We have released a challenging [OpenAI Gym](https://gym.openai.com/) compatible 
 
 ## Heuristics
 
-### Single Agent Policies
+There aren't an RL trained agent yet, but we have some heuristics for the single and multi agent setups.
+
+### [Single Agent Policies](handcrafted-single-agent.ipynb)
 
 Inspired by the theories on the explicit human memory, we have designed
 the following four handcrafted policies (models).
@@ -61,13 +63,11 @@ rest of the space to the episodic memory system. In order to show the
 validity of our handcrafted agents, we compare them with the agents that
 forget and answer uniform-randomly.
 
-### Multiple Agent Policies
+### [Multiple Agent Policies](handcrafted-multi-agent.ipynb)
 
 The multiple agent policies work in the same manner as the single agent
 policies, except that they can use their combined memory systems to
 answer questions.
-
-For more details, take a look at the paper.
 
 ## TODOs
 
