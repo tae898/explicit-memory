@@ -1,7 +1,6 @@
 import random
 from itertools import count
 
-from .environment import RoomEnv
 from .memory import EpisodicMemory, SemanticMemory
 from .utils import argmax, seed_everything
 
@@ -21,7 +20,7 @@ class HandcraftedAgent:
         answer_policy: str,
         episodic_capacity: int,
         semantic_capacity: int,
-        env: RoomEnv,
+        env,
     ) -> None:
         """Initialize the agent class.
 

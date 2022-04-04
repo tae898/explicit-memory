@@ -7,18 +7,19 @@ import argparse
 import random
 from itertools import count
 
+import gym
 import numpy as np
+import room_env
 from tqdm import tqdm
 
 from memory import EpisodicMemory, SemanticMemory
-from memory.environment import RoomEnv
 from memory.utils import seed_everything, write_json
 
 
 def episodic(env_params, caps, seed):
 
     seed_everything(seed)
-    env = RoomEnv(**env_params)
+    env = gym.make("RoomEnv-v0")
 
     results = []
     for capacity in caps:
@@ -63,7 +64,7 @@ def episodic(env_params, caps, seed):
 def semantic(env_params, caps, seed):
 
     seed_everything(seed)
-    env = RoomEnv(**env_params)
+    env = gym.make("RoomEnv-v0")
 
     results = []
     for capacity in caps:
@@ -110,7 +111,7 @@ def semantic(env_params, caps, seed):
 def episodic_semantic(env_params, caps, seed):
 
     seed_everything(seed)
-    env = RoomEnv(**env_params)
+    env = gym.make("RoomEnv-v0")
 
     results = []
     for capacity in caps:
@@ -189,7 +190,7 @@ def episodic_semantic(env_params, caps, seed):
 def episodic_semantic_pretrain(env_params, caps, seed):
 
     seed_everything(seed)
-    env = RoomEnv(**env_params)
+    env = gym.make("RoomEnv-v0")
 
     results = []
     for capacity in caps:
@@ -278,7 +279,7 @@ if __name__ == "__main__":
                         "num_agents": 1,
                     }
                     seed_everything(42)
-                    env = RoomEnv(**env_params)
+                    env = gym.make("RoomEnv-v0")
 
                     results_all = {}
                     results_all["episodic"] = []
