@@ -92,19 +92,12 @@ Check out the [paper](https://arxiv.org/abs/2204.01611).
 ```bibtex
 @misc{https://doi.org/10.48550/arxiv.2204.01611,
   doi = {10.48550/ARXIV.2204.01611},
-  
   url = {https://arxiv.org/abs/2204.01611},
-  
   author = {Kim, Taewoon and Cochez, Michael and Francois-Lavet, Vincent and Neerincx, Mark and Vossen, Piek},
-  
   keywords = {Artificial Intelligence (cs.AI), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  
   title = {A Machine With Human-Like Memory Systems},
-  
   publisher = {arXiv},
-  
   year = {2022},
-  
   copyright = {Creative Commons Attribution 4.0 International}
 }
 ```
