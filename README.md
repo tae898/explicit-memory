@@ -1,7 +1,7 @@
 # explicit-memory
 
 This repo is to train an agent that has human-like memory systems. We explictly model it
-with an explicit (i.e., semantic and episodic) memory system. If this README is not enough, take a look at the paper.
+with an explicit (i.e., semantic and episodic) memory system. If this README is not enough, take a look at the [paper](https://arxiv.org/abs/2204.01611).
 
 ## Prerequisites
 
