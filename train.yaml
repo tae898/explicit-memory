@@ -1,6 +1,7 @@
-allow_random_human: false
-allow_random_question: false
-pretrain_semantic: false
+allow_random_human: true
+allow_random_question: true
+pretrain_semantic: true
+varying_rewards: false
 seed: 0
 num_eval_iter: 10
 max_epochs: 16

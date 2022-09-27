@@ -1,28 +1,26 @@
 """Run training with pytorch-lightning
 below code is copied from https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/reinforce-learning-DQN.html
 """
-import itertools
 import argparse
+import itertools
 import logging
 import os
-from copy import deepcopy
-from typing import List, Tuple, Iterator
 from collections import deque, namedtuple
+from copy import deepcopy
+from typing import Iterator, List, Tuple
 
 import gym
-from gym import spaces
 import numpy as np
-import yaml
-from pytorch_lightning import Trainer
-from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
+import room_env
 import torch
 import torch.optim as optim
-from pytorch_lightning import LightningModule
+import yaml
+from gym import spaces
+from pytorch_lightning import LightningModule, Trainer
+from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from torch import Tensor, nn
 from torch.utils.data import DataLoader, Dataset
 from torch.utils.data.dataset import IterableDataset
-
-import room_env
 
 from utils import write_json
 
@@ -167,7 +165,7 @@ class RLAgent:
     def reset(self) -> None:
         """Reset the environment and update the state."""
         self.debug_dump = []
-        self.state = self.env.reset()
+        self.state, info = self.env.reset()
 
         # The lists will be converted to str temporarily ...
         self.state = [
@@ -286,6 +284,7 @@ class DQNLightning(LightningModule):
         optimizer: str = "Adam",
         pretrain_semantic: bool = False,
         num_eval_iter: int = 5,
+        varying_rewards: bool = True,
         **kwargs,
     ) -> None:
         """
@@ -346,6 +345,7 @@ class DQNLightning(LightningModule):
             allow_random_question=self.hparams.allow_random_question,
             pretrain_semantic=self.hparams.pretrain_semantic,
             check_resources=False,
+            varying_rewards=self.hparams.varying_rewards,
         )
         self.replay_buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = RLAgent(
