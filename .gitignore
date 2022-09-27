@@ -128,8 +128,11 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
+# checkpoints
 lightning_logs/
+lightning_logs.zip
 
-training-results/
-tmp/
-training-results-old
+# vscode
+.vscode/
+
+./eps_last_step=inf
