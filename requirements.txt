@@ -1,5 +1,2 @@
-torch==1.12.1
-pytorch-lightning==1.7.1
-matplotlib==3.5.3
-pandas==1.4.3
-scikit-learn==1.1.2
+room-env==0.2.1
+pytorch-lightning==1.7.7
