@@ -34,6 +34,11 @@ class LSTM(nn.Module):
         embedding_dim: entity embedding dimension (e.g., 32)
         capacity: the capacities of memory systems.
             e.g., {"episodic": 16, "semantic": 16, "short": 1}
+        entities:
+            e,g, {
+            "humans": ["Foo", "Bar"],
+            "objects": ["laptop", "phone"],
+            "object_locations": ["desk", "lap"]}
         include_human:
             None: Don't include humans
             "sum": sum up the human embeddings with object / object_location embeddings.
@@ -114,37 +119,6 @@ class LSTM(nn.Module):
                 "include_human should be one of None, 'sum', or 'concat', "
                 f"but {self.include_human} was given!"
             )
-
-    @staticmethod
-    def determine_memory_type(mem: dict) -> str:
-        """Determine memory type.
-
-        Args
-        ----
-        mem:
-            e.g, {"human": "Bob", "object": "laptop", "object_location": "desk",
-                "timestamp": 1}
-
-            or
-
-            e.g, {"object": "laptop", "object_location": "desk", "num_generalized": 42}
-
-        Returns
-        -------
-        "short_or_episodic" or "semantic"
-
-        """
-        if ("human" in mem) and ("timestamp" in mem) and ("num_generalized" not in mem):
-            return "short_or_episodic"
-        elif (
-            ("human" not in mem)
-            and ("timestamp" not in mem)
-            and ("num_generalized" in mem)
-        ):
-            return "semantic"
-
-        else:
-            raise ValueError(f"{mem} is not one of short, episodic, or semantic!")
 
     def make_embedding(self, mem: dict, memory_type: str) -> torch.Tensor:
         """Create one embedding vector with summation and concatenation.

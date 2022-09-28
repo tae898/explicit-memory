@@ -136,3 +136,6 @@ lightning_logs.zip
 .vscode/
 
 ./eps_last_step=inf
+
+# junks
+junks/
