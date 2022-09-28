@@ -1,6 +1,5 @@
 """This script is to tran multiple train.py"""
 import os
-import random
 import subprocess
 from copy import deepcopy
 
