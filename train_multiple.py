@@ -33,10 +33,13 @@ for allow_random_human in [True, False]:
 
                         write_yaml(train_config, config_file_name)
 
-                        commands.append(f"python train.py --config {config_file_name}")
+                        commands.append(
+                            f"sleep 10s && python train.py --config {config_file_name} "
+                            f"&& sleep 10s"
+                        )
 
 commands = commands[:100]
-print(len(commands))
+print(f"Running {len(commands)} training scripts ...")
 commands_original = deepcopy(commands)
 
 commands_batched = [
@@ -51,11 +54,6 @@ assert commands == [bar for foo in commands_batched for bar in foo]
 
 
 for commands in tqdm(commands_batched):
-    procs = [
-        subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True
-        )
-        for command in commands
-    ]
+    procs = [subprocess.Popen(command, shell=True) for command in commands]
     for p in procs:
         p.communicate()
