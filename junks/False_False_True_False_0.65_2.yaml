@@ -1,8 +1,8 @@
-allow_random_human: true
-allow_random_question: true
+allow_random_human: false
+allow_random_question: false
 pretrain_semantic: true
 varying_rewards: false
-seed: 0
+seed: 2
 num_eval_iter: 10
 max_epochs: 10
 batch_size: 1024
@@ -12,7 +12,7 @@ warm_start_size: 102400
 eps_end: 0
 eps_last_step: 1000
 eps_start: 1.0
-gamma: 0.99
+gamma: 0.65
 lr: 0.001
 sync_rate: 10
 loss_function: huber
@@ -30,16 +30,12 @@ nn_params:
   hidden_size: 64
   include_human: sum
   memory_systems:
-    - episodic
-    - semantic
-    - short
+  - episodic
+  - semantic
+  - short
   num_layers: 2
   human_embedding_on_object_location: false
 log_every_n_steps: 1
-early_stopping_patience: 10 # number of epochs, not episodes!
+early_stopping_patience: 10
 precision: 32
 gpus: 0
-# num_steps_per_epoch = ceil(epoch_length / batch_size)
-# total_number_of_steps = num_steps_per_epoch * max_epochs
-# total_number_of_episodes = total_number_of_steps / last_time_step
-# number of epochs per episode = max_epochs / total_number_of_episodes
