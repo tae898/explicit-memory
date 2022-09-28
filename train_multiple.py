@@ -43,7 +43,7 @@ commands_batched = [
 ]
 
 if len(commands) % num_parallel != 0:
-    commands_batched.append([commands[len(commands) // num_parallel :]])
+    commands_batched.append(commands[-(len(commands) % num_parallel) :])
 
 assert commands == [bar for foo in commands_batched for bar in foo]
 
