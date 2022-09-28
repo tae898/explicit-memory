@@ -1,9 +1,11 @@
 """This script is to tran multiple train.py"""
-import subprocess
-import random
 import os
+import random
+import subprocess
 from copy import deepcopy
+
 from tqdm import tqdm
+
 from utils import read_yaml, write_yaml
 
 train_config = read_yaml("./train.yaml")
@@ -33,7 +35,7 @@ for allow_random_human in [True, False]:
 
                         commands.append(f"python train.py --config {config_file_name}")
 
-commands = commands[80:]
+commands = commands[:100]
 print(len(commands))
 commands_original = deepcopy(commands)
 
