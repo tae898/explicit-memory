@@ -33,10 +33,7 @@ for allow_random_human in [True, False]:
 
                         write_yaml(train_config, config_file_name)
 
-                        commands.append(
-                            f"sleep 10s && python train.py --config {config_file_name} "
-                            f"&& sleep 10s"
-                        )
+                        commands.append(f"python train.py --config {config_file_name}")
 
 commands = commands[:100]
 print(f"Running {len(commands)} training scripts ...")

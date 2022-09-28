@@ -2,6 +2,7 @@
 below code is copied from https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/reinforce-learning-DQN.html
 """
 import argparse
+import datetime
 import itertools
 import logging
 import os
@@ -669,6 +670,7 @@ def main(**kwargs):
         callbacks=[checkpoint_callback, early_stop_callback],
         log_every_n_steps=kwargs["log_every_n_steps"],
         num_sanity_val_steps=0,
+        default_root_dir=f"./training_results/{str(datetime.datetime.now())}",
     )
     trainer.fit(model)
     trainer.test(ckpt_path="best")

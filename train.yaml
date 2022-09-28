@@ -5,7 +5,7 @@ varying_rewards: false
 seed: 0
 num_eval_iter: 10
 max_epochs: 10
-batch_size: 1024
+batch_size: 1
 epoch_length: 102400
 replay_size: 102400
 warm_start_size: 102400
