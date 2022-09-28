@@ -8,7 +8,7 @@ from utils import read_yaml, write_yaml
 
 train_config = read_yaml("./train.yaml")
 commands = []
-num_parallel = 4
+num_parallel = 8
 os.makedirs("./junks", exist_ok=True)
 for allow_random_human in [True, False]:
     for allow_random_question in [True, False]:
@@ -33,8 +33,7 @@ for allow_random_human in [True, False]:
 
                         commands.append(f"python train.py --config {config_file_name}")
 
-random.shuffle(commands)
-commands = commands[:80]
+commands = commands[80:]
 print(len(commands))
 commands_original = deepcopy(commands)
 
