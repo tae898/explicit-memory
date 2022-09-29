@@ -1,5 +1,5 @@
 """Run training with pytorch-lightning
-below code is copied from https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/reinforce-learning-DQN.html
+below code is inspired by https://pytorch-lightning.readthedocs.io/en/latest/notebooks/lightning_examples/reinforce-learning-DQN.html
 """
 import argparse
 import datetime

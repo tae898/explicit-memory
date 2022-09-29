@@ -1,4 +1,4 @@
-"""This script is to tran multiple train.py"""
+"""This script is to tran multiple train.py in parallel."""
 import os
 import subprocess
 from copy import deepcopy
