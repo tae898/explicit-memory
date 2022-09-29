@@ -15,7 +15,7 @@ os.makedirs("./junks", exist_ok=True)
 for allow_random_human in [True, False]:
     for allow_random_question in [True, False]:
         for pretrain_semantic in [True, False]:
-            for varying_rewards in [True, False]:
+            for varying_rewards in [False]:
                 for gamma in [0.65, 0.99]:
                     for seed in [0, 1, 2, 3, 4]:
                         train_config["allow_random_human"] = allow_random_human

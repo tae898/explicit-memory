@@ -4,23 +4,23 @@ pretrain_semantic: true
 varying_rewards: false
 seed: 0
 num_eval_iter: 10
-max_epochs: 10
+max_epochs: 5
 batch_size: 1024
 epoch_length: 102400
 replay_size: 102400
 warm_start_size: 102400
 eps_end: 0
-eps_last_step: 1000
+eps_last_step: 500
 eps_start: 1.0
 gamma: 0.99
 lr: 0.001
 sync_rate: 10
 loss_function: huber
 optimizer: adam
-des_size: l
+des_size: s
 capacity:
-  episodic: 16
-  semantic: 16
+  episodic: 4
+  semantic: 4
   short: 1
 question_prob: 0.1
 observation_params: perfect
@@ -36,7 +36,7 @@ nn_params:
   num_layers: 2
   human_embedding_on_object_location: false
 log_every_n_steps: 1
-early_stopping_patience: 10 # number of epochs, not episodes!
+early_stopping_patience: 1000 # number of epochs, not episodes! Atm, I don't do this.
 precision: 32
 gpus: 0
 # num_steps_per_epoch = ceil(epoch_length / batch_size)

@@ -285,7 +285,7 @@ class DQNLightning(LightningModule):
         optimizer: str = "Adam",
         pretrain_semantic: bool = False,
         num_eval_iter: int = 5,
-        varying_rewards: bool = True,
+        varying_rewards: bool = False,
         **kwargs,
     ) -> None:
         """
