@@ -12,15 +12,15 @@ warm_start_size: 131072
 eps_end: 0
 eps_last_step: 2048
 eps_start: 1.0
-gamma: 0.99
+gamma: 0.65
 lr: 0.001
 sync_rate: 10
 loss_function: huber
 optimizer: adam
-des_size: s
+des_size: l
 capacity:
-  episodic: 4
-  semantic: 4
+  episodic: 16
+  semantic: 16
   short: 1
 question_prob: 0.1
 observation_params: perfect
