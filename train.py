@@ -641,9 +641,9 @@ class DQNLightning(LightningModule):
 def main(**kwargs):
     """Make pytorch lightning objects and start training."""
 
-    # The room env has 100 steps fixed as one episode.
+    # The room env has 128 steps fixed as one episode.
     assert (
-        kwargs["epoch_length"] / kwargs["batch_size"] == 100
+        kwargs["epoch_length"] / kwargs["batch_size"] == 128
     ), "one epoch should be one episode!"
 
     model = DQNLightning(**kwargs)
