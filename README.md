@@ -20,7 +20,12 @@ The hyperparameters can be configured in `train.yaml`.
 
 ## Results
 
-![foo](./figures/semantic-example.pdf)
+|                 Average loss, training.                  |         Average total rewards per episode, validation.          |             Average total rewards per episode, test.             |
+| :------------------------------------------------------: | :-------------------------------------------------------------: | :--------------------------------------------------------------: |
+| ![](./figures/des_size%3Dl-capacity%3D32-train_loss.svg) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean.svg) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean.svg) |
+
+Also check out [`./models/`](./models) to see the saved training results. The `test_debug`
+results might especially be interesting to you.
 
 ## Contributing
 
