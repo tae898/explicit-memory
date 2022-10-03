@@ -6,18 +6,59 @@ import os
 import shutil
 import subprocess
 from copy import deepcopy
+import datetime
 
 from tqdm import tqdm
 
-from utils import read_yaml, write_yaml
+from utils import write_yaml
 
-train_config = read_yaml("./train.yaml")
+train_config = {
+    "allow_random_human": False,
+    "allow_random_question": False,
+    "pretrain_semantic": False,
+    "varying_rewards": False,
+    "seed": 0,
+    "num_eval_iter": 10,
+    "max_epochs": 16,
+    "batch_size": 1024,
+    "epoch_length": 131072,
+    "replay_size": 131072,
+    "warm_start_size": 131072,
+    "eps_end": 0,
+    "eps_last_step": 2048,
+    "eps_start": 1.0,
+    "gamma": 0.65,
+    "lr": 0.001,
+    "sync_rate": 10,
+    "loss_function": "huber",
+    "optimizer": "adam",
+    "des_size": "l",
+    "des_version": "v1",
+    "capacity": {"episodic": 16, "semantic": 16, "short": 1},
+    "question_prob": 1.0,
+    "observation_params": "perfect",
+    "nn_params": {
+        "architecture": "lstm",
+        "embedding_dim": 32,
+        "hidden_size": 64,
+        "include_human": "sum",
+        "memory_systems": ["episodic", "semantic", "short"],
+        "num_layers": 2,
+        "human_embedding_on_object_location": False,
+    },
+    "log_every_n_steps": 1,
+    "early_stopping_patience": 1000,
+    "precision": 16,
+    "gpus": 1,
+}
+
 commands = []
 num_parallel = 2
 reverse = True
 shutil.rmtree("./junks", ignore_errors=True)
 os.makedirs("./junks", exist_ok=False)
-for capacity in [64]:
+
+for capacity in [64, 32, 16, 8, 4, 2]:
     for pretrain_semantic in [True, False]:
         for seed in [0, 1, 2, 3, 4]:
             train_config["capacity"] = {
@@ -27,9 +68,10 @@ for capacity in [64]:
             }
             train_config["pretrain_semantic"] = pretrain_semantic
             train_config["seed"] = seed
-            train_config["gpus"] = 1
 
-            config_file_name = f"./junks/{capacity}_{pretrain_semantic}_{seed}.yaml"
+            config_file_name = (
+                f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
+            )
 
             write_yaml(train_config, config_file_name)
 
