@@ -286,6 +286,7 @@ class DQNLightning(LightningModule):
         pretrain_semantic: bool = False,
         num_eval_iter: int = 5,
         varying_rewards: bool = False,
+        des_version: str = "v2",
         **kwargs,
     ) -> None:
         """
@@ -330,6 +331,7 @@ class DQNLightning(LightningModule):
         pretrain_semantic: Whether or not to pretrain the semantic memory system
             from ConceptNet.
         num_eval_iter: number of iterations for evaluation.
+        des_version: DES version.
 
         """
         super().__init__()
@@ -347,6 +349,7 @@ class DQNLightning(LightningModule):
             pretrain_semantic=self.hparams.pretrain_semantic,
             check_resources=False,
             varying_rewards=self.hparams.varying_rewards,
+            version=self.hparams.des_version,
         )
         self.replay_buffer = ReplayBuffer(self.hparams.replay_size)
         self.agent = RLAgent(

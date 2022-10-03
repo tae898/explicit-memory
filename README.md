@@ -57,7 +57,7 @@ answer the question.
 For a fair comparison, every agent has the same total memory capacity.
 As for the Handcrafted 3 agent, the episodic and semantic memory systems
 have the same capacity, since this agent does not know which one is more
-important *a priori*. As for the Handcrafted 4 agent, if there is space
+important _a priori_. As for the Handcrafted 4 agent, if there is space
 left in the semantic memory system after filling it up, it will give the
 rest of the space to the episodic memory system. In order to show the
 validity of our handcrafted agents, we compare them with the agents that
@@ -68,11 +68,6 @@ forget and answer uniform-randomly.
 The multiple agent policies work in the same manner as the single agent
 policies, except that they can use their combined memory systems to
 answer questions.
-
-## TODOs
-
-1. Add unittests.
-1. Better documentation.
 
 ## Contributing
 
@@ -85,25 +80,24 @@ Contributions are what make the open source community such an amazing place to b
 1. Push to the Branch (`git push origin feature/AmazingFeature`)
 1. Open a Pull Request
 
-## Cite our work
-
-Check out the [paper](https://arxiv.org/abs/2204.01611).
+## [Cite our paper](todo/update/the/paper)
 
 ```bibtex
-@misc{https://doi.org/10.48550/arxiv.2204.01611,
-  doi = {10.48550/ARXIV.2204.01611},
-  url = {https://arxiv.org/abs/2204.01611},
-  author = {Kim, Taewoon and Cochez, Michael and Francois-Lavet, Vincent and Neerincx, Mark and Vossen, Piek},
-  keywords = {Artificial Intelligence (cs.AI), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {A Machine With Human-Like Memory Systems},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
-}
+new paper bibtex coming soon
 ```
+
+## Cite our code
 
 [![DOI](https://zenodo.org/badge/411241603.svg)](https://zenodo.org/badge/latestdoi/411241603)
 
 ## Authors
 
 - [Taewoon Kim](https://taewoon.kim/)
+- [Michael Cochez](https://www.cochez.nl/)
+- [Vincent Francois-Lavet](http://vincent.francois-l.be/)
+- [Mark Neerincx](https://ocw.tudelft.nl/teachers/m_a_neerincx/)
+- [Piek Vossen](https://vossen.info/)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)

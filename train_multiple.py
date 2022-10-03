@@ -13,11 +13,11 @@ from utils import read_yaml, write_yaml
 
 train_config = read_yaml("./train.yaml")
 commands = []
-num_parallel = 8
+num_parallel = 2
 reverse = True
 shutil.rmtree("./junks", ignore_errors=True)
 os.makedirs("./junks", exist_ok=False)
-for capacity in [64, 32, 16, 8, 4, 2]:
+for capacity in [64]:
     for pretrain_semantic in [True, False]:
         for seed in [0, 1, 2, 3, 4]:
             train_config["capacity"] = {
@@ -27,6 +27,7 @@ for capacity in [64, 32, 16, 8, 4, 2]:
             }
             train_config["pretrain_semantic"] = pretrain_semantic
             train_config["seed"] = seed
+            train_config["gpus"] = 1
 
             config_file_name = f"./junks/{capacity}_{pretrain_semantic}_{seed}.yaml"
 

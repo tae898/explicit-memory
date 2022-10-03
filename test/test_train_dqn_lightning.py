@@ -45,6 +45,7 @@ class DQNLightningTest(unittest.TestCase):
             "early_stopping_patience": 2,
             "precision": 32,
             "gpus": 0,
+            "des_version": "v2",
         }
         model = DQNLightning(**kwargs)
 

@@ -1,7 +1,11 @@
 # explicit-memory
 
-This repo is to train an agent that has human-like memory systems. We explictly model it
-with an explicit (i.e., semantic and episodic) memory system. If this README is not enough, take a look at the [paper](https://arxiv.org/abs/2204.01611).
+[There is a newer version](../README.md)
+
+This repo is to train an agent that interacts with the [RoomEnv-v0](<>)
+
+that has human-like memory systems. We explictly model it
+with an explicit (i.e., semantic and episodic) memory system.
 
 ## Prerequisites
 
@@ -69,11 +73,6 @@ The multiple agent policies work in the same manner as the single agent
 policies, except that they can use their combined memory systems to
 answer questions.
 
-## TODOs
-
-1. Add unittests.
-1. Better documentation.
-
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -85,9 +84,7 @@ Contributions are what make the open source community such an amazing place to b
 1. Push to the Branch (`git push origin feature/AmazingFeature`)
 1. Open a Pull Request
 
-## Cite our work
-
-Check out the [paper](https://arxiv.org/abs/2204.01611).
+## [Cite our paper](https://arxiv.org/abs/2204.01611)
 
 ```bibtex
 @misc{https://doi.org/10.48550/arxiv.2204.01611,
@@ -102,8 +99,18 @@ Check out the [paper](https://arxiv.org/abs/2204.01611).
 }
 ```
 
+## Cite our code
+
 [![DOI](https://zenodo.org/badge/411241603.svg)](https://zenodo.org/badge/latestdoi/411241603)
 
 ## Authors
 
 - [Taewoon Kim](https://taewoon.kim/)
+- [Michael Cochez](https://www.cochez.nl/)
+- [Vincent Francois-Lavet](http://vincent.francois-l.be/)
+- [Mark Neerincx](https://ocw.tudelft.nl/teachers/m_a_neerincx/)
+- [Piek Vossen](https://vossen.info/)
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
