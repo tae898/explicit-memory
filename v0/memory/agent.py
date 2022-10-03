@@ -123,7 +123,7 @@ class HandcraftedAgent:
     def run_episodic(self):
         """Run an agent only with the episodic memory system."""
         self.rewards = 0
-        ob, question = self.env.reset()
+        (ob, question), info = self.env.reset()
         for i in range(self.env.num_agents):
             self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
 
@@ -181,7 +181,7 @@ class HandcraftedAgent:
     def run_semantic(self):
         """Run an agent only with the semantic memory system."""
         self.rewards = 0
-        ob, question = self.env.reset()
+        (ob, question), info = self.env.reset()
         for i in range(self.env.num_agents):
             self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
 
@@ -239,7 +239,7 @@ class HandcraftedAgent:
     def run_episodic_semantic(self):
         """Run an agent both with the episodic and semantic memory system."""
         self.rewards = 0
-        ob, question = self.env.reset()
+        (ob, question), info = self.env.reset()
 
         if self.forget_policy == "generalize":
             for i in range(self.env.num_agents):
@@ -339,7 +339,7 @@ class HandcraftedAgent:
     def run_episodic_semantic_pretrain(self):
         """Run an agent both with the episodic and pretrained semantic memory system."""
         self.rewards = 0
-        ob, question = self.env.reset()
+        (ob, question), info = self.env.reset()
 
         for i in range(self.env.num_agents):
             self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))

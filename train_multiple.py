@@ -2,11 +2,11 @@
 Things learned:
 1. gamma=0.99 is always worse than gamma=0.65
 """
+import datetime
 import os
 import shutil
 import subprocess
 from copy import deepcopy
-import datetime
 
 from tqdm import tqdm
 
