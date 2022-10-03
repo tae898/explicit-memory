@@ -136,7 +136,8 @@ training_results/
 # vscode
 .vscode/
 
-./eps_last_step=inf
-
 # junks
 junks/
+
+# tests
+train_test_dir_to_remove/

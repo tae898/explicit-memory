@@ -1,5 +1,8 @@
 # explicit-memory
 
+For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), check out
+[this documentation](./v0/README-v0.md)
+
 This repo is to train an agent that interacts with the [RoomEnv-v2](https://github.com/tae898/room-env).
 See the [paper](todo/update/the/paper) for more information.
 
