@@ -4,7 +4,7 @@
 
 This repo is to train an agent that interacts with the [RoomEnv-v0](https://github.com/tae898/room-env).
 We managed to train RL agents with the higher versions of `RoomEnv`, but with the
-`v0`, we only came up with the heuristic policies.
+`v0`, we only came up with the heuristic policies. See the [paper](https://arxiv.org/abs/2204.01611) for more information.
 
 ## Prerequisites
 
