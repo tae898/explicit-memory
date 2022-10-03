@@ -16,7 +16,8 @@ See the [paper](todo/update/the/paper) for more information.
 python train.py --config train.yaml
 ```
 
-The hyperparameters can be configured in `train.yaml`.
+The hyperparameters can be configured in `train.yaml`. The training results with the
+checkpoints will be saved at `./training_results/`
 
 ## Results
 
