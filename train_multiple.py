@@ -14,7 +14,7 @@ from utils import write_yaml
 
 train_config = {
     "allow_random_human": False,
-    "allow_random_question": False,
+    "allow_random_question": True,
     "pretrain_semantic": False,
     "varying_rewards": False,
     "seed": 0,
@@ -33,9 +33,9 @@ train_config = {
     "loss_function": "huber",
     "optimizer": "adam",
     "des_size": "l",
-    "des_version": "v1",
+    "des_version": "v2",
     "capacity": {"episodic": 16, "semantic": 16, "short": 1},
-    "question_prob": 1.0,
+    "question_prob": 0.1,
     "observation_params": "perfect",
     "nn_params": {
         "architecture": "lstm",
@@ -48,14 +48,13 @@ train_config = {
     },
     "log_every_n_steps": 1,
     "early_stopping_patience": 1000,
-    "precision": 16,
+    "precision": 32,
     "gpus": 1,
 }
 
 commands = []
 num_parallel = 2
 reverse = True
-shutil.rmtree("./junks", ignore_errors=True)
 os.makedirs("./junks", exist_ok=False)
 
 for capacity in [64, 32, 16, 8, 4, 2]:
