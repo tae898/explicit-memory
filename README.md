@@ -1,5 +1,8 @@
 # explicit-memory
 
+For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), check out
+[this documentation](./v0/README-v0.md)
+
 This repo is to train an agent that interacts with the [RoomEnv-v2](https://github.com/tae898/room-env).
 See the [paper](todo/update/the/paper) for more information.
 
@@ -16,11 +19,17 @@ See the [paper](todo/update/the/paper) for more information.
 python train.py --config train.yaml
 ```
 
-The hyperparameters can be configured in `train.yaml`.
+The hyperparameters can be configured in `train.yaml`. The training results with the
+checkpoints will be saved at `./training_results/`
 
 ## Results
 
-![foo](./figures/semantic-example.pdf)
+|                 Average loss, training.                  |         Average total rewards per episode, validation.          |             Average total rewards per episode, test.             |
+| :------------------------------------------------------: | :-------------------------------------------------------------: | :--------------------------------------------------------------: |
+| ![](./figures/des_size%3Dl-capacity%3D32-train_loss.svg) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean.svg) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean.svg) |
+
+Also check out [`./models/`](./models) to see the saved training results. The `test_debug`
+results might especially be interesting to you.
 
 ## Contributing
 
