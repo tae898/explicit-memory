@@ -53,11 +53,11 @@ train_config = {
 }
 
 commands = []
-num_parallel = 2
-reverse = True
-os.makedirs("./junks", exist_ok=False)
+num_parallel = 4
+reverse = False
+os.makedirs("./junks", exist_ok=True)
 
-for capacity in [64, 32, 16, 8, 4, 2]:
+for capacity in [2,4,8, 16]:
     for pretrain_semantic in [True, False]:
         for seed in [0, 1, 2, 3, 4]:
             train_config["capacity"] = {
