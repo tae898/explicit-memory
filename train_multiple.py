@@ -13,7 +13,7 @@ from utils import write_yaml
 
 train_config = {
     "allow_random_human": False,
-    "allow_random_question": False,
+    "allow_random_question": True,
     "pretrain_semantic": False,
     "varying_rewards": False,
     "seed": 0,
@@ -32,9 +32,9 @@ train_config = {
     "loss_function": "huber",
     "optimizer": "adam",
     "des_size": "l",
-    "des_version": "v1",
+    "des_version": "v2",
     "capacity": {"episodic": 16, "semantic": 16, "short": 1},
-    "question_prob": 1.0,
+    "question_prob": 0.1,
     "observation_params": "perfect",
     "nn_params": {
         "architecture": "lstm",
@@ -55,44 +55,6 @@ commands = []
 num_parallel = 4
 reverse = False
 os.makedirs("./junks", exist_ok=True)
-
-for capacity in [16]:
-    for pretrain_semantic in [False]:
-        for seed in [0, 1, 2, 3, 4]:
-            train_config["capacity"] = {
-                "episodic": capacity // 2,
-                "semantic": capacity // 2,
-                "short": 1,
-            }
-            train_config["pretrain_semantic"] = pretrain_semantic
-            train_config["seed"] = seed
-
-            config_file_name = (
-                f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
-            )
-
-            write_yaml(train_config, config_file_name)
-
-            commands.append(f"python train.py --config {config_file_name}")
-
-for capacity in [32]:
-    for pretrain_semantic in [False]:
-        for seed in [0, 1, 2]:
-            train_config["capacity"] = {
-                "episodic": capacity // 2,
-                "semantic": capacity // 2,
-                "short": 1,
-            }
-            train_config["pretrain_semantic"] = pretrain_semantic
-            train_config["seed"] = seed
-
-            config_file_name = (
-                f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
-            )
-
-            write_yaml(train_config, config_file_name)
-
-            commands.append(f"python train.py --config {config_file_name}")
 
 for capacity in [64]:
     for pretrain_semantic in [False]:
@@ -132,7 +94,6 @@ for capacity in [16]:
 
             commands.append(f"python train.py --config {config_file_name}")
 
-
 for capacity in [32]:
     for pretrain_semantic in [True]:
         for seed in [0, 1, 2, 3, 4]:
@@ -152,9 +113,10 @@ for capacity in [32]:
 
             commands.append(f"python train.py --config {config_file_name}")
 
+
 for capacity in [64]:
     for pretrain_semantic in [True]:
-        for seed in [0, 2, 3, 4]:
+        for seed in [2, 3, 4]:
             train_config["capacity"] = {
                 "episodic": capacity // 2,
                 "semantic": capacity // 2,
