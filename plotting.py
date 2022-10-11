@@ -814,10 +814,19 @@ def load_training_val_test_results(
         os.path.join(
             data_dir,
             kind,
-            f"des_size={des_size}-capacity={capacity}-pretrain={pretrain}-"
-            "gpus=0-seed=*.csv",
+            "*.csv",
         )
     )
+    paths = [
+        path
+        for path in paths
+        if f"capacity={capacity}" in path
+        and (
+            (f"pretrain_semantic={pretrain}" in path)
+            or (f"pretrain={pretrain}" in path)
+        )
+        and f"des_size={des_size}" in path
+    ]
     assert len(paths) == 5
     runs = []
     for path in paths:
@@ -951,9 +960,15 @@ def plot_training_validation_results(
 
     plt.title(title, fontsize=40)
     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-    plt.savefig(
-        os.path.join(save_dir, f"des_size={des_size}-capacity={capacity}-{kind}.pdf")
-    )
+
+    if "v1" in data_dir:
+        filename = f"des_size={des_size}-capacity={capacity}-{kind}-v1.pdf"
+    elif "v2" in data_dir:
+        filename = f"des_size={des_size}-capacity={capacity}-{kind}-v2.pdf"
+    else:
+        filename = f"des_size={des_size}-capacity={capacity}-{kind}.pdf"
+
+    plt.savefig(os.path.join(save_dir, filename))
 
 
 def plot_test_results(
