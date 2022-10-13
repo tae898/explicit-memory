@@ -24,9 +24,9 @@ checkpoints will be saved at `./training_results/`
 
 ## Results
 
-|                 Average loss, training.                  |         Average total rewards per episode, validation.          |             Average total rewards per episode, test.             |
-| :------------------------------------------------------: | :-------------------------------------------------------------: | :--------------------------------------------------------------: |
-| ![](./figures/des_size%3Dl-capacity%3D32-train_loss.svg) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean.svg) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean.svg) |
+|                 Average loss, training.                 |           Average total rewards per episode, validation.           |              Average total rewards per episode, test.               |           Average total rewards, varying capacities, test.           |
+| :-----------------------------------------------------: | :----------------------------------------------------------------: | :-----------------------------------------------------------------: | :------------------------------------------------------------------: |
+| ![](./figures/des_size=l-capacity=32-train_loss-v1.svg) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean-v1.svg) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean-v1.svg) | ![](./figures/des_size=l-capacity=all-test_total_reward_mean-v1.svg) |
 
 Also check out [`./models/`](./models) to see the saved training results. The `test_debug`
 results might especially be interesting to you.

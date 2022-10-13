@@ -231,7 +231,7 @@ class RLAgent:
         action = self.get_action(net, epsilon, step)
 
         # do step in the environment
-        new_state, reward, done, info = self.env.step(action)
+        new_state, reward, done, truncated, info = self.env.step(action)
 
         # The lists will be converted to str temporarily ...
         new_state = [

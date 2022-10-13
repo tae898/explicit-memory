@@ -168,7 +168,7 @@ class HandcraftedAgent:
             else:
                 raise ValueError
 
-            (ob, question), reward, done, info = self.env.step(pred)
+            (ob, question), reward, done, truncated, info = self.env.step(pred)
 
             for i in range(self.env.num_agents):
                 self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))
@@ -226,7 +226,7 @@ class HandcraftedAgent:
             else:
                 raise ValueError
 
-            (ob, question), reward, done, info = self.env.step(pred)
+            (ob, question), reward, done, truncated, info = self.env.step(pred)
 
             for i in range(self.env.num_agents):
                 self.M_s[i].add(SemanticMemory.ob2sem(ob[i]))
@@ -316,7 +316,7 @@ class HandcraftedAgent:
             else:
                 raise ValueError
 
-            (ob, question), reward, done, info = self.env.step(pred)
+            (ob, question), reward, done, truncated, info = self.env.step(pred)
 
             if self.forget_policy == "generalize":
                 for i in range(self.env.num_agents):
@@ -395,7 +395,7 @@ class HandcraftedAgent:
             else:
                 raise ValueError
 
-            (ob, question), reward, done, info = self.env.step(pred)
+            (ob, question), reward, done, truncated, info = self.env.step(pred)
 
             for i in range(self.env.num_agents):
                 self.M_e[i].add(EpisodicMemory.ob2epi(ob[i]))

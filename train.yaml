@@ -1,14 +1,14 @@
 allow_random_human: false
-allow_random_question: true
+allow_random_question: false
 pretrain_semantic: false
 varying_rewards: false
 seed: 0
 num_eval_iter: 10
-max_epochs: 1
-batch_size: 1
-epoch_length: 128
-replay_size: 128
-warm_start_size: 128
+max_epochs: 16
+batch_size: 1024
+epoch_length: 131072
+replay_size: 131072
+warm_start_size: 131072
 eps_end: 0
 eps_last_step: 2048
 eps_start: 1.0
@@ -18,12 +18,12 @@ sync_rate: 10
 loss_function: huber
 optimizer: adam
 des_size: l
-des_version: "v2"
+des_version: "v1"
 capacity:
   episodic: 16
   semantic: 16
   short: 1
-question_prob: 0.1
+question_prob: 1.0
 observation_params: perfect
 nn_params:
   architecture: lstm
