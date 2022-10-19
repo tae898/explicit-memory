@@ -9,12 +9,11 @@ import gym
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import room_env
 import torch
+from room_env.utils import get_handcrafted
 from sklearn.decomposition import PCA
 from sklearn.manifold import TSNE
-
-import room_env
-from room_env.utils import get_handcrafted
 
 from train import DQNLightning, RLAgent
 from utils import read_yaml
@@ -24,7 +23,7 @@ logger.disabled = True
 
 
 def load_training_val_test_results(
-    data_dir: str = "./data/",
+    data_dir: str = "./data/v1-question_prob=1.0/",
     kind: str = "train_total_reward",
     capacity: int = 32,
     pretrain: bool = False,
@@ -83,7 +82,7 @@ def load_training_val_test_results(
 
 
 def load_episodic_semantic_random_scratch_pretrained(
-    data_dir: str = "./data/v1",
+    data_dir: str = "./data/v1-question_prob=1.0/",
     kind: str = "test_total_reward_mean",
     capacity: int = 32,
     des_size: str = "l",
@@ -133,7 +132,7 @@ def load_episodic_semantic_random_scratch_pretrained(
 
 
 def plot_training_validation_results(
-    data_dir: str = "./data/",
+    data_dir: str = "./data/v1-question_prob=1.0/",
     kind: str = "train_total_reward",
     capacity: int = 32,
     save_dir: str = "./figures/",
@@ -248,7 +247,7 @@ def plot_training_validation_results(
 
 
 def plot_test_results(
-    data_dir: str = "./data/",
+    data_dir: str = "./data/v1-question_prob=1.0/",
     capacity: int = 32,
     save_dir: str = "./figures/",
     ymin: int = 64,
@@ -324,7 +323,7 @@ def plot_test_results(
 
 
 def plot_test_results_all_capacities(
-    data_dir: str = "./data/v1",
+    data_dir: str = "./data/v1-question_prob=1.0/",
     save_dir: str = "./figures/",
     ymin: int = 0,
     ymax: int = 128,
@@ -409,8 +408,8 @@ def plot_test_results_all_capacities(
 class UnderstandModel:
     def __init__(
         self,
-        model_scratch_path: str = "./models/v1/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=False_varying_rewards=False_des_size=l_capacity=32_seed=1/checkpoints/epoch=05-val_total_reward_mean=98.20-val_total_reward_std=6.16.ckpt",
-        model_pretrained_path: str = "./models/v1/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=True_varying_rewards=False_des_size=l_capacity=32_seed=0/checkpoints/epoch=08-val_total_reward_mean=117.80-val_total_reward_std=4.33.ckpt",
+        model_scratch_path: str = "./models/v1-question_prob=1.0/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=False_varying_rewards=False_des_size=l_capacity=32_seed=1/checkpoints/epoch=05-val_total_reward_mean=98.20-val_total_reward_std=6.16.ckpt",
+        model_pretrained_path: str = "./models/v1-question_prob=1.0/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=True_varying_rewards=False_des_size=l_capacity=32_seed=0/checkpoints/epoch=08-val_total_reward_mean=117.80-val_total_reward_std=4.33.ckpt",
     ) -> None:
         """Call the model loading."""
         self.model_scratch_path = model_scratch_path
