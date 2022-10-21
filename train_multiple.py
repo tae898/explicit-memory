@@ -53,7 +53,7 @@ train_config = {
 
 commands = []
 num_parallel = 2
-reverse = False
+reverse = True
 os.makedirs("./junks", exist_ok=True)
 
 for capacity in [64, 16, 8, 4, 2]:
