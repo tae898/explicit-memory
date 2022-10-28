@@ -1,6 +1,7 @@
 """Deep Q-network architecture. Currently only LSTM is implemented."""
 import ast
 from copy import deepcopy
+from multiprocessing.sharedctypes import Value
 
 import torch
 from torch import nn
@@ -19,9 +20,9 @@ class LSTM(nn.Module):
         entities: dict,
         include_human: str,
         batch_first: bool = True,
-        gpus: int = 0,
         memory_systems: list = ["episodic", "semantic", "short"],
         human_embedding_on_object_location: bool = False,
+        accelerator: str = "cpu",
         **kwargs,
     ) -> None:
         """Initialize the LSTM.
@@ -45,10 +46,11 @@ class LSTM(nn.Module):
             "cocnat": concatenate the human embeddings to object / object_location
                 embeddings.
         batch_first: Should the batch dimension be the first or not.
-        gpus: number of gpus
         memory_systems: memory systems to be included as input
         human_embedding_on_object_location: whether to superposition the human embedding
             on the tail (object location entity).
+        accelerator: "cpu", "gpu", or "auto"
+
         """
         super().__init__()
         self.embedding_dim = embedding_dim
@@ -58,10 +60,12 @@ class LSTM(nn.Module):
         self.memory_systems = [ms.lower() for ms in set(memory_systems)]
         self.human_embedding_on_object_location = human_embedding_on_object_location
 
-        if gpus > 0:
+        if accelerator == "gpu":
             self.device = "cuda"
-        else:
+        elif accelerator == "cpu":
             self.device = "cpu"
+        else:
+            raise ValueError
 
         self.create_embeddings()
         if "episodic" in self.memory_systems:

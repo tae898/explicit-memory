@@ -48,20 +48,38 @@ train_config = {
     "log_every_n_steps": 1,
     "early_stopping_patience": 1000,
     "precision": 32,
-    "gpus": 0,
+    "accelerator": "cpu",
 }
 
 commands = []
-num_parallel = 2
+num_parallel = 4
 reverse = True
 os.makedirs("./junks", exist_ok=True)
 
-for capacity in [64, 16, 8, 4, 2]:
+for capacity in [32]:
+    for seed in [0, 1, 2, 3, 4]:
+        train_config["capacity"] = {
+            "episodic": capacity,
+            "semantic": 0,
+            "short": 1,
+        }
+        train_config["pretrain_semantic"] = False
+        train_config["seed"] = seed
+
+        config_file_name = (
+            f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
+        )
+
+        write_yaml(train_config, config_file_name)
+
+        commands.append(f"python train.py --config {config_file_name}")
+
+for capacity in [32]:
     for pretrain_semantic in [False, True]:
         for seed in [0, 1, 2, 3, 4]:
             train_config["capacity"] = {
-                "episodic": capacity // 2,
-                "semantic": capacity // 2,
+                "episodic": 0,
+                "semantic": capacity,
                 "short": 1,
             }
             train_config["pretrain_semantic"] = pretrain_semantic

@@ -8,6 +8,7 @@ import logging
 import os
 from collections import deque, namedtuple
 from copy import deepcopy
+from multiprocessing.sharedctypes import Value
 from typing import Iterator, List, Tuple
 
 import gym
@@ -278,7 +279,6 @@ class DQNLightning(LightningModule):
         question_prob: float = 0.1,
         observation_params: str = "pefect",
         nn_params: dict = None,
-        gpus: int = 0,
         allow_random_human: bool = False,
         allow_random_question: bool = False,
         loss_function: str = "Huber",
@@ -287,6 +287,7 @@ class DQNLightning(LightningModule):
         num_eval_iter: int = 5,
         varying_rewards: bool = False,
         des_version: str = "v2",
+        accelerator: str = "cpu",
         **kwargs,
     ) -> None:
         """
@@ -322,7 +323,6 @@ class DQNLightning(LightningModule):
                 embedding_dim: 8
                 hidden_size: 16
                 num_layers: 2
-        gpus: number of gpus to use
         allow_random_human: whether to allow the random human sampling
         allow_random_question: whether to allow the random question sampling
         loss_function: either Huber or MSE
@@ -332,6 +332,7 @@ class DQNLightning(LightningModule):
             from ConceptNet.
         num_eval_iter: number of iterations for evaluation.
         des_version: DES version.
+        accelerator: "cpu", "gpu", or "auto"
 
         """
         super().__init__()
@@ -372,8 +373,7 @@ class DQNLightning(LightningModule):
             "object_locations": self.env.des.object_locations,
         }
         self.hparams.nn_params["capacity"] = self.hparams.capacity
-        self.hparams.nn_params["gpus"] = self.hparams.gpus
-
+        self.hparams.nn_params["accelerator"] = self.hparams["accelerator"]
         self.net = DQN(**self.hparams.nn_params)
         self.target_net = DQN(**self.hparams.nn_params)
 
@@ -666,8 +666,10 @@ def main(**kwargs):
         verbose=True,
         mode="max",
     )
+
     trainer = Trainer(
-        gpus=kwargs["gpus"],
+        accelerator=kwargs["accelerator"],
+        devices="auto",
         max_epochs=kwargs["max_epochs"],
         precision=kwargs["precision"],
         callbacks=[checkpoint_callback, early_stop_callback],

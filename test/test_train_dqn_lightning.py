@@ -44,7 +44,8 @@ class DQNLightningTest(unittest.TestCase):
             "log_every_n_steps": 1,
             "early_stopping_patience": 2,
             "precision": 32,
-            "gpus": 0,
+            "accelerator": "cpu",
+            "devices": "auto",
             "des_version": "v2",
         }
         model = DQNLightning(**kwargs)
@@ -65,7 +66,7 @@ class DQNLightningTest(unittest.TestCase):
             mode="max",
         )
         trainer = Trainer(
-            gpus=kwargs["gpus"],
+            accelerator=kwargs["accelerator"],
             max_epochs=kwargs["max_epochs"],
             precision=kwargs["precision"],
             callbacks=[checkpoint_callback, early_stop_callback],

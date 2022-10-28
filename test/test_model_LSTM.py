@@ -45,7 +45,7 @@ class LSTMTest(unittest.TestCase):
                                                     },
                                                     "include_human": include_human,
                                                     "batch_first": batch_first,
-                                                    "gpus": 0,
+                                                    "accelerator": "cpu",
                                                     "memory_systems": memory_systems,
                                                     "human_embedding_on_object_location": human_embedding_on_object_location,
                                                 }

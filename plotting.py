@@ -565,22 +565,3 @@ class UnderstandModel:
         entities = [self.indices[self.interest][idx] for idx in idx_embs]
 
         return entities
-
-
-def rename_test_debug_results():
-    """Rename the lightning log directories for easier access."""
-    test_debug_paths = glob("./lightning_logs/*/test_debug*")
-
-    for test_debug_path in test_debug_paths:
-        hparams_path = os.path.join(*test_debug_path.split("/")[:-1], "hparams.yaml")
-        hparams = read_yaml(hparams_path)
-        des_size = hparams["des_size"]
-        capacity = hparams["capacity"]["episodic"] + hparams["capacity"]["semantic"]
-        # loc = hparams["nn_params"]["human_embedding_on_object_location"]
-        pretrain = hparams["pretrain_semantic"]
-        seed = hparams["seed"]
-        gpus = hparams["gpus"]
-        new_dir_name = f"des_size={des_size}-capacity={capacity}-pretrain={pretrain}-gpus={gpus}-seed={seed}"
-        new_dir_name = os.path.join(*test_debug_path.split("/")[:-2], new_dir_name)
-        old_dir_name = os.path.join(*test_debug_path.split("/")[:-1])
-        os.rename(old_dir_name, new_dir_name)
