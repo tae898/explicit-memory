@@ -85,7 +85,7 @@ for capacity in [32]:
             }
             train_config["pretrain_semantic"] = pretrain_semantic
             train_config["seed"] = seed
-            train_config["nn_params"]["memory_systems"] = ["semantic", "short"] 
+            train_config["nn_params"]["memory_systems"] = ["semantic", "short"]
 
             config_file_name = (
                 f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
