@@ -3,7 +3,7 @@
 For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), check out
 [this documentation](./v0/README-v0.md)
 
-This repo is to train an agent that interacts with the [RoomEnv-v2](https://github.com/tae898/room-env).
+This repo is to train an agent that interacts with the [RoomEnv-v1](https://github.com/tae898/room-env).
 See the [paper](todo/update/the/paper) for more information.
 
 ## Prerequisites
@@ -26,7 +26,9 @@ checkpoints will be saved at `./training_results/`
 
 |                 Average loss, training.                 |           Average total rewards per episode, validation.           |              Average total rewards per episode, test.               |           Average total rewards, varying capacities, test.           |
 | :-----------------------------------------------------: | :----------------------------------------------------------------: | :-----------------------------------------------------------------: | :------------------------------------------------------------------: |
-| ![](./figures/des_size=l-capacity=32-train_loss-v1.svg) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean-v1.svg) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean-v1.svg) | ![](./figures/des_size=l-capacity=all-test_total_reward_mean-v1.svg) |
+| ![](./figures/des_size=l-capacity=32-train_loss-v1.png) | ![](./figures/des_size=l-capacity=32-val_total_reward_mean-v1.png) | ![](./figures/des_size=l-capacity=32-test_total_reward_mean-v1.png) | ![](./figures/des_size=l-capacity=all-test_total_reward_mean-v1.png) |
+
+There is one different thing in the RoomEnv from the original AAAI-2023 paper: The reward is either +1 or -1, instead of +1 or 0.
 
 Also check out [`./models/`](./models) to see the saved training results. The `test_debug`
 results might especially be interesting to you.

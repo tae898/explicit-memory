@@ -46,7 +46,6 @@ class DQNLightningTest(unittest.TestCase):
             "precision": 32,
             "accelerator": "cpu",
             "devices": "auto",
-            "des_version": "v2",
         }
         model = DQNLightning(**kwargs)
 

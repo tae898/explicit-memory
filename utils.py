@@ -118,7 +118,6 @@ def rename_training_dirs(root_dir: str = "./training_results/"):
         old_dirs.append(old_dir)
         hparams = read_yaml(os.path.join(old_dir, "hparams.yaml"))
 
-        des_version = hparams["des_version"]
         allow_random_human = hparams["allow_random_human"]
         allow_random_question = hparams["allow_random_question"]
         pretrain_semantic = hparams["pretrain_semantic"]
@@ -130,7 +129,6 @@ def rename_training_dirs(root_dir: str = "./training_results/"):
 
         new_dir = (
             f"training_results/"
-            f"des_version={des_version}_"
             f"allow_random_human={allow_random_human}_"
             f"allow_random_question={allow_random_question}_"
             f"pretrain_semantic={pretrain_semantic}_"

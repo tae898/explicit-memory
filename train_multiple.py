@@ -32,7 +32,6 @@ train_config = {
     "loss_function": "huber",
     "optimizer": "adam",
     "des_size": "l",
-    "des_version": "v1",
     "capacity": {"episodic": 16, "semantic": 16, "short": 1},
     "question_prob": 0.5,
     "observation_params": "perfect",
@@ -53,39 +52,40 @@ train_config = {
 
 commands = []
 num_parallel = 4
-reverse = True
+reverse = False
 os.makedirs("./junks", exist_ok=True)
 
-for capacity in [32]:
-    for seed in [0, 1, 2, 3, 4]:
-        train_config["capacity"] = {
-            "episodic": capacity,
-            "semantic": 0,
-            "short": 1,
-        }
-        train_config["pretrain_semantic"] = False
-        train_config["seed"] = seed
-        train_config["nn_params"]["memory_systems"] = ["episodic", "short"]
-
-        config_file_name = (
-            f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
-        )
-
-        write_yaml(train_config, config_file_name)
-
-        commands.append(f"python train.py --config {config_file_name}")
-
-for capacity in [32]:
+for capacity in [2, 4, 8, 16, 32, 64]:
     for pretrain_semantic in [False, True]:
         for seed in [0, 1, 2, 3, 4]:
+            train_config["question_prob"] = 0.5
             train_config["capacity"] = {
-                "episodic": 0,
-                "semantic": capacity,
+                "episodic": capacity // 2,
+                "semantic": capacity // 2,
                 "short": 1,
             }
             train_config["pretrain_semantic"] = pretrain_semantic
             train_config["seed"] = seed
-            train_config["nn_params"]["memory_systems"] = ["semantic", "short"]
+
+            config_file_name = (
+                f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
+            )
+
+            write_yaml(train_config, config_file_name)
+
+            commands.append(f"python train.py --config {config_file_name}")
+
+for capacity in [2, 4, 8, 16, 32, 64]:
+    for pretrain_semantic in [False, True]:
+        for seed in [0, 1, 2, 3, 4]:
+            train_config["question_prob"] = 1.0
+            train_config["capacity"] = {
+                "episodic": capacity // 2,
+                "semantic": capacity // 2,
+                "short": 1,
+            }
+            train_config["pretrain_semantic"] = pretrain_semantic
+            train_config["seed"] = seed
 
             config_file_name = (
                 f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"

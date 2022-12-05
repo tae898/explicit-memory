@@ -89,11 +89,10 @@ def load_episodic_semantic_random_scratch_pretrained(
     question_prob: float = 1.0,
     allow_random_human: str = False,
     allow_random_question: str = False,
-    version: str = "v1",
 ) -> dict:
 
     results = get_handcrafted(
-        env="RoomEnv-v2",
+        env="RoomEnv-v1",
         des_size=des_size,
         seeds=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
         question_prob=question_prob,
@@ -107,7 +106,6 @@ def load_episodic_semantic_random_scratch_pretrained(
         allow_random_question=allow_random_question,
         varying_rewards=False,
         check_resources=True,
-        version=version,
     )
     results = results[capacity]
 
@@ -238,8 +236,6 @@ def plot_training_validation_results(
 
     if "v1" in data_dir:
         filename = f"des_size={des_size}-capacity={capacity}-{kind}-v1.pdf"
-    elif "v2" in data_dir:
-        filename = f"des_size={des_size}-capacity={capacity}-{kind}-v2.pdf"
     else:
         filename = f"des_size={des_size}-capacity={capacity}-{kind}.pdf"
 
@@ -258,7 +254,6 @@ def plot_test_results(
     question_prob: float = 1.0,
     allow_random_human: str = False,
     allow_random_question: str = False,
-    version: str = "v1",
 ) -> None:
     results = load_episodic_semantic_random_scratch_pretrained(
         data_dir=data_dir,
@@ -268,7 +263,6 @@ def plot_test_results(
         question_prob=question_prob,
         allow_random_human=allow_random_human,
         allow_random_question=allow_random_question,
-        version=version,
     )
 
     fig, ax = plt.subplots(figsize=figsize)
@@ -312,10 +306,6 @@ def plot_test_results(
         filename = (
             f"des_size={des_size}-capacity={capacity}-test_total_reward_mean-v1.pdf"
         )
-    elif "v2" in data_dir:
-        filename = (
-            f"des_size={des_size}-capacity={capacity}-test_total_reward_mean-v2.pdf"
-        )
     else:
         raise ValueError
 
@@ -333,7 +323,6 @@ def plot_test_results_all_capacities(
     question_prob: float = 1.0,
     allow_random_human: str = False,
     allow_random_question: str = False,
-    version: str = "v1",
 ) -> None:
 
     capacities = [2, 4, 8, 16, 32, 64]
@@ -349,7 +338,6 @@ def plot_test_results_all_capacities(
             question_prob=question_prob,
             allow_random_human=allow_random_human,
             allow_random_question=allow_random_question,
-            version=version,
         )
         results[capacity] = results_
 
@@ -395,8 +383,6 @@ def plot_test_results_all_capacities(
 
     if "v1" in data_dir:
         filename = f"des_size={des_size}-capacity=all-test_total_reward_mean-v1.pdf"
-    elif "v2" in data_dir:
-        filename = f"des_size={des_size}-capacity=all-test_total_reward_mean-v2.pdf"
     else:
         raise ValueError
 
@@ -408,8 +394,8 @@ def plot_test_results_all_capacities(
 class UnderstandModel:
     def __init__(
         self,
-        model_scratch_path: str = "./models/v1-question_prob=1.0/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=False_varying_rewards=False_des_size=l_capacity=32_seed=1/checkpoints/epoch=05-val_total_reward_mean=98.20-val_total_reward_std=6.16.ckpt",
-        model_pretrained_path: str = "./models/v1-question_prob=1.0/des_version=v1_allow_random_human=False_allow_random_question=False_pretrain_semantic=True_varying_rewards=False_des_size=l_capacity=32_seed=0/checkpoints/epoch=08-val_total_reward_mean=117.80-val_total_reward_std=4.33.ckpt",
+        model_scratch_path: str = "./models/v1-question_prob=1.0/allow_random_human=False_allow_random_question=False_pretrain_semantic=False_varying_rewards=False_des_size=l_capacity=32_question_prob=1.0_seed=2/checkpoints/epoch=13-val_total_reward_mean=44.00-val_total_reward_std=7.87.ckpt",
+        model_pretrained_path: str = "./models/v1-question_prob=1.0/allow_random_human=False_allow_random_question=False_pretrain_semantic=True_varying_rewards=False_des_size=l_capacity=32_question_prob=1.0_seed=3/checkpoints/epoch=05-val_total_reward_mean=51.60-val_total_reward_std=7.23.ckpt",
     ) -> None:
         """Call the model loading."""
         self.model_scratch_path = model_scratch_path

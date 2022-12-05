@@ -18,12 +18,11 @@ sync_rate: 10
 loss_function: huber
 optimizer: adam
 des_size: l
-des_version: "v1"
 capacity:
-  episodic: 32
-  semantic: 0
+  episodic: 16
+  semantic: 16
   short: 1
-question_prob: 0.5
+question_prob: 1.0
 observation_params: perfect
 nn_params:
   architecture: lstm
@@ -32,6 +31,7 @@ nn_params:
   include_human: sum
   memory_systems:
     - episodic
+    - semantic
     - short
   num_layers: 2
   human_embedding_on_object_location: false
