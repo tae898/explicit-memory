@@ -4,7 +4,7 @@ For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), ch
 [this documentation](./v0/README-v0.md)
 
 This repo is to train an agent that interacts with the [RoomEnv-v1](https://github.com/tae898/room-env).
-See the [paper](todo/update/the/paper) for more information.
+See the [paper](https://arxiv.org/abs/2204.01611) for more information.
 
 ## Prerequisites
 
@@ -44,10 +44,19 @@ Contributions are what make the open source community such an amazing place to b
 1. Push to the Branch (`git push origin feature/AmazingFeature`)
 1. Open a Pull Request
 
-## [Cite our paper](todo/update/the/paper)
+## [Cite our paper](https://arxiv.org/abs/2204.01611)
 
 ```bibtex
-new paper bibtex coming soon
+@misc{https://doi.org/10.48550/arxiv.2212.02098,
+  doi = {10.48550/ARXIV.2212.02098},
+  url = {https://arxiv.org/abs/2212.02098},
+  author = {Kim, Taewoon and Cochez, Michael and François-Lavet, Vincent and Neerincx, Mark and Vossen, Piek},
+  keywords = {Artificial Intelligence (cs.AI), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  title = {A Machine with Short-Term, Episodic, and Semantic Memory Systems},
+  publisher = {arXiv},
+  year = {2022},
+  copyright = {Creative Commons Attribution 4.0 International}
+}
 ```
 
 ## Cite our code
