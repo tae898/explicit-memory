@@ -4,7 +4,7 @@ For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), ch
 [this documentation](./v0/README-v0.md)
 
 This repo is to train an agent that interacts with the [RoomEnv-v1](https://github.com/tae898/room-env).
-See the [paper](https://arxiv.org/abs/2204.01611) for more information.
+See the [paper](https://arxiv.org/abs/2212.02098) for more information.
 
 ## Prerequisites
 
@@ -44,7 +44,7 @@ Contributions are what make the open source community such an amazing place to b
 1. Push to the Branch (`git push origin feature/AmazingFeature`)
 1. Open a Pull Request
 
-## [Cite our paper](https://arxiv.org/abs/2204.01611)
+## [Cite our paper](https://arxiv.org/abs/2212.02098)
 
 ```bibtex
 @misc{https://doi.org/10.48550/arxiv.2212.02098,
