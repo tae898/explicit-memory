@@ -11,13 +11,13 @@ from copy import deepcopy
 from multiprocessing.sharedctypes import Value
 from typing import Iterator, List, Tuple
 
-import gym
+import gymnasium as gym
 import numpy as np
 import room_env
 import torch
 import torch.optim as optim
 import yaml
-from gym import spaces
+from gymnasium import spaces
 from pytorch_lightning import LightningModule, Trainer
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 from torch import Tensor, nn

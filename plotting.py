@@ -5,7 +5,7 @@ from copy import deepcopy
 from glob import glob
 from typing import List, Tuple
 
-import gym
+import gymnasium as gym
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
