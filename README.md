@@ -44,18 +44,19 @@ Contributions are what make the open source community such an amazing place to b
 1. Push to the Branch (`git push origin feature/AmazingFeature`)
 1. Open a Pull Request
 
-## [Cite our paper](https://arxiv.org/abs/2212.02098)
+## [Cite our paper](https://doi.org/10.1609/aaai.v37i1.25075)
 
 ```bibtex
-@misc{https://doi.org/10.48550/arxiv.2212.02098,
-  doi = {10.48550/ARXIV.2212.02098},
-  url = {https://arxiv.org/abs/2212.02098},
-  author = {Kim, Taewoon and Cochez, Michael and François-Lavet, Vincent and Neerincx, Mark and Vossen, Piek},
-  keywords = {Artificial Intelligence (cs.AI), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {A Machine with Short-Term, Episodic, and Semantic Memory Systems},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {Creative Commons Attribution 4.0 International}
+@article{Kim_Cochez_Francois-Lavet_Neerincx_Vossen_2023, 
+  title={A Machine with Short-Term, Episodic, and Semantic Memory Systems}, volume={37}, 
+  url={https://ojs.aaai.org/index.php/AAAI/article/view/25075}, 
+  DOI={10.1609/aaai.v37i1.25075}, 
+  abstractNote={Inspired by the cognitive science theory of the explicit human memory systems, we have modeled an agent with short-term, episodic, and semantic memory systems, each of which is modeled with a knowledge graph. To evaluate this system and analyze the behavior of this agent, we designed and released our own reinforcement learning agent environment, “the Room”, where an agent has to learn how to encode, store, and retrieve memories to maximize its return by answering questions. We show that our deep Q-learning based agent successfully learns whether a short-term memory should be forgotten, or rather be stored in the episodic or semantic memory systems. Our experiments indicate that an agent with human-like memory systems can outperform an agent without this memory structure in the environment.}, 
+  number={1}, 
+  journal={Proceedings of the AAAI Conference on Artificial Intelligence}, author={Kim, Taewoon and Cochez, Michael and Francois-Lavet, Vincent and Neerincx, Mark and Vossen, Piek}, 
+  year={2023}, 
+  month={Jun.}, 
+  pages={48-56} 
 }
 ```
 
