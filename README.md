@@ -4,7 +4,7 @@ For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), ch
 [this documentation](./v0/README-v0.md)
 
 This repo is to train an agent that interacts with the [RoomEnv-v1](https://github.com/tae898/room-env).
-See the [paper](https://ojs.aaai.org/index.php/AAAI/article/view/25075) for more information.
+See the [paper](https://doi.org/10.1609/aaai.v37i1.25075) for more information.
 
 ## Prerequisites
 
