@@ -290,7 +290,7 @@ def plot_test_results(
             yerr=yerr,
             capsize=4,
         )
-        # print(f"heights: {height}, stds: {yerr}")
+        print(f"heights: {height}, stds: {yerr}")
     plt.xticks([])
     ax.set_ylim([ymin, ymax])
     plt.yticks(fontsize=30)
