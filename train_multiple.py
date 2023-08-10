@@ -52,7 +52,7 @@ train_config = {
 }
 
 commands = []
-num_parallel = 2
+num_parallel = 4
 reverse = False
 os.makedirs("./junks", exist_ok=True)
 
@@ -77,7 +77,7 @@ os.makedirs("./junks", exist_ok=True)
 #             commands.append(f"python train.py --config {config_file_name}")
 
 
-for capacity in [2, 4, 8, 16, 32, 64]:
+for capacity in [32]:
     for pretrain_semantic in [False, True]:
         for seed in [0, 1, 2, 3, 4]:
             train_config["question_prob"] = 1.0
@@ -88,6 +88,7 @@ for capacity in [2, 4, 8, 16, 32, 64]:
             }
             train_config["pretrain_semantic"] = pretrain_semantic
             train_config["seed"] = seed
+            train_config["sync_rate"] = 20
 
             config_file_name = (
                 f"./junks/{str(datetime.datetime.now()).replace(' ', '-')}.yaml"
