@@ -106,7 +106,6 @@ def list_duplicates_of(seq, item) -> List:
 
 
 def rename_training_dirs(root_dir: str = "./training_results/"):
-
     old_dirs = []
     new_dirs = []
     for foo in glob(os.path.join(root_dir, "*")):
@@ -126,6 +125,7 @@ def rename_training_dirs(root_dir: str = "./training_results/"):
         question_prob = hparams["question_prob"]
         des_size = hparams["des_size"]
         seed = hparams["seed"]
+        sync_rate = hparams["sync_rate"]
 
         new_dir = (
             f"training_results/"
@@ -136,6 +136,7 @@ def rename_training_dirs(root_dir: str = "./training_results/"):
             f"des_size={des_size}_"
             f"capacity={capacity}_"
             f"question_prob={question_prob}_"
+            f"sync_rate={sync_rate}_"
             f"seed={seed}"
         )
         new_dirs.append(new_dir)
