@@ -1,5 +1,8 @@
 # explicit-memory
 
+[![DOI](https://img.shields.io/badge/Paper-PDF-red.svg)](https://doi.org/10.1609/aaai.v37i1.25075)
+[![DOI](https://zenodo.org/badge/411241603.svg)](https://zenodo.org/badge/latestdoi/411241603)
+
 For the documentation of [the older paper](https://arxiv.org/abs/2204.01611), check out
 [this documentation](./v0/README-v0.md)
 
@@ -59,10 +62,6 @@ Contributions are what make the open source community such an amazing place to b
   pages={48-56} 
 }
 ```
-
-## Cite our code
-
-[![DOI](https://zenodo.org/badge/411241603.svg)](https://zenodo.org/badge/latestdoi/411241603)
 
 ## Authors
 
